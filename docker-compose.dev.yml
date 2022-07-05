@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  webapp:
+    build:
+      context: .
+      target: builder
+      args:
+        - env=dev
+    image: nsidc/snow-today-webapp:dev
+    # Useful to skip linting errors and expose compiler errors:
+    # command: 'npm run start:nolint'
+    ports:
+      - 80:3000
+    volumes:
+      - ./src:/app/src:ro
+      - ./public:/app/public:ro
+      - ./.eslintrc.js:/app/.eslintrc.js:ro
