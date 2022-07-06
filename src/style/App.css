@@ -1,0 +1,12 @@
+.App {
+  height: 100%;
+  width: 100%;
+
+  text-align: center;
+  font-family: Roboto, Helvetica, sans-serif;
+  color: #051729;
+}
+
+#version {
+  display: none;
+}

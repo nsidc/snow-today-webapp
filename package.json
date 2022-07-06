@@ -8,7 +8,6 @@
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve",
-
     "lint": "eslint src --ext .ts --ext .tsx",
     "compile": "tsc --project tsconfig.json"
   },
