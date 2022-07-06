@@ -15,5 +15,6 @@ services:
       - "8080:8080"
     volumes:
       - "./src:/app/src:ro"
+      - "./index.html:/app/index.html:ro"
       - "./public:/app/public:ro"
       - "./.eslintrc.js:/app/.eslintrc.js:ro"
