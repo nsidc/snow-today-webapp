@@ -3,16 +3,17 @@ version: '3.4'
 services:
   webapp:
     build:
-      context: .
-      target: builder
+      context: "."
+      target: "builder"
       args:
-        - env=dev
-    image: nsidc/snow-today-webapp:dev
+        - "env=dev"
+    image: "nsidc/snow-today-webapp:dev"
     # Useful to skip linting errors and expose compiler errors:
-    # command: 'npm run start:nolint'
+    # command: 'npm run serve:nolint'
     ports:
-      - 80:3000
+      # Webpack dev server and websocket for hot reload:
+      - "8080:8080"
     volumes:
-      - ./src:/app/src:ro
-      - ./public:/app/public:ro
-      - ./.eslintrc.js:/app/.eslintrc.js:ro
+      - "./src:/app/src:ro"
+      - "./public:/app/public:ro"
+      - "./.eslintrc.js:/app/.eslintrc.js:ro"
