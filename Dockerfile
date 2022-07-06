@@ -10,7 +10,7 @@ RUN npm ci
 # did.
 # COPY scripts ./scripts
 COPY src ./src
-COPY webpack.config.js tsconfig.json .eslintrc.js .stylelintrc ./
+COPY webpack.config.cjs tsconfig.json .eslintrc.js .stylelintrc.json ./
 
 ARG env="production"
 RUN if [ "$env" = "production" ]; then \
