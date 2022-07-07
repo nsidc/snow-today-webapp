@@ -5,6 +5,8 @@ version: '3.4'
 services:
   webapp:
     image: nsidc/snow-today-webapp:${APP_VERSION:-latest}
+    # TODO: Pull, don't build in non-dev
+    build: .
     logging:
       options:
         max-size: "10m"
