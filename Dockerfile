@@ -27,7 +27,7 @@ CMD ["npm", "run", "serve"]
 FROM nginx:1.23-alpine AS server
 
 WORKDIR /usr/share/nginx/html
-COPY --from=builder /app/build .
+COPY --from=builder /app/dist .
 
 # Make a self-signed SSL certificate
 RUN mkdir /cert

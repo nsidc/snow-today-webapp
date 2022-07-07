@@ -3,3 +3,6 @@ docker-compose.override.yml
 
 # NPM ephemera
 node_modules/
+
+# Webpack ephemera
+/dist
