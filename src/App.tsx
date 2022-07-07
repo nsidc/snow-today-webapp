@@ -4,11 +4,11 @@ import pkg from '../package.json';
 import './style/App.css';
 import Map from './components/Map';
 import BasemapSelector from './components/BasemapSelector';
-import {Basemap} from './types/Map';
+import {BasemapName} from './types/Map';
 
 
 const App: React.FC = () => {
-  const [ selectedBasemap, setSelectedBasemap ] = useState<Basemap>('USGSTopo');
+  const [ selectedBasemap, setSelectedBasemap ] = useState<BasemapName>('USGSTopo');
 
   return (
     <div className="App">

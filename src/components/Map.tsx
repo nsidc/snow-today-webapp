@@ -20,7 +20,7 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
 import '../style/Map.css';
 import {
-  Basemap,
+  BasemapName,
   OptionalCoordinate,
   OptionalMap,
   OptionalTileLayer,
@@ -32,7 +32,7 @@ const basemapSourceDefaults = {
   maxZoom: 8,
 }
 
-const getBasemapUrl = (basemap: Basemap): string => {
+const getBasemapUrl = (basemap: BasemapName): string => {
   const basemap_url = (
     'https://basemap.nationalmap.gov/arcgis/rest/services'
     + `/${basemap}/MapServer/tile/{z}/{y}/{x}`
@@ -43,7 +43,7 @@ const getBasemapUrl = (basemap: Basemap): string => {
 // When this component is first loaded, populate the map and other initial
 // state.
 const useMapInit = (
-  selectedBasemap: Basemap,
+  selectedBasemap: BasemapName,
   mapElement: RefObject<HTMLDivElement>,
   overlayElement: RefObject<HTMLDivElement>,
   clickHandler: (event: MapBrowserEvent<any>) => void,
@@ -91,7 +91,7 @@ const useMapInit = (
 
 // When the selected basemap is updated, update the basemap layer.
 const useSelectedBasemap = (
-  selectedBasemap: Basemap,
+  selectedBasemap: BasemapName,
   basemapLayer: OptionalTileLayer,
   map: OptionalMap,
 ): void => {
@@ -113,7 +113,7 @@ const useSelectedBasemap = (
 }
 
 interface IMapProps {
-  selectedBasemap: Basemap;
+  selectedBasemap: BasemapName;
 }
 
 const MapComponent: React.FC<IMapProps> = (props) => {

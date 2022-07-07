@@ -13,7 +13,7 @@ export const BASEMAP_CHOICES = [
   'USGSShadedReliefOnly',
   'USGSHydroCached',
 ] as const;
-export type Basemap = typeof BASEMAP_CHOICES[number];
+export type BasemapName = typeof BASEMAP_CHOICES[number];
 
 // TODO: Consider: Optional<T> = T | undefined
 export type OptionalMap = Map | undefined;
