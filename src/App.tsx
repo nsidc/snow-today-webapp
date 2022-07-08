@@ -4,7 +4,7 @@ import pkg from '../package.json';
 import './style/App.css';
 import Map from './components/Map';
 import BasemapSelector from './components/BasemapSelector';
-import {BasemapName} from './types/Map';
+import {BasemapName} from './types/Basemap';
 
 
 const App: React.FC = () => {

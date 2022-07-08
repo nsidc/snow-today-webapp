@@ -4,7 +4,7 @@ import '../style/BasemapSelector.css';
 import {
   BASEMAP_CHOICES,
   BasemapName,
-} from '../types/Map';
+} from '../types/Basemap';
 
 interface IBasemapSelectorProps {
   selectedBasemap: BasemapName;

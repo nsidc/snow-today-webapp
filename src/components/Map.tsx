@@ -8,7 +8,6 @@ import 'ol/ol.css';
 import Map from 'ol/Map'
 import View from 'ol/View'
 import TileLayer from 'ol/layer/Tile'
-import XYZ from 'ol/source/XYZ'
 import {
   FullScreen,
   ScaleLine,
@@ -20,25 +19,16 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
 import '../style/Map.css';
 import {
+  BASEMAPS,
   BasemapName,
+} from '../types/Basemap';
+import {
   OptionalCoordinate,
   OptionalMap,
   OptionalTileLayer,
 } from '../types/Map';
 import { StateSetter } from '../types/misc';
 
-
-const basemapSourceDefaults = {
-  maxZoom: 8,
-}
-
-const getBasemapUrl = (basemap: BasemapName): string => {
-  const basemap_url = (
-    'https://basemap.nationalmap.gov/arcgis/rest/services'
-    + `/${basemap}/MapServer/tile/{z}/{y}/{x}`
-  );
-  return basemap_url;
-}
 
 // When this component is first loaded, populate the map and other initial
 // state.
@@ -54,10 +44,7 @@ const useMapInit = (
     const initialBasemapLayer = new TileLayer({
       // @ts-ignore: TS2304
       id: 'basemap',
-      source: new XYZ({
-        ...basemapSourceDefaults,
-        url: getBasemapUrl(selectedBasemap),
-      })
+      source: BASEMAPS[selectedBasemap],
     })
 
     const initialMap = new Map({
@@ -103,12 +90,8 @@ const useSelectedBasemap = (
       return;
     }
 
-    const selectedBasemapUrl = getBasemapUrl(selectedBasemap)
-    console.log('Updating basemap to ' + selectedBasemapUrl);
-    basemapLayer.setSource(new XYZ({
-      ...basemapSourceDefaults,
-      url: selectedBasemapUrl,
-    }));
+    console.log('Updating basemap to ' + selectedBasemap);
+    basemapLayer.setSource(BASEMAPS[selectedBasemap]);
   }, [selectedBasemap, basemapLayer, map]);
 }
 
