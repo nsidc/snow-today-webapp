@@ -5,9 +5,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import type {RefObject} from 'react';
 
 import 'ol/ol.css';
+import BaseLayer from 'ol/layer/Base';
 import Map from 'ol/Map'
 import View from 'ol/View'
-import TileLayer from 'ol/layer/Tile'
 import {
   FullScreen,
   ScaleLine,
@@ -19,39 +19,26 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
 import '../style/Map.css';
 import {
-  BASEMAPS,
-  BasemapName,
-} from '../types/Basemap';
-import {
   OptionalCoordinate,
   OptionalMap,
-  OptionalTileLayer,
 } from '../types/Map';
 import { StateSetter } from '../types/misc';
+import {basemapLayerGroup} from '../util/layers';
+import {setLayerVisibility} from '../util/layerSwitch';
 
 
 // When this component is first loaded, populate the map and other initial
 // state.
 const useMapInit = (
-  selectedBasemap: BasemapName,
-  mapElement: RefObject<HTMLDivElement>,
-  overlayElement: RefObject<HTMLDivElement>,
+  selectedBasemap: BaseLayer,
+  mapHtmlElement: RefObject<HTMLDivElement>,
   clickHandler: (event: MapBrowserEvent<any>) => void,
   setMap: StateSetter<OptionalMap>,
-  setBasemapLayer: StateSetter<OptionalTileLayer>,
 ): void => {
   useEffect(() => {
-    const initialBasemapLayer = new TileLayer({
-      // @ts-ignore: TS2304
-      id: 'basemap',
-      source: BASEMAPS[selectedBasemap],
-    })
-
     const initialMap = new Map({
-      target: mapElement.current || undefined,
-      layers: [
-        initialBasemapLayer,
-      ],
+      target: mapHtmlElement.current || undefined,
+      layers: [basemapLayerGroup],
       view: new View({
         projection: 'EPSG:3857',
         center: [0, 0],
@@ -69,20 +56,19 @@ const useMapInit = (
 
     // Populate states that depend on map initialization
     setMap(initialMap);
-    setBasemapLayer(initialBasemapLayer);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
   /* eslint-enable react-hooks/exhaustive-deps */
 };
 
-// When the selected basemap is updated, update the basemap layer.
+// When the selected basemap is updated, update the map to reflect this.
 const useSelectedBasemap = (
-  selectedBasemap: BasemapName,
-  basemapLayer: OptionalTileLayer,
+  basemapLayer: BaseLayer,
   map: OptionalMap,
 ): void => {
   useEffect(() => {
+    // debugger;
     if (
       map === undefined
       || basemapLayer === undefined
@@ -90,27 +76,27 @@ const useSelectedBasemap = (
       return;
     }
 
-    console.log('Updating basemap to ' + selectedBasemap);
-    basemapLayer.setSource(BASEMAPS[selectedBasemap]);
-  }, [selectedBasemap, basemapLayer, map]);
+    console.log('Updating basemap to ' + basemapLayer.get('title'));
+    // debugger;
+    // TODO::
+    // basemapLayer.setSource(BASEMAPS[selectedBasemap]);
+    setLayerVisibility(map, basemapLayer, true);
+  }, [basemapLayer, map]);
 }
 
 interface IMapProps {
-  selectedBasemap: BasemapName;
+  selectedBasemap: BaseLayer;
 }
 
 const MapComponent: React.FC<IMapProps> = (props) => {
 
   // TODO: More specific types; maybe some way to succinctly make optional?
   const [ map, setMap ] = useState<OptionalMap>();
-  const [ basemapLayer, setBasemapLayer ] =
-    useState<OptionalTileLayer>();
   const [ selectedCoord, setSelectedCoord ] =
       useState<OptionalCoordinate>();
 
-  const mapElement = useRef<HTMLDivElement | null>(null);
+  const mapHtmlElement = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<Map | null>(null);
-  const overlayElement = useRef<HTMLDivElement | null>(null);
 
   const handleMapClick = (event: MapBrowserEvent<any>) => {
     if ( !mapRef || !mapRef.current ) {
@@ -127,15 +113,12 @@ const MapComponent: React.FC<IMapProps> = (props) => {
   // Register behaviors
   useMapInit(
     props.selectedBasemap,
-    mapElement,
-    overlayElement,
+    mapHtmlElement,
     handleMapClick,
     setMap,
-    setBasemapLayer,
   );
   useSelectedBasemap(
     props.selectedBasemap,
-    basemapLayer,
     map,
   );
 
@@ -144,7 +127,7 @@ const MapComponent: React.FC<IMapProps> = (props) => {
   return (
     <div className="Map">
 
-      <div ref={mapElement} className="map-container"></div>
+      <div ref={mapHtmlElement} className="map-container"></div>
 
       <div className="clicked-coord-label">
         <p>{ (selectedCoord) ? toStringXY(selectedCoord, 5) : '' }</p>

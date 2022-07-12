@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
+import BaseLayer from 'ol/layer/Base';
 
 import pkg from '../package.json';
 import './style/App.css';
 import Map from './components/Map';
 import BasemapSelector from './components/BasemapSelector';
-import {BasemapName} from './types/Basemap';
+import {basemapUsgsTopo, basemapLayersByName} from './util/layers';
 
 
 const App: React.FC = () => {
-  const [ selectedBasemap, setSelectedBasemap ] = useState<BasemapName>('USGSTopo');
+  const [ selectedBasemap, setSelectedBasemap ] = useState<BaseLayer>(basemapUsgsTopo);
 
+  // debugger;
   return (
     <div className="App">
       <div id="version">v{pkg.version}</div>
@@ -18,9 +20,9 @@ const App: React.FC = () => {
         selectedBasemap={selectedBasemap} />
 
       <BasemapSelector
+        basemapLayersByName={basemapLayersByName}
         selectedBasemap={selectedBasemap}
         onChange={setSelectedBasemap} />
-
 
     </div>
   );

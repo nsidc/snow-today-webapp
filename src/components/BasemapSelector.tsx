@@ -1,30 +1,25 @@
 import React from 'react';
+import BaseLayer from 'ol/layer/Base';
 
 import '../style/BasemapSelector.css';
-import {
-  BASEMAP_CHOICES,
-  BasemapName,
-} from '../types/Basemap';
 
 interface IBasemapSelectorProps {
-  selectedBasemap: BasemapName;
-  onChange: (basemap: BasemapName) => void;
+  basemapLayersByName: Map<any, BaseLayer>;
+  selectedBasemap: BaseLayer;
+  onChange: (basemap: BaseLayer) => void;
 }
 
-const BasemapSelector: React.FC<IBasemapSelectorProps> = (
-  props
-) => {
+const BasemapSelector: React.FC<IBasemapSelectorProps> = (props) => {
 
+  // debugger;
   return (
     <div className="BasemapSelector">
       <select
-        value={props.selectedBasemap}
-        onChange={e => props.onChange(
-          e.currentTarget.value as BasemapName
-        )}
+        value={props.selectedBasemap.get('title')}
+        onChange={e => props.onChange(props.basemapLayersByName.get(e.currentTarget.value)!)}
       >
-        {BASEMAP_CHOICES.map(basemap => (
-          <option key={basemap}>{basemap}</option>
+        {Array.from(props.basemapLayersByName.keys()).map(basemapName => (
+          <option key={basemapName}>{basemapName}</option>
         ))}
       </select>
     </div>
