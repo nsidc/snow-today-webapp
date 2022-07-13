@@ -11,7 +11,6 @@ import {basemapUsgsTopo, basemapLayersByName} from './util/layers';
 const App: React.FC = () => {
   const [ selectedBasemap, setSelectedBasemap ] = useState<BaseLayer>(basemapUsgsTopo);
 
-  // debugger;
   return (
     <div className="App">
       <div id="version">v{pkg.version}</div>

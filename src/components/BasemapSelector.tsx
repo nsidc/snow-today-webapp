@@ -11,7 +11,6 @@ interface IBasemapSelectorProps {
 
 const BasemapSelector: React.FC<IBasemapSelectorProps> = (props) => {
 
-  // debugger;
   return (
     <div className="BasemapSelector">
       <select
