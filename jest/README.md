@@ -1,5 +1,4 @@
-Some environment config (e.g. transpiling for running tests in Jest) bootstrapped from
-`react-scripts` ([MIT
+Some Jest config (e.g. transpiling with Babel) bootstrapped from `react-scripts` ([MIT
 License](https://github.com/facebook/create-react-app/blob/main/packages/react-scripts/LICENSE).
 
 # TODO

@@ -10,7 +10,7 @@
     "serve": "webpack serve",
     "lint": "eslint src --ext .ts --ext .tsx",
     "compile": "tsc --project tsconfig.json",
-    "test": "node scripts/test.js"
+    "test": "node jest/scripts/test.js"
   },
   "dependencies": {
     "@fontsource/roboto": "^4.5.7",
@@ -68,7 +68,7 @@
       "react-app-polyfill/jsdom"
     ],
     "setupFilesAfterEnv": [
-      "<rootDir>/config/jest/setupTests.ts"
+      "<rootDir>/jest/scripts/setupTests.ts"
     ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
@@ -76,9 +76,9 @@
     ],
     "testEnvironment": "jsdom",
     "transform": {
-      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/jest/transforms/babelTransform.js",
+      "^.+\\.css$": "<rootDir>/jest/transforms/cssTransform.js",
+      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/jest/transforms/fileTransform.js"
     },
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/(?!(ol))",
