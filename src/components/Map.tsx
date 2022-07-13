@@ -75,7 +75,7 @@ const useSelectedBasemap = (
       return;
     }
 
-    console.log('Updating basemap to ' + basemapLayer.get('title'));
+    console.log(`Updating basemap to ${String(basemapLayer.get('title'))}`);
     setLayerVisibility(map, basemapLayer, true);
   }, [basemapLayer, map]);
 }

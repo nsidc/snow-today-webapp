@@ -43,7 +43,7 @@ export const setLayerVisibility = (
 	// Base layers are _mutually exclusive_.
 	if (visible && layer.get('type') === 'basemap') {
 		forEachRecursive_(map, function (l, _idx, _arr) {
-			if (l != layer && l.get('type') === 'basemap') {
+			if (l !== layer && l.get('type') === 'basemap') {
 				l.setVisible(false);
 			}
 		});
