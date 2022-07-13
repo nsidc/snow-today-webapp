@@ -1,0 +1,82 @@
+version: 2
+
+setup: &setup
+  working_directory: ~/snow-today-webapp
+
+jobs:
+  test:
+    <<: *setup
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - run:
+          name: Lint
+          command: npm run lint
+      - run:
+          name: Test
+          command: npm run test
+
+  build-and-sometimes-deploy:
+    <<: *setup
+    docker:
+      - image: docker:20.10.3-git
+    steps:
+      - checkout
+      # `setup_remote_docker` defaults to 17.09.0 which doesn't work with the
+      # node image we're trying to build...
+      #   https://support.circleci.com/hc/en-us/articles/360050934711
+      #   https://discuss.circleci.com/t/docker-build-fails-with-nonsensical-eperm-operation-not-permitted-copyfile/37364
+      - setup_remote_docker:
+          version: 20.10.2
+      - run:
+          name: Build and push Docker image
+          command: |
+            IMAGE_NAME="nsidc/snow-today-webapp"
+
+            echo "\$CIRCLE_TAG: ${CIRCLE_TAG}"
+            echo "\$CIRCLE_BRANCH: ${CIRCLE_BRANCH}"
+
+            if [[ "${CIRCLE_TAG}" ]]; then
+              TAG=${CIRCLE_TAG}
+            elif [[ "${CIRCLE_BRANCH}" = "main" ]]; then
+              TAG="latest"
+            else
+              # We don't really want images named after tags cluttering up our
+              # DH repo, so we use workflow filters to prevent this job from
+              # being triggered on a branch. Change the filters if we change
+              # our mind.
+              TAG=${CIRCLE_BRANCH}
+            fi
+            echo "\$TAG: ${TAG}"
+
+
+            DOCKER_IMAGE="${IMAGE_NAME}:${TAG}"
+            docker build -t ${DOCKER_IMAGE} .
+            echo "Built: ${DOCKER_IMAGE}"
+
+            docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+            docker push "${DOCKER_IMAGE}"
+
+workflows:
+  version: 2
+
+  build:
+    jobs:
+      - test:
+          filters:
+            tags:
+              only: /.*/
+
+      - build-and-sometimes-deploy:
+          context: org-global
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
+            tags:
+              only: /^v[0-9]+(\.[0-9]+)*(\.[\-a-zA-Z0-9]+)?$/
