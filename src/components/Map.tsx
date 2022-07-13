@@ -68,7 +68,6 @@ const useSelectedBasemap = (
   map: OptionalMap,
 ): void => {
   useEffect(() => {
-    // debugger;
     if (
       map === undefined
       || basemapLayer === undefined
@@ -77,9 +76,6 @@ const useSelectedBasemap = (
     }
 
     console.log('Updating basemap to ' + basemapLayer.get('title'));
-    // debugger;
-    // TODO::
-    // basemapLayer.setSource(BASEMAPS[selectedBasemap]);
     setLayerVisibility(map, basemapLayer, true);
   }, [basemapLayer, map]);
 }
