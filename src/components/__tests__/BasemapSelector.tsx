@@ -23,6 +23,5 @@ test('calls onChange with value as argument', async () => {
     screen.getByRole('combobox'),
     'USGS Topographic + Imagery',
   );
-  expect(changeFunc).toHaveBeenCalled();
-  //expect(changeFunc).toHaveBeenCalledWith(basemapUsgsImageryTopo);
+  expect(changeFunc).toHaveBeenCalledWith(basemapUsgsImageryTopo);
 });
