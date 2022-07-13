@@ -66,5 +66,5 @@ export const basemapLayerGroup = new LayerGroup({
 });
 export const basemapLayers = basemapLayerGroup.getLayers().getArray();
 export const basemapLayersByName = new Map(
-  basemapLayers.map(layer => [layer.get('title'), layer])
+  basemapLayers.map(layer => [layer.get('title') as string, layer])
 );
