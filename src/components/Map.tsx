@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import type {RefObject} from 'react';
+import {useRecoilValue} from 'recoil';
 
 import 'ol/ol.css';
 import BaseLayer from 'ol/layer/Base';
@@ -18,6 +19,7 @@ import {toStringXY} from 'ol/coordinate';
 import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
 import '../style/Map.css';
+import selectedBasemapAtom from '../clientState/selectedBasemap';
 import {
   OptionalCoordinate,
   OptionalMap,
@@ -80,11 +82,8 @@ const useSelectedBasemap = (
   }, [basemapLayer, map]);
 }
 
-interface IMapProps {
-  selectedBasemap: BaseLayer;
-}
-
-const MapComponent: React.FC<IMapProps> = (props) => {
+const MapComponent: React.FC = () => {
+  const selectedBasemap: BaseLayer = useRecoilValue(selectedBasemapAtom);
 
   // TODO: More specific types; maybe some way to succinctly make optional?
   const [ map, setMap ] = useState<OptionalMap>();
@@ -108,13 +107,13 @@ const MapComponent: React.FC<IMapProps> = (props) => {
 
   // Register behaviors
   useMapInit(
-    props.selectedBasemap,
+    selectedBasemap,
     mapHtmlElement,
     handleMapClick,
     setMap,
   );
   useSelectedBasemap(
-    props.selectedBasemap,
+    selectedBasemap,
     map,
   );
 
