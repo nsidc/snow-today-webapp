@@ -16,6 +16,7 @@ const config = {
     output: {
         path: path.resolve(__dirname, 'dist'),
     },
+    devtool: isProduction ? false : 'eval-source-map',
     devServer: isProduction ? {} : {
         open: true,
         // Enable "external" access (i.e. from outside Docker container)
