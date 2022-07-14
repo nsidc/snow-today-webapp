@@ -2,7 +2,7 @@ import React from 'react';
 
 import pkg from '../package.json';
 import './style/App.css';
-import Map from './components/Map';
+import MapComponent from './components/Map';
 import BasemapSelector from './components/BasemapSelector';
 import DebugDumpButton from './components/DebugDumpButton';
 
@@ -14,7 +14,7 @@ const App: React.FC = () => (
 
     <div id="version">v{pkg.version}</div>
 
-    <Map />
+    <MapComponent />
 
     <BasemapSelector />
 
