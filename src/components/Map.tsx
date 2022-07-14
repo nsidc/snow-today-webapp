@@ -7,7 +7,7 @@ import {useRecoilValue} from 'recoil';
 
 import 'ol/ol.css';
 import BaseLayer from 'ol/layer/Base';
-import Map from 'ol/Map'
+import OpenLayersMap from 'ol/Map'
 import View from 'ol/View'
 import {
   FullScreen,
@@ -38,7 +38,8 @@ const useMapInit = (
   setMap: StateSetter<OptionalMap>,
 ): void => {
   useEffect(() => {
-    const initialMap = new Map({
+    console.log(selectedBasemap.get('title'));
+    const initialMap = new OpenLayersMap({
       target: mapHtmlElement.current || undefined,
       layers: [basemapLayerGroup],
       view: new View({
@@ -47,12 +48,11 @@ const useMapInit = (
         zoom: 2,
         maxZoom: 16,
       }),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       controls: defaultControls().extend([
         new FullScreen(),
         new ScaleLine(),
       ]),
-    })
+    });
 
     initialMap.on('click', clickHandler);
 
@@ -91,7 +91,7 @@ const MapComponent: React.FC = () => {
       useState<OptionalCoordinate>();
 
   const mapHtmlElement = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<Map | null>(null);
+  const mapRef = useRef<OpenLayersMap | null>(null);
 
   const handleMapClick = (event: MapBrowserEvent<any>) => {
     if ( !mapRef || !mapRef.current ) {
