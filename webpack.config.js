@@ -1,14 +1,13 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProduction = process.env.NODE_ENV == 'production';
 
-
 const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
-
 
 
 const config = {
@@ -29,6 +28,9 @@ const config = {
     plugins: [
         new HtmlWebpackPlugin({
             template: 'index.html',
+        }),
+        new webpack.DefinePlugin({
+            '__ENVIRONMENT__': JSON.stringify(process.env.NODE_ENV || 'development')
         }),
 
         // Add your plugins here
