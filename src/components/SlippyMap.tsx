@@ -19,7 +19,7 @@ import {toStringXY} from 'ol/coordinate';
 import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
 import '../style/Map.css';
-import selectedBasemapAtom from '../clientState/selectedBasemap';
+import selectedBasemapObjectAtom from '../clientState/selectedBasemapObject';
 import {
   OptionalCoordinate,
   OptionalOpenLayersMap,
@@ -92,7 +92,7 @@ const SlippyMap: React.FC = () => {
   const slippyMapHtmlElement = useRef<HTMLDivElement | null>(null);
   const slippyMapRef = useRef<OpenLayersMap | null>(null);
 
-  const selectedBasemap = useRecoilValue(selectedBasemapAtom);
+  const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom);
 
   const handleSlippyMapClick = (event: MapBrowserEvent<any>) => {
     if ( !slippyMapRef || !slippyMapRef.current ) {
