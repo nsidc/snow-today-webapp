@@ -4,7 +4,6 @@ import {RecoilRoot} from 'recoil';
 
 import BasemapSelector from '../BasemapSelector';
 import selectedBasemapAtom from '../../clientState/selectedBasemap';
-import {basemapUsgsImageryTopo} from '../../util/layers';
 import {RecoilObserver} from '../../util/test';
 
 
@@ -22,5 +21,5 @@ test('calls onChange with value as argument', async () => {
     screen.getByRole('combobox'),
     'USGS Topographic + Imagery',
   );
-  expect(changeFunc).toHaveBeenCalledWith(basemapUsgsImageryTopo);
+  expect(changeFunc).toHaveBeenCalledWith('USGS Topographic + Imagery');
 });
