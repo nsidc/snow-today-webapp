@@ -5,7 +5,6 @@ import '../style/BasemapSelector.css';
 import {basemapLayersByName} from '../util/layers';
 import selectedBasemapAtom from '../clientState/selectedBasemap';
 
-
 const BasemapSelector: React.FC = () => {
   const [selectedBasemap, setSelectedBasemap] = useRecoilState(selectedBasemapAtom);
   const setBasemapByName = (name: string) => setSelectedBasemap(
@@ -24,7 +23,6 @@ const BasemapSelector: React.FC = () => {
       </select>
     </div>
   );
-
 }
 
 export default BasemapSelector

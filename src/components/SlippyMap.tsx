@@ -22,25 +22,24 @@ import '../style/Map.css';
 import selectedBasemapAtom from '../clientState/selectedBasemap';
 import {
   OptionalCoordinate,
-  OptionalMap,
-} from '../types/Map';
-import { StateSetter } from '../types/misc';
+  OptionalOpenLayersMap,
+} from '../types/SlippyMap';
+import {StateSetter} from '../types/misc';
 import {basemapLayerGroup} from '../util/layers';
 import {setLayerVisibility} from '../util/layerSwitch';
 
 
 // When this component is first loaded, populate the map and other initial
 // state.
-const useMapInit = (
+const useSlippyMapInit = (
   selectedBasemap: BaseLayer,
-  mapHtmlElement: RefObject<HTMLDivElement>,
+  slippyMapHtmlElement: RefObject<HTMLDivElement>,
   clickHandler: (event: MapBrowserEvent<any>) => void,
-  setMap: StateSetter<OptionalMap>,
+  setOpenLayersMap: StateSetter<OptionalOpenLayersMap>,
 ): void => {
   useEffect(() => {
-    console.log(selectedBasemap.get('title'));
-    const initialMap = new OpenLayersMap({
-      target: mapHtmlElement.current || undefined,
+    const initialOpenLayersMap = new OpenLayersMap({
+      target: slippyMapHtmlElement.current || undefined,
       layers: [basemapLayerGroup],
       view: new View({
         projection: 'EPSG:3857',
@@ -48,16 +47,17 @@ const useMapInit = (
         zoom: 2,
         maxZoom: 16,
       }),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       controls: defaultControls().extend([
         new FullScreen(),
         new ScaleLine(),
       ]),
     });
 
-    initialMap.on('click', clickHandler);
+    initialOpenLayersMap.on('click', clickHandler);
 
     // Populate states that depend on map initialization
-    setMap(initialMap);
+    setOpenLayersMap(initialOpenLayersMap);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
@@ -67,62 +67,63 @@ const useMapInit = (
 // When the selected basemap is updated, update the map to reflect this.
 const useSelectedBasemap = (
   basemapLayer: BaseLayer,
-  map: OptionalMap,
+  openLayersMap: OptionalOpenLayersMap,
 ): void => {
   useEffect(() => {
     if (
-      map === undefined
+      openLayersMap === undefined
       || basemapLayer === undefined
     ) {
       return;
     }
 
     console.log(`Updating basemap to ${String(basemapLayer.get('title'))}`);
-    setLayerVisibility(map, basemapLayer, true);
-  }, [basemapLayer, map]);
+    setLayerVisibility(openLayersMap, basemapLayer, true);
+  }, [basemapLayer, openLayersMap]);
 }
 
-const MapComponent: React.FC = () => {
-  const selectedBasemap: BaseLayer = useRecoilValue(selectedBasemapAtom);
+const SlippyMap: React.FC = () => {
 
   // TODO: More specific types; maybe some way to succinctly make optional?
-  const [ map, setMap ] = useState<OptionalMap>();
+  const [ openLayersMap, setOpenLayersMap ] = useState<OptionalOpenLayersMap>();
   const [ selectedCoord, setSelectedCoord ] =
       useState<OptionalCoordinate>();
 
-  const mapHtmlElement = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<OpenLayersMap | null>(null);
+  const slippyMapHtmlElement = useRef<HTMLDivElement | null>(null);
+  const slippyMapRef = useRef<OpenLayersMap | null>(null);
 
-  const handleMapClick = (event: MapBrowserEvent<any>) => {
-    if ( !mapRef || !mapRef.current ) {
+  const selectedBasemap = useRecoilValue(selectedBasemapAtom);
+
+  const handleSlippyMapClick = (event: MapBrowserEvent<any>) => {
+    if ( !slippyMapRef || !slippyMapRef.current ) {
       return;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const clickedCoord = mapRef.current.getCoordinateFromPixel(event.pixel);
+    const clickedCoord = slippyMapRef.current.getCoordinateFromPixel(event.pixel);
     const transormedCoord = transform(clickedCoord, 'EPSG:3857', 'EPSG:4326')
 
     setSelectedCoord(transormedCoord);
   }
 
   // Register behaviors
-  useMapInit(
+  useSlippyMapInit(
     selectedBasemap,
-    mapHtmlElement,
-    handleMapClick,
-    setMap,
+    slippyMapHtmlElement,
+    handleSlippyMapClick,
+    setOpenLayersMap,
   );
   useSelectedBasemap(
     selectedBasemap,
-    map,
+    openLayersMap,
   );
 
-  mapRef.current = map || null;
+  slippyMapRef.current = openLayersMap || null;
 
   return (
     <div className="Map">
 
-      <div ref={mapHtmlElement} className="map-container"></div>
+      <div ref={slippyMapHtmlElement} className="map-container"></div>
 
       <div className="clicked-coord-label">
         <p>{ (selectedCoord) ? toStringXY(selectedCoord, 5) : '' }</p>
@@ -132,4 +133,4 @@ const MapComponent: React.FC = () => {
   )
 }
 
-export default MapComponent
+export default SlippyMap

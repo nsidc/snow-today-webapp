@@ -31,7 +31,7 @@ const forEachRecursive_ = (
 }
 
 export const setLayerVisibility = (
-	map: PluggableMap,
+	openLayersMap: PluggableMap,
 	layer: BaseLayer,
 	visible: boolean,
 ): void => {
@@ -42,7 +42,7 @@ export const setLayerVisibility = (
   // layers.
 	// Base layers are _mutually exclusive_.
 	if (visible && layer.get('type') === 'basemap') {
-		forEachRecursive_(map, function (l, _idx, _arr) {
+		forEachRecursive_(openLayersMap, function (l, _idx, _arr) {
 			if (l !== layer && l.get('type') === 'basemap') {
 				l.setVisible(false);
 			}
@@ -52,7 +52,7 @@ export const setLayerVisibility = (
 	// If we're updating visibility of a group, set its children the same.
 	if (layer instanceof LayerGroup) {
 		layer.getLayers().forEach((l) => {
-			setLayerVisibility(map, l, layer.getVisible());
+			setLayerVisibility(openLayersMap, l, layer.getVisible());
 		});
 	}
 }

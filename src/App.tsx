@@ -2,25 +2,24 @@ import React from 'react';
 
 import pkg from '../package.json';
 import './style/App.css';
-import MapComponent from './components/Map';
+import SlippyMap from './components/SlippyMap';
 import BasemapSelector from './components/BasemapSelector';
 import DebugDumpButton from './components/DebugDumpButton';
 
-declare var __ENVIRONMENT__: string;
 
+const App: React.FC = () => {
+  return (
+    <div className="App">
+      <div id="version">v{pkg.version}</div>
 
-const App: React.FC = () => (
-  <div className="App">
+      <DebugDumpButton />
 
-    <div id="version">v{pkg.version}</div>
+      <SlippyMap />
 
-    <MapComponent />
+      <BasemapSelector />
 
-    <BasemapSelector />
-
-    <DebugDumpButton />
-
-  </div>
-);
+    </div>
+  );
+}
 
 export default App;
