@@ -4,7 +4,7 @@ version: '3.4'
 
 services:
   webapp:
-    image: nsidc/snow-today-webapp:${APP_VERSION:-latest}
+    image: "nsidc/snow-today-webapp:${APP_VERSION:-latest}"
     # TODO: Pull, don't build in non-dev
     build: .
     logging:
@@ -15,4 +15,6 @@ services:
   data-server:
     image: nginx:1.23
     volumes:
-      - /share/apps/snow-today-tmp:/usr/share/nginx/html:ro
+      - "/share/apps/snow-today-tmp:/usr/share/nginx/html:ro"
+    ports:
+      - "8000:80"
