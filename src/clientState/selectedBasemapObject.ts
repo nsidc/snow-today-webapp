@@ -7,7 +7,6 @@ import selectedBasemapAtom from './selectedBasemap/atom';
 import {basemapLayersByName} from '../util/layers';
 
 
-console.log(basemapLayersByName);
 // TODO: Should we call selectors "atoms" for simplicity? They are used
 // similarly / identically.
 const selectedBasemapObjectAtom = selector<BaseLayer>({
