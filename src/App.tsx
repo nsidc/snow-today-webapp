@@ -6,7 +6,7 @@ import SlippyMap from './components/SlippyMap';
 import BasemapSelector from './components/BasemapSelector';
 import DebugDumpButton from './components/DebugDumpButton';
 
-declare var __ENVIRONMENT__: 'development' | 'production';
+declare const __ENVIRONMENT__: 'development' | 'production';
 if (__ENVIRONMENT__ === 'development') {
   console.log(`Environment is: ${__ENVIRONMENT__}`);
 }
