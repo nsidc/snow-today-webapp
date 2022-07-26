@@ -54,7 +54,7 @@ const basemaps: Array<BaseLayer> = [
   // ArcGIS Basemaps
   new LayerGroup({
     properties: {
-      title: 'ArcGIS Light Gray Canvas',
+      title: 'ArcGIS Light Gray',
       type: 'basemap',
     },
     visible: false,
@@ -76,7 +76,15 @@ const basemaps: Array<BaseLayer> = [
         visible: true,
       }),
     ],
-  })
+  }),
+  new TileLayer({
+    properties: {
+      title: 'ArcGIS Light Gray - Base only',
+      type: 'basemap',
+    },
+    source: getArcGisBasemapSource('Canvas/World_Light_Gray_Base'),
+    visible: true,
+  }),
 ];
 
 
