@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {RecoilRoot} from 'recoil';
+
 import './style/index.css';
 import App from './App';
 
@@ -25,7 +27,9 @@ import '@fontsource/roboto/900.css';
 // See the browser console for details on this issue and a link to more docs.
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root')
 );

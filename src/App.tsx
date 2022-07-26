@@ -1,27 +1,28 @@
-import React, {useState} from 'react';
-import BaseLayer from 'ol/layer/Base';
+import React from 'react';
 
 import pkg from '../package.json';
 import './style/App.css';
-import Map from './components/Map';
+import SlippyMap from './components/SlippyMap';
 import BasemapSelector from './components/BasemapSelector';
-import {basemapUsgsTopo, basemapLayersByName} from './util/layers';
+import DebugDumpButton from './components/DebugDumpButton';
 
+declare const __ENVIRONMENT__: 'development' | 'production';
+if (__ENVIRONMENT__ === 'development') {
+  console.log(`Environment is: ${__ENVIRONMENT__}`);
+}
 
 const App: React.FC = () => {
-  const [ selectedBasemap, setSelectedBasemap ] = useState<BaseLayer>(basemapUsgsTopo);
-
   return (
     <div className="App">
       <div id="version">v{pkg.version}</div>
 
-      <Map
-        selectedBasemap={selectedBasemap} />
+      {__ENVIRONMENT__ === 'development' &&
+        <DebugDumpButton />
+      }
 
-      <BasemapSelector
-        basemapLayersByName={basemapLayersByName}
-        selectedBasemap={selectedBasemap}
-        onChange={setSelectedBasemap} />
+      <SlippyMap />
+
+      <BasemapSelector />
 
     </div>
   );

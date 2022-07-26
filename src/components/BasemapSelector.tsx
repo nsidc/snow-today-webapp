@@ -1,23 +1,20 @@
 import React from 'react';
-import BaseLayer from 'ol/layer/Base';
+import {useRecoilState} from 'recoil';
 
 import '../style/BasemapSelector.css';
+import {basemapLayersByName} from '../util/layers';
+import selectedBasemapAtom from '../clientState/selectedBasemap';
 
-interface IBasemapSelectorProps {
-  basemapLayersByName: Map<string, BaseLayer>;
-  selectedBasemap: BaseLayer;
-  onChange: (basemap: BaseLayer) => void;
-}
-
-const BasemapSelector: React.FC<IBasemapSelectorProps> = (props) => {
+const BasemapSelector: React.FC = () => {
+  const [selectedBasemap, setSelectedBasemap] = useRecoilState(selectedBasemapAtom);
 
   return (
     <div className="BasemapSelector">
       <select
-        value={String(props.selectedBasemap.get('title'))}
-        onChange={e => props.onChange(props.basemapLayersByName.get(e.currentTarget.value)!)}
+        value={selectedBasemap}
+        onChange={e => setSelectedBasemap(e.currentTarget.value)}
       >
-        {Array.from(props.basemapLayersByName.keys()).map(basemapName => (
+        {Array.from(basemapLayersByName.keys()).map(basemapName => (
           <option key={basemapName}>{basemapName}</option>
         ))}
       </select>
