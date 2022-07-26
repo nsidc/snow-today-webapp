@@ -27,11 +27,11 @@ const disableDeselectedBasemapLayersRecursive_ = (
     }
 
     if (childLayer.get('type') === 'basemap') {
-      console.debug(`Hiding layer ${childLayer.get('title')}`);
+      console.debug(`Hiding layer ${childLayer.get('title') as string}`);
       childLayer.setVisible(false);
     }
     if (childLayer instanceof LayerGroup) {
-      console.debug(`Recursing into group ${childLayer.get('title')}`);
+      console.debug(`Recursing into group ${childLayer.get('title') as string}`);
       disableDeselectedBasemapLayersRecursive_(childLayer, visibleLayer);
     }
   });
@@ -49,7 +49,7 @@ export const showBasemapLayer = (
     throw 'Expected a basemap layer. This is a bug.'
   }
 
-  console.debug(`Showing layer ${layer.get('title')}`);
+  console.debug(`Showing layer ${layer.get('title') as string}`);
   layer.setVisible(true);
 
   // Hide all other basemap layers
