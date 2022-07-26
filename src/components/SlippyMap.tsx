@@ -26,7 +26,7 @@ import {
 } from '../types/SlippyMap';
 import {StateSetter} from '../types/misc';
 import {basemapLayerGroup} from '../util/layers';
-import {setLayerVisibility} from '../util/layerSwitch';
+import {showBasemapLayer} from '../util/layerSwitch';
 
 
 // When this component is first loaded, populate the map and other initial
@@ -43,8 +43,8 @@ const useSlippyMapInit = (
       layers: [basemapLayerGroup],
       view: new View({
         projection: 'EPSG:3857',
-        center: [0, 0],
-        zoom: 2,
+        center: [-11686663, 4828794],
+        resolution: 1000,
         maxZoom: 16,
       }),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
@@ -78,7 +78,7 @@ const useSelectedBasemap = (
     }
 
     console.log(`Updating basemap to ${String(basemapLayer.get('title'))}`);
-    setLayerVisibility(openLayersMap, basemapLayer, true);
+    showBasemapLayer(openLayersMap, basemapLayer);
   }, [basemapLayer, openLayersMap]);
 }
 

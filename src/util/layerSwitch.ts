@@ -9,50 +9,57 @@ import LayerGroup from 'ol/layer/Group';
 import PluggableMap from 'ol/PluggableMap';
 
 
-// const isBaseGroup = (grp: LayerGroup): boolean => {
-// 	if (grp instanceof LayerGroup) {
-// 		const lyrs = grp.getLayers().getArray();
-// 		return lyrs.length > 0 && lyrs[0].get('type') === 'base';
-// 	} else {
-// 		return false;
-// 	}
-// }
-
-const forEachRecursive_ = (
-	lyr: PluggableMap | LayerGroup,
-	fn: (lyr: BaseLayer, idx: number, arr: BaseLayer[]) => void
+const disableDeselectedBasemapLayersRecursive_ = (
+  mapOrLayer: PluggableMap | LayerGroup,
+  visibleLayer: BaseLayer,
 ): void => {
-	lyr.getLayers().forEach(function (lyr, idx, a) {
-		fn(lyr, idx, a);
-		if (lyr instanceof LayerGroup) {
-			forEachRecursive_(lyr, fn);
-		}
-	});
+  /* Ensure the only visible basemap is `visibleBasemapLayer`.
+   *
+   * `mapOrLayer` is expected to be a PluggableMap on the first call, and a
+   * LayerGroup on all subsequent calls.
+   */
+
+  // Iterate over all layers *and layer groups* within `mapOrLayer`:
+  mapOrLayer.getLayers().forEach((childLayer, idx, arr_) => {
+    // Avoid making visible and recursing into `visibleLayer`:
+    if (childLayer === visibleLayer) {
+      return;
+    }
+
+    if (childLayer.get('type') === 'basemap') {
+      console.debug(`Hiding layer ${childLayer.get('title')}`);
+      childLayer.setVisible(false);
+    }
+    if (childLayer instanceof LayerGroup) {
+      console.debug(`Recursing into group ${childLayer.get('title')}`);
+      disableDeselectedBasemapLayersRecursive_(childLayer, visibleLayer);
+    }
+  });
 }
 
-export const setLayerVisibility = (
-	openLayersMap: PluggableMap,
-	layer: BaseLayer,
-	visible: boolean,
+export const showBasemapLayer = (
+  openLayersMap: PluggableMap,
+  layer: BaseLayer,
 ): void => {
-	// console.log(layer.get('title'), visible, groupSelectStyle);
-	layer.setVisible(visible);
+  /* Show a basemap layer, and hide all others.
+   *
+   * There must be exactly one basemap visible at all times.
+   */
+  if (layer.get('type') !== 'basemap') {
+    throw 'Expected a basemap layer. This is a bug.'
+  }
 
-	// If we're making a basemap layer visible, also hide all other basemap
-  // layers.
-	// Base layers are _mutually exclusive_.
-	if (visible && layer.get('type') === 'basemap') {
-		forEachRecursive_(openLayersMap, function (l, _idx, _arr) {
-			if (l !== layer && l.get('type') === 'basemap') {
-				l.setVisible(false);
-			}
-		});
-	}
+  console.debug(`Showing layer ${layer.get('title')}`);
+  layer.setVisible(true);
 
-	// If we're updating visibility of a group, set its children the same.
-	if (layer instanceof LayerGroup) {
-		layer.getLayers().forEach((l) => {
-			setLayerVisibility(openLayersMap, l, layer.getVisible());
-		});
-	}
+  // Hide all other basemap layers
+  disableDeselectedBasemapLayersRecursive_(openLayersMap, layer);
+
+  // If layer is a group, ensure its children are visible.
+  if (layer instanceof LayerGroup) {
+    layer.getLayers().forEach((childLayer) => {
+      childLayer.setVisible(true);
+    });
+  }
+  layer.setVisible(true);
 }
