@@ -4,10 +4,18 @@ version: '3.4'
 
 services:
   webapp:
-    image: nsidc/snow-today-webapp:${APP_VERSION:-latest}
+    image: "nsidc/snow-today-webapp:${APP_VERSION:-latest}"
     # TODO: Pull, don't build in non-dev
     build: .
     logging:
       options:
         max-size: "10m"
         max-file: "10"
+
+  data-server:
+    image: "nginx:1.23"
+    volumes:
+      - "/share/apps/snow-today:/usr/share/nginx/html:ro"
+      - "./nginx/default.dataserver.conf:/etc/nginx/conf.d/default.conf:ro"
+    ports:
+      - "8000:80"

@@ -93,6 +93,7 @@ export const basemapLayerGroup = new LayerGroup({
     title: 'All Basemaps',
   },
   layers: basemaps,
+  visible: true,
 });
 export const basemapLayers = basemapLayerGroup.getLayers().getArray();
 export const basemapLayersByName = new Map(

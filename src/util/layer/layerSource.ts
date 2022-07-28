@@ -1,6 +1,6 @@
 import XYZ from 'ol/source/XYZ';
 
-import {ArcGisBasemapName, UsgsBasemapName} from '../types/Basemap';
+import {ArcGisBasemapName, UsgsBasemapName} from '../../types/Basemap';
 
 
 export const getUsgsBasemapSource = (

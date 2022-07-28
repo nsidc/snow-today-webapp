@@ -25,8 +25,9 @@ import {
   OptionalOpenLayersMap,
 } from '../types/SlippyMap';
 import {StateSetter} from '../types/misc';
-import {basemapLayerGroup} from '../util/layers';
-import {showBasemapLayer} from '../util/layerSwitch';
+import {rasterLayer} from '../util/layer/dataLayer';
+import {basemapLayerGroup} from '../util/layer/layers';
+import {showBasemapLayer} from '../util/layer/layerSwitch';
 
 
 // When this component is first loaded, populate the map and other initial
@@ -40,7 +41,7 @@ const useSlippyMapInit = (
   useEffect(() => {
     const initialOpenLayersMap = new OpenLayersMap({
       target: slippyMapHtmlElement.current || undefined,
-      layers: [basemapLayerGroup],
+      layers: [basemapLayerGroup, rasterLayer],
       view: new View({
         projection: 'EPSG:3857',
         center: [-11686663, 4828794],
