@@ -16,6 +16,14 @@ mutated in state, e.g. Layer objects. They are OK in derived state (with
 `allowDangerousMutations`), but not state that will be directly updated.
 
 
+## Cloud-Optimized GeoTIFFs
+
+The raster data is stored in COGs accessed by HTTP.
+
+The COGs _must_ be in the same projection as the OpenLayers map in order to properly
+display. A script `scripts/make_cogs.sh` can prepare the files correctly.
+
+
 ## TODO
 
 ### GeoTIFF Hosting
