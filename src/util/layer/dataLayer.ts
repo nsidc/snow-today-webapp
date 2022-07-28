@@ -19,6 +19,8 @@ export const rasterLayer = new TileLayer({
   }),
   visible: true,
   zIndex: 99,
+  // TODO: This doesn't work :\
+  /*
   style: {
     color: [
       'interpolate',
@@ -37,4 +39,5 @@ export const rasterLayer = new TileLayer({
       [0, 0, 0, 0],
     ],
   },
+  */
 });
