@@ -1,6 +1,8 @@
 import React from 'react';
 import {useRecoilCallback} from 'recoil';
 
+import '../style/DebugDumpButton.css';
+
 
 const DebugDumpButton: React.FC = () => {
   const onClick = useRecoilCallback(({snapshot}) => async () => {
@@ -13,7 +15,7 @@ const DebugDumpButton: React.FC = () => {
   }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  return <button onClick={onClick}>Dump State</button>
+  return <button className={'DebugDumpButton'} onClick={onClick}>Dump State</button>
 }
 
 export default DebugDumpButton;
