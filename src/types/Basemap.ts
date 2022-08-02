@@ -9,6 +9,8 @@ const usgsBasemapNames = [
 const arcGisBasemapNames = [
   'Canvas/World_Light_Gray_Reference',
   'Canvas/World_Light_Gray_Base',
+  'NatGeo_World_Map',
+  'World_Topo_Map',
 ] as const;
 
 // Dynamically create literal union type(s) from the list(s)
