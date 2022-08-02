@@ -5,6 +5,7 @@ import './style/App.css';
 import SlippyMap from './components/SlippyMap';
 import BasemapSelector from './components/BasemapSelector';
 import DebugDumpButton from './components/DebugDumpButton';
+import RegionSelector from './components/RegionSelector';
 
 declare const __ENVIRONMENT__: 'development' | 'production';
 if (__ENVIRONMENT__ === 'development') {
@@ -23,6 +24,8 @@ const App: React.FC = () => {
       <SlippyMap />
 
       <BasemapSelector />
+
+      <RegionSelector />
 
     </div>
   );

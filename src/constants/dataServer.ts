@@ -8,4 +8,4 @@ export const testDataUrl = `${cogsServerUrl}/SnowToday_USwest_20220629_Albedo.ti
 
 // Information about regions:
 export const shapesServerUrl = `${dataServerUrl}/shapes`;
-export const stateShapeIndexJson = `${shapesServerUrl}/states/index.json`;
+export const stateShapeIndexUrl = `${shapesServerUrl}/states/index.json`;
