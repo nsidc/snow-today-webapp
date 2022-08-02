@@ -46,7 +46,7 @@ const useSlippyMapInit = (
         projection: 'EPSG:3857',
         center: [-11686663, 4828794],
         resolution: 1000,
-        maxZoom: 10,
+        maxZoom: 14,
       }),
       pixelRatio: 1,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
