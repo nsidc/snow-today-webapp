@@ -1,16 +1,17 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
 
-import '../style/BasemapSelector.css';
-import {basemapLayersByName} from '../util/layer/layers';
-import selectedBasemapAtom from '../clientState/selectedBasemap';
+import '../../style/BasemapSelector.css';
+import {basemapLayersByName} from '../../util/layer/layers';
+import selectedBasemapAtom from '../../clientState/selectedBasemap';
 
 const BasemapSelector: React.FC = () => {
   const [selectedBasemap, setSelectedBasemap] = useRecoilState(selectedBasemapAtom);
 
   return (
-    <div className="BasemapSelector">
-      <select
+    <span className="BasemapSelector">
+      <label htmlFor={'basemap-selector'}>Basemap: </label>
+      <select id={'basemap-selector'}
         value={selectedBasemap}
         onChange={e => setSelectedBasemap(e.currentTarget.value)}
       >
@@ -18,7 +19,7 @@ const BasemapSelector: React.FC = () => {
           <option key={basemapName}>{basemapName}</option>
         ))}
       </select>
-    </div>
+    </span>
   );
 }
 

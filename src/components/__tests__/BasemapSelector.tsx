@@ -2,7 +2,7 @@ import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {RecoilRoot} from 'recoil';
 
-import BasemapSelector from '../BasemapSelector';
+import BasemapSelector from '../ControlPanel/BasemapSelector';
 import selectedBasemapAtom from '../../clientState/selectedBasemap';
 import {RecoilObserver} from '../../util/test';
 

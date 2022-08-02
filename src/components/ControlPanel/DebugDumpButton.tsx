@@ -1,7 +1,7 @@
 import React from 'react';
 import {useRecoilCallback} from 'recoil';
 
-import '../style/DebugDumpButton.css';
+import '../../style/DebugDumpButton.css';
 
 
 const DebugDumpButton: React.FC = () => {

@@ -2,9 +2,9 @@ import React from 'react';
 import {useRecoilState} from 'recoil';
 import {useQuery} from '@tanstack/react-query';
 
-import '../style/RegionSelector.css';
-import {fetchShapesIndex} from '../util/shapes';
-import selectedRegionAtom from '../clientState/selectedRegion';
+import '../../style/RegionSelector.css';
+import {fetchShapesIndex} from '../../util/shapes';
+import selectedRegionAtom from '../../clientState/selectedRegion';
 
 const RegionSelector: React.FC = () => {
   const [selectedRegion, setSelectedRegion] = useRecoilState(selectedRegionAtom);
@@ -31,15 +31,16 @@ const RegionSelector: React.FC = () => {
   });
 
   return (
-    <div className="RegionSelector">
-        <select
-          value={selectedRegion}
-          onChange={e => setSelectedRegion(e.currentTarget.value)}
-        >
-          <option key={'n/a'}>Select a region</option>
-          {shapeOptions}
-        </select>
-    </div>
+    <span className="RegionSelector">
+      <label htmlFor={'region-selector'}>Region: </label>
+      <select id={'region-selector'}
+        value={selectedRegion}
+        onChange={e => setSelectedRegion(e.currentTarget.value)}
+      >
+        <option key={'n/a'}>Select a region</option>
+        {shapeOptions}
+      </select>
+    </span>
   );
 }
 
