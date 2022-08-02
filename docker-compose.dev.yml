@@ -8,6 +8,7 @@ services:
       args:
         - "env=dev"
     image: "nsidc/snow-today-webapp:dev"
+    restart: "on-failure"
     # Useful to skip linting errors and expose compiler errors:
     # command: 'npm run serve:nolint'
     ports:

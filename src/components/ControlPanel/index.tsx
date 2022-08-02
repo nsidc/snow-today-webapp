@@ -1,8 +1,8 @@
 import React from 'react';
 
 import '../../style/ControlPanel.css';
-import BasemapSelector from '../BasemapSelector';
-import DebugDumpButton from '../DebugDumpButton';
+import BasemapSelector from './BasemapSelector';
+import DebugDumpButton from './DebugDumpButton';
 
 declare const __ENVIRONMENT__: 'development' | 'production';
 if (__ENVIRONMENT__ === 'development') {

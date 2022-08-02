@@ -1,3 +1,8 @@
 .ControlPanel {
   background-color: #F7F7F8;
 }
+
+.ControlPanel span {
+  padding-left: 15px;
+  padding-right: 15px;
+}
