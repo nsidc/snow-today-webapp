@@ -4,13 +4,15 @@ import GeoTIFF from 'ol/source/GeoTIFF';
 import {testDataUrl} from '../../constants/dataServer';
 import {colorStopsFromColorMap} from '../colormap';
 
-const colormapViridis = colorStopsFromColorMap('viridis', 1, 100, 10, false);
-console.log(colormapViridis);
+const colormapTemp = colorStopsFromColorMap('temperature', 1, 87, 86, false);
 
 
 export const rasterLayer = new TileLayer({
   source: new GeoTIFF({
+    // DO NOT smooth edges of pixels:
     interpolate: false,
+    // DO NOT normalize values to range (0,1). We want the raw values:
+    normalize: false,
     sources: [
       {
         url: testDataUrl,
@@ -19,25 +21,15 @@ export const rasterLayer = new TileLayer({
   }),
   visible: true,
   zIndex: 99,
-  // TODO: This doesn't work :\
-  /*
   style: {
     color: [
       'interpolate',
       ['linear'],
       ['band', 1],
+      // TODO: Why do "nodata" values show up as 0s?
       0,
-      [0, 0, 0, 1],  // Transparent where no snow
-      1,
-      [100, 100, 0, 1],
-      100,
-      [255, 255, 0, 1],
-      //...colormapViridis,
-      200,
-      [0, 0, 0, 0],
-      65535,
-      [0, 0, 0, 0],
+      ['color', 0, 0, 0, 0],
+      ...colormapTemp,
     ],
   },
-  */
 });
