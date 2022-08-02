@@ -1,3 +1,4 @@
+// TODO: Rename this module to baseLayers?
 import BaseLayer from 'ol/layer/Base';
 import LayerGroup from 'ol/layer/Group';
 import TileLayer from 'ol/layer/Tile';
@@ -83,7 +84,23 @@ const basemaps: Array<BaseLayer> = [
       type: 'basemap',
     },
     source: getArcGisBasemapSource('Canvas/World_Light_Gray_Base'),
-    visible: true,
+    visible: false,
+  }),
+  new TileLayer({
+    properties: {
+      title: 'ArcGIS National Geographic',
+      type: 'basemap',
+    },
+    source: getArcGisBasemapSource('NatGeo_World_Map'),
+    visible: false,
+  }),
+  new TileLayer({
+    properties: {
+      title: 'ArcGIS World Topographic',
+      type: 'basemap',
+    },
+    source: getArcGisBasemapSource('World_Topo_Map'),
+    visible: false,
   }),
 ];
 
