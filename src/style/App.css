@@ -1,6 +1,9 @@
 .App {
-  height: 100%;
-  width: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+
+  height: 100vh;
+  width: 100vw;
 
   text-align: center;
   font-family: Roboto, Helvetica, sans-serif;
