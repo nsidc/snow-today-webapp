@@ -1,4 +1,7 @@
-import {stateShapeIndexUrl} from '../constants/dataServer';
+import {
+  stateShapeDirUrl,
+  stateShapeIndexUrl,
+} from '../constants/dataServer';
 
 
 export const fetchShapesIndex = (): Promise<any> => {
@@ -9,5 +12,18 @@ export const fetchShapesIndex = (): Promise<any> => {
       }
       return response.json();
     })
-    .catch((error) => {console.log(error)});
+    .catch((error) => {console.error(error)});
+};
+
+// TODO: Returns Promise<object>?
+export const fetchShapeData = (shapeId: string): Promise<object> => {
+  const url = `${stateShapeDirUrl}/${shapeId}.json`;
+  return fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to fetch region data for ${shapeId}: ${response.statusText}`);
+      }
+      return response.json();
+    })
+    .catch((error) => {console.error(error)});
 };

@@ -20,6 +20,8 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
 import '../style/Map.css';
 import selectedBasemapObjectAtom from '../clientState/selectedBasemapObject';
+import selectedRegionDataAtom from '../clientState/selectedRegionData';
+import useShapesIndex from '../serverState/shapesIndex';
 import {
   OptionalCoordinate,
   OptionalOpenLayersMap,
@@ -94,7 +96,12 @@ const SlippyMap: React.FC = () => {
   const slippyMapHtmlElement = useRef<HTMLDivElement | null>(null);
   const slippyMapRef = useRef<OpenLayersMap | null>(null);
 
+  const shapesQuery = useShapesIndex();
+
   const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom);
+  const selectedRegionData = useRecoilValue(selectedRegionDataAtom(shapesQuery.data));
+  console.log(selectedRegionData);
+  debugger;
 
   const handleSlippyMapClick = (event: MapBrowserEvent<any>) => {
     if ( !slippyMapRef || !slippyMapRef.current ) {

@@ -1,15 +1,15 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
-import {useQuery} from '@tanstack/react-query';
 
 import '../../style/RegionSelector.css';
-import {fetchShapesIndex} from '../../util/shapes';
 import selectedRegionAtom from '../../clientState/selectedRegion';
+import useShapesIndex from '../../serverState/shapesIndex';
+
 
 const RegionSelector: React.FC = () => {
   const [selectedRegion, setSelectedRegion] = useRecoilState(selectedRegionAtom);
 
-  const shapesQuery = useQuery(['shapesIndex'], fetchShapesIndex);
+  const shapesQuery = useShapesIndex();
 
   if (shapesQuery.isLoading) {
     return (
@@ -24,9 +24,9 @@ const RegionSelector: React.FC = () => {
   }
 
   const shapeOptions = Object.entries(shapesQuery.data).map(([key, params]) => {
-    // TODO: Better type annotations
+    // TODO: type annotations
     return (
-      <option key={String(key)}>{(params as object)['longname']}</option>
+      <option key={String(key)} value={String(key)}>{(params as object)['longname']}</option>
     );
   });
 
@@ -37,7 +37,6 @@ const RegionSelector: React.FC = () => {
         value={selectedRegion}
         onChange={e => setSelectedRegion(e.currentTarget.value)}
       >
-        <option key={'n/a'}>Select a region</option>
         {shapeOptions}
       </select>
     </span>
