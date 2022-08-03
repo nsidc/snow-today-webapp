@@ -8,11 +8,7 @@ export const colorStopsFromColorMapName = (
   steps: number,
   reverse: boolean,
 ): Array<number | number[]> => {
-  /* Generate OpenLayers style color-stops from colormap name.
-   *
-   * Based on educational materials from OpenLayers:
-   *     https://openlayers.org/workshop/en/cog/colormap.html
-   */
+  /* Generate OpenLayers style color-stops from colormap name. */
   const colors = colormap({
     colormap: colorMapName,
     nshades: steps,
@@ -33,7 +29,11 @@ export const colorStopsFromColorMap = (
   max: number,
   reverse: boolean,
 ): Array<number | number[]> => {
-  /* Generate OpenLayers style color-stops from colormap. */
+  /* Generate OpenLayers style color-stops from colormap.
+   *
+   * Based on educational materials from OpenLayers:
+   *     https://openlayers.org/workshop/en/cog/colormap.html
+   */
   const steps = colorMap.length;
   const delta = (max - min) / (steps - 1);
   const stops = new Array<number | number[]>(steps * 2);
