@@ -13,7 +13,7 @@ output_dir="$THIS_DIR/cogs"
 
 mkdir -p $output_dir
 
-for inputfile in $input_dir/*albedo*.tif; do
+for inputfile in $input_dir/*.tif; do
     outputfile="${output_dir}/$(basename $inputfile)";
     
 
