@@ -5,7 +5,7 @@ import {colormapBuPu} from '../../constants/colormaps';
 import {testDataUrl} from '../../constants/dataServer';
 import {colorStopsFromColorMap} from '../colormap';
 
-const colorStopsBuPu = colorStopsFromColorMap(colormapBuPu, 65, 85, true);
+const colorStopsBuPu = colorStopsFromColorMap(colormapBuPu, 2231, 8842, true);
 
 
 export const rasterLayer = new TileLayer({
@@ -31,6 +31,8 @@ export const rasterLayer = new TileLayer({
       0,
       ['color', 0, 0, 0, 0],
       ...colorStopsBuPu,
+      65535,
+      ['color', 0, 0, 0, 0],
     ],
   },
 });
