@@ -8,36 +8,16 @@
 set -euo pipefail
 
 THIS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+input_dir="$THIS_DIR/snow_today_2.0_testing/v001_westernUS/EPSG3857/2021/LZW"
 output_dir="$THIS_DIR/cogs"
 
 mkdir -p $output_dir
 
-for file in originals/*; do
-    wip_file_template="${output_dir}/wip\${WIP_ID}_$(basename $file)";
-
-    of="${output_dir}/$(basename $file)";
-
-    # Map all >65500 values to 65535 and set noData value
-    export WIP_ID=1
-    wip_file="$( echo $wip_file_template | envsubst)"
-    gdal_calc.py -A $file --outfile="$wip_file" \
-        --calc "(A*(A<65500))+(65535*(A>=65500))" \
-        --NoDataValue="65535"
+for inputfile in $input_dir/*albedo*.tif; do
+    outputfile="${output_dir}/$(basename $inputfile)";
     
-
-    # Reproject to Web Mercator.
-    # NOTE: This is not optimal, as the input files are in an intermediate
-    # projection (EPSG:4326), not their original projection. By reprojecting
-    # twice, we introduce error.
-    prev_wip="$wip_file"
-    export WIP_ID=2
-    wip_file="$( echo $wip_file_template | envsubst)"
-    gdalwarp -t_srs "EPSG:3857" "$prev_wip" "$wip_file";
 
     # Make it Cloud-Optimized
     # TODO: -a_nodata 65535?
-    gdal_translate "$wip_file" "$of" -of COG -co COMPRESS=LZW;
-
-    # Cleanup intermediate files
-    rm "${output_dir}"/wip?_*;
+    gdal_translate "$inputfile" "$outputfile" -of COG -co COMPRESS=LZW;
 done
