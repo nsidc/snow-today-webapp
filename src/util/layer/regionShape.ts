@@ -2,6 +2,7 @@ import PluggableMap from 'ol/PluggableMap';
 import GeoJSON from 'ol/format/GeoJSON';
 import {Vector as VectorLayer} from 'ol/layer';
 import {Vector as VectorSource} from 'ol/source';
+import {Stroke, Style} from 'ol/style';
 
 
 export const regionShapeLayer = new VectorLayer({
@@ -10,6 +11,12 @@ export const regionShapeLayer = new VectorLayer({
   }),
   visible: true,
   zIndex: 100,
+  style: new Style({
+    stroke: new Stroke({
+      color: '#3399CC',
+      width: 2,
+    }),
+  }),
 });
 
 
