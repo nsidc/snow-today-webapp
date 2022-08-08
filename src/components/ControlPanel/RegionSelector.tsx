@@ -23,9 +23,9 @@ const RegionSelector: React.FC = () => {
   const shapesIndexQuery = useRegionsIndex(setSelectedRegion);
 
   if (shapesIndexQuery.isError) {
-    console.debug('Error!: ' + shapesIndexQuery.error);
+    console.debug(`Error!: ${shapesIndexQuery.error as string}`);
     return (
-      <span>{'Error: ' + shapesIndexQuery.error}</span>
+      <span>{`Error: ${shapesIndexQuery.error as string}`}</span>
     );
   }
 

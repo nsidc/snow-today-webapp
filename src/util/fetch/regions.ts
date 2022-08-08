@@ -15,8 +15,7 @@ export const fetchRegionsIndex = (): Promise<any> => {
     .catch((error) => {console.error(error)});
 };
 
-// TODO: Returns Promise<object>?
-export const fetchRegionShape = (shapeId: string): Promise<object> => {
+export const fetchRegionShape = (shapeId: string): Promise<any> => {
   const url = `${stateShapeDirUrl}/${shapeId}.json`;
   return fetch(url)
     .then((response) => {

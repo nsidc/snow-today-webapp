@@ -19,7 +19,7 @@ export const showRegionShape = (
   openLayersMap: PluggableMap,
 ): void => {
   if (!regionShape) {
-    throw new Error(`Bad region shape: ${regionShape}`);
+    throw new Error(`Bad region shape: ${regionShape as string}`);
   }
   const geoJsonFeatures = new GeoJSON().readFeatures(regionShape);
   const newSource = new VectorSource({
