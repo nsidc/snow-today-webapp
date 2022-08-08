@@ -4,7 +4,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type {RefObject} from 'react';
 import {useRecoilValue} from 'recoil';
-import {UseQueryResult} from '@tanstack/react-query';
 
 import 'ol/ol.css';
 import BaseLayer from 'ol/layer/Base';
@@ -84,26 +83,25 @@ const useSelectedBasemap = (
       return;
     }
 
-    console.log(`Updating basemap to ${String(basemapLayer.get('title'))}`);
+    console.debug(`Updating basemap to ${String(basemapLayer.get('title'))}`);
     showBasemapLayer(openLayersMap, basemapLayer);
   }, [basemapLayer, openLayersMap]);
 }
 
 const useSelectedRegion = (
-  selectedRegionShapeQuery: UseQueryResult,
+  selectedRegionShape: any,
   openLayersMap: OptionalOpenLayersMap,
 ): void => {
   useEffect(() => {
     if (
       openLayersMap === undefined
-      || selectedRegionShapeQuery.data === undefined
+      || selectedRegionShape === undefined
     ) {
       return;
     }
 
-    console.log(`Zooming to: ${selectedRegionShapeQuery.data}`);
-    showRegionShape(selectedRegionShapeQuery.data, openLayersMap);
-  }, [selectedRegionShapeQuery, openLayersMap]);
+    showRegionShape(selectedRegionShape, openLayersMap);
+  }, [selectedRegionShape, openLayersMap]);
 }
 
 const SlippyMap: React.FC = () => {
@@ -119,7 +117,6 @@ const SlippyMap: React.FC = () => {
   const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom);
   const selectedRegion = useRecoilValue(selectedRegionAtom);
   const selectedRegionShapeQuery = useRegionShape(selectedRegion);
-  console.log(selectedRegionShapeQuery.data);
 
   const handleSlippyMapClick = (event: MapBrowserEvent<any>) => {
     if ( !slippyMapRef || !slippyMapRef.current ) {
@@ -145,7 +142,7 @@ const SlippyMap: React.FC = () => {
     openLayersMap,
   );
   useSelectedRegion(
-    selectedRegionShapeQuery,
+    selectedRegionShapeQuery.data,
     openLayersMap,
   );
 
