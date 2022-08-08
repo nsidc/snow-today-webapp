@@ -1,10 +1,9 @@
 import {atom} from 'recoil';
 
 
-const selectedRegionAtom = atom<string>({
+const selectedRegionAtom = atom<string | undefined>({
   key: 'selectedRegion',
-  // TODO: Something about this magic string
-  default: 'CO',
+  default: undefined,
 });
 
 export default selectedRegionAtom;

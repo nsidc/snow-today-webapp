@@ -10,4 +10,4 @@ export const testDataUrl = `${cogsServerUrl}/${testDataFilename}`;
 // Information about regions:
 export const shapesServerUrl = `${dataServerUrl}/shapes`;
 export const stateShapeDirUrl = `${shapesServerUrl}/states`;
-export const stateShapeIndexUrl = `${stateShapeDirUrl}/states/index.json`;
+export const stateShapeIndexUrl = `${stateShapeDirUrl}/index.json`;

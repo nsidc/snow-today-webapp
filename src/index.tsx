@@ -5,6 +5,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
+// NOTE: This shouldn't be included in non-dev builds...
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 
 import './style/index.css';
 import App from './App';
@@ -37,6 +39,7 @@ ReactDOM.render(
       <RecoilRoot>
         <App />
       </RecoilRoot>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -3,39 +3,52 @@ import {useRecoilState} from 'recoil';
 
 import '../../style/RegionSelector.css';
 import selectedRegionAtom from '../../clientState/selectedRegion';
-import useShapesIndex from '../../serverState/shapesIndex';
+import useRegionsIndex from '../../serverState/regionsIndex';
+
+const LOADING_VALUE = 'LOADING...';
+
+
+const stateFromTargetValue = (targetValue: string) => {
+  if (targetValue === LOADING_VALUE) {
+    return undefined;
+  } else {
+    return targetValue;
+  }
+}
 
 
 const RegionSelector: React.FC = () => {
   const [selectedRegion, setSelectedRegion] = useRecoilState(selectedRegionAtom);
 
-  const shapesQuery = useShapesIndex();
+  const shapesIndexQuery = useRegionsIndex(setSelectedRegion);
 
-  if (shapesQuery.isLoading) {
+  if (shapesIndexQuery.isError) {
+    console.debug('Error!: ' + shapesIndexQuery.error);
     return (
-      <div>Loading...</div>
-    );
-  }
-  if (shapesQuery.isError) {
-    console.debug('Error!: ' + shapesQuery.error);
-    return (
-      <div>{'Error: ' + shapesQuery.error}</div>
+      <span>{'Error: ' + shapesIndexQuery.error}</span>
     );
   }
 
-  const shapeOptions = Object.entries(shapesQuery.data).map(([key, params]) => {
-    // TODO: type annotations
-    return (
-      <option key={String(key)} value={String(key)}>{(params as object)['longname']}</option>
+  let shapeOptions: JSX.Element | Array<JSX.Element>;
+  if (shapesIndexQuery.isLoading) {
+    shapeOptions = (
+      <option key={'loading'} value={LOADING_VALUE}>{'Loading regions...'}</option>
     );
-  });
+  } else {
+    shapeOptions = Object.entries(shapesIndexQuery.data).map(([key, params]) => {
+      // TODO: type annotations
+      return (
+        <option key={String(key)} value={String(key)}>{(params as object)['longname']}</option>
+      );
+    });
+  }
 
   return (
     <span className="RegionSelector">
       <label htmlFor={'region-selector'}>Region: </label>
       <select id={'region-selector'}
         value={selectedRegion}
-        onChange={e => setSelectedRegion(e.currentTarget.value)}
+        onChange={e => setSelectedRegion(stateFromTargetValue(e.currentTarget.value))}
       >
         {shapeOptions}
       </select>
