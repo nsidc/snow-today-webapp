@@ -1,10 +1,10 @@
 import {
   stateShapeDirUrl,
   stateShapeIndexUrl,
-} from '../constants/dataServer';
+} from '../../constants/dataServer';
 
 
-export const fetchShapesIndex = (): Promise<any> => {
+export const fetchRegionsIndex = (): Promise<any> => {
   return fetch(stateShapeIndexUrl)
     .then((response) => {
       if (!response.ok) {
@@ -16,7 +16,7 @@ export const fetchShapesIndex = (): Promise<any> => {
 };
 
 // TODO: Returns Promise<object>?
-export const fetchShapeData = (shapeId: string): Promise<object> => {
+export const fetchRegionShape = (shapeId: string): Promise<object> => {
   const url = `${stateShapeDirUrl}/${shapeId}.json`;
   return fetch(url)
     .then((response) => {

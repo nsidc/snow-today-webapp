@@ -4,6 +4,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type {RefObject} from 'react';
 import {useRecoilValue} from 'recoil';
+import {UseQueryResult} from '@tanstack/react-query';
 
 import 'ol/ol.css';
 import BaseLayer from 'ol/layer/Base';
@@ -27,9 +28,11 @@ import {
   OptionalOpenLayersMap,
 } from '../types/SlippyMap';
 import {StateSetter} from '../types/misc';
-import {rasterLayer} from '../util/layer/dataLayer';
-import {basemapLayerGroup} from '../util/layer/layers';
-import {showBasemapLayer} from '../util/layer/layerSwitch';
+import {rasterLayer} from '../util/layer/raster';
+import {regionShapeLayer} from '../util/layer/regionShape';
+import {basemapLayerGroup} from '../util/layer/basemaps';
+import {showBasemapLayer} from '../util/layer/switch';
+import {showRegionShape} from '../util/layer/regionShape';
 
 
 // When this component is first loaded, populate the map and other initial
@@ -43,7 +46,7 @@ const useSlippyMapInit = (
   useEffect(() => {
     const initialOpenLayersMap = new OpenLayersMap({
       target: slippyMapHtmlElement.current || undefined,
-      layers: [basemapLayerGroup, rasterLayer],
+      layers: [basemapLayerGroup, rasterLayer, regionShapeLayer],
       view: new View({
         projection: 'EPSG:3857',
         center: [-11686663, 4828794],
@@ -86,6 +89,23 @@ const useSelectedBasemap = (
   }, [basemapLayer, openLayersMap]);
 }
 
+const useSelectedRegion = (
+  selectedRegionShapeQuery: UseQueryResult,
+  openLayersMap: OptionalOpenLayersMap,
+): void => {
+  useEffect(() => {
+    if (
+      openLayersMap === undefined
+      || selectedRegionShapeQuery.data === undefined
+    ) {
+      return;
+    }
+
+    console.log(`Zooming to: ${selectedRegionShapeQuery.data}`);
+    showRegionShape(selectedRegionShapeQuery.data, openLayersMap);
+  }, [selectedRegionShapeQuery, openLayersMap]);
+}
+
 const SlippyMap: React.FC = () => {
 
   // TODO: More specific types; maybe some way to succinctly make optional?
@@ -98,8 +118,8 @@ const SlippyMap: React.FC = () => {
 
   const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom);
   const selectedRegion = useRecoilValue(selectedRegionAtom);
-  const selectedRegionData = useRegionShape(selectedRegion);
-  console.log(selectedRegionData);
+  const selectedRegionShapeQuery = useRegionShape(selectedRegion);
+  console.log(selectedRegionShapeQuery.data);
 
   const handleSlippyMapClick = (event: MapBrowserEvent<any>) => {
     if ( !slippyMapRef || !slippyMapRef.current ) {
@@ -122,6 +142,10 @@ const SlippyMap: React.FC = () => {
   );
   useSelectedBasemap(
     selectedBasemap,
+    openLayersMap,
+  );
+  useSelectedRegion(
+    selectedRegionShapeQuery,
     openLayersMap,
   );
 

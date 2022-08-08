@@ -1,13 +1,13 @@
 import {useQuery} from '@tanstack/react-query';
 
-import {fetchShapeData} from '../util/shapes';
+import {fetchRegionShape} from '../util/fetch/regions';
 
 
-const useRegionShape = (shapeId: string | undefined) => useQuery(
-  ['shapeData', shapeId],
-  () => shapeId === undefined ? undefined : fetchShapeData(shapeId),
+const useRegionShape = (regionId: string | undefined) => useQuery(
+  ['shapeData', regionId],
+  () => regionId ? fetchRegionShape(regionId) : undefined,
   {
-    enabled: shapeId !== undefined,
+    enabled: !!regionId,
   },
 );
 export default useRegionShape;

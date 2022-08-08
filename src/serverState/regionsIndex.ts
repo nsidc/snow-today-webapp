@@ -1,11 +1,11 @@
 import {useQuery} from '@tanstack/react-query';
 
-import {fetchShapesIndex} from '../util/shapes';
+import {fetchRegionsIndex} from '../util/fetch/regions';
 
 
 const useRegionsIndex = (stateSetter) => useQuery(
   ['shapesIndex'],
-  fetchShapesIndex,
+  fetchRegionsIndex,
   {
     // set the selected shape to the first one in the data
     onSuccess: (data) => stateSetter(Object.keys(data)[0]),
