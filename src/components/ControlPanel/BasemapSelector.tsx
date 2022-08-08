@@ -2,7 +2,7 @@ import React from 'react';
 import {useRecoilState} from 'recoil';
 
 import '../../style/BasemapSelector.css';
-import {basemapLayersByName} from '../../util/layer/layers';
+import {basemapLayersByName} from '../../util/layer/basemaps';
 import selectedBasemapAtom from '../../clientState/selectedBasemap';
 
 const BasemapSelector: React.FC = () => {

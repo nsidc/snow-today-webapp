@@ -1,0 +1,10 @@
+{
+  "ID": {
+    "longname": "Idaho",
+    "file": "ID.json"
+  },
+  "CO": {
+    "longname": "Colorado",
+    "file": "CO.json"
+  }
+}

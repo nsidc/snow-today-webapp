@@ -1,6 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {RecoilRoot} from 'recoil';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+// NOTE: This shouldn't be included in non-dev builds...
+import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 
 import './style/index.css';
 import App from './App';
@@ -9,6 +15,8 @@ import App from './App';
 import '@fontsource/roboto';
 import '@fontsource/roboto/700.css';
 import '@fontsource/roboto/900.css';
+
+const queryClient = new QueryClient()
 
 // NOTE: The React 18 way of doing this seems to break the interface between
 // OpenLayers and React. I don't know why. This is the new way that causes
@@ -27,9 +35,12 @@ import '@fontsource/roboto/900.css';
 // See the browser console for details on this issue and a link to more docs.
 ReactDOM.render(
   <React.StrictMode>
-    <RecoilRoot>
-      <App />
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

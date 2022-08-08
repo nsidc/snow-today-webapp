@@ -46,7 +46,7 @@ export const showBasemapLayer = (
    * There must be exactly one basemap visible at all times.
    */
   if (layer.get('type') !== 'basemap') {
-    throw 'Expected a basemap layer. This is a bug.'
+    throw new Error('Expected a basemap layer. This is a bug.');
   }
 
   console.debug(`Showing layer ${layer.get('title') as string}`);

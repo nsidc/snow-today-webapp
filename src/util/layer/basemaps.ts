@@ -7,7 +7,7 @@ import TileLayer from 'ol/layer/Tile';
 import {
   getArcGisBasemapSource,
   getUsgsBasemapSource,
-} from './layerSource';
+} from './source';
 
 
 const basemaps: Array<BaseLayer> = [

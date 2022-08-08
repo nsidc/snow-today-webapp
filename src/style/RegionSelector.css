@@ -1,0 +1,7 @@
+.RegionSelector {
+  pointer-events: none;
+}
+
+.RegionSelector select {
+  pointer-events: all;
+}

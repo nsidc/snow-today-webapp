@@ -20,14 +20,18 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
 import '../style/Map.css';
 import selectedBasemapObjectAtom from '../clientState/selectedBasemapObject';
+import selectedRegionAtom from '../clientState/selectedRegion';
+import useRegionShape from '../serverState/regionShape';
 import {
   OptionalCoordinate,
   OptionalOpenLayersMap,
 } from '../types/SlippyMap';
 import {StateSetter} from '../types/misc';
-import {rasterLayer} from '../util/layer/dataLayer';
-import {basemapLayerGroup} from '../util/layer/layers';
-import {showBasemapLayer} from '../util/layer/layerSwitch';
+import {rasterLayer} from '../util/layer/raster';
+import {regionShapeLayer} from '../util/layer/regionShape';
+import {basemapLayerGroup} from '../util/layer/basemaps';
+import {showBasemapLayer} from '../util/layer/switch';
+import {showRegionShape} from '../util/layer/regionShape';
 
 
 // When this component is first loaded, populate the map and other initial
@@ -41,7 +45,7 @@ const useSlippyMapInit = (
   useEffect(() => {
     const initialOpenLayersMap = new OpenLayersMap({
       target: slippyMapHtmlElement.current || undefined,
-      layers: [basemapLayerGroup, rasterLayer],
+      layers: [basemapLayerGroup, rasterLayer, regionShapeLayer],
       view: new View({
         projection: 'EPSG:3857',
         center: [-11686663, 4828794],
@@ -79,9 +83,25 @@ const useSelectedBasemap = (
       return;
     }
 
-    console.log(`Updating basemap to ${String(basemapLayer.get('title'))}`);
+    console.debug(`Updating basemap to ${String(basemapLayer.get('title'))}`);
     showBasemapLayer(openLayersMap, basemapLayer);
   }, [basemapLayer, openLayersMap]);
+}
+
+const useSelectedRegion = (
+  selectedRegionShape: any,
+  openLayersMap: OptionalOpenLayersMap,
+): void => {
+  useEffect(() => {
+    if (
+      openLayersMap === undefined
+      || selectedRegionShape === undefined
+    ) {
+      return;
+    }
+
+    showRegionShape(selectedRegionShape, openLayersMap);
+  }, [selectedRegionShape, openLayersMap]);
 }
 
 const SlippyMap: React.FC = () => {
@@ -95,6 +115,8 @@ const SlippyMap: React.FC = () => {
   const slippyMapRef = useRef<OpenLayersMap | null>(null);
 
   const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom);
+  const selectedRegion = useRecoilValue(selectedRegionAtom);
+  const selectedRegionShapeQuery = useRegionShape(selectedRegion);
 
   const handleSlippyMapClick = (event: MapBrowserEvent<any>) => {
     if ( !slippyMapRef || !slippyMapRef.current ) {
@@ -117,6 +139,10 @@ const SlippyMap: React.FC = () => {
   );
   useSelectedBasemap(
     selectedBasemap,
+    openLayersMap,
+  );
+  useSelectedRegion(
+    selectedRegionShapeQuery.data,
     openLayersMap,
   );
 
