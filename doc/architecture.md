@@ -11,13 +11,16 @@ running on external systems.
 This repository contains a Typescript codebase for visualizing various data stored on a
 server.
 
-The client uses OpenLayers to display geospatial data, and ??? to display plots.
+The client uses OpenLayers to display geospatial data, and ??? to display plots. It uses
+`react-query` to manage many communications with the server, but for fetching
+Cloud-Optimized GeoTIFFs, OpenLayers directly communicates with the server.
 
 
 ## Server
 
-The server is required for the client to function. The server is a simple HTTP host,
-e.g. NGINX, serving static data files which must be structured in a specific layout.
+The server is required for the client to function. The server is a simple HTTP server,
+e.g. NGINX or Apache, serving static data files which must be structured in a specific
+layout.
 
 ```
 cogs/                   # Cloud-Optimized GeoTIFFs of raster data variables
@@ -30,6 +33,6 @@ statistics/             # Statistics for generating plot visualizations
   ...
 ```
 
-This repository contains the data needed to populate the `shapes/` directory. The `cogs`
-directory must be populated by running `scripts/make_cogs.sh` on GeoTIFFs generated
-externally.
+This repository contains the data needed to populate the `shapes/` directory. The
+`cogs/` directory must be populated by running `scripts/make_cogs.sh` on GeoTIFFs
+generated externally.
