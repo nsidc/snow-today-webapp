@@ -8,6 +8,8 @@ const useRegionShape = (regionId: string | undefined) => useQuery(
   () => regionId ? fetchRegionShape(regionId) : undefined,
   {
     enabled: !!regionId,
+    // Never re-fetch this data!
+    staleTime: Infinity,
   },
 );
 export default useRegionShape;
