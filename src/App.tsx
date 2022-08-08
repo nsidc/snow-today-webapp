@@ -2,8 +2,8 @@ import React from 'react';
 
 import pkg from '../package.json';
 import './style/App.css';
-import SlippyMap from './components/SlippyMap';
 import ControlPanel from './components/ControlPanel';
+import SlippyMap from './components/SlippyMap';
 
 const App: React.FC = () => {
   return (

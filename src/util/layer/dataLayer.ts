@@ -1,10 +1,11 @@
 import TileLayer from 'ol/layer/WebGLTile';
 import GeoTIFF from 'ol/source/GeoTIFF';
 
+import {colormapBuPu} from '../../constants/colormaps';
 import {testDataUrl} from '../../constants/dataServer';
 import {colorStopsFromColorMap} from '../colormap';
 
-const colormapTemp = colorStopsFromColorMap('temperature', 1, 87, 86, false);
+const colorStopsBuPu = colorStopsFromColorMap(colormapBuPu, 2231, 8842, true);
 
 
 export const rasterLayer = new TileLayer({
@@ -29,7 +30,9 @@ export const rasterLayer = new TileLayer({
       // TODO: Why do "nodata" values show up as 0s?
       0,
       ['color', 0, 0, 0, 0],
-      ...colormapTemp,
+      ...colorStopsBuPu,
+      65535,
+      ['color', 0, 0, 0, 0],
     ],
   },
 });

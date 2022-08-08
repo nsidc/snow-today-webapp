@@ -19,7 +19,6 @@ const ControlPanel: React.FC = () => {
       }
 
       <BasemapSelector />
-
       <RegionSelector />
 
     </div>
