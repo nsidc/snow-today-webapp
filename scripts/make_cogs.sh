@@ -16,8 +16,9 @@ mkdir -p $output_dir
 for inputfile in $input_dir/*.tif; do
     outputfile="${output_dir}/$(basename $inputfile)";
     
-
     # Make it Cloud-Optimized
     # TODO: -a_nodata 65535?
-    gdal_translate "$inputfile" "$outputfile" -of COG -co COMPRESS=LZW;
+    gdal_translate "$inputfile" "$outputfile" -of COG \
+        -co "OVERVIEW_RESAMPLING=NEAREST" \
+        -co COMPRESS=LZW;
 done
