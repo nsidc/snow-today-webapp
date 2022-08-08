@@ -35,5 +35,10 @@ export const showRegionShape = (
   regionShapeLayer.setSource(newSource);
   
   // zoom to shape
-  openLayersMap.getView().fit(newSource.getExtent());
+  openLayersMap.getView().fit(
+    newSource.getExtent(),
+    {
+      padding: [20, 20, 20, 20],
+    },
+  );
 }
