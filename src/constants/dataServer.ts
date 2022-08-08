@@ -4,8 +4,7 @@ export const dataServerUrl = 'http://integration.snow-today.apps.int.nsidc.org:8
 
 // Cloud-optimized GeoTIFFs:
 export const cogsServerUrl = `${dataServerUrl}/cogs`;
-export const testDataFilename = 'SnowToday_Test.tif';
-export const testDataUrl = `${cogsServerUrl}/${testDataFilename}`;
+export const cogsIndexUrl = `${cogsServerUrl}/index.json`;
 
 // Information about regions:
 export const shapesServerUrl = `${dataServerUrl}/shapes`;
