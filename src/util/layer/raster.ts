@@ -1,3 +1,4 @@
+import PluggableMap from 'ol/PluggableMap';
 import TileLayer from 'ol/layer/WebGLTile';
 import GeoTIFF from 'ol/source/GeoTIFF';
 
