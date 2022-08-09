@@ -17,7 +17,7 @@
       [247, 251, 255]
     ],
     "colormap_value_range": [65, 85],
-    "transparent_zero": true
+    "transparent_zero": false
   },
   "albedo_observed_muZ": {
     "type": "variable",
@@ -37,7 +37,7 @@
       [247, 251, 255]
     ],
     "colormap_value_range": [65, 85],
-    "transparent_zero": true
+    "transparent_zero": false
   },
   "deltavis": {
     "type": "variable",
@@ -57,7 +57,7 @@
       [103, 0, 13]
     ],
     "colormap_value_range": [0, 30],
-    "transparent_zero": true
+    "transparent_zero": false
   },
   "grain_size": {
     "type": "variable",
@@ -77,7 +77,7 @@
       [103, 0, 13]
     ],
     "colormap_value_range": [50, 600],
-    "transparent_zero": true
+    "transparent_zero": false
   },
   "notprocessed": {
     "type": "overlay",
@@ -86,8 +86,8 @@
     "file": "notprocessed.tif",
     "nodata_value": 255,
     "colormap": [
-      [255, 255, 255],
-      [0, 0, 0]
+      [0, 0, 0, 0],
+      [255, 0, 0]
     ],
     "colormap_value_range": [0, 1],
     "transparent_zero": false
@@ -99,18 +99,18 @@
     "file": "radiative_forcing.tif",
     "nodata_value": 65535,
     "colormap": [
-      [128, 0, 38],
-      [189, 0, 38],
-      [227, 26, 28],
-      [252, 78, 42],
-      [253, 141, 60],
-      [254, 178, 76],
-      [254, 217, 118],
+      [255, 255, 204],
       [255, 237, 160],
-      [255, 255, 204]
+      [254, 217, 118],
+      [254, 178, 76],
+      [253, 141, 60],
+      [252, 78, 42],
+      [227, 26, 28],
+      [189, 0, 38],
+      [128, 0, 38]
     ],
     "colormap_value_range": [0, 100],
-    "transparent_zero": true
+    "transparent_zero": false
   },
   "snow_cover_days": {
     "type": "variable",
@@ -129,7 +129,7 @@
       [84, 39, 143],
       [63, 0, 125]
     ],
-    "colormap_value_range": [0, 366],
+    "colormap_value_range": [1, 366],
     "transparent_zero": true
   },
   "snow_fraction": {
@@ -149,8 +149,8 @@
       [237, 248, 177],
       [255, 255, 217]
     ],
-    "colormap_value_range": [0, 100],
-    "transparent_zero": false
+    "colormap_value_range": [1, 100],
+    "transparent_zero": true
   },
   "viewable_snow_fraction": {
     "type": "variable",
@@ -169,7 +169,7 @@
       [237, 248, 177],
       [255, 255, 217]
     ],
-    "colormap_value_range": [0, 100],
-    "transparent_zero": false
+    "colormap_value_range": [1, 100],
+    "transparent_zero": true
   }
 }

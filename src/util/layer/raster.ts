@@ -55,11 +55,30 @@ export const changeRasterVariable = (
 
   const noDataValue = rasterVariableObject['nodata_value'];
 
+  const transparentZero = rasterVariableObject['transparent_zero'];
+  let transparentZeroColorStops: (number | number[])[];
+  if (transparentZero) {
+    // NOTE: It's expected that minVal is 1 if transparentZero is enabled.
+    if (minVal != 1) {
+      throw new Error(`Expected minVal to be 1; received ${minVal}`);
+    }
+    transparentZeroColorStops = [
+      0,
+      [0, 0, 0, 0],
+    ];
+  } else {
+    transparentZeroColorStops = [];
+  }
+
   const newColorStyle = [
     'interpolate',
     ['linear'],
     ['band', 1],
+    // Optionally make zero transparent:
+    ...transparentZeroColorStops,
+    // Apply color stops generated from colormap data:
     ...colorStops,
+    // Make the noData value transparent:
     noDataValue - 1,
     ...colormap.slice(-1),
     noDataValue,
