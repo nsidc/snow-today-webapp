@@ -3,6 +3,9 @@
 Enable users to browse daily snow variables in various regions (South-West US, maybe
 eventually High Mountain Asia).
 
+Depends on [Snow Today Webapp Server](https://github.com/nsidc/snow-today-webapp-server)
+to function.
+
 
 ## Level of Support
 
