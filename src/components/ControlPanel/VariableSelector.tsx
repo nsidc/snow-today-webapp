@@ -2,24 +2,25 @@ import React from 'react';
 import {useRecoilState} from 'recoil';
 
 import '../../style/VariableSelector.css';
-import selectedVariableAtom from '../../clientState/selectedVariable';
+import selectedRasterVariableAtom from '../../clientState/selectedRasterVariable';
 import useVariablesIndex from '../../serverState/variablesIndex';
 
 const LOADING_VALUE = 'LOADING...';
 
 
-const stateFromTargetValue = (targetValue: string) => {
-  if (targetValue === LOADING_VALUE) {
-    return undefined;
-  } else {
-    return targetValue;
-  }
-}
-
-
 const VariableSelector: React.FC = () => {
-  const [selectedVariable, setSelectedVariable] = useRecoilState(selectedVariableAtom);
+  const [selectedVariable, setSelectedVariable] = useRecoilState(selectedRasterVariableAtom);
   const variablesIndexQuery = useVariablesIndex(setSelectedVariable);
+
+  const handleVariableChange = (targetValue: string) => {
+    let stateValue: string | undefined;
+    if (targetValue === LOADING_VALUE) {
+      stateValue = undefined;
+    } else {
+      stateValue = targetValue;
+    }
+    setSelectedVariable(stateValue);
+  }
 
   if (variablesIndexQuery.isError) {
     console.debug(`Error!: ${variablesIndexQuery.error as string}`);
@@ -47,7 +48,7 @@ const VariableSelector: React.FC = () => {
       <label htmlFor={'variable-selector'}>Variable: </label>
       <select id={'variable-selector'}
         value={selectedVariable}
-        onChange={e => setSelectedVariable(stateFromTargetValue(e.currentTarget.value))}
+        onChange={e => handleVariableChange(e.target.value)}
       >
         {variableOptions}
       </select>

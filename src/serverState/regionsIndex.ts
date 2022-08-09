@@ -4,8 +4,10 @@ import {fetchRegionsIndex} from '../util/fetch/regions';
 import {StateSetter} from '../types/misc';
 
 
+export const SERVERSTATE_KEY_REGIONS_INDEX = 'regionsIndex';
+
 const useRegionsIndex = (stateSetter: StateSetter<string | undefined>) => useQuery(
-  ['regionsIndex'],
+  [SERVERSTATE_KEY_REGIONS_INDEX],
   fetchRegionsIndex,
   {
     // Set the selected region to the first one in the data

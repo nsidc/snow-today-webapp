@@ -4,8 +4,10 @@ import {fetchVariablesIndex} from '../util/fetch/variables';
 import {StateSetter} from '../types/misc';
 
 
+export const SERVERSTATE_KEY_VARIABLES_INDEX = 'variablesIndex';
+
 const useVariablesIndex = (stateSetter: StateSetter<string | undefined>) => useQuery(
-  ['variablesIndex'],
+  [SERVERSTATE_KEY_VARIABLES_INDEX],
   fetchVariablesIndex,
   {
     // Set the selected variable to the first one in the data
