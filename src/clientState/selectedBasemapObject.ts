@@ -3,7 +3,7 @@
 import {selector} from 'recoil';
 import BaseLayer from 'ol/layer/Base';
 
-import selectedBasemapAtom from './selectedBasemap/atom';
+import selectedBasemapAtom from './selectedBasemap';
 import {basemapLayersByName} from '../util/layer/basemaps';
 
 

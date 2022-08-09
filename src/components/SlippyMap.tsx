@@ -21,17 +21,17 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 import '../style/Map.css';
 import selectedBasemapObjectAtom from '../clientState/selectedBasemapObject';
 import selectedRegionAtom from '../clientState/selectedRegion';
+import selectedRasterVariableObjectAtom from '../clientState/selectedRasterVariableObject';
 import useRegionShape from '../serverState/regionShape';
 import {
   OptionalCoordinate,
   OptionalOpenLayersMap,
 } from '../types/SlippyMap';
 import {StateSetter} from '../types/misc';
-import {rasterLayer} from '../util/layer/raster';
-import {regionShapeLayer} from '../util/layer/regionShape';
+import {rasterLayer, changeRasterVariable} from '../util/layer/raster';
+import {regionShapeLayer, showRegionShape} from '../util/layer/regionShape';
 import {basemapLayerGroup} from '../util/layer/basemaps';
 import {showBasemapLayer} from '../util/layer/switch';
-import {showRegionShape} from '../util/layer/regionShape';
 
 
 // When this component is first loaded, populate the map and other initial
@@ -104,6 +104,22 @@ const useSelectedRegion = (
   }, [selectedRegionShape, openLayersMap]);
 }
 
+const useSelectedRasterVariable = (
+  selectedRasterVariableObject: object | undefined,
+  openLayersMap: OptionalOpenLayersMap,
+): void => {
+  useEffect(() => {
+    if (
+      openLayersMap === undefined
+      || selectedRasterVariableObject === undefined
+    ) {
+      return;
+    }
+
+    changeRasterVariable(selectedRasterVariableObject, openLayersMap);
+  }, [selectedRasterVariableObject, openLayersMap]);
+}
+
 const SlippyMap: React.FC = () => {
 
   // TODO: More specific types; maybe some way to succinctly make optional?
@@ -116,6 +132,8 @@ const SlippyMap: React.FC = () => {
 
   const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom);
   const selectedRegion = useRecoilValue(selectedRegionAtom);
+  const selectedRasterVariableObject = useRecoilValue(selectedRasterVariableObjectAtom);
+
   const selectedRegionShapeQuery = useRegionShape(selectedRegion);
 
   const handleSlippyMapClick = (event: MapBrowserEvent<any>) => {
@@ -143,6 +161,10 @@ const SlippyMap: React.FC = () => {
   );
   useSelectedRegion(
     selectedRegionShapeQuery.data,
+    openLayersMap,
+  );
+  useSelectedRasterVariable(
+    selectedRasterVariableObject,
     openLayersMap,
   );
 

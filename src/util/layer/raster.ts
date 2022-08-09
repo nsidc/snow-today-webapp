@@ -1,25 +1,22 @@
+import PluggableMap from 'ol/PluggableMap';
 import TileLayer from 'ol/layer/WebGLTile';
 import GeoTIFF from 'ol/source/GeoTIFF';
 
 import {colormapBuPu} from '../../constants/colormaps';
-import {testDataUrl} from '../../constants/dataServer';
+import {cogsServerUrl} from '../../constants/dataServer';
 import {colorStopsFromColorMap} from '../colormap';
 
 const colorStopsBuPu = colorStopsFromColorMap(colormapBuPu, 2231, 8842, true);
+const geoTiffSourceDefaults = {
+  // DO NOT smooth edges of pixels:
+  interpolate: false,
+  // DO NOT normalize values to range (0,1). We want the raw values:
+  normalize: false,
+}
 
 
 export const rasterLayer = new TileLayer({
-  source: new GeoTIFF({
-    // DO NOT smooth edges of pixels:
-    interpolate: false,
-    // DO NOT normalize values to range (0,1). We want the raw values:
-    normalize: false,
-    sources: [
-      {
-        url: testDataUrl,
-      },
-    ],
-  }),
+  source: undefined,
   visible: true,
   zIndex: 99,
   style: {
@@ -36,3 +33,22 @@ export const rasterLayer = new TileLayer({
     ],
   },
 });
+
+
+export const changeRasterVariable = (
+  rasterVariableObject: object,
+  openLayersMap: PluggableMap,
+): void => {
+  const filename = rasterVariableObject['file'] as string;
+  const url = `${cogsServerUrl}/${filename}`;
+
+  const newSource = new GeoTIFF({
+    ...geoTiffSourceDefaults,
+    sources: [
+      {
+        url: url,
+      },
+    ],
+  });
+  rasterLayer.setSource(newSource);
+}
