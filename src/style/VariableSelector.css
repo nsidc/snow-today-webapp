@@ -1,0 +1,7 @@
+.VariableSelector {
+  pointer-events: none;
+}
+
+.VariableSelector select {
+  pointer-events: all;
+}

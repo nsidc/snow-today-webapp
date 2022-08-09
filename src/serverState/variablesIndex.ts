@@ -1,14 +1,14 @@
 import {useQuery} from '@tanstack/react-query';
 
-import {fetchRegionsIndex} from '../util/fetch/regions';
+import {fetchVariablesIndex} from '../util/fetch/variables';
 import {StateSetter} from '../types/misc';
 
 
-const useRegionsIndex = (stateSetter: StateSetter<string | undefined>) => useQuery(
-  ['regionsIndex'],
-  fetchRegionsIndex,
+const useVariablesIndex = (stateSetter: StateSetter<string | undefined>) => useQuery(
+  ['variablesIndex'],
+  fetchVariablesIndex,
   {
-    // Set the selected region to the first one in the data
+    // Set the selected variable to the first one in the data
     // NOTE: Requires that this query only fires once in the app's lifecycle,
     // or the state will keep getting re-set...
     onSuccess: (data: object) => stateSetter(Object.keys(data)[0]),
@@ -16,4 +16,4 @@ const useRegionsIndex = (stateSetter: StateSetter<string | undefined>) => useQue
     staleTime: Infinity,
   }
 );
-export default useRegionsIndex;
+export default useVariablesIndex;
