@@ -51,21 +51,25 @@ export const changeRasterVariable = (
   // Calculate color stops, nodata value, and new color style
   const colormap = rasterVariableObject['colormap'] as number[][];
   const [minVal, maxVal] = rasterVariableObject['colormap_value_range'] as [number, number];
+  const noDataValue = rasterVariableObject['nodata_value'] as number;
+  const transparentZero = rasterVariableObject['transparent_zero'] as boolean;
+
   const colorStops = colorStopsFromColorMap(colormap, minVal, maxVal, false);
-
-  const noDataValue = rasterVariableObject['nodata_value'];
-
-  const transparentZero = rasterVariableObject['transparent_zero'];
   let transparentZeroColorStops: (number | number[])[];
   if (transparentZero) {
-    // NOTE: It's expected that minVal is 1 if transparentZero is enabled.
-    if (minVal != 1) {
-      throw new Error(`Expected minVal to be 1; received ${minVal}`);
-    }
     transparentZeroColorStops = [
       0,
       [0, 0, 0, 0],
     ];
+    // It's expected that minVal is >=1 if transparentZero is enabled. If it's
+    // >1, we'll use the first colormap value for 1 to prevent any
+    // intermediate partially-transparent values.
+    if (minVal < 1) {
+      throw new Error(`Expected minVal to be 1; received ${minVal}`);
+    } else if (minVal > 1) {
+      transparentZeroColorStops.push(1);
+      transparentZeroColorStops.push(...colormap.slice(1));
+    }
   } else {
     transparentZeroColorStops = [];
   }
@@ -78,7 +82,9 @@ export const changeRasterVariable = (
     ...transparentZeroColorStops,
     // Apply color stops generated from colormap data:
     ...colorStops,
-    // Make the noData value transparent:
+    // Make the noData value transparent. Ensure that all values between the
+    // colormap max and the noData value are the same color to avoid any
+    // intermediate semi-transparent values:
     noDataValue - 1,
     ...colormap.slice(-1),
     noDataValue,
