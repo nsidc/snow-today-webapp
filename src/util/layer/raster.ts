@@ -2,16 +2,20 @@ import PluggableMap from 'ol/PluggableMap';
 import TileLayer from 'ol/layer/WebGLTile';
 import GeoTIFF from 'ol/source/GeoTIFF';
 
-import {colormapBuPu} from '../../constants/colormaps';
 import {cogsServerUrl} from '../../constants/dataServer';
 import {colorStopsFromColorMap} from '../colormap';
 
-const colorStopsBuPu = colorStopsFromColorMap(colormapBuPu, 2231, 8842, true);
 const geoTiffSourceDefaults = {
   // DO NOT smooth edges of pixels:
   interpolate: false,
   // DO NOT normalize values to range (0,1). We want the raw values:
   normalize: false,
+}
+interface IStyleVariables {
+  color: any[];
+}
+const styleVariables: IStyleVariables = {
+  color: [],
 }
 
 
@@ -19,19 +23,12 @@ export const rasterLayer = new TileLayer({
   source: undefined,
   visible: true,
   zIndex: 99,
+  // WebGL tiles don't support `setStyle`, so you have to use variables like so
   style: {
-    color: [
-      'interpolate',
-      ['linear'],
-      ['band', 1],
-      // TODO: Why do "nodata" values show up as 0s?
-      0,
-      ['color', 0, 0, 0, 0],
-      ...colorStopsBuPu,
-      65535,
-      ['color', 0, 0, 0, 0],
-    ],
-  },
+    color: ['var', 'color'],
+    // @ts-ignore: TS2322
+    variables: styleVariables,
+  }
 });
 
 
@@ -39,9 +36,9 @@ export const changeRasterVariable = (
   rasterVariableObject: object,
   openLayersMap: PluggableMap,
 ): void => {
+  // Calculate new source URL
   const filename = rasterVariableObject['file'] as string;
   const url = `${cogsServerUrl}/${filename}`;
-
   const newSource = new GeoTIFF({
     ...geoTiffSourceDefaults,
     sources: [
@@ -50,5 +47,51 @@ export const changeRasterVariable = (
       },
     ],
   });
+
+  // Calculate color stops, nodata value, and new color style
+  const colormap = rasterVariableObject['colormap'] as number[][];
+  const [minVal, maxVal] = rasterVariableObject['colormap_value_range'] as [number, number];
+  const noDataValue = rasterVariableObject['nodata_value'] as number;
+  const transparentZero = rasterVariableObject['transparent_zero'] as boolean;
+
+  const colorStops = colorStopsFromColorMap(colormap, minVal, maxVal, false);
+  let transparentZeroColorStops: (number | number[])[];
+  if (transparentZero) {
+    transparentZeroColorStops = [
+      0,
+      [0, 0, 0, 0],
+    ];
+    // It's expected that minVal is >=1 if transparentZero is enabled. If it's
+    // >1, we'll use the first colormap value for 1 to prevent any
+    // intermediate partially-transparent values.
+    if (minVal < 1) {
+      throw new Error(`Expected minVal to be 1; received ${minVal}`);
+    } else if (minVal > 1) {
+      transparentZeroColorStops.push(1);
+      transparentZeroColorStops.push(...colormap.slice(1));
+    }
+  } else {
+    transparentZeroColorStops = [];
+  }
+
+  const newColorStyle = [
+    'interpolate',
+    ['linear'],
+    ['band', 1],
+    // Optionally make zero transparent:
+    ...transparentZeroColorStops,
+    // Apply color stops generated from colormap data:
+    ...colorStops,
+    // Make the noData value transparent. Ensure that all values between the
+    // colormap max and the noData value are the same color to avoid any
+    // intermediate semi-transparent values:
+    noDataValue - 1,
+    ...colormap.slice(-1),
+    noDataValue,
+    [0, 0, 0, 0],
+  ];
+
+  // Apply changes to the raster data layer
   rasterLayer.setSource(newSource);
+  rasterLayer.setStyle({color: newColorStyle});
 }

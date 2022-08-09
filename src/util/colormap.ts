@@ -38,7 +38,7 @@ export const colorStopsFromColorMap = (
   const delta = (max - min) / (steps - 1);
   const stops = new Array<number | number[]>(steps * 2);
   if (reverse) {
-    colorMap.reverse();
+    colorMap = [...colorMap].reverse();
   }
   for (let i = 0; i < steps; i++) {
     stops[i * 2] = min + i * delta;
