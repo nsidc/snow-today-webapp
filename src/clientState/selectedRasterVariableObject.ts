@@ -21,7 +21,7 @@ const selectedRasterVariableObjectAtom = selector<object | undefined>({
     }
 
     const variablesIndex = queryClient.getQueryData([SERVERSTATE_KEY_VARIABLES_INDEX]) as object;
-    return variablesIndex[selectedVariable]!
+    return variablesIndex[selectedVariable] as object;
   },
 });
 

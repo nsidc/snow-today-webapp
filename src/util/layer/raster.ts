@@ -39,7 +39,7 @@ export const changeRasterVariable = (
   rasterVariableObject: object,
   openLayersMap: PluggableMap,
 ): void => {
-  const filename = rasterVariableObject['file'];
+  const filename = rasterVariableObject['file'] as string;
   const url = `${cogsServerUrl}/${filename}`;
 
   const newSource = new GeoTIFF({
