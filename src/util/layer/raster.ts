@@ -2,7 +2,7 @@ import PluggableMap from 'ol/PluggableMap';
 import TileLayer from 'ol/layer/WebGLTile';
 import GeoTIFF from 'ol/source/GeoTIFF';
 
-import {cogsServerUrl} from '../../constants/dataServer';
+import {dataServerUrl} from '../../constants/dataServer';
 import {colorStopsFromColorMap} from '../colormap';
 
 const geoTiffSourceDefaults = {
@@ -37,8 +37,8 @@ export const changeRasterVariable = (
   openLayersMap: PluggableMap,
 ): void => {
   // Calculate new source URL
-  const filename = rasterVariableObject['file'] as string;
-  const url = `${cogsServerUrl}/${filename}`;
+  const filepath = rasterVariableObject['file'] as string;
+  const url = `${dataServerUrl}/${filepath}`;
   const newSource = new GeoTIFF({
     ...geoTiffSourceDefaults,
     sources: [

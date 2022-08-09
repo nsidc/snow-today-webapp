@@ -1,8 +1,8 @@
-import {cogsIndexUrl} from '../../constants/dataServer';
+import {variablesIndexUrl} from '../../constants/dataServer';
 
 
 export const fetchVariablesIndex = (): Promise<any> => {
-  return fetch(cogsIndexUrl)
+  return fetch(variablesIndexUrl)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`Failed to fetch index of variable data: ${response.statusText}`);
