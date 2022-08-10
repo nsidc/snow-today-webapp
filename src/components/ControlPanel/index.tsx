@@ -4,7 +4,7 @@ import '../../style/ControlPanel.css';
 import BasemapSelector from './BasemapSelector';
 import DebugDumpButton from './DebugDumpButton';
 import RegionSelector from './RegionSelector';
-import VariableSelector from './VariableSelector';
+import RasterVariableSelector from './RasterVariableSelector';
 
 declare const __ENVIRONMENT__: 'development' | 'production';
 if (__ENVIRONMENT__ === 'development') {
@@ -21,7 +21,7 @@ const ControlPanel: React.FC = () => {
 
       <BasemapSelector />
       <RegionSelector />
-      <VariableSelector />
+      <RasterVariableSelector />
 
     </div>
   );
