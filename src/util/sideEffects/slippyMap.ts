@@ -104,3 +104,19 @@ export const useSelectedRasterVariable = (
     changeRasterVariable(selectedRasterVariableObject, openLayersMap);
   }, [selectedRasterVariableObject, openLayersMap]);
 }
+
+export const useRasterOpacity = (
+  rasterOpacity: number,
+  openLayersMap: OptionalOpenLayersMap,
+): void => {
+  useEffect(() => {
+    if (
+      openLayersMap === undefined
+      || rasterOpacity === undefined
+    ) {
+      return;
+    }
+
+    rasterLayer.setOpacity(rasterOpacity / 100);
+  }, [rasterOpacity, openLayersMap]);
+}

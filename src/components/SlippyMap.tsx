@@ -11,6 +11,7 @@ import {toStringXY} from 'ol/coordinate';
 import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
 import '../style/Map.css';
+import rasterOpacityAtom from '../clientState/rasterOpacity';
 import selectedBasemapObjectAtom from '../clientState/selectedBasemapObject';
 import selectedRegionAtom from '../clientState/selectedRegion';
 import selectedRasterVariableObjectAtom from '../clientState/selectedRasterVariableObject';
@@ -20,6 +21,7 @@ import {
   OptionalOpenLayersMap,
 } from '../types/SlippyMap';
 import {
+  useRasterOpacity,
   useSlippyMapInit,
   useSelectedBasemap,
   useSelectedRegion,
@@ -36,6 +38,7 @@ const SlippyMap: React.FC = () => {
   const slippyMapHtmlElement = useRef<HTMLDivElement | null>(null);
   const slippyMapRef = useRef<OpenLayersMap | null>(null);
 
+  const rasterOpacity = useRecoilValue(rasterOpacityAtom);
   const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom);
   const selectedRegion = useRecoilValue(selectedRegionAtom);
   const selectedRasterVariableObject = useRecoilValue(selectedRasterVariableObjectAtom);
@@ -71,6 +74,10 @@ const SlippyMap: React.FC = () => {
   );
   useSelectedRasterVariable(
     selectedRasterVariableObject,
+    openLayersMap,
+  );
+  useRasterOpacity(
+    rasterOpacity,
     openLayersMap,
   );
 
