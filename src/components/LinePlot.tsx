@@ -33,7 +33,7 @@ const LinePlot: React.FC = () => {
 
   const chartData: Highcharts.SeriesOptionsType[] = [
     {
-      name: 'test',
+      name: 'CO Albedo median (test)',
       type: 'line',
       data: plotDataQuery.data['median'],
     },
