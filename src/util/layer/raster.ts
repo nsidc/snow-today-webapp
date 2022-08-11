@@ -12,7 +12,7 @@ const geoTiffSourceDefaults = {
   normalize: false,
 }
 interface IStyleVariables {
-  color: any[];
+  color: Array<string | Array<string | number>>;
 }
 const styleVariables: IStyleVariables = {
   color: [],

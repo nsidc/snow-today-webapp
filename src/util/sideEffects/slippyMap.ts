@@ -74,7 +74,7 @@ export const useSelectedBasemap = (
 }
 
 export const useSelectedRegion = (
-  selectedRegionShape: any,
+  selectedRegionShape: object | undefined,
   openLayersMap: OptionalOpenLayersMap,
 ): void => {
   useEffect(() => {

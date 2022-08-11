@@ -22,7 +22,7 @@ export const regionShapeLayer = new VectorLayer({
 
 export const showRegionShape = (
   // TODO: Better annotation:
-  regionShape: any,
+  regionShape: object,
   openLayersMap: PluggableMap,
 ): void => {
   if (!regionShape) {
