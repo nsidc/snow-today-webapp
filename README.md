@@ -6,6 +6,10 @@ eventually High Mountain Asia).
 Depends on [Snow Today Webapp Server](https://github.com/nsidc/snow-today-webapp-server)
 to function.
 
+**WARNING: This software is currently in early development. The data required for the
+server component is not yet publicly exposed, so you should not expect this to work on
+your machine.**
+
 
 ## Level of Support
 
