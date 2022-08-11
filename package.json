@@ -17,6 +17,8 @@
     "@fontsource/roboto": "^4.5.7",
     "@tanstack/react-query": "^4.0.10",
     "colormap": "^2.3.2",
+    "highcharts": "^10.2.0",
+    "highcharts-react-official": "^3.1.0",
     "ol": "^6.14.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

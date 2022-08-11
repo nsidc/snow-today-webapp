@@ -7,7 +7,7 @@ import HighchartsReact from 'highcharts-react-official';
 import '../style/LinePlot.css';
 import selectedRegionAtom from '../clientState/selectedRegion';
 import selectedRasterVariableAtom from '../clientState/selectedRasterVariable';
-//import {usePlotDataQuery} from '../serverState/plotData';
+import usePlotDataQuery from '../serverState/plotData';
 
 
 const LinePlot: React.FC = () => {
@@ -18,13 +18,24 @@ const LinePlot: React.FC = () => {
   console.log(selectedRegion, selectedRasterVariable);
 
   // TODO: Apply this use...Query naming convention everywhere.
-  //const plotDataQuery = usePlotDataQuery(selectedRegion, selectedRasterVariable);
+  const plotDataQuery = usePlotDataQuery(selectedRegion, selectedRasterVariable);
+
+  if (plotDataQuery.isError) {
+    console.debug(`Error!: ${plotDataQuery.error as string}`);
+    return (
+      <span>{`Error: ${plotDataQuery.error as string}`}</span>
+    );
+  } else if (plotDataQuery.isLoading) {
+    return (
+      <span>Loading...</span>
+    );
+  }
 
   const chartData: Highcharts.SeriesOptionsType[] = [
     {
-      name: 'foo',
+      name: 'test',
       type: 'line',
-      data: [1, 2, 3],
+      data: plotDataQuery.data['median'],
     },
   ];
   const chartOptions: Highcharts.Options = {

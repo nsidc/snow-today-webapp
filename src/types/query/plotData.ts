@@ -1,4 +1,4 @@
-export interface plotData {
+export interface IPlotData {
   day_of_water_year: number[];
   max: number[];
   median: number[];
