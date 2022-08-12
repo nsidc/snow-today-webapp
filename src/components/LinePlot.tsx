@@ -2,12 +2,15 @@ import React, {useRef} from 'react';
 import {useRecoilValue} from 'recoil';
 
 import Highcharts from 'highcharts';
+import HighchartsMore from 'highcharts/highcharts-more';
 import HighchartsReact from 'highcharts-react-official';
 
 import '../style/LinePlot.css';
 import selectedRegionAtom from '../clientState/selectedRegion';
 import selectedRasterVariableAtom from '../clientState/selectedRasterVariable';
 import usePlotDataQuery from '../serverState/plotData';
+
+HighchartsMore(Highcharts);
 
 
 const LinePlot: React.FC = () => {
@@ -33,9 +36,45 @@ const LinePlot: React.FC = () => {
 
   const chartData: Highcharts.SeriesOptionsType[] = [
     {
-      name: 'CO Albedo median (test)',
+      name: 'Year to date',
+      type: 'line',
+      data: plotDataQuery.data['year_to_date'],
+      zIndex: 99,
+      color: '#000000',
+    },
+    {
+      name: 'Median',
       type: 'line',
       data: plotDataQuery.data['median'],
+      zIndex: 10,
+      color: '#8d8d8d',
+      dashStyle: 'Dash',
+    },
+    {
+      name: 'Maximum',
+      type: 'line',
+      data: plotDataQuery.data['max'],
+      zIndex: 9,
+      color: '#666666',
+      dashStyle: 'ShortDashDot',
+    },
+    {
+      name: 'Minimum',
+      type: 'line',
+      data: plotDataQuery.data['min'],
+      zIndex: 8,
+      color: '#666666',
+      dashStyle: 'ShortDot',
+    },
+    {
+      name: 'Interquartile Range',
+      type: 'arearange',
+      data: plotDataQuery.data['prc25'].map((low, index) => {
+        return [low, plotDataQuery.data['prc75'][index]];
+      }),
+      zIndex: 0,
+      lineWidth: 0,
+      color: '#cccccc',
     },
   ];
   const chartOptions: Highcharts.Options = {
