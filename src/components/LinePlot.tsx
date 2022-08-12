@@ -81,6 +81,12 @@ const LinePlot: React.FC = () => {
     title: {
       text: 'Test!'
     },
+    tooltip: {
+      shared: true,
+    },
+    xAxis: {
+      crosshair: true,
+    },
     series: chartData,
   };
 
