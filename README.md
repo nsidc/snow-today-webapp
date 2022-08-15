@@ -1,5 +1,7 @@
 # Snow Today Webapp
 
+![Snow Today screenshot](doc/_images/snow-today-screenshot.png)
+
 Enable users to browse daily snow variables in various regions (South-West US, maybe
 eventually High Mountain Asia).
 
