@@ -3,6 +3,7 @@ import React from 'react';
 import pkg from '../package.json';
 import './style/App.css';
 import ControlPanel from './components/ControlPanel';
+import LinePlot from './components/LinePlot';
 import SlippyMap from './components/SlippyMap';
 
 const App: React.FC = () => {
@@ -12,6 +13,7 @@ const App: React.FC = () => {
 
       <ControlPanel />
       <SlippyMap />
+      <LinePlot />
 
     </div>
   );

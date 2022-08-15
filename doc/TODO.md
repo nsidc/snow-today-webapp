@@ -1,5 +1,9 @@
 # TODO
 
+## Names
+
+* RasterVariable -> SatelliteDataVariable ?
+
 ## Versioning
 
 * Version this app!
