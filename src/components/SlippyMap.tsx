@@ -10,7 +10,7 @@ import {transform} from 'ol/proj'
 import {toStringXY} from 'ol/coordinate';
 import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
-import '../style/Map.css';
+import '../style/SlippyMap.css';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
 import selectedBasemapObjectAtom from '../clientState/selectedBasemapObject';
 import selectedRegionObjectAtom from '../clientState/selectedRegionObject';
