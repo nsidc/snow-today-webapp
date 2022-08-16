@@ -13,8 +13,9 @@ export const regionShapeLayer = new VectorLayer({
   zIndex: 100,
   style: new Style({
     stroke: new Stroke({
-      color: '#3399CC',
-      width: 2,
+      // color: '#3399CC',
+      color: 'red',
+      width: 3,
     }),
   }),
 });
