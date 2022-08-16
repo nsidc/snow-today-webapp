@@ -1,4 +1,4 @@
-interface IRasterVariableOptions {
+export interface IRasterVariableOptions {
   type: string;
   longname: string;
   helptext: string;

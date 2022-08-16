@@ -5,16 +5,16 @@ import {fetchRegionShape} from '../util/fetch/regions';
 
 export const SERVERSTATE_KEY_SHAPE_DATA = 'shapeData';
 
-const useRegionShape = (regionId: string | undefined) => useQuery<object>(
-  [SERVERSTATE_KEY_SHAPE_DATA, regionId],
+const useRegionShape = (regionShapeFilePath: string | undefined) => useQuery<object>(
+  [SERVERSTATE_KEY_SHAPE_DATA, regionShapeFilePath],
   () => {
-    if (!regionId) {
+    if (!regionShapeFilePath) {
       throw new Error('Programmer error.');
     }
-    return fetchRegionShape(regionId);
+    return fetchRegionShape(regionShapeFilePath);
   },
   {
-    enabled: !!regionId,
+    enabled: !!regionShapeFilePath,
     // Never re-fetch this data!
     staleTime: Infinity,
   },

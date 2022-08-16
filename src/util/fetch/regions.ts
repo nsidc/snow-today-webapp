@@ -1,12 +1,9 @@
-import {
-  stateShapeDirUrl,
-  stateShapeIndexUrl,
-} from '../../constants/dataServer';
+import {dataServerUrl, regionsIndexUrl} from '../../constants/dataServer';
 import {IRegionIndex} from '../../types/query/regions';
 
 
 export const fetchRegionsIndex = (): Promise<IRegionIndex> => {
-  return fetch(stateShapeIndexUrl)
+  return fetch(regionsIndexUrl)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`Failed to fetch index of region data: ${response.statusText}`);
@@ -18,16 +15,16 @@ export const fetchRegionsIndex = (): Promise<IRegionIndex> => {
     });
 };
 
-export const fetchRegionShape = (shapeId: string): Promise<object> => {
-  const url = `${stateShapeDirUrl}/${shapeId}.json`;
+export const fetchRegionShape = (shapeFilePath: string): Promise<object> => {
+  const url = `${dataServerUrl}/${shapeFilePath}`;
   return fetch(url)
     .then((response) => {
       if (!response.ok) {
-        throw new Error(`Failed to fetch region data for ${shapeId}: ${response.statusText}`);
+        throw new Error(`Failed to fetch region data for ${shapeFilePath}: ${response.statusText}`);
       }
       return response.json() as Promise<object>;
     })
     .catch((error) => {
-      throw new Error(`Failed to fetch region data for ${shapeId}: ${String(error)}`);
+      throw new Error(`Failed to fetch region data for ${shapeFilePath}: ${String(error)}`);
     });
 };
