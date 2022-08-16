@@ -21,6 +21,8 @@ const usePlotDataQuery = (
     enabled: !!regionId && !!variableId,
     // Never re-fetch this data!
     staleTime: Infinity,
+    // Don't retry failed requests; in this case there is no plot!
+    retry: false,
   },
 );
 export default usePlotDataQuery;

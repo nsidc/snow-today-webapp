@@ -29,8 +29,24 @@ const LinePlot: React.FC = () => {
 
   if (plotDataQuery.isError) {
     console.debug(`Error!: ${plotDataQuery.error as string}`);
+    const regionStr = selectedSatelliteVariableObject!.longname;
+    const varStr = selectedRegionObject!.longname;
     return (
-      <span>{`Error: ${plotDataQuery.error as string}`}</span>
+      <div className={'card lineplot-error'}>
+        <div>
+          <h3>
+            {'Feature not currently available for '}
+            <u>{regionStr}</u>
+            {' in '}
+            <u>{varStr}</u>
+          </h3>
+          <p>{'Try another region or variable!'}</p>
+          <p>{'Working regions: CO, ID'}</p>
+          <p>
+            {'Working variables: Snow Albedo, Radiative Forcing, Snow Cover Days, Snow Cover Percent'}
+          </p>
+        </div>
+      </div>
     );
   } else if (plotDataQuery.isLoading) {
     return (
