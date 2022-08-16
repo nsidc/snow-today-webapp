@@ -2,7 +2,8 @@ export interface ISatelliteVariableOptions {
   type: string;
   longname: string;
   helptext: string;
-  file: string;
+  unit_of_measurement: string;
+  cog_path: string;
   nodata_value: number;
   colormap: [number, number, number][] | [number, number, number, number][];
   colormap_value_range: [number, number];

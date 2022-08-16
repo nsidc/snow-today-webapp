@@ -26,13 +26,20 @@ const LinePlot: React.FC = () => {
 
   // TODO: Apply this use...Query naming convention everywhere.
   const plotDataQuery = usePlotDataQuery(selectedRegion, selectedSatelliteVariable);
-
-  if (plotDataQuery.isError) {
+  if (
+    plotDataQuery.isLoading
+    || !selectedSatelliteVariableObject
+    || !selectedRegionObject
+  ) {
+    return (
+      <div className={'card centered-card-text'}><p>Loading...</p></div>
+    );
+  } else if (plotDataQuery.isError) {
     console.debug(`Error!: ${plotDataQuery.error as string}`);
     const regionStr = selectedSatelliteVariableObject!.longname;
     const varStr = selectedRegionObject!.longname;
     return (
-      <div className={'card lineplot-error'}>
+      <div className={'card centered-card-text'}>
         <div>
           <h3>
             {'Feature not currently available for '}
@@ -48,13 +55,13 @@ const LinePlot: React.FC = () => {
         </div>
       </div>
     );
-  } else if (plotDataQuery.isLoading) {
-    return (
-      <span>Loading...</span>
-    );
   }
 
-  const chartTitle = `${selectedRegionObject!.longname} - ${selectedSatelliteVariableObject!.longname}`;
+  const varLongname = selectedSatelliteVariableObject.longname;
+  const varUnit = selectedSatelliteVariableObject.unit_of_measurement;
+  const regionLongname = selectedRegionObject.longname;
+  const chartTitle = `${regionLongname} - ${varLongname}`;
+  const yAxisTitle = `${varLongname} (${varUnit})`;
 
   const chartData: Highcharts.SeriesOptionsType[] = [
     {
@@ -110,8 +117,12 @@ const LinePlot: React.FC = () => {
     tooltip: {
       shared: true,
     },
+    yAxis: {
+      title: {text: yAxisTitle},
+    },
     xAxis: {
       crosshair: true,
+      title: {text: 'Day of Water Year'},
     },
     series: chartData,
   };

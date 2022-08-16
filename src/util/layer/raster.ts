@@ -37,8 +37,8 @@ export const changeRasterVariable = (
   openLayersMap: PluggableMap,
 ): void => {
   // Calculate new source URL
-  const filepath = rasterVariableObject['file'] as string;
-  const url = `${dataServerUrl}/${filepath}`;
+  const cogPath = rasterVariableObject['cog_path'] as string;
+  const url = `${dataServerUrl}/${cogPath}`;
   const newSource = new GeoTIFF({
     ...geoTiffSourceDefaults,
     sources: [
