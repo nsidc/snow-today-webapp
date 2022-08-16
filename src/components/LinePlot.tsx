@@ -6,6 +6,7 @@ import HighchartsMore from 'highcharts/highcharts-more';
 import HighchartsReact from 'highcharts-react-official';
 
 import '../style/LinePlot.css';
+import '../style/card.css';
 import selectedRegionAtom from '../clientState/selectedRegion';
 import selectedRasterVariableAtom from '../clientState/selectedRasterVariable';
 import usePlotDataQuery from '../serverState/plotData';
@@ -78,6 +79,10 @@ const LinePlot: React.FC = () => {
     },
   ];
   const chartOptions: Highcharts.Options = {
+    chart: {
+      height: '95%',
+      type: 'line',
+    },
     title: {
       text: 'Test!'
     },
@@ -91,11 +96,12 @@ const LinePlot: React.FC = () => {
   };
 
   return (
-    <div className={'LinePlot'}>
+    <div className={'LinePlot card'}>
       <HighchartsReact
         highcharts={Highcharts}
         ref={chartRef}
         options={chartOptions}
+        containerProps={{ className: 'lineplot-container' }}
       />
     </div>
   );

@@ -8,12 +8,14 @@ import SlippyMap from './components/SlippyMap';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <div id="version">v{pkg.version}</div>
+    <div className={"App"}>
+      <div id={"version"}>v{pkg.version}</div>
 
       <ControlPanel />
-      <SlippyMap />
-      <LinePlot />
+      <div id={"views-container"}>
+        <SlippyMap />
+        <LinePlot />
+      </div>
 
     </div>
   );
