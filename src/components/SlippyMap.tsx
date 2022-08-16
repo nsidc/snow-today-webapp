@@ -15,7 +15,7 @@ import '../style/card.css';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
 import selectedBasemapObjectAtom from '../clientState/selectedBasemapObject';
 import selectedRegionObjectAtom from '../clientState/selectedRegionObject';
-import selectedRasterVariableObjectAtom from '../clientState/selectedRasterVariableObject';
+import selectedSatelliteVariableObjectAtom from '../clientState/selectedSatelliteVariableObject';
 import useRegionShape from '../serverState/regionShape';
 import {
   OptionalCoordinate,
@@ -42,7 +42,7 @@ const SlippyMap: React.FC = () => {
   const rasterOpacity = useRecoilValue(rasterOpacityAtom);
   const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom);
   const selectedRegionObject = useRecoilValue(selectedRegionObjectAtom);
-  const selectedRasterVariableObject = useRecoilValue(selectedRasterVariableObjectAtom);
+  const selectedSatelliteVariableObject = useRecoilValue(selectedSatelliteVariableObjectAtom);
 
   const selectedRegionShapeQuery = useRegionShape(selectedRegionObject ? selectedRegionObject['file'] : undefined);
 
@@ -74,7 +74,7 @@ const SlippyMap: React.FC = () => {
     openLayersMap,
   );
   useSelectedRasterVariable(
-    selectedRasterVariableObject,
+    selectedSatelliteVariableObject,
     openLayersMap,
   );
   useRasterOpacity(

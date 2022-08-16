@@ -8,7 +8,9 @@ import HighchartsReact from 'highcharts-react-official';
 import '../style/LinePlot.css';
 import '../style/card.css';
 import selectedRegionAtom from '../clientState/selectedRegion';
-import selectedRasterVariableAtom from '../clientState/selectedRasterVariable';
+//import selectedRegionObjectAtom from '../clientState/selectedRegionObject';
+import selectedSatelliteVariableAtom from '../clientState/selectedSatelliteVariable';
+//import selectedSatelliteVariableObjectAtom from '../clientState/selectedSatelliteVariableObject';
 import usePlotDataQuery from '../serverState/plotData';
 
 HighchartsMore(Highcharts);
@@ -18,11 +20,12 @@ const LinePlot: React.FC = () => {
   const chartRef = useRef<HighchartsReact.RefObject>(null);
 
   const selectedRegion = useRecoilValue(selectedRegionAtom);
-  const selectedRasterVariable = useRecoilValue(selectedRasterVariableAtom);
-  console.log(selectedRegion, selectedRasterVariable);
+  //const selectedRegionObject = useRecoilValue(selectedRegionObjectAtom);
+  const selectedSatelliteVariable = useRecoilValue(selectedSatelliteVariableAtom);
+  //const selectedSatelliteVariableObject = useRecoilValue(selectedSatelliteVariableObjectAtom);
 
   // TODO: Apply this use...Query naming convention everywhere.
-  const plotDataQuery = usePlotDataQuery(selectedRegion, selectedRasterVariable);
+  const plotDataQuery = usePlotDataQuery(selectedRegion, selectedSatelliteVariable);
 
   if (plotDataQuery.isError) {
     console.debug(`Error!: ${plotDataQuery.error as string}`);
@@ -34,6 +37,8 @@ const LinePlot: React.FC = () => {
       <span>Loading...</span>
     );
   }
+
+  // const chartTitle = `${selectedRegionObject!.longname} - ${selectedSatelliteVariableObject!.longname}`;
 
   const chartData: Highcharts.SeriesOptionsType[] = [
     {
@@ -84,7 +89,8 @@ const LinePlot: React.FC = () => {
       type: 'line',
     },
     title: {
-      text: 'Test!'
+      text: 'Test!',
+      //text: chartTitle,
     },
     tooltip: {
       shared: true,

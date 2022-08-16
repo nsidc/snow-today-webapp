@@ -2,14 +2,14 @@ import React from 'react';
 import {useRecoilState} from 'recoil';
 
 import '../../style/VariableSelector.css';
-import selectedRasterVariableAtom from '../../clientState/selectedRasterVariable';
+import selectedSatelliteVariableAtom from '../../clientState/selectedSatelliteVariable';
 import useVariablesIndex from '../../serverState/variablesIndex';
 
 const LOADING_VALUE = 'LOADING...';
 
 
 const VariableSelector: React.FC = () => {
-  const [selectedVariable, setSelectedVariable] = useRecoilState(selectedRasterVariableAtom);
+  const [selectedVariable, setSelectedVariable] = useRecoilState(selectedSatelliteVariableAtom);
   const variablesIndexQuery = useVariablesIndex(setSelectedVariable);
 
   const handleVariableChange = (targetValue: string) => {

@@ -5,26 +5,26 @@
 
 import {selector} from 'recoil';
 
-import selectedRasterVariableAtom from './selectedRasterVariable';
-import {IRasterVariableOptions, IRasterVariableIndex} from '../types/query/rasterVariables';
+import selectedSatelliteVariableAtom from './selectedSatelliteVariable';
+import {ISatelliteVariableOptions, ISatelliteVariableIndex} from '../types/query/satelliteVariables';
 import {queryClient} from '../util/query';
 import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../serverState/variablesIndex';
 
 
 // TODO: Should we call selectors "atoms" for simplicity? They are used
 // similarly / identically.
-const selectedRasterVariableObjectAtom = selector<IRasterVariableOptions | undefined>({
-  key: 'selectedRasterVariableObject',
+const selectedSatelliteVariableObjectAtom = selector<ISatelliteVariableOptions | undefined>({
+  key: 'selectedSatelliteVariableObject',
   get: ({get}) => {
-    const selectedVariable = get(selectedRasterVariableAtom)
+    const selectedVariable = get(selectedSatelliteVariableAtom)
     if (!selectedVariable) {
       return;
     }
 
     // TODO: Can React-query give us typed access to the cache??
-    const variablesIndex = queryClient.getQueryData([SERVERSTATE_KEY_VARIABLES_INDEX]) as IRasterVariableIndex;
+    const variablesIndex = queryClient.getQueryData([SERVERSTATE_KEY_VARIABLES_INDEX]) as ISatelliteVariableIndex;
     return variablesIndex[selectedVariable];
   },
 });
 
-export default selectedRasterVariableObjectAtom;
+export default selectedSatelliteVariableObjectAtom;

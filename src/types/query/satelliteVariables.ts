@@ -1,4 +1,4 @@
-export interface IRasterVariableOptions {
+export interface ISatelliteVariableOptions {
   type: string;
   longname: string;
   helptext: string;
@@ -9,6 +9,6 @@ export interface IRasterVariableOptions {
   transparent_zero: boolean;
 }
 
-export interface IRasterVariableIndex {
-  [keys: string]: IRasterVariableOptions;
+export interface ISatelliteVariableIndex {
+  [keys: string]: ISatelliteVariableOptions;
 }

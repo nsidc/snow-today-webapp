@@ -13,6 +13,7 @@ import {
 
 import {OptionalOpenLayersMap} from '../../types/SlippyMap';
 import {StateSetter} from '../../types/misc';
+import {ISatelliteVariableOptions} from '../../types/query/satelliteVariables';
 import {basemapLayerGroup} from '../layer/basemaps';
 import {rasterLayer, changeRasterVariable} from '../layer/raster';
 import {regionShapeLayer, showRegionShape} from '../layer/regionShape';
@@ -90,19 +91,19 @@ export const useSelectedRegion = (
 }
 
 export const useSelectedRasterVariable = (
-  selectedRasterVariableObject: object | undefined,
+  selectedSatelliteVariableObject: ISatelliteVariableOptions | undefined,
   openLayersMap: OptionalOpenLayersMap,
 ): void => {
   useEffect(() => {
     if (
       openLayersMap === undefined
-      || selectedRasterVariableObject === undefined
+      || selectedSatelliteVariableObject === undefined
     ) {
       return;
     }
 
-    changeRasterVariable(selectedRasterVariableObject, openLayersMap);
-  }, [selectedRasterVariableObject, openLayersMap]);
+    changeRasterVariable(selectedSatelliteVariableObject, openLayersMap);
+  }, [selectedSatelliteVariableObject, openLayersMap]);
 }
 
 export const useRasterOpacity = (
