@@ -13,7 +13,7 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 import '../style/Map.css';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
 import selectedBasemapObjectAtom from '../clientState/selectedBasemapObject';
-import selectedRegionAtom from '../clientState/selectedRegion';
+import selectedRegionObjectAtom from '../clientState/selectedRegionObject';
 import selectedRasterVariableObjectAtom from '../clientState/selectedRasterVariableObject';
 import useRegionShape from '../serverState/regionShape';
 import {
@@ -40,10 +40,10 @@ const SlippyMap: React.FC = () => {
 
   const rasterOpacity = useRecoilValue(rasterOpacityAtom);
   const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom);
-  const selectedRegion = useRecoilValue(selectedRegionAtom);
+  const selectedRegionObject = useRecoilValue(selectedRegionObjectAtom);
   const selectedRasterVariableObject = useRecoilValue(selectedRasterVariableObjectAtom);
 
-  const selectedRegionShapeQuery = useRegionShape(selectedRegion);
+  const selectedRegionShapeQuery = useRegionShape(selectedRegionObject ? selectedRegionObject['file'] : undefined);
 
   const handleSlippyMapClick = (event: MapBrowserEvent<any>) => {
     if ( !slippyMapRef || !slippyMapRef.current ) {

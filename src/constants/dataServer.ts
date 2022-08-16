@@ -3,9 +3,7 @@
 export const dataServerUrl = 'http://integration.snow-today.apps.int.nsidc.org:8000'
 
 // Information about regions:
-export const shapesServerUrl = `${dataServerUrl}/shapes`;
-export const stateShapeDirUrl = `${shapesServerUrl}/states`;
-export const stateShapeIndexUrl = `${stateShapeDirUrl}/index.json`;
+export const regionsIndexUrl = `${dataServerUrl}/regions.json`;
 
 // Cloud-optimized GeoTIFF variables:
 export const variablesIndexUrl = `${dataServerUrl}/variables.json`;
