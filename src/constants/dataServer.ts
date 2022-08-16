@@ -5,8 +5,5 @@ export const dataServerUrl = 'http://integration.snow-today.apps.int.nsidc.org:8
 // Information about regions:
 export const regionsIndexUrl = `${dataServerUrl}/regions.json`;
 
-// Cloud-optimized GeoTIFF variables:
+// Satellite variables corresponding to plot data and Cloud-Optimized GeoTIFFs:
 export const variablesIndexUrl = `${dataServerUrl}/variables.json`;
-
-// Test data for plotting. TODO: Calculate plot URL for given variable from the variables Index!
-export const plotTestFileUrl = `${dataServerUrl}/plots/SnowToday_USCO_Albedo_WY2022_yearToDate.json`;

@@ -1,4 +1,4 @@
-import {plotTestFileUrl} from '../../constants/dataServer';
+import {dataServerUrl} from '../../constants/dataServer';
 import {IPlotData} from '../../types/query/plotData';
 
 
@@ -6,8 +6,7 @@ export const fetchPlotData = (
   regionId: string,
   variableId: string,
 ): Promise<IPlotData> => {
-  // TODO: Use variables!
-  const url = plotTestFileUrl;
+  const url = `${dataServerUrl}/plots/${regionId}-${variableId}.json`;
   return fetch(url)
     .then((response) => {
       if (!response.ok) {
