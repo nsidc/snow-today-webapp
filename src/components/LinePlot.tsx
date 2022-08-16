@@ -116,6 +116,7 @@ const LinePlot: React.FC = () => {
     },
     tooltip: {
       shared: true,
+      valueDecimals: 3,
     },
     yAxis: {
       title: {text: yAxisTitle},
