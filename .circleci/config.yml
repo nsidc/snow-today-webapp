@@ -7,7 +7,7 @@ jobs:
   test-and-bundle:
     <<: *setup
     docker:
-      - image: circleci/node:14
+      - image: cimg/node:18
     steps:
       - checkout
       - run:
