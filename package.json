@@ -1,8 +1,8 @@
 {
   "description": "Snow Today Webapp",
-  "name": "snow-today-webapp",
+  "name": "@nsidc/snow-today-webapp",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",

@@ -4,7 +4,7 @@ setup: &setup
   working_directory: ~/snow-today-webapp
 
 jobs:
-  test:
+  test-and-bundle:
     <<: *setup
     docker:
       - image: circleci/node:14
@@ -19,8 +19,28 @@ jobs:
       - run:
           name: Test
           command: npm run test
+      - run:
+          name: Build Bundle
+          command: npm build
+      - persist_to_workspace:
+          root: ~/snow-today-webapp
+          paths: .
 
-  build-and-sometimes-deploy:
+  publish-bundle-to-npm:
+    <<: *setup
+    docker:
+      - image: circleci/node:18
+    steps:
+      - attach_workspace:
+          at: ~/snow-today-webapp
+      - run:
+          name: Publish NPM Package
+          command: |
+            echo "//registry.npmjs.org/:_authToken=$NPM_DEPLOY_TOKEN" > .npmrc
+            npm publish --access public
+
+
+  build-docker-image-and-sometimes-publish:
     <<: *setup
     docker:
       - image: docker:20.10.3-git
@@ -66,15 +86,25 @@ workflows:
 
   build:
     jobs:
-      - test:
+      - test-and-bundle:
           filters:
             tags:
               only: /.*/
 
-      - build-and-sometimes-deploy:
+      - publish-bundle-to-npm:
           context: org-global
           requires:
-            - test
+            - test-and-bundle
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v\d+\.\d+\.\d+([\-\.\w]*)?$/
+
+      - build-docker-image-and-sometimes-publish:
+          context: org-global
+          requires:
+            - test-and-bundle
           filters:
             branches:
               only: main
