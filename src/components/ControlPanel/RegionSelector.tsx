@@ -20,22 +20,25 @@ const stateFromTargetValue = (targetValue: string) => {
 const RegionSelector: React.FC = () => {
   const [selectedRegion, setSelectedRegion] = useRecoilState(selectedRegionAtom);
 
-  const shapesIndexQuery = useRegionsIndex(setSelectedRegion);
+  const regionsIndexQuery = useRegionsIndex(setSelectedRegion);
 
-  if (shapesIndexQuery.isError) {
-    console.debug(`Error!: ${shapesIndexQuery.error as string}`);
+  if (regionsIndexQuery.isError) {
+    console.debug(`Error!: ${regionsIndexQuery.error as string}`);
     return (
-      <span>{`Error: ${shapesIndexQuery.error as string}`}</span>
+      <span>{`Error: ${regionsIndexQuery.error as string}`}</span>
     );
   }
 
   let shapeOptions: JSX.Element | Array<JSX.Element>;
-  if (shapesIndexQuery.isLoading) {
+  if (regionsIndexQuery.isLoading) {
     shapeOptions = (
       <option key={'loading'} value={LOADING_VALUE}>{'Loading regions...'}</option>
     );
   } else {
-    shapeOptions = Object.entries(shapesIndexQuery.data).map(([key, params]) => {
+    const enabledRegions = Object.fromEntries(Object.entries(regionsIndexQuery.data).filter(
+      ([key, params]) => !Object.keys(params).includes('enabled') || params.enabled === true 
+    ));
+    shapeOptions = Object.entries(enabledRegions).map(([key, params]) => {
       // TODO: type annotations
       return (
         <option key={String(key)} value={String(key)}>{(params as object)['longname']}</option>
