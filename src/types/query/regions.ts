@@ -3,6 +3,7 @@ export interface IRegionOptions {
   shortname: string;
   file: string;
   type: string;
+  enabled?: boolean;
 }
 
 export interface IRegionIndex {
