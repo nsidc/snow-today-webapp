@@ -36,8 +36,8 @@ const LinePlot: React.FC = () => {
     );
   } else if (plotDataQuery.isError) {
     console.debug(`Error!: ${plotDataQuery.error as string}`);
-    const regionStr = selectedSatelliteVariableObject!.longname;
-    const varStr = selectedRegionObject!.longname;
+    const regionStr = selectedSatelliteVariableObject.longname;
+    const varStr = selectedRegionObject.longname;
     return (
       <div className={'card centered-card-text'}>
         <div>
