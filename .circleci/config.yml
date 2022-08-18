@@ -21,7 +21,7 @@ jobs:
           command: npm run test
       - run:
           name: Build Bundle
-          command: npm build
+          command: npm run build
       - persist_to_workspace:
           root: ~/snow-today-webapp
           paths: .
