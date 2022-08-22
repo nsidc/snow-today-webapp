@@ -19,6 +19,7 @@ const useRegionsIndex = (
       // or the state will keep getting re-set...
       onSuccess: (data: IRegionIndex) => stateSetter(Object.keys(data)[0]),
       // Never re-fetch this data!
+      cacheTime: Infinity,
       staleTime: Infinity,
     }
   );

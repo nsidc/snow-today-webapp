@@ -16,6 +16,7 @@ const useRegionShape = (regionShapeFilePath: string | undefined) => useQuery<obj
   {
     enabled: !!regionShapeFilePath,
     // Never re-fetch this data!
+    cacheTime: Infinity,
     staleTime: Infinity,
   },
 );
