@@ -1,9 +1,9 @@
 export interface IPlotData {
-  readonly day_of_water_year: number[];
-  readonly max: number[];
-  readonly median: number[];
-  readonly min: number[];
-  readonly prc25: number[];
-  readonly prc75: number[];
-  readonly year_to_date: number[];
+  readonly day_of_water_year: readonly number[];
+  readonly max: readonly number[];
+  readonly median: readonly number[];
+  readonly min: readonly number[];
+  readonly prc25: readonly number[];
+  readonly prc75: readonly number[];
+  readonly year_to_date: readonly number[];
 }
