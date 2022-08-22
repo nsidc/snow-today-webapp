@@ -1,0 +1,34 @@
+#!/bin/bash
+set -euo pipefail
+
+ENVIRONMENT="$1"
+
+THIS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT_DIR="$(dirname "$THIS_DIR")"
+
+VERSION_FILE="$REPO_ROOT_DIR/package.json"
+CANONICAL_VERSION="$(cat "$VERSION_FILE" | jq -r .version)"
+
+source /etc/profile.d/envvars.sh
+
+cd "$REPO_ROOT_DIR"
+
+if [ "$ENVIRONMENT" = "integration" ]; then
+    APP_VERSION="latest"
+    version_desc="latest"
+else
+    APP_VERSION="$CANONICAL_VERSION"
+    version_desc="production"
+fi
+
+echo "Using $version_desc versions in $ENVIRONMENT..."
+echo "APP_VERSION=$APP_VERSION"
+export APP_VERSION
+
+# Replace the current app
+docker-compose pull
+docker-compose down --remove-orphans
+docker-compose up -d
+
+# Cleanup
+docker system prune -af
