@@ -12,6 +12,7 @@ import selectedRegionObjectAtom from '../clientState/selectedRegionObject';
 import selectedSatelliteVariableAtom from '../clientState/selectedSatelliteVariable';
 import selectedSatelliteVariableObjectAtom from '../clientState/selectedSatelliteVariableObject';
 import usePlotDataQuery from '../serverState/plotData';
+import {IPlotData} from '../types/query/plotData';
 
 HighchartsMore(Highcharts);
 
@@ -35,7 +36,7 @@ const LinePlot: React.FC = () => {
       <div className={'card centered-card-text'}><p>Loading...</p></div>
     );
   } else if (plotDataQuery.isError) {
-    console.debug(`Error!: ${plotDataQuery.error as string}`);
+    console.debug(`Error!: ${String(plotDataQuery.error)}`);
     const regionStr = selectedSatelliteVariableObject.longname;
     const varStr = selectedRegionObject.longname;
     return (
@@ -63,18 +64,38 @@ const LinePlot: React.FC = () => {
   const chartTitle = `${regionLongname} - ${varLongname}`;
   const yAxisTitle = `${varLongname} (${varUnit})`;
 
+  // WARNING: It is _critical_ that the data is copied before passing to
+  // Highcharts. Highcharts will mutate the arrays, and we don't want state to
+  // be mutated!!!
+  type IPlotDataMutable = {
+    [Property in keyof IPlotData]: number[];
+  }
+  // TODO: Is there a programmatic way to do this object transformation
+  // *WITHOUT* type casting? This is not friendly to maintain. Easy to
+  // make mistakes with values, but Typescript protects us from messing up
+  // structure (keys and types of values).
+  const data: IPlotDataMutable = {
+    day_of_water_year: [...plotDataQuery.data['day_of_water_year']],
+    max: [...plotDataQuery.data['max']],
+    median: [...plotDataQuery.data['median']],
+    min: [...plotDataQuery.data['min']],
+    prc25: [...plotDataQuery.data['prc25']],
+    prc75: [...plotDataQuery.data['prc75']],
+    year_to_date: [...plotDataQuery.data['year_to_date']],
+  };
+
   const chartData: Highcharts.SeriesOptionsType[] = [
     {
       name: 'Year to date',
       type: 'line',
-      data: plotDataQuery.data['year_to_date'],
+      data: data['year_to_date'],
       zIndex: 99,
       // color: '#000000',
     },
     {
       name: 'Median',
       type: 'line',
-      data: plotDataQuery.data['median'],
+      data: data['median'],
       zIndex: 10,
       color: '#8d8d8d',
       dashStyle: 'Dash',
@@ -82,7 +103,7 @@ const LinePlot: React.FC = () => {
     {
       name: 'Maximum',
       type: 'line',
-      data: plotDataQuery.data['max'],
+      data: data['max'],
       zIndex: 9,
       color: '#666666',
       dashStyle: 'ShortDashDot',
@@ -90,7 +111,7 @@ const LinePlot: React.FC = () => {
     {
       name: 'Minimum',
       type: 'line',
-      data: plotDataQuery.data['min'],
+      data: data['min'],
       zIndex: 8,
       color: '#666666',
       dashStyle: 'ShortDot',
@@ -98,8 +119,8 @@ const LinePlot: React.FC = () => {
     {
       name: 'Interquartile Range',
       type: 'arearange',
-      data: plotDataQuery.data['prc25'].map((low, index) => {
-        return [low, plotDataQuery.data['prc75'][index]];
+      data: data['prc25'].map((low, index) => {
+        return [low, data['prc75'][index]];
       }),
       zIndex: 0,
       lineWidth: 0,
