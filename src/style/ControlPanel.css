@@ -1,6 +1,13 @@
 .ControlPanel {
   background-color: #F7F7F8;
   text-align: center;
+
+  padding: 15px;
+}
+
+.ControlPanel .dropdown {
+  display: inline;
+  padding: 15px;
 }
 
 .ControlPanel span {

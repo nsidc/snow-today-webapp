@@ -17,9 +17,8 @@ test('calls onChange with value as argument', async () => {
     </RecoilRoot>
   );
 
-  await userEvent.selectOptions(
-    screen.getByRole('combobox'),
-    'USGS Topographic + Imagery',
-  );
+  await userEvent.click(screen.getByText('Select a Basemap'));
+  await userEvent.click(screen.getByText('USGS Topographic + Imagery'));
+
   expect(changeFunc).toHaveBeenCalledWith('USGS Topographic + Imagery');
 });

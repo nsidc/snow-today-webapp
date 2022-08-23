@@ -1,7 +1,0 @@
-.BasemapSelector {
-  pointer-events: none;
-}
-
-.BasemapSelector select {
-  pointer-events: all;
-}
