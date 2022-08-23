@@ -9,6 +9,8 @@ import './style/index.css';
 import App from './App';
 import {queryClient} from './util/query';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 // TODO: Do we need all these weights?
 import '@fontsource/roboto';
 import '@fontsource/roboto/700.css';
