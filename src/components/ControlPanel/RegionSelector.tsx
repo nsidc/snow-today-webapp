@@ -3,6 +3,7 @@ import {useRecoilState} from 'recoil';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
 import '../../style/RegionSelector.css';
+import '../../style/dropdownForm.css';
 import selectedRegionAtom from '../../clientState/selectedRegion';
 import useRegionsIndex from '../../serverState/regionsIndex';
 
@@ -49,13 +50,15 @@ const RegionSelector: React.FC = () => {
 
   return (
     <DropdownButton title="Select a Region">
-      <label htmlFor={'region-selector'}>Sub-region: </label>
-      <select id={'region-selector'}
-        value={selectedRegion}
-        onChange={e => setSelectedRegion(stateFromTargetValue(e.currentTarget.value))}
-      >
-        {shapeOptions}
-      </select>
+      <div className={'RegionSelector dropdown-form'}>
+        <label htmlFor={'region-selector'}>Sub-region: </label>
+        <select id={'region-selector'}
+          value={selectedRegion}
+          onChange={e => setSelectedRegion(stateFromTargetValue(e.currentTarget.value))}
+        >
+          {shapeOptions}
+        </select>
+      </div>
     </DropdownButton>
   );
 }
