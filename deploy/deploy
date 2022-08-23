@@ -7,7 +7,7 @@ THIS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT_DIR="$(dirname "$THIS_DIR")"
 
 VERSION_FILE="$REPO_ROOT_DIR/package.json"
-CANONICAL_VERSION="$(cat "$VERSION_FILE" | jq -r .version)"
+CANONICAL_VERSION="v$(cat "$VERSION_FILE" | jq -r .version)"
 
 source /etc/profile.d/envvars.sh
 

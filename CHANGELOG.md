@@ -1,3 +1,8 @@
+# v0.3.1 (2022-08-22)
+
+* Fix deployment script version solver
+
+
 # v0.3.0 (2022-08-22)
 
 * Add automated deployment script
