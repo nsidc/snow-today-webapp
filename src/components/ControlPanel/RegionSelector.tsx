@@ -49,8 +49,9 @@ const RegionSelector: React.FC = () => {
   }
 
   return (
-    <DropdownButton title="Select a Region">
+    <DropdownButton title='Select a Region'>
       <div className={'RegionSelector dropdown-form'}>
+        <h5>✨ Coming soon: More controls!!! ✨</h5>
         <label htmlFor={'region-selector'}>Sub-region: </label>
         <select id={'region-selector'}
           value={selectedRegion}

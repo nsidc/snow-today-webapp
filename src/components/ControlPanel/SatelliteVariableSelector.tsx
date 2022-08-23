@@ -1,7 +1,8 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
-import '../../style/VariableSelector.css';
 import selectedSatelliteVariableAtom from '../../clientState/selectedSatelliteVariable';
 import useVariablesIndex from '../../serverState/variablesIndex';
 
@@ -12,9 +13,9 @@ const VariableSelector: React.FC = () => {
   const [selectedVariable, setSelectedVariable] = useRecoilState(selectedSatelliteVariableAtom);
   const variablesIndexQuery = useVariablesIndex(setSelectedVariable);
 
-  const handleVariableChange = (targetValue: string) => {
+  const handleVariableChange = (targetValue: string | null) => {
     let stateValue: string | undefined;
-    if (targetValue === LOADING_VALUE) {
+    if (!targetValue || targetValue === LOADING_VALUE) {
       stateValue = undefined;
     } else {
       stateValue = targetValue;
@@ -32,27 +33,22 @@ const VariableSelector: React.FC = () => {
   let variableOptions: JSX.Element | Array<JSX.Element>;
   if (variablesIndexQuery.isLoading) {
     variableOptions = (
-      <option key={'loading'} value={LOADING_VALUE}>{'Loading variables...'}</option>
+      <Dropdown.Item key={LOADING_VALUE} value={LOADING_VALUE}>
+        {'Loading variables...'}
+      </Dropdown.Item>
     );
   } else {
-    variableOptions = Object.entries(variablesIndexQuery.data).map(([key, params]) => {
-      // TODO: type annotations
-      return (
-        <option key={String(key)} value={String(key)}>{(params as object)['longname']}</option>
-      );
-    });
+    variableOptions = Object.entries(variablesIndexQuery.data).map(([variableName, params]) => (
+      <Dropdown.Item eventKey={variableName} active={variableName === selectedVariable}>
+        {params['longname']}
+      </Dropdown.Item>
+    ));
   }
 
   return (
-    <span className="VariableSelector">
-      <label htmlFor={'variable-selector'}>Variable: </label>
-      <select id={'variable-selector'}
-        value={selectedVariable}
-        onChange={e => handleVariableChange(e.target.value)}
-      >
-        {variableOptions}
-      </select>
-    </span>
+    <DropdownButton title='Select a Satellite Variable' onSelect={handleVariableChange}>
+      {variableOptions}
+    </DropdownButton>
   );
 }
 
