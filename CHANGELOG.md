@@ -1,3 +1,8 @@
+# v0.3.2 (2022-08-22)
+
+* Fix deploy script use of docker-compose files
+
+
 # v0.3.1 (2022-08-22)
 
 * Fix deployment script version solver
