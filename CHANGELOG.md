@@ -1,3 +1,8 @@
+# v0.3.0 (2022-08-22)
+
+* Add automated deployment script
+
+
 # v0.2.0 (2022-08-22)
 
 * Use QA data server URL
