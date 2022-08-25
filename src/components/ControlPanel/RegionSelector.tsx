@@ -2,7 +2,6 @@ import React from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-import '../../style/RegionSelector.css';
 import '../../style/dropdownForm.css';
 import selectedRegionAtom from '../../clientState/selectedRegion';
 import selectedSubRegionCollectionAtom from '../../clientState/selectedSubRegionCollection';

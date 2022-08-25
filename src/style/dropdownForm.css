@@ -1,10 +1,5 @@
 .dropdown-form {
-  pointer-events: all;
+  /* pointer-events: all; */
 
   padding: 15px;
-}
-
-/* The menu intercepts clicks if we don't do this hack */
-.dropdown-menu {
-  pointer-events: none;
 }
