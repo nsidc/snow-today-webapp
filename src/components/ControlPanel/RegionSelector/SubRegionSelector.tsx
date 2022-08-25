@@ -18,9 +18,13 @@ const getSubRegionOptionProps = (
   }
 
   const subRegions = selectedSubRegionCollectionObject['items'];
-  const subRegionOptionProps = Object.entries(subRegions).map(([subRegionId, subRegion]) => (
-    { text: subRegion['longname'], value: subRegionId }
-  ));
+  const subRegionOptionProps = (
+    Object.entries(subRegions)
+    .filter(([subRegionId, subRegion]) => !Object.keys(subRegion).includes('enabled') || subRegion['enabled'])
+    .map(([subRegionId, subRegion]) => (
+      { text: subRegion['longname'], value: subRegionId }
+    ))
+  );
 
   return subRegionOptionProps;
 }
