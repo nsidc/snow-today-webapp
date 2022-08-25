@@ -8,9 +8,9 @@ import HighchartsReact from 'highcharts-react-official';
 import '../style/LinePlot.css';
 import '../style/card.css';
 import selectedRegionAtom from '../clientState/selectedRegion';
-import selectedRegionObjectAtom from '../clientState/selectedRegionObject';
+import selectedRegionObjectAtom from '../clientState/derived/selectedRegionObject';
 import selectedSatelliteVariableAtom from '../clientState/selectedSatelliteVariable';
-import selectedSatelliteVariableObjectAtom from '../clientState/selectedSatelliteVariableObject';
+import selectedSatelliteVariableObjectAtom from '../clientState/derived/selectedSatelliteVariableObject';
 import usePlotDataQuery from '../serverState/plotData';
 import {IPlotData} from '../types/query/plotData';
 

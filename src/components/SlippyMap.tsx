@@ -13,9 +13,9 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 import '../style/SlippyMap.css';
 import '../style/card.css';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
-import selectedBasemapObjectAtom from '../clientState/selectedBasemapObject';
-import selectedRegionObjectAtom from '../clientState/selectedRegionObject';
-import selectedSatelliteVariableObjectAtom from '../clientState/selectedSatelliteVariableObject';
+import selectedBasemapObjectAtom from '../clientState/derived/selectedBasemapObject';
+import selectedRegionObjectAtom from '../clientState/derived/selectedRegionObject';
+import selectedSatelliteVariableObjectAtom from '../clientState/derived/selectedSatelliteVariableObject';
 import useRegionShape from '../serverState/regionShape';
 import {
   OptionalCoordinate,

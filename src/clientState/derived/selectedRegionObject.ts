@@ -5,10 +5,10 @@
 
 import {selector} from 'recoil';
 
-import selectedRegionAtom from './selectedRegion';
-import {IRegion, IRegionIndex} from '../types/query/regions';
-import {queryClient} from '../util/query';
-import {SERVERSTATE_KEY_REGIONS_INDEX} from '../serverState/regionsIndex';
+import selectedRegionAtom from '../selectedRegion';
+import {IRegion, IRegionIndex} from '../../types/query/regions';
+import {queryClient} from '../../util/query';
+import {SERVERSTATE_KEY_REGIONS_INDEX} from '../../serverState/regionsIndex';
 
 
 // TODO: Should we call selectors "atoms" for simplicity? They are used

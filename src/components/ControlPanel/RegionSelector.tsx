@@ -6,7 +6,7 @@ import '../../style/dropdownForm.css';
 import selectedRegionAtom from '../../clientState/selectedRegion';
 import selectedSubRegionCollectionAtom from '../../clientState/selectedSubRegionCollection';
 import {DEFAULT_SUBREGION_COLLECTION} from '../../clientState/selectedSubRegionCollection/atom';
-import selectedRegionObjectAtom from '../../clientState/selectedRegionObject';
+import selectedRegionObjectAtom from '../../clientState/derived/selectedRegionObject';
 import useRegionsIndexQuery from '../../serverState/regionsIndex';
 
 
