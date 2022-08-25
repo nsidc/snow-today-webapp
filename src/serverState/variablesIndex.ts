@@ -7,7 +7,7 @@ import {ISatelliteVariableIndex} from '../types/query/satelliteVariables';
 
 export const SERVERSTATE_KEY_VARIABLES_INDEX = 'satelliteVariablesIndex';
 
-const useVariablesIndex = (
+const useVariablesIndexQuery = (
   stateSetter: StateSetter<string | undefined>,
 ) => {
   return useQuery<ISatelliteVariableIndex>(
@@ -24,4 +24,4 @@ const useVariablesIndex = (
     }
   );
 }
-export default useVariablesIndex;
+export default useVariablesIndexQuery;

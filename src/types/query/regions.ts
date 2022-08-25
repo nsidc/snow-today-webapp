@@ -1,19 +1,19 @@
-interface ISubRegion {
+export interface ISubRegion {
   longname: string;
   shortname: string;
   shape_path: string;
   enabled?: boolean;
 }
-interface ISubRegionIndex {
+export interface ISubRegionIndex {
   [subRegionId: string]: ISubRegion;
 }
 
-interface ISubRegionCollection {
+export interface ISubRegionCollection {
   longname: string;
   shortname: string;
   items: ISubRegionIndex;
 }
-interface ISubRegionCollectionIndex {
+export interface ISubRegionCollectionIndex {
   [subRegionCollectionId: string]: ISubRegionCollection;
 }
 
@@ -25,4 +25,12 @@ export interface IRegion {
 }
 export interface IRegionIndex {
   [regionId: string]: IRegion;
+}
+
+// TODO: Express this as a union of IRegion and ISubRegion, plus an `id` field.
+export interface IGenericRegion {
+  id: string;
+  longname: string;
+  shortname: string;
+  shape_path: string;
 }

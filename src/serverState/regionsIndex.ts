@@ -7,7 +7,7 @@ import {IRegionIndex} from '../types/query/regions';
 
 export const SERVERSTATE_KEY_REGIONS_INDEX = 'regionsIndex';
 
-const useRegionsIndex = (
+const useRegionsIndexQuery = (
   stateSetter: StateSetter<string | undefined>,
 ) => {
   return useQuery<IRegionIndex>(
@@ -24,4 +24,4 @@ const useRegionsIndex = (
     }
   );
 }
-export default useRegionsIndex;
+export default useRegionsIndexQuery;
