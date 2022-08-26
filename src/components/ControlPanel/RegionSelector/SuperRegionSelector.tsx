@@ -1,6 +1,7 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
 
+import '../../../style/SuperRegionSelector.css';
 import selectedSuperRegionAtom from '../../../clientState/selectedSuperRegion';
 import {IRegionIndex} from '../../../types/query/regions';
 
@@ -19,7 +20,7 @@ const SuperRegionSelector: React.FC<ISuperRegionSelectorProps> = (props) => {
   );
 
   return (
-    <div>
+    <div id={'SuperRegionSelector'}>
       <label htmlFor={'super-region-selector'}>{'Region: '}</label>
       <select id={'super-region-selector'}
         value={selectedSuperRegion}

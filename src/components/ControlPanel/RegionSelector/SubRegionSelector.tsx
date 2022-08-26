@@ -49,7 +49,7 @@ const SubRegionSelector: React.FC = () => {
 
   return (
     <div className={'subregion-selector'}>
-      <label htmlFor={'subregion-selector'} />
+      <label htmlFor={'subregion-selector'}>{'Sub-region: '}</label>
       <SearchableSelect 
         id={'subregion-selector'}
         value={selectedSubRegion}

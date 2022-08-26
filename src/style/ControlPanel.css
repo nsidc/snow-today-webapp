@@ -10,7 +10,6 @@
   padding: 15px;
 }
 
-.ControlPanel span {
-  padding-left: 15px;
-  padding-right: 15px;
+.ControlPanel label {
+  padding-right: 3px;
 }

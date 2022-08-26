@@ -1,6 +1,7 @@
 import React from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 
+import '../../../style/SubRegionCollectionSelector.css';
 import selectedSuperRegionObjectAtom from '../../../clientState/derived/selectedSuperRegionObject';
 import selectedSubRegionCollectionAtom from '../../../clientState/selectedSubRegionCollection';
 import {DEFAULT_SUBREGION_COLLECTION} from '../../../clientState/selectedSubRegionCollection/atom';
@@ -23,7 +24,7 @@ const SubRegionCollectionSelector: React.FC = () => {
   }
   const subRegionCollectionOptions = [
     (
-      <React.Fragment key={DEFAULT_SUBREGION_COLLECTION}>
+      <div className={'sub-region-collection-option'} key={DEFAULT_SUBREGION_COLLECTION}>
         <label htmlFor={`region-collection-${DEFAULT_SUBREGION_COLLECTION}`}>None</label>
         <input
           type={'radio'}
@@ -32,11 +33,11 @@ const SubRegionCollectionSelector: React.FC = () => {
           name={'region-collection'}
           onChange={handleSelectedSubRegionCollection}
           checked={selectedSubRegionCollection === DEFAULT_SUBREGION_COLLECTION} />
-      </React.Fragment>
+      </div>
     ),
     ...Object.entries(selectedSuperRegionObject.subregion_collections)
     .map(([regionCollectionId, params]) => (
-      <React.Fragment key={regionCollectionId}>
+      <div className={'sub-region-collection-option'} key={regionCollectionId}>
         <label htmlFor={`region-collection-${regionCollectionId}`}>
           {params['shortname']}
         </label>
@@ -47,12 +48,12 @@ const SubRegionCollectionSelector: React.FC = () => {
           name={'region-collection'}
           onChange={handleSelectedSubRegionCollection}
           checked={selectedSubRegionCollection === regionCollectionId} />
-      </React.Fragment>
+      </div>
     ))
   ];
 
   return (
-    <div className={'subregion-collection-selector'}>
+    <div className={'SubRegionCollectionSelector'}>
       {subRegionCollectionOptions}
     </div>
   );
