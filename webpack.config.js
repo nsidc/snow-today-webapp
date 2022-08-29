@@ -33,6 +33,9 @@ const config = {
     new webpack.DefinePlugin({
       '__ENVIRONMENT__': JSON.stringify(process.env.NODE_ENV || 'development')
     }),
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1,
+    }),
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
@@ -62,7 +65,7 @@ const config = {
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
+    extensions: ['.tsx', '.ts', '.jsx', '.js'],
   },
   stats: {
     errorDetails: true,
