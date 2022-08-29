@@ -1,6 +1,7 @@
 import React from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 
+import '../../../style/SubRegionSelector.css';
 import selectedSubRegionCollectionObjectAtom from '../../../clientState/derived/selectedSubRegionCollectionObject';
 import selectedSubRegionCollectionAtom from '../../../clientState/selectedSubRegionCollection';
 import {DEFAULT_SUBREGION_COLLECTION} from '../../../clientState/selectedSubRegionCollection/atom';
@@ -48,7 +49,7 @@ const SubRegionSelector: React.FC = () => {
   }
 
   return (
-    <div className={'subregion-selector'}>
+    <div id={'SubRegionSelector'}>
       <label htmlFor={'subregion-selector'}>{'Sub-region: '}</label>
       <SearchableSelect 
         id={'subregion-selector'}
