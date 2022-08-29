@@ -1,3 +1,9 @@
+# v0.5.0 (2022-08-29)
+
+* Build interactions between SuperRegions, SubRegionCollections, and SubRegions based on
+  data provided by new `regions.json` schema from `snow-today-webapp-server`.
+
+
 # v0.4.4 (2022-08-29)
 
 * Completely disable webpack code splitting
