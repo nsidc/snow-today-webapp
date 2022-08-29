@@ -14,9 +14,6 @@ const config = {
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    // Dynamically figure out the subpath where the app is served from (e.g.
-    // helps with using a CDN)
-    publicPath: 'snow-today-webapp',
     filename: 'bundle.min.js',
   },
   devtool: isProduction ? false : 'eval-source-map',
@@ -37,9 +34,9 @@ const config = {
       '__ENVIRONMENT__': JSON.stringify(process.env.NODE_ENV || 'development')
     }),
     // Simplify deployment by turning off JS chunking
-    // new webpack.optimize.LimitChunkCountPlugin({
-    //   maxChunks: 1,
-    // }),
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1,
+    }),
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/

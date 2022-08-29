@@ -1,3 +1,8 @@
+# v0.4.4 (2022-08-29)
+
+* Completely disable webpack code splitting
+
+
 # v0.4.3 (2022-08-29)
 
 * Try another `publicPath` setting...
