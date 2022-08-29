@@ -1,9 +1,10 @@
 import React from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 
 import '../../../style/SubRegionCollectionSelector.css';
 import selectedSuperRegionObjectAtom from '../../../clientState/derived/selectedSuperRegionObject';
 import selectedSubRegionCollectionAtom from '../../../clientState/selectedSubRegionCollection';
+import selectedSubRegionAtom from '../../../clientState/selectedSubRegion';
 import {DEFAULT_SUBREGION_COLLECTION} from '../../../clientState/selectedSubRegionCollection/atom';
 
 
@@ -13,6 +14,7 @@ const SubRegionCollectionSelector: React.FC = () => {
     selectedSubRegionCollection,
     setSelectedSubRegionCollection,
   ] = useRecoilState(selectedSubRegionCollectionAtom);
+  const setSelectedSubRegion = useSetRecoilState(selectedSubRegionAtom);
 
   if (!selectedSuperRegionObject) {
     return <div>Loading...</div>;
@@ -20,7 +22,11 @@ const SubRegionCollectionSelector: React.FC = () => {
 
   const handleSelectedSubRegionCollection = (e: any) => {
     const newSubRegionCollection = e.currentTarget.value;
+
     setSelectedSubRegionCollection(newSubRegionCollection);
+
+    // When the collection is changed, the selected sub-region must be reset:
+    setSelectedSubRegion(undefined);
   }
   const subRegionCollectionOptions = [
     (
