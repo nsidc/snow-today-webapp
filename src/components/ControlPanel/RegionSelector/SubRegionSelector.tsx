@@ -52,6 +52,7 @@ const SubRegionSelector: React.FC = () => {
       <label htmlFor={'subregion-selector'}>{'Sub-region: '}</label>
       <SearchableSelect 
         id={'subregion-selector'}
+        placeholderText={`Select a ${selectedSubRegionCollectionObject['shortname']}...`}
         value={selectedSubRegion}
         onChange={(e) => setSelectedSubRegion(e.target.value)}
         selectOptionProps={subRegionOptionProps} />
