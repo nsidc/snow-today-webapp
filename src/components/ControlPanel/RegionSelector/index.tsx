@@ -29,7 +29,7 @@ const RegionSelector: React.FC = () => {
     return (
       <span>{'Loading...'}</span>
     );
-  };
+  }
 
   return (
     <DropdownButton title={'Select a Region'}>

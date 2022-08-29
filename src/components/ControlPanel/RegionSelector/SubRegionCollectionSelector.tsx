@@ -20,7 +20,7 @@ const SubRegionCollectionSelector: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  const handleSelectedSubRegionCollection = (e: any) => {
+  const handleSelectedSubRegionCollection = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSubRegionCollection = e.currentTarget.value;
 
     setSelectedSubRegionCollection(newSubRegionCollection);

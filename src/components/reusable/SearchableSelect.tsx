@@ -9,7 +9,7 @@ interface ISearchableSelectProps {
   id: string;
   selectOptionProps: ISelectOptionProps[];
   value: string | undefined;
-  onChange: (any) => void;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   placeholderText: string;
 }
 

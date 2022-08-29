@@ -54,7 +54,7 @@ const SubRegionSelector: React.FC = () => {
         id={'subregion-selector'}
         placeholderText={`Select a ${selectedSubRegionCollectionObject['shortname']}...`}
         value={selectedSubRegion}
-        onChange={(e) => setSelectedSubRegion(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedSubRegion(e.target.value)}
         selectOptionProps={subRegionOptionProps} />
     </div>
   );
