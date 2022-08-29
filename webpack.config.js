@@ -33,7 +33,8 @@ const config = {
     new webpack.DefinePlugin({
       '__ENVIRONMENT__': JSON.stringify(process.env.NODE_ENV || 'development')
     }),
-    // Simplify deployment by turning off JS chunking
+    // Simplify deployment by turning off JS chunking. Critical for delivering
+    // the app over a CDN.
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1,
     }),
