@@ -1,8 +1,12 @@
 {
   "description": "Snow Today Webapp",
   "name": "@nsidc/snow-today-webapp",
-  "version": "0.4.0",
+  "version": "0.4.4",
   "private": false,
+  "files": [
+    "dist"
+  ],
+  "unpkg": "dist/bundle.min.js",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",

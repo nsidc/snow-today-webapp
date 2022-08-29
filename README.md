@@ -27,17 +27,23 @@ nsidc@nsidc.org for more information.
 This package requires either Docker or the NPM environment described by `package.json`.
 
 
-## Installation
-
-```
-docker-compose build
-```
-
-
 ## Usage
 
+Run from source:
 ```
-docker-compose up
+docker-compose up --build
+```
+
+Deploy latest version from UNPKG (replace `snow-today-webapp` in URLs with
+`snow-today-webapp@X.Y.Z` to deploy a specific version):
+```
+<div id="snow-today-webapp-appcontainer"></div>
+...
+<link rel="stylesheet"
+      href="https://unpkg.com/@nsidc/snow-today-webapp/dist/main.css"
+      type="text/css"></style>
+<script src="https://unpkg.com/@nsidc/snow-today-webapp"></script>
+
 ```
 
 
