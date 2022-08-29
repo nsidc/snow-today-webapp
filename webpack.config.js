@@ -16,7 +16,7 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     // Dynamically figure out the subpath where the app is served from (e.g.
     // helps with using a CDN)
-    publicPath: 'auto',
+    publicPath: 'snow-today-webapp',
     filename: 'bundle.min.js',
   },
   devtool: isProduction ? false : 'eval-source-map',

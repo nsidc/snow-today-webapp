@@ -1,3 +1,8 @@
+# v0.4.3 (2022-08-29)
+
+* Try another `publicPath` setting...
+
+
 # v0.4.2 (2022-08-29)
 
 * Try fixing UNPKG with code splitting
