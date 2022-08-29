@@ -1,0 +1,9 @@
+#SuperRegionSelector {
+  white-space: nowrap;
+}
+#SuperRegionSelector label {
+  display: inline-block;
+}
+#SuperRegionSelector select {
+  display: inline-block;
+}

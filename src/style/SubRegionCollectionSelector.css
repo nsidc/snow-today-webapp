@@ -1,0 +1,7 @@
+#SubRegionCollectionSelector {
+  white-space: nowrap;
+}
+.sub-region-collection-option {
+  display: inline-block;
+  padding: 5px;
+}

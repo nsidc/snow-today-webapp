@@ -5,7 +5,7 @@ import {fetchRegionShape} from '../util/fetch/regions';
 
 export const SERVERSTATE_KEY_SHAPE_DATA = 'shapeData';
 
-const useRegionShape = (regionShapeFilePath: string | undefined) => useQuery<object>(
+const useRegionShapeQuery = (regionShapeFilePath: string | undefined) => useQuery<object>(
   [SERVERSTATE_KEY_SHAPE_DATA, regionShapeFilePath],
   () => {
     if (!regionShapeFilePath) {
@@ -20,4 +20,4 @@ const useRegionShape = (regionShapeFilePath: string | undefined) => useQuery<obj
     staleTime: Infinity,
   },
 );
-export default useRegionShape;
+export default useRegionShapeQuery;

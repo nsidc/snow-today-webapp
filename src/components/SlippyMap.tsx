@@ -13,10 +13,10 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 import '../style/SlippyMap.css';
 import '../style/card.css';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
-import selectedBasemapObjectAtom from '../clientState/selectedBasemapObject';
-import selectedRegionObjectAtom from '../clientState/selectedRegionObject';
-import selectedSatelliteVariableObjectAtom from '../clientState/selectedSatelliteVariableObject';
-import useRegionShape from '../serverState/regionShape';
+import selectedBasemapObjectAtom from '../clientState/derived/selectedBasemapObject';
+import selectedGenericRegionObjectAtom from '../clientState/derived/selectedGenericRegionObject';
+import selectedSatelliteVariableObjectAtom from '../clientState/derived/selectedSatelliteVariableObject';
+import useRegionShapeQuery from '../serverState/regionShape';
 import {
   OptionalCoordinate,
   OptionalOpenLayersMap,
@@ -41,10 +41,12 @@ const SlippyMap: React.FC = () => {
 
   const rasterOpacity = useRecoilValue(rasterOpacityAtom);
   const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom);
-  const selectedRegionObject = useRecoilValue(selectedRegionObjectAtom);
+  const selectedGenericRegionObject = useRecoilValue(selectedGenericRegionObjectAtom);
   const selectedSatelliteVariableObject = useRecoilValue(selectedSatelliteVariableObjectAtom);
 
-  const selectedRegionShapeQuery = useRegionShape(selectedRegionObject ? selectedRegionObject['file'] : undefined);
+  const selectedRegionShapeQuery = useRegionShapeQuery(
+    selectedGenericRegionObject ? selectedGenericRegionObject['shape_path'] : undefined,
+  );
 
   const handleSlippyMapClick = (event: MapBrowserEvent<any>) => {
     if ( !slippyMapRef || !slippyMapRef.current ) {
