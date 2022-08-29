@@ -1,3 +1,8 @@
+# v0.4.1 (2022-08-29)
+
+* Fix publication of bundle to NPM
+
+
 # v0.4.0 (2022-08-23)
 
 * Use Bootstrap "Dropdowns" for controls 
