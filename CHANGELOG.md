@@ -1,3 +1,8 @@
+# v0.5.1 (2022-09-02)
+
+* Use a publicly-exposed production data URL.
+
+
 # v0.5.0 (2022-08-29)
 
 * Build interactions between SuperRegions, SubRegionCollections, and SubRegions based on
