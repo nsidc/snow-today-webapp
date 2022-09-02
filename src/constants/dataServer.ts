@@ -1,6 +1,4 @@
-// TODO: Should we just develop an API that serves the correct TIF or GeoJSON
-// (or other data)?
-export const dataServerUrl = 'http://qa.snow-today.apps.int.nsidc.org'
+export const dataServerUrl = 'https://nsidc.org/api/snow-today'
 
 // Information about regions:
 export const regionsIndexUrl = `${dataServerUrl}/regions.json`;
