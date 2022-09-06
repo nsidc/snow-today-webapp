@@ -14,10 +14,22 @@ const useVariablesIndexQuery = (
     [SERVERSTATE_KEY_VARIABLES_INDEX],
     fetchVariablesIndex,
     {
-      // Set the selected variable to the first one in the data
+      // Set the selected variable to the default (or first) in the data
       // NOTE: Requires that this query only fires once in the app's lifecycle,
       // or the state will keep getting re-set...
-      onSuccess: (data: ISatelliteVariableIndex) => stateSetter(Object.keys(data)[0]),
+      onSuccess: (data: ISatelliteVariableIndex) => {
+        let selectedVariableName: string;
+
+        const defaultVariables = Object.entries(data).filter(
+          ([key, val]) => val['default'] || false
+        );
+        if (defaultVariables.length > 0) {
+          selectedVariableName = defaultVariables[0][0];
+        } else {
+          selectedVariableName = Object.keys(data)[0];
+        }
+        stateSetter(selectedVariableName);
+      },
       // Never re-fetch this data!
       cacheTime: Infinity,
       staleTime: Infinity,
