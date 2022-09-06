@@ -1,5 +1,7 @@
 export interface ISatelliteVariableOptions {
   type: string;
+  enabled?: boolean;
+  default?: boolean;
   longname: string;
   helptext: string;
   unit_of_measurement: string;
