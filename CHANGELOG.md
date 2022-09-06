@@ -1,12 +1,18 @@
+# v0.6.0 (2022-09-06)
+
+* Show only "enabled" satellite variables
+* Default to displaying the satellite variable with `default: true` set
+
+
 # v0.5.1 (2022-09-02)
 
-* Use a publicly-exposed production data URL.
+* Use a publicly-exposed production data URL
 
 
 # v0.5.0 (2022-08-29)
 
 * Build interactions between SuperRegions, SubRegionCollections, and SubRegions based on
-  data provided by new `regions.json` schema from `snow-today-webapp-server`.
+  data provided by new `regions.json` schema from `snow-today-webapp-server`
 
 
 # v0.4.4 (2022-08-29)
@@ -61,7 +67,7 @@
 
 # v0.1.1 (2022-08-22)
 
-* Fix bug with data "leaking" between variables in the plot.
+* Fix bug with data "leaking" between variables in the plot
 
 
 # v0.1.0 (2022-08-18)
