@@ -38,11 +38,15 @@ const VariableSelector: React.FC = () => {
       </Dropdown.Item>
     );
   } else {
-    variableOptions = Object.entries(variablesIndexQuery.data).map(([variableName, params]) => (
-      <Dropdown.Item key={variableName} eventKey={variableName} active={variableName === selectedVariable}>
-        {params['longname']}
-      </Dropdown.Item>
-    ));
+    variableOptions = (
+      Object.entries(variablesIndexQuery.data)
+      .filter(([variableName, params]) => !Object.keys(params).includes('enabled') || params['enabled'])
+      .map(([variableName, params]) => (
+        <Dropdown.Item key={variableName} eventKey={variableName} active={variableName === selectedVariable}>
+          {params['longname']}
+        </Dropdown.Item>
+      ))
+    );
   }
 
   return (
