@@ -3,8 +3,8 @@ import {useRecoilState} from 'recoil';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-import selectedSatelliteVariableAtom from '../../clientState/selectedSatelliteVariable';
-import useVariablesIndex from '../../serverState/variablesIndex';
+import selectedSatelliteVariableAtom from '../../../clientState/selectedSatelliteVariable';
+import useVariablesIndex from '../../../serverState/variablesIndex';
 
 const LOADING_VALUE = 'LOADING...';
 

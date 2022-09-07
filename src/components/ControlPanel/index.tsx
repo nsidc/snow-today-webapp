@@ -3,8 +3,8 @@ import React from 'react';
 import '../../style/ControlPanel.css';
 import BasemapSelector from './BasemapSelector';
 import DebugDumpButton from './DebugDumpButton';
+import LayoutConfigurator from './LayoutConfigurator';
 import RegionSelector from './RegionSelector';
-import SatelliteVariableSelector from './SatelliteVariableSelector';
 import RasterOpacitySlider from './RasterOpacitySlider';
 
 declare const __ENVIRONMENT__: 'development' | 'production';
@@ -22,7 +22,7 @@ const ControlPanel: React.FC = () => {
 
       <BasemapSelector />
       <RegionSelector />
-      <SatelliteVariableSelector />
+      <LayoutConfigurator />
       <RasterOpacitySlider />
 
     </div>
