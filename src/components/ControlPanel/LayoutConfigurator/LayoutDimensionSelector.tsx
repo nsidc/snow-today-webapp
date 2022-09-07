@@ -5,19 +5,8 @@ import {
   selectedLayoutColsAtom,
   selectedLayoutRowsAtom,
 } from '../../../clientState/layoutDimensions';
-import {MAX_COLS, MAX_ROWS} from '../../../constants/layout';
+import {COL_OPTIONS, ROW_OPTIONS} from '../../../constants/layout';
 import {StateSetter} from '../../../types/misc';
-
-
-// Make 1-indexed arrays: [1, 2, ..., MAX]
-const colSelections = Array.from(
-  new Array(MAX_COLS),
-  (_, i) => i + 1,
-);
-const rowSelections = Array.from(
-  new Array(MAX_ROWS),
-  (_, i) => i + 1,
-);
 
 
 const onChange = (
@@ -40,7 +29,7 @@ const LayoutDimensionSelector: React.FC = () => {
         id={'layout-rows'}
         value={selectedLayoutRows}
         onChange={(e) => onChange(e, setSelectedLayoutRows)}>
-        {rowSelections.map((i) => (<option key={i} value={i}>{i}</option>))}
+        {ROW_OPTIONS.map((i) => (<option key={i} value={i}>{i}</option>))}
       </select>
 
       <label htmlFor={'layout-cols'}>Cols:</label>
@@ -48,7 +37,7 @@ const LayoutDimensionSelector: React.FC = () => {
         id={'layout-cols'}
         value={selectedLayoutCols}
         onChange={(e) => onChange(e, setSelectedLayoutCols)}>
-        {colSelections.map((i) => (<option key={i} value={i}>{i}</option>))}
+        {COL_OPTIONS.map((i) => (<option key={i} value={i}>{i}</option>))}
       </select>
 
     </div>
