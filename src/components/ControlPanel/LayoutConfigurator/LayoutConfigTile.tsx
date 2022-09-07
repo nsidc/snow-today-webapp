@@ -7,7 +7,7 @@ import TileTypeSelector from './TileTypeSelector';
 
 
 const LayoutConfigTile: React.FC<ITileIdentifier> = (props) => (
-  <div className={'LayoutConfigTile card'}>
+  <div className={'LayoutConfigTile snow-today-card'}>
     <TileTypeSelector row={props.row} col={props.col} />
   </div>
 );

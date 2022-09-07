@@ -28,7 +28,7 @@ const LinePlot: React.FC = () => {
     selectedSatelliteVariable,
   );
 
-  const loadingDiv = (<div className={'card centered-card-text'}><p>{'Loading...'}</p></div>);
+  const loadingDiv = (<div className={'centered-card-text'}><p>{'Loading...'}</p></div>);
   if (
     plotDataQuery.isLoading
     || !selectedSatelliteVariableObject
@@ -41,7 +41,7 @@ const LinePlot: React.FC = () => {
     const regionStr = selectedSatelliteVariableObject.longname;
     const varStr = selectedGenericRegionObject.longname;
     return (
-      <div className={'card centered-card-text'}>
+      <div className={'centered-card-text'}>
         <div>
           <h3>
             {'Feature not currently available for '}
@@ -151,7 +151,7 @@ const LinePlot: React.FC = () => {
   };
 
   return (
-    <div className={'LinePlot card'}>
+    <div className={'LinePlot'}>
       <HighchartsReact
         highcharts={Highcharts}
         ref={chartRef}

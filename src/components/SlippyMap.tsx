@@ -11,7 +11,6 @@ import {toStringXY} from 'ol/coordinate';
 import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
 import '../style/SlippyMap.css';
-import '../style/card.css';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
 import selectedBasemapObjectAtom from '../clientState/derived/selectedBasemapObject';
 import selectedGenericRegionObjectAtom from '../clientState/derived/selectedGenericRegionObject';
@@ -87,7 +86,7 @@ const SlippyMap: React.FC = () => {
   slippyMapRef.current = openLayersMap || null;
 
   return (
-    <div className={"Map card"}>
+    <div className={"SlippyMap"}>
 
       <div ref={slippyMapHtmlElement} className="map-container"></div>
 
