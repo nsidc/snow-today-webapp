@@ -2,8 +2,8 @@ import React from 'react';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
 import '../../../style/dropdownForm.css';
-import SatelliteVariableSelector from './SatelliteVariableSelector';
 import LayoutDimensionSelector from './LayoutDimensionSelector';
+import LayoutConfigTiles from './LayoutConfigTiles';
 
 
 const LayoutConfigurator: React.FC = () => (
@@ -12,7 +12,7 @@ const LayoutConfigurator: React.FC = () => (
 
       <LayoutDimensionSelector />
 
-      <SatelliteVariableSelector />
+      <LayoutConfigTiles />
 
     </div>
   </DropdownButton>

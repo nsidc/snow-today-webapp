@@ -1,6 +1,7 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
 
+import '../../../style/LayoutDimensionSelector.css';
 import {
   selectedLayoutColsAtom,
   selectedLayoutRowsAtom,
