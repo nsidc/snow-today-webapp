@@ -23,7 +23,6 @@ import {showBasemapLayer} from '../layer/switch';
 // When component is first loaded, populate the map and other initial
 // state.
 export const useSlippyMapInit = (
-  selectedBasemap: BaseLayer,
   slippyMapHtmlElement: RefObject<HTMLDivElement>,
   clickHandler: (event: MapBrowserEvent<any>) => void,
   setOpenLayersMap: StateSetter<OptionalOpenLayersMap>,

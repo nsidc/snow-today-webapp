@@ -61,7 +61,6 @@ const SlippyMap: React.FC = () => {
 
   // Register behaviors
   useSlippyMapInit(
-    selectedBasemap,
     slippyMapHtmlElement,
     handleSlippyMapClick,
     setOpenLayersMap,
