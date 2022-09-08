@@ -16,12 +16,12 @@ import '../style/SlippyMap.css';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
 import selectedBasemapObjectAtom from '../clientState/derived/selectedBasemapObject';
 import selectedGenericRegionObjectAtom from '../clientState/derived/selectedGenericRegionObject';
-import selectedSatelliteVariableObjectAtom from '../clientState/derived/selectedSatelliteVariableObject';
 import useRegionShapeQuery from '../serverState/regionShape';
 import {
   OptionalCoordinate,
   OptionalOpenLayersMap,
 } from '../types/SlippyMap';
+import {ISatelliteVariableOptions} from '../types/query/satelliteVariables';
 import {
   useRasterOpacity,
   useSlippyMapInit,
@@ -31,8 +31,13 @@ import {
 } from '../util/sideEffects/slippyMap';
 
 
-const SlippyMap: React.FC = () => {
-  const [slippyMapUid, _] = useState<string>(_uniqueId());
+interface ISlippyMapProps {
+  selectedSatelliteVariableObject: ISatelliteVariableOptions | undefined;
+}
+
+
+const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
+  const [slippyMapUid, ] = useState<string>(_uniqueId());
   // TODO: More specific types; maybe some way to succinctly make optional?
   const [openLayersMap, setOpenLayersMap] = useState<OptionalOpenLayersMap>();
   const [selectedCoord, setSelectedCoord] = useState<OptionalCoordinate>();
@@ -43,7 +48,6 @@ const SlippyMap: React.FC = () => {
   const rasterOpacity = useRecoilValue(rasterOpacityAtom);
   const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom(slippyMapUid));
   const selectedGenericRegionObject = useRecoilValue(selectedGenericRegionObjectAtom);
-  const selectedSatelliteVariableObject = useRecoilValue(selectedSatelliteVariableObjectAtom);
 
   const selectedRegionShapeQuery = useRegionShapeQuery(
     selectedGenericRegionObject ? selectedGenericRegionObject['shape_path'] : undefined,
@@ -84,7 +88,7 @@ const SlippyMap: React.FC = () => {
   );
   useSelectedRasterVariable(
     slippyMapUid,
-    selectedSatelliteVariableObject,
+    props.selectedSatelliteVariableObject,
     openLayersMap,
   );
   useRasterOpacity(

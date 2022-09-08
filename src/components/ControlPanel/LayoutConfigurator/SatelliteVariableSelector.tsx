@@ -5,12 +5,15 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 
 import selectedSatelliteVariableAtom from '../../../clientState/selectedSatelliteVariable';
 import useVariablesIndex from '../../../serverState/variablesIndex';
+import {ITileIdentifier} from '../../../types/layout';
 
 const LOADING_VALUE = 'LOADING...';
 
 
-const VariableSelector: React.FC = () => {
-  const [selectedVariable, setSelectedVariable] = useRecoilState(selectedSatelliteVariableAtom);
+const VariableSelector: React.FC<ITileIdentifier> = (props) => {
+  const [selectedVariable, setSelectedVariable] = useRecoilState(
+    selectedSatelliteVariableAtom({row: props.row, col: props.col}),
+  );
   const variablesIndexQuery = useVariablesIndex(setSelectedVariable);
 
   const handleVariableChange = (targetValue: string | null) => {
