@@ -10,6 +10,8 @@ import {transform} from 'ol/proj'
 import {toStringXY} from 'ol/coordinate';
 import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
+import _uniqueId from 'lodash/uniqueId';
+
 import '../style/SlippyMap.css';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
 import selectedBasemapObjectAtom from '../clientState/derived/selectedBasemapObject';
@@ -30,16 +32,16 @@ import {
 
 
 const SlippyMap: React.FC = () => {
+  const [slippyMapUid, _] = useState<string>(_uniqueId());
   // TODO: More specific types; maybe some way to succinctly make optional?
-  const [ openLayersMap, setOpenLayersMap ] = useState<OptionalOpenLayersMap>();
-  const [ selectedCoord, setSelectedCoord ] =
-      useState<OptionalCoordinate>();
+  const [openLayersMap, setOpenLayersMap] = useState<OptionalOpenLayersMap>();
+  const [selectedCoord, setSelectedCoord] = useState<OptionalCoordinate>();
 
   const slippyMapHtmlElement = useRef<HTMLDivElement | null>(null);
   const slippyMapRef = useRef<OpenLayersMap | null>(null);
 
   const rasterOpacity = useRecoilValue(rasterOpacityAtom);
-  const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom);
+  const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom(slippyMapUid));
   const selectedGenericRegionObject = useRecoilValue(selectedGenericRegionObjectAtom);
   const selectedSatelliteVariableObject = useRecoilValue(selectedSatelliteVariableObjectAtom);
 
@@ -59,25 +61,34 @@ const SlippyMap: React.FC = () => {
     setSelectedCoord(transormedCoord);
   }
 
+
   // Register behaviors
+  // TODO: Create a memoized function for getting the map from the UID to
+  //       reduce the number of params being passed.
   useSlippyMapInit(
+    slippyMapUid,
     slippyMapHtmlElement,
     handleSlippyMapClick,
     setOpenLayersMap,
   );
+  // NOTE: This function searches the map for layers, so does not require the
+  //       UID for lookup.
   useSelectedBasemap(
     selectedBasemap,
     openLayersMap,
   );
   useSelectedRegion(
+    slippyMapUid,
     selectedRegionShapeQuery.data,
     openLayersMap,
   );
   useSelectedRasterVariable(
+    slippyMapUid,
     selectedSatelliteVariableObject,
     openLayersMap,
   );
   useRasterOpacity(
+    slippyMapUid,
     rasterOpacity,
     openLayersMap,
   );
@@ -87,7 +98,11 @@ const SlippyMap: React.FC = () => {
   return (
     <div className={"SlippyMap"}>
 
-      <div ref={slippyMapHtmlElement} className="map-container"></div>
+      <div
+        id={`map-container-${slippyMapUid}`}
+        ref={slippyMapHtmlElement}
+        className="map-container">
+      </div>
 
       <div className="clicked-coord-label">
         <p>{ (selectedCoord) ? toStringXY(selectedCoord, 5) : '' }</p>

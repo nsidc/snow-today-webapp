@@ -3,7 +3,7 @@ import {useRecoilState} from 'recoil';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-import {basemapLayersByName} from '../../util/layer/basemaps';
+import {basemapNames} from '../../util/layer/basemaps';
 import selectedBasemapAtom from '../../clientState/selectedBasemap';
 
 const BasemapSelector: React.FC = () => {
@@ -17,7 +17,7 @@ const BasemapSelector: React.FC = () => {
   };
   return (
     <DropdownButton title='Select a Basemap' onSelect={handleSelect}>
-      {Array.from(basemapLayersByName.keys()).map(basemapName => (
+      {basemapNames.map(basemapName => (
         <Dropdown.Item
           key={basemapName}
           eventKey={basemapName}

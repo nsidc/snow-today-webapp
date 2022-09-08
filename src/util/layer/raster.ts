@@ -2,6 +2,8 @@ import PluggableMap from 'ol/PluggableMap';
 import TileLayer from 'ol/layer/WebGLTile';
 import GeoTIFF from 'ol/source/GeoTIFF';
 
+import _memoize from 'lodash/memoize';
+
 import {dataServerUrl} from '../../constants/dataServer';
 import {colorStopsFromColorMap} from '../colormap';
 
@@ -19,20 +21,23 @@ const styleVariables: IStyleVariables = {
 }
 
 
-export const rasterLayer = new TileLayer({
-  source: undefined,
-  visible: true,
-  zIndex: 99,
-  // WebGL tiles don't support `setStyle`, so you have to use variables like so
-  style: {
-    color: ['var', 'color'],
-    // @ts-ignore: TS2322
-    variables: styleVariables,
-  }
-});
+export const rasterLayer = _memoize((mapId: string): TileLayer => (
+  new TileLayer({
+    source: undefined,
+    visible: true,
+    zIndex: 99,
+    // WebGL tiles don't support `setStyle`, so you have to use variables like so
+    style: {
+      color: ['var', 'color'],
+      // @ts-ignore: TS2322
+      variables: styleVariables,
+    }
+  })
+));
 
 
 export const changeRasterVariable = (
+  mapId: string,
   rasterVariableObject: object,
   openLayersMap: PluggableMap,
 ): void => {
@@ -92,6 +97,6 @@ export const changeRasterVariable = (
   ];
 
   // Apply changes to the raster data layer
-  rasterLayer.setSource(newSource);
-  rasterLayer.setStyle({color: newColorStyle});
+  rasterLayer(mapId).setSource(newSource);
+  rasterLayer(mapId).setStyle({color: newColorStyle});
 }

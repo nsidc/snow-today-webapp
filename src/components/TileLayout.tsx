@@ -29,7 +29,7 @@ const TileLayout: React.FC = () => {
     <div className={'TileLayout'}>
       {rowOptions.map((rowIndex) => colOptions.map((colIndex) => (
         <Tile
-          key={`${rowIndex}${colIndex}`}
+          key={`row${rowIndex}-col${colIndex}`}
           style={{width: `${tileWidth}%`}}
           row={rowIndex}
           col={colIndex} />

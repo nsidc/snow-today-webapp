@@ -2,7 +2,9 @@
 import BaseLayer from 'ol/layer/Base';
 import LayerGroup from 'ol/layer/Group';
 import TileLayer from 'ol/layer/Tile';
-// import VectorTileLayer from 'ol/layer/VectorTile';
+import XYZ from 'ol/source/XYZ';
+
+import _memoize from 'lodash/memoize';
 
 import {
   getArcGisBasemapSource,
@@ -10,109 +12,159 @@ import {
 } from './source';
 
 
-const basemaps: Array<BaseLayer> = [
+interface ISourceAttrs {
+  id: string;
+  fn: (id: any) => XYZ;
+}
+interface IBasemapAttrs {
+  title: string;
+  visible: boolean;
+  sourceInfo?: ISourceAttrs;
+  children?: IBasemapAttrs[];
+}
+
+
+const basemapsInfo: IBasemapAttrs[] = [
   // USGS Basemaps
-  new TileLayer({
-    properties: {
-      title: 'USGS Topographic',
-      type: 'basemap',
+  {
+    title: 'USGS Topographic',
+    sourceInfo: {
+      id: 'USGSTopo',
+      fn: getUsgsBasemapSource,
     },
-    source: getUsgsBasemapSource('USGSTopo'),
-    visible: false,  // TODO: Necessary?
-  }),
-  new TileLayer({
-    properties: {
-      title: 'USGS Topographic + Imagery',
-      type: 'basemap',
+    visible: false,
+  },
+  {
+    title: 'USGS Topographic + Imagery',
+    sourceInfo: {
+      id: 'USGSImageryTopo',
+      fn: getUsgsBasemapSource,
     },
-    source: getUsgsBasemapSource('USGSImageryTopo'),
-    visible: false,  // TODO: Necessary?
-  }),
-  new TileLayer({
-    properties: {
-      title: 'USGS Imagery',
-      type: 'basemap',
+    visible: false,
+  },
+  {
+    title: 'USGS Imagery',
+    sourceInfo: {
+      id: 'USGSImageryOnly',
+      fn: getUsgsBasemapSource,
     },
-    source: getUsgsBasemapSource('USGSImageryOnly'),
-  }),
-  new TileLayer({
-    properties: {
-      title: 'USGS Shaded Relief',
-      type: 'basemap',
+    visible: true,
+  },
+  {
+    title: 'USGS Shaded Relief',
+    sourceInfo: {
+      id: 'USGSShadedReliefOnly',
+      fn: getUsgsBasemapSource,
     },
-    source: getUsgsBasemapSource('USGSShadedReliefOnly'),
-    visible: false,  // TODO: Necessary?
-  }),
-  new TileLayer({
-    properties: {
-      title: 'USGS Hydro Cached',
-      type: 'basemap',
+    visible: false,
+  },
+  {
+    title: 'USGS Hydro Cached',
+    sourceInfo: {
+      id: 'USGSHydroCached',
+      fn: getUsgsBasemapSource,
     },
-    source: getUsgsBasemapSource('USGSHydroCached'),
-    visible: false,  // TODO: Necessary?
-  }),
+    visible: false,
+  },
 
   // ArcGIS Basemaps
+  {
+    title: 'ArcGIS Light Gray',
+    visible: false,
+    children: [
+      {
+        title: 'ArcGIS Light Gray Base',
+        sourceInfo: {
+          id: 'Canvas/World_Light_Gray_Base',
+          fn: getArcGisBasemapSource,
+        },
+        visible: true,
+      },
+      {
+        title: 'ArcGIS Light Gray Reference',
+        sourceInfo: {
+          id: 'Canvas/World_Light_Gray_Reference',
+          fn: getArcGisBasemapSource,
+        },
+        visible: true,
+      },
+    ],
+  },
+  {
+    title: 'ArcGIS Light Gray - Base only',
+    sourceInfo: {
+      id: 'Canvas/World_Light_Gray_Base',
+      fn: getArcGisBasemapSource,
+    },
+    visible: false,
+  },
+  {
+    title: 'ArcGIS National Geographic',
+    sourceInfo: {
+      id: 'NatGeo_World_Map',
+      fn: getArcGisBasemapSource,
+    },
+    visible: false,
+  },
+  {
+    title: 'ArcGIS World Topographic',
+    sourceInfo: {
+      id: 'World_Topo_Map',
+      fn: getArcGisBasemapSource,
+    },
+    visible: false,
+  },
+];
+export const basemapNames = basemapsInfo.map(
+  (basemapInfoEntry) => basemapInfoEntry['title']
+);
+
+
+const makeBasemaps = (basemapsInfoArray: IBasemapAttrs[]): BaseLayer[] => (
+  basemapsInfoArray.map((basemapOrGroup: IBasemapAttrs) => {
+    if (basemapOrGroup.children !== undefined) {
+      return new LayerGroup({
+        properties: {
+          title: basemapOrGroup['title'],
+          type: 'basemap',
+        },
+        layers: makeBasemaps(basemapOrGroup['children']),
+        visible: basemapOrGroup['visible'],
+      });
+    }
+    else if (basemapOrGroup.sourceInfo !== undefined) {
+      return new TileLayer({
+        properties: {
+          title: basemapOrGroup['title'],
+          type: 'basemap',
+        },
+        source: basemapOrGroup['sourceInfo']['fn'](basemapOrGroup['sourceInfo']['id']),
+        visible: basemapOrGroup['visible'],
+      });
+    }
+    else {
+      throw new Error('Either `sourceInfo` or `children` must be populated for every entry.');
+    }
+  })
+);
+
+
+const basemaps = _memoize((mapId: string): BaseLayer[] => makeBasemaps(basemapsInfo));
+
+
+export const basemapLayerGroup = _memoize((mapId: string): LayerGroup => (
   new LayerGroup({
     properties: {
-      title: 'ArcGIS Light Gray',
-      type: 'basemap',
+      title: 'All Basemaps',
     },
-    visible: false,
-    layers: [
-      new TileLayer({
-        properties: {
-          title: 'ArcGIS Light Gray Base',
-          type: 'basemap',
-        },
-        source: getArcGisBasemapSource('Canvas/World_Light_Gray_Base'),
-        visible: true,
-      }),
-      new TileLayer({
-        properties: {
-          title: 'ArcGIS Light Gray Reference',
-          type: 'basemap',
-        },
-        source: getArcGisBasemapSource('Canvas/World_Light_Gray_Reference'),
-        visible: true,
-      }),
-    ],
-  }),
-  new TileLayer({
-    properties: {
-      title: 'ArcGIS Light Gray - Base only',
-      type: 'basemap',
-    },
-    source: getArcGisBasemapSource('Canvas/World_Light_Gray_Base'),
-    visible: false,
-  }),
-  new TileLayer({
-    properties: {
-      title: 'ArcGIS National Geographic',
-      type: 'basemap',
-    },
-    source: getArcGisBasemapSource('NatGeo_World_Map'),
-    visible: false,
-  }),
-  new TileLayer({
-    properties: {
-      title: 'ArcGIS World Topographic',
-      type: 'basemap',
-    },
-    source: getArcGisBasemapSource('World_Topo_Map'),
-    visible: false,
-  }),
-];
+    layers: basemaps(mapId),
+    visible: true,
+  })
+));
 
-
-export const basemapLayerGroup = new LayerGroup({
-  properties: {
-    title: 'All Basemaps',
-  },
-  layers: basemaps,
-  visible: true,
-});
-export const basemapLayers = basemapLayerGroup.getLayers().getArray();
-export const basemapLayersByName = new Map(
-  basemapLayers.map(layer => [layer.get('title') as string, layer])
-);
+export const basemapLayers = _memoize((mapId: string): Array<BaseLayer> => (
+  basemapLayerGroup(mapId).getLayers().getArray()
+));
+export const basemapLayersByName = _memoize((mapId: string): Map<string, BaseLayer> => (
+  new Map(basemapLayers(mapId).map(layer => [layer.get('title') as string, layer]))
+));
