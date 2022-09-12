@@ -8,11 +8,11 @@ export const DEFAULT_COLS = 2;
 
 
 // Make 1-indexed arrays: [1, 2, ..., MAX]
-export const COL_OPTIONS = Array.from(
+export const COL_OPTIONS: readonly number[] = Array.from(
   new Array(MAX_COLS),
   (_, i) => i + 1,
 );
-export const ROW_OPTIONS = Array.from(
+export const ROW_OPTIONS: readonly number[] = Array.from(
   new Array(MAX_ROWS),
   (_, i) => i + 1,
 );

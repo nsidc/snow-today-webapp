@@ -25,28 +25,31 @@ interface ITileStateSetter {
 }
 
 
-const TileLayout: React.FC = () => {
-  const selectedLayoutCols = useRecoilValue(selectedLayoutColsAtom);
-  const selectedLayoutRows = useRecoilValue(selectedLayoutRowsAtom);
-
+const useTileStateSetters = (): ITileStateSetter[] => _flatten(
   // NOTE: Normally, you should not use hooks within a loop.
   //     https://reactjs.org/docs/hooks-rules.html#only-call-hooks-at-the-top-level
   // This is only OK because the order of these lists cannot change at
   // runtime. How to appease the linter without ignoring a rule?
-  const tileStateSetters: ITileStateSetter[] = _flatten(
-    ROW_OPTIONS.map(row => COL_OPTIONS.map(col => ({
-      row: row,
-      col: col,
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      tileTypeSetter: useSetRecoilState(
-        selectedTileTypeAtom({row: row, col: col})
-      ),
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      variableSetter: useSetRecoilState(
-        selectedSatelliteVariableAtom({row: row, col: col})
-      ),
-    })))
-  );
+  ROW_OPTIONS.map(row => COL_OPTIONS.map(col => ({
+    row: row,
+    col: col,
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    tileTypeSetter: useSetRecoilState(
+      selectedTileTypeAtom({row: row, col: col})
+    ),
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    variableSetter: useSetRecoilState(
+      selectedSatelliteVariableAtom({row: row, col: col})
+    ),
+  })))
+);
+
+
+const TileLayout: React.FC = () => {
+  const selectedLayoutCols = useRecoilValue(selectedLayoutColsAtom);
+  const selectedLayoutRows = useRecoilValue(selectedLayoutRowsAtom);
+
+  const tileStateSetters = useTileStateSetters();
   // @ts-ignore: TS6133 -- this query data is expected not to be used here;
   // init only.
   const variablesIndexQuery = useVariablesIndexQuery((defaultVarName: string) => {
