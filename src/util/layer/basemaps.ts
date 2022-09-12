@@ -99,6 +99,36 @@ const basemapsInfo: IBasemapAttrs[] = [
     visible: false,
   },
   {
+    title: 'ArcGIS Dark Gray',
+    visible: false,
+    children: [
+      {
+        title: 'ArcGIS Dark Gray Base',
+        sourceInfo: {
+          id: 'Canvas/World_Dark_Gray_Base',
+          fn: getArcGisBasemapSource,
+        },
+        visible: true,
+      },
+      {
+        title: 'ArcGIS Dark Gray Reference',
+        sourceInfo: {
+          id: 'Canvas/World_Dark_Gray_Reference',
+          fn: getArcGisBasemapSource,
+        },
+        visible: true,
+      },
+    ],
+  },
+  {
+    title: 'ArcGIS Dark Gray - Base only',
+    sourceInfo: {
+      id: 'Canvas/World_Dark_Gray_Base',
+      fn: getArcGisBasemapSource,
+    },
+    visible: false,
+  },
+  {
     title: 'ArcGIS National Geographic',
     sourceInfo: {
       id: 'NatGeo_World_Map',

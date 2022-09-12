@@ -1,3 +1,8 @@
+# v0.8.0 (2022-09-12)
+
+* Add ArcGIS Dark Grey basemap
+
+
 # v0.7.0 (2022-09-12)
 
 * Add layout configuration panel for configurable number of tiles
