@@ -1,0 +1,9 @@
+.SatelliteVariableSelector {
+  white-space: nowrap;
+}
+.SatelliteVariableSelector label {
+  display: inline-block;
+}
+.SatelliteVariableSelector select {
+  display: inline-block;
+}

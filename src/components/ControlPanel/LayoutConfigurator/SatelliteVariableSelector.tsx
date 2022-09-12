@@ -1,8 +1,7 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 
+import '../../../style/SatelliteVariableSelector.css';
 import selectedSatelliteVariableAtom from '../../../clientState/selectedSatelliteVariable';
 import useVariablesIndexQuery from '../../../serverState/variablesIndex';
 import {ITileIdentifier} from '../../../types/layout';
@@ -16,7 +15,8 @@ const VariableSelector: React.FC<ITileIdentifier> = (props) => {
   );
   const variablesIndexQuery = useVariablesIndexQuery();
 
-  const handleVariableChange = (targetValue: string | null) => {
+  const handleVariableChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const targetValue = e.currentTarget.value;
     let stateValue: string | undefined;
     if (!targetValue || targetValue === LOADING_VALUE) {
       stateValue = undefined;
@@ -36,26 +36,31 @@ const VariableSelector: React.FC<ITileIdentifier> = (props) => {
   let variableOptions: JSX.Element | Array<JSX.Element>;
   if (variablesIndexQuery.isLoading) {
     variableOptions = (
-      <Dropdown.Item key={LOADING_VALUE} value={LOADING_VALUE}>
+      <option key={LOADING_VALUE} value={LOADING_VALUE}>
         {'Loading variables...'}
-      </Dropdown.Item>
+      </option>
     );
   } else {
     variableOptions = (
       Object.entries(variablesIndexQuery.data)
       .filter(([variableName, params]) => !Object.keys(params).includes('enabled') || params['enabled'])
       .map(([variableName, params]) => (
-        <Dropdown.Item key={variableName} eventKey={variableName} active={variableName === selectedVariable}>
+        <option key={variableName} value={variableName}>
           {params['longname']}
-        </Dropdown.Item>
+        </option>
       ))
     );
   }
 
+  const elementId = `variable-select-row${props.row}-col${props.col}`;
   return (
-    <DropdownButton title='Select a Satellite Variable' onSelect={handleVariableChange}>
-      {variableOptions}
-    </DropdownButton>
+    <div className={'SatelliteVariableSelector'}>
+      <label htmlFor={elementId}>{'Variable: '}</label>
+      <select id={elementId} onChange={handleVariableChange} value={selectedVariable}>
+        <option value={''} disabled hidden>{'Loading...'}</option>
+        {variableOptions}
+      </select>
+    </div>
   );
 }
 
