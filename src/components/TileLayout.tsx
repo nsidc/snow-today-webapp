@@ -26,7 +26,7 @@ interface ITileStateSetter {
 
 
 const useTileStateSetters = (): ITileStateSetter[] => _flatten(
-  // NOTE: Normally, you should not use hooks within a loop.
+  // WARNING: Normally, you should not use hooks within a loop.
   //     https://reactjs.org/docs/hooks-rules.html#only-call-hooks-at-the-top-level
   // This is only OK because the order of these lists cannot change at
   // runtime. How to appease the linter without ignoring a rule?
