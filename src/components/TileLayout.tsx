@@ -62,9 +62,14 @@ const TileLayout: React.FC = () => {
   );
 
   const tileWidth: number = 100 / selectedLayoutCols;
+  // Force a 1-column layout if selected.
+  // NOTE: This will not scale to >2 columns without at minimum adjusting tile size.
+  const style = {
+    flexDirection: selectedLayoutCols === 1 ? 'column' : 'row',
+  } as React.CSSProperties;
 
   return (
-    <div className={'TileLayout'}>
+    <div className={'TileLayout'} style={style}>
       {rowOptions.map((rowIndex) => colOptions.map((colIndex) => (
         <Tile
           key={`row${rowIndex}-col${colIndex}`}
