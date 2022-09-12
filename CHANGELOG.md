@@ -1,3 +1,8 @@
+# v0.7.0 (2022-09-12)
+
+* Add layout configuration panel for configurable number of tiles
+
+
 # v0.6.0 (2022-09-06)
 
 * Show only "enabled" satellite variables
