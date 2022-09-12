@@ -1,14 +1,28 @@
 import {useQuery} from '@tanstack/react-query';
 
 import {fetchVariablesIndex} from '../util/fetch/variables';
-import {StateSetter} from '../types/misc';
 import {ISatelliteVariableIndex} from '../types/query/satelliteVariables';
 
 
-export const SERVERSTATE_KEY_VARIABLES_INDEX = 'satelliteVariablesIndex';
+const getDefaultFromData = (data: ISatelliteVariableIndex): string => {
+  let selectedVariableName: string;
 
+  const defaultVariables = Object.entries(data).filter(
+    ([key, val]) => val['default'] || false
+  );
+  if (defaultVariables.length > 0) {
+    selectedVariableName = defaultVariables[0][0];
+  } else {
+    selectedVariableName = Object.keys(data)[0];
+  }
+  return selectedVariableName;
+}
+
+
+
+export const SERVERSTATE_KEY_VARIABLES_INDEX = 'satelliteVariablesIndex';
 const useVariablesIndexQuery = (
-  stateSetter: StateSetter<string | undefined>,
+  stateSetter?: (defaultVarName: string) => void,
 ) => {
   return useQuery<ISatelliteVariableIndex>(
     [SERVERSTATE_KEY_VARIABLES_INDEX],
@@ -18,17 +32,13 @@ const useVariablesIndexQuery = (
       // NOTE: Requires that this query only fires once in the app's lifecycle,
       // or the state will keep getting re-set...
       onSuccess: (data: ISatelliteVariableIndex) => {
-        let selectedVariableName: string;
-
-        const defaultVariables = Object.entries(data).filter(
-          ([key, val]) => val['default'] || false
-        );
-        if (defaultVariables.length > 0) {
-          selectedVariableName = defaultVariables[0][0];
-        } else {
-          selectedVariableName = Object.keys(data)[0];
+        if (!stateSetter) {
+          throw new Error(
+            'A state setter is required on initial query to update client state.'
+          );
         }
-        stateSetter(selectedVariableName);
+        const defaultVariableName = getDefaultFromData(data);
+        stateSetter(defaultVariableName);
       },
       // Never re-fetch this data!
       cacheTime: Infinity,

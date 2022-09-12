@@ -3,6 +3,9 @@ const MAX_COLS = 2;
 // TODO: Derive this from the variablesIndex?
 const MAX_ROWS = 4;
 
+export const DEFAULT_ROWS = 1;
+export const DEFAULT_COLS = 2;
+
 
 // Make 1-indexed arrays: [1, 2, ..., MAX]
 export const COL_OPTIONS = Array.from(

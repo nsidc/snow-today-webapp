@@ -10,8 +10,8 @@ import {atomFamily} from 'recoil';
 import {ITileIdentifier} from '../../types/layout';
 
 
-type AtomValue = string | undefined;
-type AtomParameter = ITileIdentifier;
+export type AtomValue = string | undefined;
+export type AtomParameter = ITileIdentifier;
 const selectedSatelliteVariableAtom = atomFamily<AtomValue, AtomParameter>({
   key: 'selectedSatelliteVariable',
   default: undefined,

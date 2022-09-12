@@ -1,17 +1,55 @@
 import React from 'react';
-import {useRecoilValue} from 'recoil';
+import {useSetRecoilState, useRecoilValue} from 'recoil';
+
+import _flatten from 'lodash/flatten';
 
 import '../style/TileLayout.css';
 import {
   selectedLayoutColsAtom,
   selectedLayoutRowsAtom,
 } from '../clientState/layoutDimensions';
+import selectedSatelliteVariableAtom from '../clientState/selectedSatelliteVariable';
+import {AtomValue as SatelliteVariable} from '../clientState/selectedSatelliteVariable/atom';
+import selectedTileTypeAtom from '../clientState/selectedTileType';
+import {AtomValue as TileType} from '../clientState/selectedTileType/atom';
+import {ROW_OPTIONS, COL_OPTIONS} from '../constants/layout';
+import useVariablesIndexQuery from '../serverState/variablesIndex';
+import {StateSetter} from '../types/misc';
 import Tile from './Tile';
+
+interface ITileStateSetter {
+  row: number;
+  col: number;
+  tileTypeSetter: StateSetter<TileType>;
+  variableSetter: StateSetter<SatelliteVariable>;
+}
 
 
 const TileLayout: React.FC = () => {
   const selectedLayoutCols = useRecoilValue(selectedLayoutColsAtom);
   const selectedLayoutRows = useRecoilValue(selectedLayoutRowsAtom);
+
+  const tileStateSetters: ITileStateSetter[] = _flatten(
+    ROW_OPTIONS.map(row => COL_OPTIONS.map(col => ({
+      row: row,
+      col: col,
+      tileTypeSetter: useSetRecoilState(
+        selectedTileTypeAtom({row: row, col: col})
+      ),
+      variableSetter: useSetRecoilState(
+        selectedSatelliteVariableAtom({row: row, col: col})
+      ),
+    })))
+  );
+  // @ts-ignore: TS6133 -- this query data is expected not to be used here;
+  // init only.
+  const variablesIndexQuery = useVariablesIndexQuery((defaultVarName: string) => {
+    // Initialize state for each default tile based on query results
+    tileStateSetters.forEach(setter => {
+      setter.tileTypeSetter(setter.col === 1 ? 'map' : 'plot');
+      setter.variableSetter(defaultVarName);
+    });
+  });
 
   // Make 1-indexed arrays of rows and columns: [1, 2, ..., MAX]
   const colOptions = Array.from(

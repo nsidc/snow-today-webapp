@@ -1,12 +1,14 @@
 import {atom} from 'recoil';
 
+import {DEFAULT_ROWS, DEFAULT_COLS} from '../constants/layout';
+
 
 export const selectedLayoutRowsAtom = atom<number>({
   key: 'selectedLayoutRows',
-  default: 1,
+  default: DEFAULT_ROWS,
 });
 
 export const selectedLayoutColsAtom = atom<number>({
   key: 'selectedLayoutCols',
-  default: 2,
+  default: DEFAULT_COLS,
 });

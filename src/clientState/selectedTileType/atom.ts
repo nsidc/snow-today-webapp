@@ -10,8 +10,8 @@ import {atomFamily} from 'recoil';
 import {ITileIdentifier, TileType} from '../../types/layout';
 
 
-type AtomValue = TileType;
-type AtomParameter = ITileIdentifier;
+export type AtomValue = TileType;
+export type AtomParameter = ITileIdentifier;
 const selectedTileTypeAtom = atomFamily<AtomValue, AtomParameter>({
   key: 'selectedTileType',
   default: 'map', 
