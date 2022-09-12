@@ -1,0 +1,7 @@
+.Tile {
+  min-width: 800px;
+  max-width: 800px;
+  height: 800px;
+  
+  margin: 0 auto 15px;
+}

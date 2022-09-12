@@ -7,13 +7,13 @@
  */
 import {atomFamily} from 'recoil';
 
-import {ITileIdentifier} from '../../types/layout';
+import {ITileIdentifier, TileType} from '../../types/layout';
 
 
-export type AtomValue = string | undefined;
+export type AtomValue = TileType;
 export type AtomParameter = ITileIdentifier;
-const selectedSatelliteVariableAtom = atomFamily<AtomValue, AtomParameter>({
-  key: 'selectedSatelliteVariable',
-  default: undefined,
+const selectedTileTypeAtom = atomFamily<AtomValue, AtomParameter>({
+  key: 'selectedTileType',
+  default: 'map', 
 });
-export default selectedSatelliteVariableAtom;
+export default selectedTileTypeAtom;

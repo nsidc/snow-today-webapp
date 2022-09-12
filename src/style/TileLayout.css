@@ -1,0 +1,17 @@
+.TileLayout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+
+  justify-content: space-evenly;
+
+  padding-top: 15px;
+  padding-bottom: 15px;
+
+  width: 100vw;
+  overflow: hidden;
+}
+
+.tile-wrapper {
+  min-width: 850px;
+}

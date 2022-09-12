@@ -8,40 +8,43 @@ import HighchartsReact from 'highcharts-react-official';
 import '../style/LinePlot.css';
 import '../style/card.css';
 import selectedGenericRegionObjectAtom from '../clientState/derived/selectedGenericRegionObject';
-import selectedSatelliteVariableAtom from '../clientState/selectedSatelliteVariable';
-import selectedSatelliteVariableObjectAtom from '../clientState/derived/selectedSatelliteVariableObject';
 import usePlotDataQuery from '../serverState/plotData';
 import {IPlotData} from '../types/query/plotData';
+import {ISatelliteVariableOptions} from '../types/query/satelliteVariables';
 
 HighchartsMore(Highcharts);
 
 
-const LinePlot: React.FC = () => {
+interface ILinePlotProps {
+  selectedSatelliteVariable: string | undefined;
+  selectedSatelliteVariableObject: ISatelliteVariableOptions | undefined;
+}
+
+
+const LinePlot: React.FC<ILinePlotProps> = (props) => {
   const chartRef = useRef<HighchartsReact.RefObject>(null);
 
   const selectedGenericRegionObject = useRecoilValue(selectedGenericRegionObjectAtom);
-  const selectedSatelliteVariable = useRecoilValue(selectedSatelliteVariableAtom);
-  const selectedSatelliteVariableObject = useRecoilValue(selectedSatelliteVariableObjectAtom);
 
   const plotDataQuery = usePlotDataQuery(
     !!selectedGenericRegionObject ? selectedGenericRegionObject['id'] : undefined,
-    selectedSatelliteVariable,
+    props.selectedSatelliteVariable,
   );
 
-  const loadingDiv = (<div className={'card centered-card-text'}><p>{'Loading...'}</p></div>);
+  const loadingDiv = (<div className={'centered-card-text'}><p>{'Loading...'}</p></div>);
   if (
     plotDataQuery.isLoading
-    || !selectedSatelliteVariableObject
+    || !props.selectedSatelliteVariableObject
     || !selectedGenericRegionObject
   ) {
     return loadingDiv;
   }
   if (plotDataQuery.isError) {
     console.debug(`Error!: ${String(plotDataQuery.error)}`);
-    const regionStr = selectedSatelliteVariableObject.longname;
+    const regionStr = props.selectedSatelliteVariableObject.longname;
     const varStr = selectedGenericRegionObject.longname;
     return (
-      <div className={'card centered-card-text'}>
+      <div className={'centered-card-text'}>
         <div>
           <h3>
             {'Feature not currently available for '}
@@ -59,9 +62,9 @@ const LinePlot: React.FC = () => {
     );
   }
 
-  const varLongname = selectedSatelliteVariableObject['longname'];
-  const varUnit = selectedSatelliteVariableObject['unit_of_measurement'];
-  const regionLongname = selectedGenericRegionObject['longname'];
+  const varLongname = props.selectedSatelliteVariableObject.longname;
+  const varUnit = props.selectedSatelliteVariableObject.unit_of_measurement;
+  const regionLongname = selectedGenericRegionObject.longname;
   const chartTitle = `${regionLongname} - ${varLongname}`;
   const yAxisTitle = `${varLongname} (${varUnit})`;
 
@@ -151,7 +154,7 @@ const LinePlot: React.FC = () => {
   };
 
   return (
-    <div className={'LinePlot card'}>
+    <div className={'LinePlot'}>
       <HighchartsReact
         highcharts={Highcharts}
         ref={chartRef}

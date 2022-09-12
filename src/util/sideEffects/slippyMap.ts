@@ -19,11 +19,18 @@ import {rasterLayer, changeRasterVariable} from '../layer/raster';
 import {regionShapeLayer, showRegionShape} from '../layer/regionShape';
 import {showBasemapLayer} from '../layer/switch';
 
+const sharedView = new View({
+  projection: 'EPSG:3857',
+  center: [-11686663, 4828794],
+  resolution: 1000,
+  maxZoom: 14,
+});
+
 
 // When component is first loaded, populate the map and other initial
 // state.
 export const useSlippyMapInit = (
-  selectedBasemap: BaseLayer,
+  slippyMapUid: string,
   slippyMapHtmlElement: RefObject<HTMLDivElement>,
   clickHandler: (event: MapBrowserEvent<any>) => void,
   setOpenLayersMap: StateSetter<OptionalOpenLayersMap>,
@@ -31,13 +38,12 @@ export const useSlippyMapInit = (
   useEffect(() => {
     const initialOpenLayersMap = new OpenLayersMap({
       target: slippyMapHtmlElement.current || undefined,
-      layers: [basemapLayerGroup, rasterLayer, regionShapeLayer],
-      view: new View({
-        projection: 'EPSG:3857',
-        center: [-11686663, 4828794],
-        resolution: 1000,
-        maxZoom: 14,
-      }),
+      layers: [
+        basemapLayerGroup(slippyMapUid),
+        rasterLayer(slippyMapUid),
+        regionShapeLayer(slippyMapUid),
+      ],
+      view: sharedView,
       pixelRatio: 1,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       controls: defaultControls().extend([
@@ -75,6 +81,7 @@ export const useSelectedBasemap = (
 }
 
 export const useSelectedRegion = (
+  slippyMapUid: string,
   selectedRegionShape: object | undefined,
   openLayersMap: OptionalOpenLayersMap,
 ): void => {
@@ -86,11 +93,12 @@ export const useSelectedRegion = (
       return;
     }
 
-    showRegionShape(selectedRegionShape, openLayersMap);
-  }, [selectedRegionShape, openLayersMap]);
+    showRegionShape(slippyMapUid, selectedRegionShape, openLayersMap);
+  }, [slippyMapUid, selectedRegionShape, openLayersMap]);
 }
 
 export const useSelectedRasterVariable = (
+  slippyMapUid: string,
   selectedSatelliteVariableObject: ISatelliteVariableOptions | undefined,
   openLayersMap: OptionalOpenLayersMap,
 ): void => {
@@ -102,11 +110,12 @@ export const useSelectedRasterVariable = (
       return;
     }
 
-    changeRasterVariable(selectedSatelliteVariableObject, openLayersMap);
-  }, [selectedSatelliteVariableObject, openLayersMap]);
+    changeRasterVariable(slippyMapUid, selectedSatelliteVariableObject, openLayersMap);
+  }, [slippyMapUid, selectedSatelliteVariableObject, openLayersMap]);
 }
 
 export const useRasterOpacity = (
+  slippyMapUid: string,
   rasterOpacity: number,
   openLayersMap: OptionalOpenLayersMap,
 ): void => {
@@ -118,6 +127,6 @@ export const useRasterOpacity = (
       return;
     }
 
-    rasterLayer.setOpacity(rasterOpacity / 100);
-  }, [rasterOpacity, openLayersMap]);
+    rasterLayer(slippyMapUid).setOpacity(rasterOpacity / 100);
+  }, [slippyMapUid, rasterOpacity, openLayersMap]);
 }
