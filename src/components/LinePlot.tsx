@@ -47,16 +47,12 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       <div className={'centered-card-text'}>
         <div>
           <h3>
-            {'Feature not currently available for '}
+            {'Plot not currently available for '}
             <u>{regionStr}</u>
             {' in '}
             <u>{varStr}</u>
           </h3>
-          <p>{'Try another region or variable!'}</p>
-          <p>{'Working regions: CO, ID'}</p>
-          <p>
-            {'Working variables: Snow Albedo, Radiative Forcing, Snow Cover Days, Snow Cover Percent'}
-          </p>
+          <p>{'Try another region! NOTE: currently, HUC4 region plots are not supported.'}</p>
         </div>
       </div>
     );
