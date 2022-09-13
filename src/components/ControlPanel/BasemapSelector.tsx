@@ -4,10 +4,10 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
 import {basemapNames} from '../../util/layer/basemaps';
-import selectedBasemapAtom from '../../clientState/selectedBasemap';
+import selectedBasemapNameAtom from '../../clientState/selectedBasemapName';
 
 const BasemapSelector: React.FC = () => {
-  const [selectedBasemap, setSelectedBasemap] = useRecoilState(selectedBasemapAtom);
+  const [selectedBasemapName, setSelectedBasemap] = useRecoilState(selectedBasemapNameAtom);
 
   const handleSelect = (eventKey: string | null): void => {
     if (!eventKey) {
@@ -21,7 +21,7 @@ const BasemapSelector: React.FC = () => {
         <Dropdown.Item
           key={basemapName}
           eventKey={basemapName}
-          active={basemapName === selectedBasemap} >
+          active={basemapName === selectedBasemapName} >
           {basemapName}
         </Dropdown.Item>
       ))}

@@ -12,8 +12,8 @@ import {ITileIdentifier} from '../../types/layout';
 
 export type AtomValue = string | undefined;
 export type AtomParameter = ITileIdentifier;
-const selectedSatelliteVariableAtom = atomFamily<AtomValue, AtomParameter>({
-  key: 'selectedSatelliteVariable',
+const selectedSatelliteVariableNameAtom = atomFamily<AtomValue, AtomParameter>({
+  key: 'selectedSatelliteVariableName',
   default: undefined,
 });
-export default selectedSatelliteVariableAtom;
+export default selectedSatelliteVariableNameAtom;

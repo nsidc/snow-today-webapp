@@ -15,14 +15,14 @@ import _uniqueId from 'lodash/uniqueId';
 import '../style/SlippyMap.css';
 import notProcessedLayerEnabledAtom from '../clientState/notProcessedLayerEnabled';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
-import selectedBasemapObjectAtom from '../clientState/derived/selectedBasemapObject';
-import selectedGenericRegionObjectAtom from '../clientState/derived/selectedGenericRegionObject';
+import selectedBasemapLayerAtom from '../clientState/derived/selectedBasemapLayer';
+import selectedGenericRegionAtom from '../clientState/derived/selectedGenericRegion';
 import useRegionShapeQuery from '../serverState/regionShape';
 import {
   OptionalCoordinate,
   OptionalOpenLayersMap,
 } from '../types/SlippyMap';
-import {ISatelliteVariableOptions} from '../types/query/satelliteVariables';
+import {ISatelliteVariable} from '../types/query/satelliteVariables';
 import {
   useNotProcessedLayerToggle,
   useRasterOpacity,
@@ -34,7 +34,7 @@ import {
 
 
 interface ISlippyMapProps {
-  selectedSatelliteVariableObject: ISatelliteVariableOptions | undefined;
+  selectedSatelliteVariable: ISatelliteVariable | undefined;
 }
 
 
@@ -49,11 +49,11 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
 
   const notProcessedLayerEnabled = useRecoilValue(notProcessedLayerEnabledAtom);
   const rasterOpacity = useRecoilValue(rasterOpacityAtom);
-  const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom(slippyMapUid));
-  const selectedGenericRegionObject = useRecoilValue(selectedGenericRegionObjectAtom);
+  const selectedBasemap = useRecoilValue(selectedBasemapLayerAtom(slippyMapUid));
+  const selectedGenericRegion = useRecoilValue(selectedGenericRegionAtom);
 
   const selectedRegionShapeQuery = useRegionShapeQuery(
-    selectedGenericRegionObject ? selectedGenericRegionObject['shape_path'] : undefined,
+    selectedGenericRegion ? selectedGenericRegion['shape_path'] : undefined,
   );
 
   const handleSlippyMapClick = (event: MapBrowserEvent<any>) => {
@@ -91,7 +91,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   );
   useSelectedRasterVariable(
     slippyMapUid,
-    props.selectedSatelliteVariableObject,
+    props.selectedSatelliteVariable,
     openLayersMap,
   );
   useRasterOpacity(

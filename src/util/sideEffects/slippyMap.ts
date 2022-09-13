@@ -14,7 +14,7 @@ import {
 import {OptionalOpenLayersMap} from '../../types/SlippyMap';
 import {StateSetter} from '../../types/misc';
 import {
-  ISatelliteVariableOptions,
+  ISatelliteVariable,
   ISatelliteVariableIndex,
 } from '../../types/query/satelliteVariables';
 import {basemapLayerGroup} from '../layer/basemaps';
@@ -131,7 +131,7 @@ export const useSelectedRegion = (
 
 export const useSelectedRasterVariable = (
   slippyMapUid: string,
-  selectedSatelliteVariableObject: ISatelliteVariableOptions | undefined,
+  selectedSatelliteVariableObject: ISatelliteVariable | undefined,
   openLayersMap: OptionalOpenLayersMap,
 ): void => {
   useEffect(() => {

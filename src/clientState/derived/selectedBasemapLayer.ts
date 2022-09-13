@@ -3,7 +3,7 @@
 import {selectorFamily} from 'recoil';
 import BaseLayer from 'ol/layer/Base';
 
-import selectedBasemapAtom from '../selectedBasemap';
+import selectedBasemapNameAtom from '../selectedBasemapName';
 import {basemapLayersByName} from '../../util/layer/basemaps';
 
 
@@ -11,10 +11,10 @@ import {basemapLayersByName} from '../../util/layer/basemaps';
 // similarly / identically.
 type AtomValue = BaseLayer;
 type AtomParameter = string;
-const selectedBasemapObjectAtom = selectorFamily<AtomValue, AtomParameter>({
-  key: 'selectedBasemapObject',
+const selectedBasemapLayerAtom = selectorFamily<AtomValue, AtomParameter>({
+  key: 'selectedBasemapLayer',
   get: (mapId: AtomParameter) => ({get}) => (
-    basemapLayersByName(mapId).get(get(selectedBasemapAtom))!
+    basemapLayersByName(mapId).get(get(selectedBasemapNameAtom))!
   ),
   // WARNING: We allow mutability because openlayers mutates layer objects, but
   //   Recoil freezes state objects. If this is disabled, openlayers breaks
@@ -22,4 +22,4 @@ const selectedBasemapObjectAtom = selectorFamily<AtomValue, AtomParameter>({
   dangerouslyAllowMutability: true,
 });
 
-export default selectedBasemapObjectAtom;
+export default selectedBasemapLayerAtom;

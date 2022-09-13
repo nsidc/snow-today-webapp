@@ -6,7 +6,7 @@ import _memoize from 'lodash/memoize';
 
 import {dataServerUrl} from '../../constants/dataServer';
 import {colorStopsFromColorMap} from '../colormap';
-import {ISatelliteVariableOptions} from '../../types/query/satelliteVariables';
+import {ISatelliteVariable} from '../../types/query/satelliteVariables';
 
 const geoTiffSourceDefaults = {
   // DO NOT smooth edges of pixels:
@@ -23,7 +23,7 @@ const styleVariables: IStyleVariables = {
 }
 
 
-const sourceFromVariableObject = (varObj: ISatelliteVariableOptions): GeoTIFF => {
+const sourceFromVariableObject = (varObj: ISatelliteVariable): GeoTIFF => {
   // Calculate new source URL
   const cogPath = varObj.cog_path;
   const url = `${dataServerUrl}/${cogPath}`;
@@ -38,7 +38,7 @@ const sourceFromVariableObject = (varObj: ISatelliteVariableOptions): GeoTIFF =>
 }
 
 
-const colorStyleFromVariableObject = (varObj: ISatelliteVariableOptions): ColorStyle => {
+const colorStyleFromVariableObject = (varObj: ISatelliteVariable): ColorStyle => {
   // Calculate color stops, nodata value, and new color style
   const colormap = varObj.colormap;
   const [minVal, maxVal] = varObj.colormap_value_range;
@@ -110,7 +110,7 @@ export const notProcessedLayer = _memoize((mapId: string): TileLayer => (
 export const toggleNotProcessedLayer = (
   mapId: string,
   notProcessedLayerEnabled: boolean,
-  notProcessedVariableObject: ISatelliteVariableOptions,
+  notProcessedVariableObject: ISatelliteVariable,
 ): void => {
   const theNotProcessedLayer = notProcessedLayer(mapId);
 
@@ -141,7 +141,7 @@ export const rasterLayer = _memoize((mapId: string): TileLayer => (
 
 export const changeRasterVariable = (
   mapId: string,
-  rasterVariableObject: ISatelliteVariableOptions,
+  rasterVariableObject: ISatelliteVariable,
   openLayersMap: PluggableMap,
 ): void => {
   const theRasterLayer = rasterLayer(mapId);
