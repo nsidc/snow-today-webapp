@@ -34,7 +34,7 @@ import {
 
 
 interface ISlippyMapProps {
-  selectedSatelliteVariableObject: ISatelliteVariableOptions | undefined;
+  selectedSatelliteVariableOptions: ISatelliteVariableOptions | undefined;
 }
 
 
@@ -91,7 +91,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   );
   useSelectedRasterVariable(
     slippyMapUid,
-    props.selectedSatelliteVariableObject,
+    props.selectedSatelliteVariableOptions,
     openLayersMap,
   );
   useRasterOpacity(

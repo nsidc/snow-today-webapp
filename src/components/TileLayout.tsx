@@ -8,8 +8,8 @@ import {
   selectedLayoutColsAtom,
   selectedLayoutRowsAtom,
 } from '../clientState/layoutDimensions';
-import selectedSatelliteVariableAtom from '../clientState/selectedSatelliteVariable';
-import {AtomValue as SatelliteVariable} from '../clientState/selectedSatelliteVariable/atom';
+import selectedSatelliteVariableNameAtom from '../clientState/selectedSatelliteVariableName';
+import {AtomValue as SatelliteVariable} from '../clientState/selectedSatelliteVariableName/atom';
 import selectedTileTypeAtom from '../clientState/selectedTileType';
 import {AtomValue as TileType} from '../clientState/selectedTileType/atom';
 import {ROW_OPTIONS, COL_OPTIONS} from '../constants/layout';
@@ -39,7 +39,7 @@ const useTileStateSetters = (): ITileStateSetter[] => _flatten(
     ),
     // eslint-disable-next-line react-hooks/rules-of-hooks
     variableSetter: useSetRecoilState(
-      selectedSatelliteVariableAtom({row: row, col: col})
+      selectedSatelliteVariableNameAtom({row: row, col: col})
     ),
   })))
 );

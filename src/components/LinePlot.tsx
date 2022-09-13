@@ -16,8 +16,8 @@ HighchartsMore(Highcharts);
 
 
 interface ILinePlotProps {
-  selectedSatelliteVariable: string | undefined;
-  selectedSatelliteVariableObject: ISatelliteVariableOptions | undefined;
+  selectedSatelliteVariableName: string | undefined;
+  selectedSatelliteVariableOptions: ISatelliteVariableOptions | undefined;
 }
 
 
@@ -28,20 +28,20 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
 
   const plotDataQuery = usePlotDataQuery(
     !!selectedGenericRegionObject ? selectedGenericRegionObject['id'] : undefined,
-    props.selectedSatelliteVariable,
+    props.selectedSatelliteVariableName,
   );
 
   const loadingDiv = (<div className={'centered-card-text'}><p>{'Loading...'}</p></div>);
   if (
     plotDataQuery.isLoading
-    || !props.selectedSatelliteVariableObject
+    || !props.selectedSatelliteVariableOptions
     || !selectedGenericRegionObject
   ) {
     return loadingDiv;
   }
   if (plotDataQuery.isError) {
     console.debug(`Error!: ${String(plotDataQuery.error)}`);
-    const regionStr = props.selectedSatelliteVariableObject.longname;
+    const regionStr = props.selectedSatelliteVariableOptions.longname;
     const varStr = selectedGenericRegionObject.longname;
     return (
       <div className={'centered-card-text'}>
@@ -58,8 +58,8 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     );
   }
 
-  const varLongname = props.selectedSatelliteVariableObject.longname;
-  const varUnit = props.selectedSatelliteVariableObject.unit_of_measurement;
+  const varLongname = props.selectedSatelliteVariableOptions.longname;
+  const varUnit = props.selectedSatelliteVariableOptions.unit_of_measurement;
   const regionLongname = selectedGenericRegionObject.longname;
   const chartTitle = `${regionLongname} - ${varLongname}`;
   const yAxisTitle = `${varLongname} (${varUnit})`;

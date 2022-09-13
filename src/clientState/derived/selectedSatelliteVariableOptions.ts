@@ -5,7 +5,7 @@
 
 import {selectorFamily} from 'recoil';
 
-import selectedSatelliteVariableAtom from '../selectedSatelliteVariable';
+import selectedSatelliteVariableNameAtom from '../selectedSatelliteVariableName';
 import {ISatelliteVariableOptions, ISatelliteVariableIndex} from '../../types/query/satelliteVariables';
 import {queryClient} from '../../util/query';
 import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../serverState/variablesIndex';
@@ -17,10 +17,10 @@ import {ITileIdentifier} from '../../types/layout';
 // similarly / identically.
 type AtomValue = ISatelliteVariableOptions | undefined;
 type AtomParameter = ITileIdentifier;
-const selectedSatelliteVariableObjectAtom = selectorFamily<AtomValue, AtomParameter>({
-  key: 'selectedSatelliteVariableObject',
+const selectedSatelliteVariableOptionsAtom = selectorFamily<AtomValue, AtomParameter>({
+  key: 'selectedSatelliteVariableOptions',
   get: (tileIdentifier: AtomParameter) => ({get}) => {
-    const selectedVariable = get(selectedSatelliteVariableAtom(tileIdentifier))
+    const selectedVariable = get(selectedSatelliteVariableNameAtom(tileIdentifier))
     if (!selectedVariable) {
       return;
     }
@@ -31,4 +31,4 @@ const selectedSatelliteVariableObjectAtom = selectorFamily<AtomValue, AtomParame
   },
 });
 
-export default selectedSatelliteVariableObjectAtom;
+export default selectedSatelliteVariableOptionsAtom;
