@@ -15,7 +15,7 @@ import _uniqueId from 'lodash/uniqueId';
 import '../style/SlippyMap.css';
 import notProcessedLayerEnabledAtom from '../clientState/notProcessedLayerEnabled';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
-import selectedBasemapObjectAtom from '../clientState/derived/selectedBasemapObject';
+import selectedBasemapLayerAtom from '../clientState/derived/selectedBasemapLayer';
 import selectedGenericRegionObjectAtom from '../clientState/derived/selectedGenericRegionObject';
 import useRegionShapeQuery from '../serverState/regionShape';
 import {
@@ -49,7 +49,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
 
   const notProcessedLayerEnabled = useRecoilValue(notProcessedLayerEnabledAtom);
   const rasterOpacity = useRecoilValue(rasterOpacityAtom);
-  const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom(slippyMapUid));
+  const selectedBasemap = useRecoilValue(selectedBasemapLayerAtom(slippyMapUid));
   const selectedGenericRegionObject = useRecoilValue(selectedGenericRegionObjectAtom);
 
   const selectedRegionShapeQuery = useRegionShapeQuery(
