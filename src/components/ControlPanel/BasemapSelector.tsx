@@ -29,4 +29,4 @@ const BasemapSelector: React.FC = () => {
   );
 }
 
-export default BasemapSelector
+export default BasemapSelector;

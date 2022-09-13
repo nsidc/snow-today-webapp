@@ -6,6 +6,7 @@ import _memoize from 'lodash/memoize';
 
 import {dataServerUrl} from '../../constants/dataServer';
 import {colorStopsFromColorMap} from '../colormap';
+import {ISatelliteVariableOptions} from '../../types/query/satelliteVariables';
 
 const geoTiffSourceDefaults = {
   // DO NOT smooth edges of pixels:
@@ -13,38 +14,20 @@ const geoTiffSourceDefaults = {
   // DO NOT normalize values to range (0,1). We want the raw values:
   normalize: false,
 }
+type ColorStyle = Array<string | number | Array<string | number>>
 interface IStyleVariables {
-  color: Array<string | Array<string | number>>;
+  color: ColorStyle;
 }
 const styleVariables: IStyleVariables = {
   color: [],
 }
 
 
-export const rasterLayer = _memoize((mapId: string): TileLayer => (
-  new TileLayer({
-    source: undefined,
-    visible: true,
-    zIndex: 99,
-    // WebGL tiles don't support `setStyle`, so you have to use variables like so
-    style: {
-      color: ['var', 'color'],
-      // @ts-ignore: TS2322
-      variables: styleVariables,
-    }
-  })
-));
-
-
-export const changeRasterVariable = (
-  mapId: string,
-  rasterVariableObject: object,
-  openLayersMap: PluggableMap,
-): void => {
+const sourceFromVariableObject = (varObj: ISatelliteVariableOptions): GeoTIFF => {
   // Calculate new source URL
-  const cogPath = rasterVariableObject['cog_path'] as string;
+  const cogPath = varObj.cog_path;
   const url = `${dataServerUrl}/${cogPath}`;
-  const newSource = new GeoTIFF({
+  return new GeoTIFF({
     ...geoTiffSourceDefaults,
     sources: [
       {
@@ -52,12 +35,15 @@ export const changeRasterVariable = (
       },
     ],
   });
+}
 
+
+const colorStyleFromVariableObject = (varObj: ISatelliteVariableOptions): ColorStyle => {
   // Calculate color stops, nodata value, and new color style
-  const colormap = rasterVariableObject['colormap'] as number[][];
-  const [minVal, maxVal] = rasterVariableObject['colormap_value_range'] as [number, number];
-  const noDataValue = rasterVariableObject['nodata_value'] as number;
-  const transparentZero = rasterVariableObject['transparent_zero'] as boolean;
+  const colormap = varObj.colormap;
+  const [minVal, maxVal] = varObj.colormap_value_range;
+  const noDataValue = varObj.nodata_value;
+  const transparentZero = varObj.transparent_zero;
 
   const colorStops = colorStopsFromColorMap(colormap, minVal, maxVal, false);
   let transparentZeroColorStops: (number | number[])[];
@@ -79,7 +65,7 @@ export const changeRasterVariable = (
     transparentZeroColorStops = [];
   }
 
-  const newColorStyle = [
+  return [
     'interpolate',
     ['linear'],
     ['band', 1],
@@ -95,8 +81,74 @@ export const changeRasterVariable = (
     noDataValue,
     [0, 0, 0, 0],
   ];
+}
 
-  // Apply changes to the raster data layer
-  rasterLayer(mapId).setSource(newSource);
-  rasterLayer(mapId).setStyle({color: newColorStyle});
+
+export const notProcessedLayer = _memoize((mapId: string): TileLayer => (
+  new TileLayer({
+    source: new GeoTIFF({
+      ...geoTiffSourceDefaults,
+      sources: [
+        {
+          url: 'https://qa.nsidc.org/api/snow-today/cogs/notprocessed.tif',
+        },
+      ],
+    }),
+    visible: false,
+    zIndex: 98,
+    // WebGL tiles don't support `setStyle`, so you have to use variables like so
+    /*
+    style: {
+      color: ['var', 'color'],
+      // @ts-ignore: TS2322
+      variables: styleVariables,
+    },
+    */
+  })
+));
+
+export const toggleNotProcessedLayer = (
+  mapId: string,
+  notProcessedLayerEnabled: boolean,
+  notProcessedVariableObject: ISatelliteVariableOptions,
+): void => {
+  const theNotProcessedLayer = notProcessedLayer(mapId);
+
+  const newSource = sourceFromVariableObject(notProcessedVariableObject);
+  const newColorStyle = colorStyleFromVariableObject(notProcessedVariableObject);
+
+  theNotProcessedLayer.setVisible(notProcessedLayerEnabled);
+  theNotProcessedLayer.setSource(newSource);
+  theNotProcessedLayer.setStyle({color: newColorStyle});
+};
+
+
+
+export const rasterLayer = _memoize((mapId: string): TileLayer => (
+  new TileLayer({
+    source: undefined,
+    visible: true,
+    zIndex: 99,
+    // WebGL tiles don't support `setStyle`, so you have to use variables like so
+    style: {
+      color: ['var', 'color'],
+      // @ts-ignore: TS2322
+      variables: styleVariables,
+    }
+  })
+));
+
+
+export const changeRasterVariable = (
+  mapId: string,
+  rasterVariableObject: ISatelliteVariableOptions,
+  openLayersMap: PluggableMap,
+): void => {
+  const theRasterLayer = rasterLayer(mapId);
+
+  const newSource = sourceFromVariableObject(rasterVariableObject);
+  const newColorStyle = colorStyleFromVariableObject(rasterVariableObject);
+
+  theRasterLayer.setSource(newSource);
+  theRasterLayer.setStyle({color: newColorStyle});
 }

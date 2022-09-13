@@ -5,6 +5,10 @@
   padding: 15px;
 }
 
+.ControlPanel span {
+  padding: 15px;
+}
+
 .ControlPanel .dropdown {
   display: inline;
   padding: 15px;
