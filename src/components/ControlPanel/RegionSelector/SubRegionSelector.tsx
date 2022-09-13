@@ -2,23 +2,23 @@ import React from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 
 import '../../../style/SubRegionSelector.css';
-import selectedSubRegionCollectionObjectAtom from '../../../clientState/derived/selectedSubRegionCollectionObject';
-import selectedSubRegionCollectionAtom from '../../../clientState/selectedSubRegionCollection';
-import {DEFAULT_SUBREGION_COLLECTION} from '../../../clientState/selectedSubRegionCollection/atom';
-import selectedSubRegionAtom from '../../../clientState/selectedSubRegion';
+import selectedSubRegionCollectionAtom from '../../../clientState/derived/selectedSubRegionCollection';
+import selectedSubRegionCollectionNameAtom from '../../../clientState/selectedSubRegionCollectionName';
+import {DEFAULT_SUBREGION_COLLECTION_NAME} from '../../../clientState/selectedSubRegionCollectionName/atom';
+import selectedSubRegionNameAtom from '../../../clientState/selectedSubRegionName';
 import SearchableSelect, {ISelectOptionProps} from '../../../components/reusable/SearchableSelect';
 import {ISubRegionCollection} from '../../../types/query/regions';
 
 
 const getSubRegionOptionProps = (
-  selectedSubRegionCollectionObject: ISubRegionCollection,
-  selectedSubRegionCollection: string,
+  selectedSubRegionCollection: ISubRegionCollection,
+  selectedSubRegionCollectionName: string,
 ): ISelectOptionProps[] => {
-  if (selectedSubRegionCollection === DEFAULT_SUBREGION_COLLECTION) {
+  if (selectedSubRegionCollectionName === DEFAULT_SUBREGION_COLLECTION_NAME) {
     return [];
   }
 
-  const subRegions = selectedSubRegionCollectionObject['items'];
+  const subRegions = selectedSubRegionCollection['items'];
   const subRegionOptionProps = (
     Object.entries(subRegions)
     .filter(([subRegionId, subRegion]) => !Object.keys(subRegion).includes('enabled') || subRegion['enabled'])
@@ -32,16 +32,16 @@ const getSubRegionOptionProps = (
 
 
 const SubRegionSelector: React.FC = () => {
-  const selectedSubRegionCollectionObject = useRecoilValue(selectedSubRegionCollectionObjectAtom);
   const selectedSubRegionCollection = useRecoilValue(selectedSubRegionCollectionAtom);
-  const [selectedSubRegion, setSelectedSubRegion] = useRecoilState(selectedSubRegionAtom);
+  const selectedSubRegionCollectionName = useRecoilValue(selectedSubRegionCollectionNameAtom);
+  const [selectedSubRegionName, setSelectedSubRegionName] = useRecoilState(selectedSubRegionNameAtom);
 
-  if (!selectedSubRegionCollection || !selectedSubRegionCollectionObject) {
+  if (!selectedSubRegionCollectionName || !selectedSubRegionCollection) {
     return <div></div>;
   }
   const subRegionOptionProps = getSubRegionOptionProps(
-    selectedSubRegionCollectionObject,
     selectedSubRegionCollection,
+    selectedSubRegionCollectionName,
   );
 
   if (subRegionOptionProps.length === 0) {
@@ -53,9 +53,9 @@ const SubRegionSelector: React.FC = () => {
       <label htmlFor={'subregion-selector'}>{'Sub-region: '}</label>
       <SearchableSelect 
         id={'subregion-selector'}
-        placeholderText={`Select a ${selectedSubRegionCollectionObject['shortname']}...`}
-        value={selectedSubRegion}
-        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedSubRegion(e.target.value)}
+        placeholderText={`Select a ${selectedSubRegionCollection['shortname']}...`}
+        value={selectedSubRegionName}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedSubRegionName(e.target.value)}
         selectOptionProps={subRegionOptionProps} />
     </div>
   );

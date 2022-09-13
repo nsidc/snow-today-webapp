@@ -2,46 +2,46 @@ import React from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 
 import '../../../style/SubRegionCollectionSelector.css';
-import selectedSuperRegionObjectAtom from '../../../clientState/derived/selectedSuperRegionObject';
-import selectedSubRegionCollectionAtom from '../../../clientState/selectedSubRegionCollection';
-import selectedSubRegionAtom from '../../../clientState/selectedSubRegion';
-import {DEFAULT_SUBREGION_COLLECTION} from '../../../clientState/selectedSubRegionCollection/atom';
+import selectedSuperRegionAtom from '../../../clientState/derived/selectedSuperRegion';
+import selectedSubRegionCollectionNameAtom from '../../../clientState/selectedSubRegionCollectionName';
+import selectedSubRegionNameAtom from '../../../clientState/selectedSubRegionName';
+import {DEFAULT_SUBREGION_COLLECTION_NAME} from '../../../clientState/selectedSubRegionCollectionName/atom';
 
 
 const SubRegionCollectionSelector: React.FC = () => {
-  const selectedSuperRegionObject = useRecoilValue(selectedSuperRegionObjectAtom);
+  const selectedSuperRegion = useRecoilValue(selectedSuperRegionAtom);
   const [
-    selectedSubRegionCollection,
-    setSelectedSubRegionCollection,
-  ] = useRecoilState(selectedSubRegionCollectionAtom);
-  const setSelectedSubRegion = useSetRecoilState(selectedSubRegionAtom);
+    selectedSubRegionCollectionName,
+    setSelectedSubRegionCollectionName,
+  ] = useRecoilState(selectedSubRegionCollectionNameAtom);
+  const setSelectedSubRegionName = useSetRecoilState(selectedSubRegionNameAtom);
 
-  if (!selectedSuperRegionObject) {
+  if (!selectedSuperRegion) {
     return <div>Loading...</div>;
   }
 
   const handleSelectedSubRegionCollection = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSubRegionCollection = e.currentTarget.value;
 
-    setSelectedSubRegionCollection(newSubRegionCollection);
+    setSelectedSubRegionCollectionName(newSubRegionCollection);
 
     // When the collection is changed, the selected sub-region must be reset:
-    setSelectedSubRegion(undefined);
+    setSelectedSubRegionName(undefined);
   }
   const subRegionCollectionOptions = [
     (
-      <div className={'sub-region-collection-option'} key={DEFAULT_SUBREGION_COLLECTION}>
-        <label htmlFor={`region-collection-${DEFAULT_SUBREGION_COLLECTION}`}>None</label>
+      <div className={'sub-region-collection-option'} key={DEFAULT_SUBREGION_COLLECTION_NAME}>
+        <label htmlFor={`region-collection-${DEFAULT_SUBREGION_COLLECTION_NAME}`}>None</label>
         <input
           type={'radio'}
-          id={`region-collection-${DEFAULT_SUBREGION_COLLECTION}`}
-          value={DEFAULT_SUBREGION_COLLECTION}
+          id={`region-collection-${DEFAULT_SUBREGION_COLLECTION_NAME}`}
+          value={DEFAULT_SUBREGION_COLLECTION_NAME}
           name={'region-collection'}
           onChange={handleSelectedSubRegionCollection}
-          checked={selectedSubRegionCollection === DEFAULT_SUBREGION_COLLECTION} />
+          checked={selectedSubRegionCollectionName === DEFAULT_SUBREGION_COLLECTION_NAME} />
       </div>
     ),
-    ...Object.entries(selectedSuperRegionObject.subregion_collections)
+    ...Object.entries(selectedSuperRegion.subregion_collections)
     .map(([regionCollectionId, params]) => (
       <div className={'sub-region-collection-option'} key={regionCollectionId}>
         <label htmlFor={`region-collection-${regionCollectionId}`}>
@@ -53,7 +53,7 @@ const SubRegionCollectionSelector: React.FC = () => {
           value={regionCollectionId}
           name={'region-collection'}
           onChange={handleSelectedSubRegionCollection}
-          checked={selectedSubRegionCollection === regionCollectionId} />
+          checked={selectedSubRegionCollectionName === regionCollectionId} />
       </div>
     ))
   ];

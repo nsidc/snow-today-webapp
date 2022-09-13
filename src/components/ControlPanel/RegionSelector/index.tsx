@@ -6,16 +6,16 @@ import '../../../style/dropdownForm.css';
 import SuperRegionSelector from './SuperRegionSelector';
 import SubRegionCollectionSelector from './SubRegionCollectionSelector';
 import SubRegionSelector from './SubRegionSelector';
-import selectedSuperRegionAtom from '../../../clientState/selectedSuperRegion';
-import selectedSuperRegionObjectAtom from '../../../clientState/derived/selectedSuperRegionObject';
+import selectedSuperRegionNameAtom from '../../../clientState/selectedSuperRegionName';
+import selectedSuperRegionAtom from '../../../clientState/derived/selectedSuperRegion';
 import useRegionsIndexQuery from '../../../serverState/regionsIndex';
 
 
 const RegionSelector: React.FC = () => {
-  const setSelectedSuperRegion = useSetRecoilState(selectedSuperRegionAtom);
-  const selectedSuperRegionObject = useRecoilValue(selectedSuperRegionObjectAtom);
+  const setSelectedSuperRegionName = useSetRecoilState(selectedSuperRegionNameAtom);
+  const selectedSuperRegion = useRecoilValue(selectedSuperRegionAtom);
 
-  const regionsIndexQuery = useRegionsIndexQuery(setSelectedSuperRegion);
+  const regionsIndexQuery = useRegionsIndexQuery(setSelectedSuperRegionName);
 
   if (regionsIndexQuery.isError) {
     console.debug(`Error!: ${regionsIndexQuery.error as string}`);
@@ -24,7 +24,7 @@ const RegionSelector: React.FC = () => {
     );
   } else if (
     regionsIndexQuery.isLoading
-    || !selectedSuperRegionObject
+    || !selectedSuperRegion
   ) {
     return (
       <span>{'Loading...'}</span>

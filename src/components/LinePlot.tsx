@@ -7,7 +7,7 @@ import HighchartsReact from 'highcharts-react-official';
 
 import '../style/LinePlot.css';
 import '../style/card.css';
-import selectedGenericRegionObjectAtom from '../clientState/derived/selectedGenericRegionObject';
+import selectedGenericRegionAtom from '../clientState/derived/selectedGenericRegion';
 import usePlotDataQuery from '../serverState/plotData';
 import {IPlotData} from '../types/query/plotData';
 import {ISatelliteVariable} from '../types/query/satelliteVariables';
@@ -24,10 +24,10 @@ interface ILinePlotProps {
 const LinePlot: React.FC<ILinePlotProps> = (props) => {
   const chartRef = useRef<HighchartsReact.RefObject>(null);
 
-  const selectedGenericRegionObject = useRecoilValue(selectedGenericRegionObjectAtom);
+  const selectedGenericRegion = useRecoilValue(selectedGenericRegionAtom);
 
   const plotDataQuery = usePlotDataQuery(
-    !!selectedGenericRegionObject ? selectedGenericRegionObject['id'] : undefined,
+    !!selectedGenericRegion ? selectedGenericRegion['id'] : undefined,
     props.selectedSatelliteVariableName,
   );
 
@@ -35,14 +35,14 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
   if (
     plotDataQuery.isLoading
     || !props.selectedSatelliteVariable
-    || !selectedGenericRegionObject
+    || !selectedGenericRegion
   ) {
     return loadingDiv;
   }
   if (plotDataQuery.isError) {
     console.debug(`Error!: ${String(plotDataQuery.error)}`);
     const regionStr = props.selectedSatelliteVariable.longname;
-    const varStr = selectedGenericRegionObject.longname;
+    const varStr = selectedGenericRegion.longname;
     return (
       <div className={'centered-card-text'}>
         <div>
@@ -60,7 +60,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
 
   const varLongname = props.selectedSatelliteVariable.longname;
   const varUnit = props.selectedSatelliteVariable.unit_of_measurement;
-  const regionLongname = selectedGenericRegionObject.longname;
+  const regionLongname = selectedGenericRegion.longname;
   const chartTitle = `${regionLongname} - ${varLongname}`;
   const yAxisTitle = `${varLongname} (${varUnit})`;
 

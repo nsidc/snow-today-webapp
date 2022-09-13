@@ -2,7 +2,7 @@ import React from 'react';
 import {useRecoilState} from 'recoil';
 
 import '../../../style/SuperRegionSelector.css';
-import selectedSuperRegionAtom from '../../../clientState/selectedSuperRegion';
+import selectedSuperRegionNameAtom from '../../../clientState/selectedSuperRegionName';
 import {IRegionIndex} from '../../../types/query/regions';
 
 
@@ -11,7 +11,7 @@ interface ISuperRegionSelectorProps {
 }
 
 const SuperRegionSelector: React.FC<ISuperRegionSelectorProps> = (props) => {
-  const [selectedSuperRegion, setSelectedSuperRegion] = useRecoilState(selectedSuperRegionAtom);
+  const [selectedSuperRegionName, setSelectedSuperRegionName] = useRecoilState(selectedSuperRegionNameAtom);
 
   const superRegionOptions = Object.entries(props.regionsIndexQueryData).map(
     ([superRegionId, params]) => (
@@ -23,8 +23,8 @@ const SuperRegionSelector: React.FC<ISuperRegionSelectorProps> = (props) => {
     <div id={'SuperRegionSelector'}>
       <label htmlFor={'super-region-selector'}>{'Region: '}</label>
       <select id={'super-region-selector'}
-        value={selectedSuperRegion}
-        onChange={e => setSelectedSuperRegion(e.currentTarget.value)}
+        value={selectedSuperRegionName}
+        onChange={e => setSelectedSuperRegionName(e.currentTarget.value)}
       >
         {superRegionOptions}
       </select>

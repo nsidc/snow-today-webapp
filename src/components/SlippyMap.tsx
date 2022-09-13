@@ -16,7 +16,7 @@ import '../style/SlippyMap.css';
 import notProcessedLayerEnabledAtom from '../clientState/notProcessedLayerEnabled';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
 import selectedBasemapLayerAtom from '../clientState/derived/selectedBasemapLayer';
-import selectedGenericRegionObjectAtom from '../clientState/derived/selectedGenericRegionObject';
+import selectedGenericRegionAtom from '../clientState/derived/selectedGenericRegion';
 import useRegionShapeQuery from '../serverState/regionShape';
 import {
   OptionalCoordinate,
@@ -50,10 +50,10 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const notProcessedLayerEnabled = useRecoilValue(notProcessedLayerEnabledAtom);
   const rasterOpacity = useRecoilValue(rasterOpacityAtom);
   const selectedBasemap = useRecoilValue(selectedBasemapLayerAtom(slippyMapUid));
-  const selectedGenericRegionObject = useRecoilValue(selectedGenericRegionObjectAtom);
+  const selectedGenericRegion = useRecoilValue(selectedGenericRegionAtom);
 
   const selectedRegionShapeQuery = useRegionShapeQuery(
-    selectedGenericRegionObject ? selectedGenericRegionObject['shape_path'] : undefined,
+    selectedGenericRegion ? selectedGenericRegion['shape_path'] : undefined,
   );
 
   const handleSlippyMapClick = (event: MapBrowserEvent<any>) => {
