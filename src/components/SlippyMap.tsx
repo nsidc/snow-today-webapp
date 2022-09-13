@@ -13,6 +13,7 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 import _uniqueId from 'lodash/uniqueId';
 
 import '../style/SlippyMap.css';
+import notProcessedLayerEnabledAtom from '../clientState/notProcessedLayerEnabled';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
 import selectedBasemapObjectAtom from '../clientState/derived/selectedBasemapObject';
 import selectedGenericRegionObjectAtom from '../clientState/derived/selectedGenericRegionObject';
@@ -23,6 +24,7 @@ import {
 } from '../types/SlippyMap';
 import {ISatelliteVariableOptions} from '../types/query/satelliteVariables';
 import {
+  useNotProcessedLayerToggle,
   useRasterOpacity,
   useSlippyMapInit,
   useSelectedBasemap,
@@ -45,6 +47,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const slippyMapHtmlElement = useRef<HTMLDivElement | null>(null);
   const slippyMapRef = useRef<OpenLayersMap | null>(null);
 
+  const notProcessedLayerEnabled = useRecoilValue(notProcessedLayerEnabledAtom);
   const rasterOpacity = useRecoilValue(rasterOpacityAtom);
   const selectedBasemap = useRecoilValue(selectedBasemapObjectAtom(slippyMapUid));
   const selectedGenericRegionObject = useRecoilValue(selectedGenericRegionObjectAtom);
@@ -95,6 +98,10 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
     slippyMapUid,
     rasterOpacity,
     openLayersMap,
+  );
+  useNotProcessedLayerToggle(
+    slippyMapUid,
+    notProcessedLayerEnabled,
   );
 
   slippyMapRef.current = openLayersMap || null;

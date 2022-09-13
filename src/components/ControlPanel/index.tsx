@@ -4,6 +4,7 @@ import '../../style/ControlPanel.css';
 import BasemapSelector from './BasemapSelector';
 import DebugDumpButton from './DebugDumpButton';
 import LayoutConfigurator from './LayoutConfigurator';
+import NotProcessedLayerToggle from './NotProcessedLayerToggle';
 import RegionSelector from './RegionSelector';
 import RasterOpacitySlider from './RasterOpacitySlider';
 
@@ -23,6 +24,8 @@ const ControlPanel: React.FC = () => {
       <BasemapSelector />
       <RegionSelector />
       <LayoutConfigurator />
+
+      <NotProcessedLayerToggle />
       <RasterOpacitySlider />
 
     </div>

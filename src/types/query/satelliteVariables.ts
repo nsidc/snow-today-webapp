@@ -1,5 +1,5 @@
 export interface ISatelliteVariableOptions {
-  type: string;
+  type: 'variable' | 'notprocessed';
   enabled?: boolean;
   default?: boolean;
   longname: string;

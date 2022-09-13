@@ -28,6 +28,7 @@ const useVariablesIndexQuery = (
     [SERVERSTATE_KEY_VARIABLES_INDEX],
     fetchVariablesIndex,
     {
+      enabled: !!stateSetter,
       // Set the selected variable to the default (or first) in the data
       // NOTE: Requires that this query only fires once in the app's lifecycle,
       // or the state will keep getting re-set...

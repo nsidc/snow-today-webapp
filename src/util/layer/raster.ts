@@ -21,6 +21,39 @@ const styleVariables: IStyleVariables = {
 }
 
 
+export const notProcessedLayer = _memoize((mapId: string): TileLayer => (
+  new TileLayer({
+    source: new GeoTIFF({
+      ...geoTiffSourceDefaults,
+      sources: [
+        {
+          url: 'https://qa.nsidc.org/api/snow-today/cogs/notprocessed.tif',
+        },
+      ],
+    }),
+    visible: false,
+    zIndex: 98,
+    // WebGL tiles don't support `setStyle`, so you have to use variables like so
+    /*
+    style: {
+      color: ['var', 'color'],
+      // @ts-ignore: TS2322
+      variables: styleVariables,
+    },
+    */
+  })
+));
+
+export const toggleNotProcessedLayer = (
+  mapId: string,
+  notProcessedLayerEnabled: boolean,
+): void => {
+  const theNotProcessedLayer = notProcessedLayer(mapId);
+  theNotProcessedLayer.setVisible(notProcessedLayerEnabled);
+};
+
+
+
 export const rasterLayer = _memoize((mapId: string): TileLayer => (
   new TileLayer({
     source: undefined,

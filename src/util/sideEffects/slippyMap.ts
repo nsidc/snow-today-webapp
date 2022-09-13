@@ -15,7 +15,12 @@ import {OptionalOpenLayersMap} from '../../types/SlippyMap';
 import {StateSetter} from '../../types/misc';
 import {ISatelliteVariableOptions} from '../../types/query/satelliteVariables';
 import {basemapLayerGroup} from '../layer/basemaps';
-import {rasterLayer, changeRasterVariable} from '../layer/raster';
+import {
+  rasterLayer,
+  changeRasterVariable,
+  notProcessedLayer,
+  toggleNotProcessedLayer,
+} from '../layer/raster';
 import {regionShapeLayer, showRegionShape} from '../layer/regionShape';
 import {showBasemapLayer} from '../layer/switch';
 
@@ -41,6 +46,7 @@ export const useSlippyMapInit = (
       layers: [
         basemapLayerGroup(slippyMapUid),
         rasterLayer(slippyMapUid),
+        notProcessedLayer(slippyMapUid),
         regionShapeLayer(slippyMapUid),
       ],
       view: sharedView,
@@ -61,6 +67,15 @@ export const useSlippyMapInit = (
   }, [])
   /* eslint-enable react-hooks/exhaustive-deps */
 };
+
+export const useNotProcessedLayerToggle = (
+  slippyMapUid: string,
+  notProcessedLayerEnabled: boolean,
+): void => {
+  useEffect(() => {
+    toggleNotProcessedLayer(slippyMapUid, notProcessedLayerEnabled)
+  }, [slippyMapUid, notProcessedLayerEnabled]);
+}
 
 // When the selected basemap is updated, update the map to reflect this.
 export const useSelectedBasemap = (
