@@ -1,4 +1,4 @@
-export interface ISatelliteVariableOptions {
+export interface ISatelliteVariable {
   type: 'variable' | 'notprocessed';
   enabled?: boolean;
   default?: boolean;
@@ -13,5 +13,5 @@ export interface ISatelliteVariableOptions {
 }
 
 export interface ISatelliteVariableIndex {
-  [keys: string]: ISatelliteVariableOptions;
+  [keys: string]: ISatelliteVariable;
 }

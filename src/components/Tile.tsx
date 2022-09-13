@@ -5,7 +5,7 @@ import '../style/card.css';
 import '../style/Tile.css';
 import {ITileIdentifier} from '../types/layout';
 import selectedSatelliteVariableNameAtom from '../clientState/selectedSatelliteVariableName';
-import selectedSatelliteVariableObjectAtom from '../clientState/derived/selectedSatelliteVariableOptions';
+import selectedSatelliteVariableObjectAtom from '../clientState/derived/selectedSatelliteVariable';
 import selectedTileTypeAtom from '../clientState/selectedTileType';
 import LinePlot from './LinePlot';
 import SlippyMap from './SlippyMap';
@@ -16,7 +16,7 @@ const Tile: React.FC<ITileProps> = (props) => {
   const selectedSatelliteVariableName = useRecoilValue(
     selectedSatelliteVariableNameAtom({row: props.row, col: props.col}),
   );
-  const selectedSatelliteVariableOptions = useRecoilValue(
+  const selectedSatelliteVariable = useRecoilValue(
     selectedSatelliteVariableObjectAtom({row: props.row, col: props.col})
   );
 
@@ -32,12 +32,12 @@ const Tile: React.FC<ITileProps> = (props) => {
     content = (
       <LinePlot
         selectedSatelliteVariableName={selectedSatelliteVariableName}
-        selectedSatelliteVariableOptions={selectedSatelliteVariableOptions} />
+        selectedSatelliteVariable={selectedSatelliteVariable} />
     );
   } else if (selectedTileType === 'map') {
     content = (
       <SlippyMap
-        selectedSatelliteVariableOptions={selectedSatelliteVariableOptions} />
+        selectedSatelliteVariable={selectedSatelliteVariable} />
     );
   } else {
     throw new Error('This can not happen!');

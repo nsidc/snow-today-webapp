@@ -6,7 +6,7 @@
 import {selectorFamily} from 'recoil';
 
 import selectedSatelliteVariableNameAtom from '../selectedSatelliteVariableName';
-import {ISatelliteVariableOptions, ISatelliteVariableIndex} from '../../types/query/satelliteVariables';
+import {ISatelliteVariable, ISatelliteVariableIndex} from '../../types/query/satelliteVariables';
 import {queryClient} from '../../util/query';
 import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../serverState/variablesIndex';
 
@@ -15,10 +15,10 @@ import {ITileIdentifier} from '../../types/layout';
 
 // TODO: Should we call selectors "atoms" for simplicity? They are used
 // similarly / identically.
-type AtomValue = ISatelliteVariableOptions | undefined;
+type AtomValue = ISatelliteVariable | undefined;
 type AtomParameter = ITileIdentifier;
-const selectedSatelliteVariableOptionsAtom = selectorFamily<AtomValue, AtomParameter>({
-  key: 'selectedSatelliteVariableOptions',
+const selectedSatelliteVariableAtom = selectorFamily<AtomValue, AtomParameter>({
+  key: 'selectedSatelliteVariable',
   get: (tileIdentifier: AtomParameter) => ({get}) => {
     const selectedVariable = get(selectedSatelliteVariableNameAtom(tileIdentifier))
     if (!selectedVariable) {
@@ -31,4 +31,4 @@ const selectedSatelliteVariableOptionsAtom = selectorFamily<AtomValue, AtomParam
   },
 });
 
-export default selectedSatelliteVariableOptionsAtom;
+export default selectedSatelliteVariableAtom;
