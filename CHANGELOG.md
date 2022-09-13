@@ -1,3 +1,8 @@
+# v0.9.0 (2022-09-12)
+
+* Enable independent toggle for not-processed raster data
+
+
 # v0.8.0 (2022-09-12)
 
 * Add ArcGIS Dark Grey basemap
