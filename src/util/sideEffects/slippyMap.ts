@@ -13,7 +13,10 @@ import {
 
 import {OptionalOpenLayersMap} from '../../types/SlippyMap';
 import {StateSetter} from '../../types/misc';
-import {ISatelliteVariableOptions} from '../../types/query/satelliteVariables';
+import {
+  ISatelliteVariableOptions,
+  ISatelliteVariableIndex,
+} from '../../types/query/satelliteVariables';
 import {basemapLayerGroup} from '../layer/basemaps';
 import {
   rasterLayer,
@@ -23,6 +26,8 @@ import {
 } from '../layer/raster';
 import {regionShapeLayer, showRegionShape} from '../layer/regionShape';
 import {showBasemapLayer} from '../layer/switch';
+import {queryClient} from '../query';
+import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../serverState/variablesIndex';
 
 const sharedView = new View({
   projection: 'EPSG:3857',
@@ -72,8 +77,20 @@ export const useNotProcessedLayerToggle = (
   slippyMapUid: string,
   notProcessedLayerEnabled: boolean,
 ): void => {
+  const variablesIndex = queryClient.getQueryData([SERVERSTATE_KEY_VARIABLES_INDEX]) as ISatelliteVariableIndex;
   useEffect(() => {
-    toggleNotProcessedLayer(slippyMapUid, notProcessedLayerEnabled)
+    if (variablesIndex === undefined) {
+      return;
+    }
+    const notProcessedVariables = Object.entries(variablesIndex).filter(
+      ([key, params]) => params.type === 'notprocessed'
+    );
+    if (notProcessedVariables.length !== 1) {
+      throw new Error('Exactly one notprocessed variable is required.');
+    }
+    const notProcessedVariableParams = notProcessedVariables[0][1];
+
+    toggleNotProcessedLayer(slippyMapUid, notProcessedLayerEnabled, notProcessedVariableParams)
   }, [slippyMapUid, notProcessedLayerEnabled]);
 }
 
