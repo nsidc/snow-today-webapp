@@ -2,12 +2,23 @@
 
 ## Names
 
-* RasterVariable -> SatelliteDataVariable ?
+* selectedRegion -> selectedRegionName
+* selectedRegionObject -> selectedRegion
+
+
+## Dependencies
+
+### React-query
+
+Do we need it? Recoil documents async queries:
+https://recoiljs.org/docs/guides/asynchronous-data-queries
+
+The codebase could be much simpler if we eliminated ReactQuery -- we're not using any of
+its mutation features anyway.
+
 
 ## Versioning
 
-* Version this app!
-* CHANGELOG
 * How to keep track of compatibility between the server (data schemas) and this app
   (query types)? Can we write a utility that analyzes jsonschema files with typescript
   type definitions for compatibility? Maybe we could use `typescript-json-schema` to
