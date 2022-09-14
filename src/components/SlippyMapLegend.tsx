@@ -36,6 +36,7 @@ const SlippyMapLegend: React.FC<ISlippyMapLegendProps> = (props) => {
       default={{x: xPos, y: 700, width: 'auto', height: 'auto'}} >
       
       {imgElement}
+
     </Rnd>
   );
 

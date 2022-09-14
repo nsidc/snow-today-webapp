@@ -1,5 +1,6 @@
 .SlippyMap {
   height: 100%;
+  position: relative;
 }
 
 .map-container {
