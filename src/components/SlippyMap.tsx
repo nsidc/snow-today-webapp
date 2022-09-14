@@ -1,7 +1,7 @@
 // Inspired by a very helpful blog post:
 //     https://taylor.callsen.me/using-openlayers-with-react-functional-components/
 
-import React, { useState, useRef } from 'react';
+import React, { useLayoutEffect, useState, useRef } from 'react';
 import {useRecoilValue} from 'recoil';
 
 import 'ol/ol.css';
@@ -45,8 +45,10 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   // TODO: More specific types; maybe some way to succinctly make optional?
   const [openLayersMap, setOpenLayersMap] = useState<OptionalOpenLayersMap>();
   const [selectedCoord, setSelectedCoord] = useState<OptionalCoordinate>();
+  const [componentWidth, setComponentWidth] = useState<number>(0);
 
-  const slippyMapHtmlElement = useRef<HTMLDivElement | null>(null);
+
+  const slippyMapHtmlElement = useRef<HTMLDivElement>(null);
   const slippyMapRef = useRef<OpenLayersMap | null>(null);
 
   const notProcessedLayerEnabled = useRecoilValue(notProcessedLayerEnabledAtom);
@@ -105,6 +107,13 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
     slippyMapUid,
     notProcessedLayerEnabled,
   );
+  useLayoutEffect(() => {
+    if (!slippyMapHtmlElement || !slippyMapHtmlElement.current) {
+      return;
+    }
+    setComponentWidth(slippyMapHtmlElement.current.offsetWidth);
+  }, []);
+
 
 
   slippyMapRef.current = openLayersMap || null;
@@ -119,7 +128,6 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
       </div>
     );
   }
-  debugger;
   const legendUrl = `${dataServerUrl}/${props.selectedSatelliteVariable.legend_path}`;
 
   return (
@@ -135,7 +143,10 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
         <p>{ (selectedCoord) ? toStringXY(selectedCoord, 5) : '' }</p>
       </div>
 
-      <SlippyMapLegend imageUrl={legendUrl} mapUid={slippyMapUid} />
+      <SlippyMapLegend
+        imageUrl={legendUrl}
+        parentWidthPx={componentWidth}
+        mapUid={slippyMapUid} />
 
     </div>
   )
