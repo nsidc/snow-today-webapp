@@ -1,4 +1,4 @@
-# v0.10.0 (Unreleased)
+# v0.10.0 (2022-09-14)
 
 * Display configured y-axis label from JSON
 * Display legend over map
