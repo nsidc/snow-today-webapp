@@ -1,3 +1,9 @@
+# v0.10.0 (Unreleased)
+
+* Display configured y-axis label from JSON
+* Display legend over map
+
+
 # v0.9.0 (2022-09-12)
 
 * Enable independent toggle for not-processed raster data

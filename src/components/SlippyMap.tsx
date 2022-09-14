@@ -13,6 +13,7 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 import _uniqueId from 'lodash/uniqueId';
 
 import '../style/SlippyMap.css';
+import {dataServerUrl} from '../constants/dataServer';
 import notProcessedLayerEnabledAtom from '../clientState/notProcessedLayerEnabled';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
 import selectedBasemapLayerAtom from '../clientState/derived/selectedBasemapLayer';
@@ -31,6 +32,7 @@ import {
   useSelectedRegion,
   useSelectedRasterVariable,
 } from '../util/sideEffects/slippyMap';
+import SlippyMapLegend from './SlippyMapLegend';
 
 
 interface ISlippyMapProps {
@@ -104,13 +106,27 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
     notProcessedLayerEnabled,
   );
 
+
   slippyMapRef.current = openLayersMap || null;
+  const divId = `map-container-${slippyMapUid}`
+
+  if (props.selectedSatelliteVariable === undefined) {
+    return (
+      <div
+        id={divId}
+        ref={slippyMapHtmlElement}
+        className="map-container">
+      </div>
+    );
+  }
+  debugger;
+  const legendUrl = `${dataServerUrl}/${props.selectedSatelliteVariable.legend_path}`;
 
   return (
     <div className={"SlippyMap"}>
 
       <div
-        id={`map-container-${slippyMapUid}`}
+        id={divId}
         ref={slippyMapHtmlElement}
         className="map-container">
       </div>
@@ -118,6 +134,8 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
       <div className="clicked-coord-label">
         <p>{ (selectedCoord) ? toStringXY(selectedCoord, 5) : '' }</p>
       </div>
+
+      <SlippyMapLegend imageUrl={legendUrl} mapUid={slippyMapUid} />
 
     </div>
   )
