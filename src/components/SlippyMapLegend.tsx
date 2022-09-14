@@ -25,7 +25,7 @@ const SlippyMapLegend: React.FC<ISlippyMapLegendProps> = (props) => {
 
   // We must trigger the image element's `onLoad` to get its width _before_
   // setting default position on the Rnd component
-  if (legendWidth == 0) {
+  if (legendWidth === 0) {
     return imgElement;
   }
   return (
