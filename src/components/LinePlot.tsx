@@ -59,10 +59,9 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
   }
 
   const varLongname = props.selectedSatelliteVariable.longname;
-  const varUnit = props.selectedSatelliteVariable.unit_of_measurement;
   const regionLongname = selectedGenericRegion.longname;
   const chartTitle = `${regionLongname} - ${varLongname}`;
-  const yAxisTitle = `${varLongname} (${varUnit})`;
+  const yAxisTitle = props.selectedSatelliteVariable.label_plot_yaxis;
 
   // WARNING: It is _critical_ that the data is copied before passing to
   // Highcharts. Highcharts will mutate the arrays, and we don't want state to

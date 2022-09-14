@@ -1,7 +1,7 @@
 // Inspired by a very helpful blog post:
 //     https://taylor.callsen.me/using-openlayers-with-react-functional-components/
 
-import React, { useState, useRef } from 'react';
+import React, { useLayoutEffect, useState, useRef } from 'react';
 import {useRecoilValue} from 'recoil';
 
 import 'ol/ol.css';
@@ -13,6 +13,7 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 import _uniqueId from 'lodash/uniqueId';
 
 import '../style/SlippyMap.css';
+import {dataServerUrl} from '../constants/dataServer';
 import notProcessedLayerEnabledAtom from '../clientState/notProcessedLayerEnabled';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
 import selectedBasemapLayerAtom from '../clientState/derived/selectedBasemapLayer';
@@ -31,6 +32,7 @@ import {
   useSelectedRegion,
   useSelectedRasterVariable,
 } from '../util/sideEffects/slippyMap';
+import SlippyMapLegend from './SlippyMapLegend';
 
 
 interface ISlippyMapProps {
@@ -43,8 +45,10 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   // TODO: More specific types; maybe some way to succinctly make optional?
   const [openLayersMap, setOpenLayersMap] = useState<OptionalOpenLayersMap>();
   const [selectedCoord, setSelectedCoord] = useState<OptionalCoordinate>();
+  const [componentWidth, setComponentWidth] = useState<number>(0);
 
-  const slippyMapHtmlElement = useRef<HTMLDivElement | null>(null);
+
+  const slippyMapHtmlElement = useRef<HTMLDivElement>(null);
   const slippyMapRef = useRef<OpenLayersMap | null>(null);
 
   const notProcessedLayerEnabled = useRecoilValue(notProcessedLayerEnabledAtom);
@@ -103,14 +107,34 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
     slippyMapUid,
     notProcessedLayerEnabled,
   );
+  useLayoutEffect(() => {
+    if (!slippyMapHtmlElement || !slippyMapHtmlElement.current) {
+      return;
+    }
+    setComponentWidth(slippyMapHtmlElement.current.offsetWidth);
+  }, []);
+
+
 
   slippyMapRef.current = openLayersMap || null;
+  const divId = `map-container-${slippyMapUid}`
+
+  if (props.selectedSatelliteVariable === undefined) {
+    return (
+      <div
+        id={divId}
+        ref={slippyMapHtmlElement}
+        className="map-container">
+      </div>
+    );
+  }
+  const legendUrl = `${dataServerUrl}/${props.selectedSatelliteVariable.legend_path}`;
 
   return (
     <div className={"SlippyMap"}>
 
       <div
-        id={`map-container-${slippyMapUid}`}
+        id={divId}
         ref={slippyMapHtmlElement}
         className="map-container">
       </div>
@@ -118,6 +142,11 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
       <div className="clicked-coord-label">
         <p>{ (selectedCoord) ? toStringXY(selectedCoord, 5) : '' }</p>
       </div>
+
+      <SlippyMapLegend
+        imageUrl={legendUrl}
+        parentWidthPx={componentWidth}
+        mapUid={slippyMapUid} />
 
     </div>
   )
