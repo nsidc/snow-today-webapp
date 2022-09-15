@@ -1,3 +1,8 @@
+# v0.12.0 (UNRELEASED)
+
+* Enable Highcharts accessibility module
+
+
 # v0.11.1 (2022-09-14)
 
 * Remove excessive console log

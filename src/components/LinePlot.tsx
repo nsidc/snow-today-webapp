@@ -2,6 +2,7 @@ import React, {useRef} from 'react';
 import {useRecoilValue} from 'recoil';
 
 import Highcharts from 'highcharts';
+import HighchartsAccessibility from 'highcharts/modules/accessibility';
 import HighchartsMore from 'highcharts/highcharts-more';
 import HighchartsReact from 'highcharts-react-official';
 
@@ -12,6 +13,7 @@ import usePlotDataQuery from '../serverState/plotData';
 import {IPlotData} from '../types/query/plotData';
 import {ISatelliteVariable} from '../types/query/satelliteVariables';
 
+HighchartsAccessibility(Highcharts);
 HighchartsMore(Highcharts);
 
 
@@ -130,6 +132,10 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     chart: {
       height: '95%',
       type: 'line',
+    },
+    accessibility: {
+      // TODO: Add units text
+      description: `${varLongname} plotted over the current water year.`,
     },
     title: {
       text: chartTitle,
