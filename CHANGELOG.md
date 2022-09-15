@@ -1,6 +1,9 @@
-# v0.12.0 (UNRELEASED)
+# v0.12.0 (2022-09-15)
 
 * Enable Highcharts accessibility module
+* Set plot value precision dynamically from JSON
+* Change thousands separator in plots to `,`
+* Display custom variable longname on plots
 
 
 # v0.11.1 (2022-09-14)
