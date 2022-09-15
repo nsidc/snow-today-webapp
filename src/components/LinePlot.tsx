@@ -142,7 +142,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     },
     tooltip: {
       shared: true,
-      valueDecimals: 3,
+      valueDecimals: props.selectedSatelliteVariable.value_precision,
     },
     yAxis: {
       title: {
@@ -162,6 +162,10 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     legend: {itemStyle: {fontSize: '14px'}},
     series: chartData,
   };
+
+  Highcharts.setOptions({
+    lang: {thousandsSep: ','},
+  });
 
   return (
     <div className={'LinePlot'}>
