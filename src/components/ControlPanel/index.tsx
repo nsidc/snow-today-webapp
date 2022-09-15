@@ -7,6 +7,7 @@ import LayoutConfigurator from './LayoutConfigurator';
 import NotProcessedLayerToggle from './NotProcessedLayerToggle';
 import RegionSelector from './RegionSelector';
 import RasterOpacitySlider from './RasterOpacitySlider';
+import RefreshPageButton from './RefreshPageButton';
 
 declare const __ENVIRONMENT__: 'development' | 'production';
 if (__ENVIRONMENT__ === 'development') {
@@ -27,6 +28,8 @@ const ControlPanel: React.FC = () => {
 
       <NotProcessedLayerToggle />
       <RasterOpacitySlider />
+
+      <RefreshPageButton />
 
     </div>
   );
