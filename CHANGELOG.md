@@ -1,3 +1,8 @@
+# v0.11.1 (2022-09-14)
+
+* Remove excessive console log
+
+
 # v0.11.0 (2022-09-14)
 
 * Add reset button which refreshes the page

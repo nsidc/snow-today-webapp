@@ -14,7 +14,6 @@ const TileTypeSelector: React.FC<ITileIdentifier> = (props) => {
   const [selectedTileType, setSelectedTileType] = useRecoilState(
     selectedTileTypeAtom(props)
   );
-  console.log(selectedTileType, setSelectedTileType);
 
   const selectId = `tile-type-${props.row}-${props.col}`;
   return (
