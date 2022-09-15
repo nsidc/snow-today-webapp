@@ -1,8 +1,9 @@
 import React from 'react';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 
 import '../../../style/SatelliteVariableSelector.css';
 import selectedSatelliteVariableNameAtom from '../../../clientState/selectedSatelliteVariableName';
+import selectedTileTypeAtom from '../../../clientState/selectedTileType';
 import useVariablesIndexQuery from '../../../serverState/variablesIndex';
 import {ITileIdentifier} from '../../../types/layout';
 
@@ -11,8 +12,9 @@ const LOADING_VALUE = 'LOADING...';
 
 const VariableSelector: React.FC<ITileIdentifier> = (props) => {
   const [selectedVariableName, setSelectedVariableName] = useRecoilState(
-    selectedSatelliteVariableNameAtom({row: props.row, col: props.col}),
+    selectedSatelliteVariableNameAtom(props),
   );
+  const selectedTileType = useRecoilValue(selectedTileTypeAtom(props));
   const variablesIndexQuery = useVariablesIndexQuery();
 
   const handleVariableChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -41,13 +43,14 @@ const VariableSelector: React.FC<ITileIdentifier> = (props) => {
       </option>
     );
   } else {
+    const longname_param = selectedTileType === 'plot' ? 'longname_plot' : 'longname';
     variableOptions = (
       Object.entries(variablesIndexQuery.data)
       .filter(([variableName, params]) => !Object.keys(params).includes('enabled') || params['enabled'])
       .filter(([variableName, params]) => params['type'] === 'variable')
       .map(([variableName, params]) => (
         <option key={variableName} value={variableName}>
-          {params['longname']}
+          {params[longname_param]}
         </option>
       ))
     );

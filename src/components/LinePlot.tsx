@@ -41,18 +41,19 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
   ) {
     return loadingDiv;
   }
+
+  const varLongname = props.selectedSatelliteVariable.longname_plot;
+  const regionLongname = selectedGenericRegion.longname;
   if (plotDataQuery.isError) {
     console.debug(`Error!: ${String(plotDataQuery.error)}`);
-    const regionStr = props.selectedSatelliteVariable.longname;
-    const varStr = selectedGenericRegion.longname;
     return (
       <div className={'centered-card-text'}>
         <div>
           <h3>
             {'Plot not currently available for '}
-            <u>{regionStr}</u>
+            <u>{varLongname}</u>
             {' in '}
-            <u>{varStr}</u>
+            <u>{regionLongname}</u>
           </h3>
           <p>{'Try another region! NOTE: currently, HUC4 region plots are not supported.'}</p>
         </div>
@@ -60,8 +61,6 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     );
   }
 
-  const varLongname = props.selectedSatelliteVariable.longname;
-  const regionLongname = selectedGenericRegion.longname;
   const chartTitle = `${regionLongname} - ${varLongname}`;
   const yAxisTitle = props.selectedSatelliteVariable.label_plot_yaxis;
 
