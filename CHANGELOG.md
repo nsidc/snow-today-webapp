@@ -1,3 +1,9 @@
+# v0.11.0 (2022-09-14)
+
+* Add reset button which refreshes the page
+* Increase font sizes on plots
+
+
 # v0.10.0 (2022-09-14)
 
 * Display configured y-axis label from JSON
