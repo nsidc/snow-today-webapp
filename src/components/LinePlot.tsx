@@ -133,18 +133,28 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     },
     title: {
       text: chartTitle,
+      style: {fontSize: '20px'},
     },
     tooltip: {
       shared: true,
       valueDecimals: 3,
     },
     yAxis: {
-      title: {text: yAxisTitle},
+      title: {
+        text: yAxisTitle,
+        style: {fontSize: '14px'},
+      },
+      labels: {style: {fontSize: '12px'}},
     },
     xAxis: {
       crosshair: true,
-      title: {text: 'Day of Water Year'},
+      title: {
+        text: 'Day of Water Year',
+        style: {fontSize: '14px'},
+      },
+      labels: {style: {fontSize: '12px'}},
     },
+    legend: {itemStyle: {fontSize: '14px'}},
     series: chartData,
   };
 
