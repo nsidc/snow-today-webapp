@@ -1,7 +1,7 @@
 import {
   colorStopsFromColorMap,
   colorStopsFromColorMapName,
-} from '../colormap'
+} from '../colormap';
 
 const colormapTest = [
   [255, 255, 217],
@@ -13,10 +13,10 @@ const colormapTest = [
   [34, 94, 168],
   [37, 52, 148],
   [8, 29, 88],
-]
+];
 
 
-test('Generates correct number of color stops from hard-coded colormap', () =>{
+test('Generates correct number of color stops from hard-coded colormap', () => {
   const colorStops = colorStopsFromColorMap(colormapTest, 0, 100, false);
   expect(colorStops.length).toEqual(colormapTest.length * 2);
 });

@@ -5,8 +5,10 @@ import GeoTIFF from 'ol/source/GeoTIFF';
 import _memoize from 'lodash/memoize';
 
 import {dataServerUrl} from '../../constants/dataServer';
+import {CURRENT_DOWY} from '../../constants/waterYear';
 import {colorStopsFromColorMap} from '../colormap';
 import {ISatelliteVariable} from '../../types/query/satelliteVariables';
+
 
 const geoTiffSourceDefaults = {
   // DO NOT smooth edges of pixels:
@@ -38,10 +40,30 @@ const sourceFromVariableObject = (varObj: ISatelliteVariable): GeoTIFF => {
 }
 
 
+const colormapValue = (val: number | string): number => {
+  if (typeof val === 'number') {
+    return val;
+  }
+  if (val === '$DOWY') {
+    return CURRENT_DOWY;
+  } else {
+    throw new Error(`Unexpected colormap variable: "${val}"`);
+  }
+}
+const colormapValueRange = (varObj: ISatelliteVariable): [number, number] => {
+  const cmapRangeIn = varObj.colormap_value_range;
+  return [
+    colormapValue(cmapRangeIn[0]),
+    colormapValue(cmapRangeIn[1]),
+  ]
+}
+
+
+
 const colorStyleFromVariableObject = (varObj: ISatelliteVariable): ColorStyle => {
   // Calculate color stops, nodata value, and new color style
   const colormap = varObj.colormap;
-  const [minVal, maxVal] = varObj.colormap_value_range;
+  const [minVal, maxVal] = colormapValueRange(varObj);
   const noDataValue = varObj.nodata_value;
   const transparentZero = varObj.transparent_zero;
 

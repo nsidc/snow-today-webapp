@@ -13,7 +13,7 @@ export interface ISatelliteVariable {
   value_range: [number, number];
   nodata_value: number;
   colormap: [number, number, number][] | [number, number, number, number][];
-  colormap_value_range: [number, number];
+  colormap_value_range: [number | string, number | string];
   transparent_zero: boolean;
 }
 
