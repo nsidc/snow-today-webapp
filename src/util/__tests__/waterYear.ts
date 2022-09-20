@@ -1,5 +1,5 @@
 import MockDate from 'mockdate';
-import {getYear, isEqual} from 'date-fns';
+import {getYear} from 'date-fns';
 
 import {waterYearDay1, currentDowy} from '../waterYear';
 
