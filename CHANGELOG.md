@@ -1,3 +1,8 @@
+# v0.13.0 (2022-09-20)
+
+* Correctly display data with dynamic colormaps
+
+
 # v0.12.0 (2022-09-15)
 
 * Enable Highcharts accessibility module
