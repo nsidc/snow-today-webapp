@@ -3,6 +3,7 @@ import {useRecoilValue} from 'recoil';
 
 import '../style/card.css';
 import '../style/Tile.css';
+import {CITATION} from '../constants/citation';
 import {ITileIdentifier} from '../types/layout';
 import selectedSatelliteVariableNameAtom from '../clientState/selectedSatelliteVariableName';
 import selectedSatelliteVariableObjectAtom from '../clientState/derived/selectedSatelliteVariable';
@@ -45,6 +46,9 @@ const Tile: React.FC<ITileProps> = (props) => {
   return (
     <div className={'Tile snow-today-card'} style={props.style}>
       {content}
+      <div className='tile-citation'>
+        {CITATION}
+      </div>
     </div>
   );
 }
