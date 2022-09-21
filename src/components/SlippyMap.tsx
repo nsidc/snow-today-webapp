@@ -17,7 +17,9 @@ import {dataServerUrl} from '../constants/dataServer';
 import notProcessedLayerEnabledAtom from '../clientState/notProcessedLayerEnabled';
 import rasterOpacityAtom from '../clientState/rasterOpacity';
 import selectedBasemapLayerAtom from '../clientState/derived/selectedBasemapLayer';
+import selectedSuperRegionAtom from '../clientState/derived/selectedSuperRegion';
 import selectedGenericRegionAtom from '../clientState/derived/selectedGenericRegion';
+import mapViewAtom from '../clientState/derived/mapView';
 import useRegionShapeQuery from '../serverState/regionShape';
 import {
   OptionalCoordinate,
@@ -25,11 +27,12 @@ import {
 } from '../types/SlippyMap';
 import {ISatelliteVariable} from '../types/query/satelliteVariables';
 import {
+  useMapView,
   useNotProcessedLayerToggle,
   useRasterOpacity,
   useSlippyMapInit,
   useSelectedBasemap,
-  useSelectedRegion,
+  useSelectedRegionShape,
   useSelectedRasterVariable,
 } from '../util/sideEffects/slippyMap';
 import SlippyMapLegend from './SlippyMapLegend';
@@ -55,10 +58,16 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const rasterOpacity = useRecoilValue(rasterOpacityAtom);
   const selectedBasemap = useRecoilValue(selectedBasemapLayerAtom(slippyMapUid));
   const selectedGenericRegion = useRecoilValue(selectedGenericRegionAtom);
+  const selectedSuperRegion = useRecoilValue(selectedSuperRegionAtom);
 
   const selectedRegionShapeQuery = useRegionShapeQuery(
     selectedGenericRegion ? selectedGenericRegion['shape_path'] : undefined,
   );
+  const selectedSuperRegionShapeQuery = useRegionShapeQuery(
+    selectedSuperRegion ? selectedSuperRegion['shape_path'] : undefined,
+  )
+
+  const mapView = useRecoilValue(mapViewAtom(selectedSuperRegionShapeQuery.data));
 
   const handleSlippyMapClick = (event: MapBrowserEvent<any>) => {
     if ( !slippyMapRef || !slippyMapRef.current ) {
@@ -82,13 +91,17 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
     handleSlippyMapClick,
     setOpenLayersMap,
   );
+  useMapView(
+    mapView,
+    openLayersMap,
+  );
   // NOTE: This function searches the map for layers, so does not require the
   //       UID for lookup.
   useSelectedBasemap(
     selectedBasemap,
     openLayersMap,
   );
-  useSelectedRegion(
+  useSelectedRegionShape(
     slippyMapUid,
     selectedRegionShapeQuery.data,
     openLayersMap,

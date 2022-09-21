@@ -73,6 +73,21 @@ export const useSlippyMapInit = (
   /* eslint-enable react-hooks/exhaustive-deps */
 };
 
+export const useMapView = (
+  mapView: View | undefined,
+  openLayersMap: OptionalOpenLayersMap,
+): void => {
+  useEffect(() => {
+    if (
+      openLayersMap === undefined
+      || mapView === undefined
+    ) {
+      return;
+    }
+    openLayersMap.setView(mapView);
+  }, [openLayersMap, mapView]);
+}
+
 export const useNotProcessedLayerToggle = (
   slippyMapUid: string,
   notProcessedLayerEnabled: boolean,
@@ -112,7 +127,7 @@ export const useSelectedBasemap = (
   }, [basemapLayer, openLayersMap]);
 }
 
-export const useSelectedRegion = (
+export const useSelectedRegionShape = (
   slippyMapUid: string,
   selectedRegionShape: object | undefined,
   openLayersMap: OptionalOpenLayersMap,
