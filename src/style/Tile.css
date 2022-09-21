@@ -4,4 +4,13 @@
   height: 800px;
   
   margin: 0 auto 15px;
+
+  /* Display the citation at the bottom using the correct amount of space */ 
+  display: flex;
+  flex-direction: column;
+}
+
+.tile-citation {
+  font-size: 14px;
+  background: white;
 }
