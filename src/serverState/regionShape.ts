@@ -5,6 +5,9 @@ import {fetchRegionShape} from '../util/fetch/regions';
 
 export const SERVERSTATE_KEY_SHAPE_DATA = 'shapeData';
 
+// TODO: Return Polygon or Geometry object?
+//       https://openlayers.org/en/latest/apidoc/module-ol_geom_Polygon-Polygon.html
+//       https://openlayers.org/en/latest/apidoc/module-ol_geom_Geometry-Geometry.html
 const useRegionShapeQuery = (regionShapeFilePath: string | undefined) => useQuery<object>(
   [SERVERSTATE_KEY_SHAPE_DATA, regionShapeFilePath],
   () => {
