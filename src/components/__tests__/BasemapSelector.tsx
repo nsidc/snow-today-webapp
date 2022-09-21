@@ -7,7 +7,7 @@ import selectedBasemapNameAtom from '../../clientState/selectedBasemapName';
 import {RecoilObserver} from '../../util/test';
 
 
-test('calls onChange with value as argument', async () => {
+test('Calls onChange with value as argument', async () => {
   const changeFunc = jest.fn();
 
   render(
