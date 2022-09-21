@@ -1,3 +1,9 @@
+# v0.14.0 (2022-09-21)
+
+* Show xAxis Day of Water Year labels as calendar dates
+* Show citation on each tile
+
+
 # v0.13.0 (2022-09-20)
 
 * Correctly display data with dynamic colormaps
