@@ -12,6 +12,7 @@ import selectedGenericRegionAtom from '../clientState/derived/selectedGenericReg
 import usePlotDataQuery from '../serverState/plotData';
 import {IPlotData} from '../types/query/plotData';
 import {ISatelliteVariable} from '../types/query/satelliteVariables';
+import {unixDateFromDowy} from '../util/waterYear';
 
 HighchartsAccessibility(Highcharts);
 HighchartsMore(Highcharts);
@@ -23,6 +24,7 @@ interface ILinePlotProps {
 }
 
 
+// TODO: This component re-renders too frequently!!!
 const LinePlot: React.FC<ILinePlotProps> = (props) => {
   const chartRef = useRef<HighchartsReact.RefObject>(null);
 
@@ -67,15 +69,18 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
   // WARNING: It is _critical_ that the data is copied before passing to
   // Highcharts. Highcharts will mutate the arrays, and we don't want state to
   // be mutated!!!
-  type IPlotDataMutable = {
-    [Property in keyof IPlotData]: number[];
+  type IPlotDataForHighcharts = {
+    [Property in keyof Omit<IPlotData, 'day_of_water_year'>]: number[];
+  } & {
+    unix_date: number[];
   }
+  type SeriesData = [number, number];
   // TODO: Is there a programmatic way to do this object transformation
   // *WITHOUT* type casting? This is not friendly to maintain. Easy to
   // make mistakes with values, but Typescript protects us from messing up
   // structure (keys and types of values).
-  const data: IPlotDataMutable = {
-    day_of_water_year: [...plotDataQuery.data['day_of_water_year']],
+  const data: IPlotDataForHighcharts = {
+    unix_date: [...plotDataQuery.data['day_of_water_year']].map(unixDateFromDowy),
     max: [...plotDataQuery.data['max']],
     median: [...plotDataQuery.data['median']],
     min: [...plotDataQuery.data['min']],
@@ -84,18 +89,30 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     year_to_date: [...plotDataQuery.data['year_to_date']],
   };
 
+  // Re-join a given column with the X value (unix_date)
+  const getSeriesData = (
+    column: keyof Omit<IPlotDataForHighcharts, 'unix_date'>,
+  ): SeriesData[] => {
+    // NOTE: We don't use the lodash zip function because it supports
+    // different-length lists, using "undefined" to fill in shorter lists.
+    const zipped = data.unix_date.map(
+      (unixDate, index): [number, number] => [unixDate, data[column][index]]
+    );
+    return zipped;
+  }
+
   const chartData: Highcharts.SeriesOptionsType[] = [
     {
       name: 'Year to date',
       type: 'line',
-      data: data['year_to_date'],
+      data: getSeriesData('year_to_date'),
       zIndex: 99,
       // color: '#000000',
     },
     {
       name: 'Median',
       type: 'line',
-      data: data['median'],
+      data: getSeriesData('median'),
       zIndex: 10,
       color: '#8d8d8d',
       dashStyle: 'Dash',
@@ -103,7 +120,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     {
       name: 'Maximum',
       type: 'line',
-      data: data['max'],
+      data: getSeriesData('max'),
       zIndex: 9,
       color: '#666666',
       dashStyle: 'ShortDashDot',
@@ -111,7 +128,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     {
       name: 'Minimum',
       type: 'line',
-      data: data['min'],
+      data: getSeriesData('min'),
       zIndex: 8,
       color: '#666666',
       dashStyle: 'ShortDot',
@@ -119,14 +136,16 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     {
       name: 'Interquartile Range',
       type: 'arearange',
-      data: data['prc25'].map((low, index) => {
-        return [low, data['prc75'][index]];
+      data: getSeriesData('prc25').map(([x, low], index) => {
+        const high = getSeriesData('prc75')[index][1];
+        return [x, low, high];
       }),
       zIndex: 0,
       lineWidth: 0,
       color: '#cccccc',
     },
   ];
+
   const chartOptions: Highcharts.Options = {
     chart: {
       height: '95%',
@@ -152,12 +171,15 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       labels: {style: {fontSize: '12px'}},
     },
     xAxis: {
+      type: 'datetime',
       crosshair: true,
       title: {
-        text: 'Day of Water Year',
+        text: 'Date',
         style: {fontSize: '14px'},
       },
       labels: {style: {fontSize: '12px'}},
+      // Show monthly ticks by setting interval to 1 month in milliseconds:
+      tickInterval: 30 * 24 * 60 * 60 * 1000
     },
     legend: {itemStyle: {fontSize: '14px'}},
     series: chartData,

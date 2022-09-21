@@ -1,7 +1,8 @@
-import {compareAsc, differenceInDays, getYear, getMonth, getDate} from 'date-fns';
+import {add, compareAsc, differenceInDays, getYear, getMonth, getDate} from 'date-fns';
+import _memoize from 'lodash/memoize';
 
 
-export const waterYearDay1 = (): Date => {
+export const waterYearDay1 = _memoize((): Date => {
   /* Calculate day 1 of the current water year.
    *
    * Day 1 of the current water year _may not_ lie within the current calendar year.
@@ -27,8 +28,23 @@ export const waterYearDay1 = (): Date => {
   }
 
   return wyd1;
-}
+});
 
 
 // NOTE: Incremented to align with MATLAB convention of 1-indexed water year
-export const currentDowy = (): number => differenceInDays(new Date(), waterYearDay1()) + 1;
+export const currentDowy = _memoize((): number => differenceInDays(new Date(), waterYearDay1()) + 1);
+
+
+// NOTE: Decremented to align with MATLAB convention of 1-indexed water year.
+//       e.g. If the value of DOWY is 1, the result of this function should be
+//       WATER_YEAR_DAY1.
+// NOTE: The reason we return Unix dates instead of Date objects is because
+//       Highcharts only supports the former.
+export const unixDateFromDowy = (dowy: number): number => {
+  const dowyDate = add(waterYearDay1(), {days: dowy - 1});
+  return Date.UTC(
+    getYear(dowyDate),
+    getMonth(dowyDate),
+    getDate(dowyDate),
+  )
+}
