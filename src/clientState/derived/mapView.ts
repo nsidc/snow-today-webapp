@@ -22,7 +22,6 @@ const mapViewAtom = selectorFamily<AtomValue, AtomParameter>({
       return;
     }
 
-    console.log(`shape: ${selectedSuperRegionShape}`);
     const geoJsonGeometryFeatures = new GeoJSON().readFeatures(selectedSuperRegionShape);
     if (geoJsonGeometryFeatures.length !== 1) {
       throw new Error('GeoJSON should only include 1 feature.');
