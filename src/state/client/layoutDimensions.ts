@@ -1,6 +1,6 @@
 import {atom} from 'recoil';
 
-import {DEFAULT_ROWS, DEFAULT_COLS} from '../constants/layout';
+import {DEFAULT_ROWS, DEFAULT_COLS} from '../../constants/layout';
 
 
 export const selectedLayoutRowsAtom = atom<number>({

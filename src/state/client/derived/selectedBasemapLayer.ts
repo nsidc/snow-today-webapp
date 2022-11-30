@@ -4,7 +4,7 @@ import {selectorFamily} from 'recoil';
 import BaseLayer from 'ol/layer/Base';
 
 import selectedBasemapNameAtom from '../selectedBasemapName';
-import {basemapLayersByName} from '../../util/layer/basemaps';
+import {basemapLayersByName} from '../../../util/layer/basemaps';
 
 
 // TODO: Should we call selectors "atoms" for simplicity? They are used

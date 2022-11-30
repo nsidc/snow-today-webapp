@@ -14,12 +14,12 @@ import _uniqueId from 'lodash/uniqueId';
 
 import '../style/SlippyMap.css';
 import {dataServerUrl} from '../constants/dataServer';
-import notProcessedLayerEnabledAtom from '../clientState/notProcessedLayerEnabled';
-import rasterOpacityAtom from '../clientState/rasterOpacity';
-import selectedBasemapLayerAtom from '../clientState/derived/selectedBasemapLayer';
-import selectedSuperRegionAtom from '../clientState/derived/selectedSuperRegion';
-import selectedGenericRegionAtom from '../clientState/derived/selectedGenericRegion';
-import mapViewAtom from '../clientState/derived/mapView';
+import notProcessedLayerEnabledAtom from '../state/client/notProcessedLayerEnabled';
+import rasterOpacityAtom from '../state/client/rasterOpacity';
+import selectedBasemapLayerAtom from '../state/client/derived/selectedBasemapLayer';
+import selectedSuperRegionAtom from '../state/client/derived/selectedSuperRegion';
+import selectedGenericRegionAtom from '../state/client/derived/selectedGenericRegion';
+import mapViewAtom from '../state/client/derived/mapView';
 import useRegionShapeQuery from '../serverState/regionShape';
 import {
   OptionalCoordinate,

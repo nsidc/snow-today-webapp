@@ -2,8 +2,8 @@ import React from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 
 import '../../../style/SatelliteVariableSelector.css';
-import selectedSatelliteVariableNameAtom from '../../../clientState/selectedSatelliteVariableName';
-import selectedTileTypeAtom from '../../../clientState/selectedTileType';
+import selectedSatelliteVariableNameAtom from '../../../state/client/selectedSatelliteVariableName';
+import selectedTileTypeAtom from '../../../state/client/selectedTileType';
 import useVariablesIndexQuery from '../../../serverState/variablesIndex';
 import {ITileIdentifier} from '../../../types/layout';
 

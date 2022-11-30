@@ -2,7 +2,7 @@ import React from 'react';
 import {useRecoilState} from 'recoil';
 
 import '../../../style/SuperRegionSelector.css';
-import selectedSuperRegionNameAtom from '../../../clientState/selectedSuperRegionName';
+import selectedSuperRegionNameAtom from '../../../state/client/selectedSuperRegionName';
 import {IRegionIndex} from '../../../types/query/regions';
 
 

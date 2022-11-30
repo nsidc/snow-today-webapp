@@ -6,8 +6,8 @@ import '../../../style/dropdownForm.css';
 import SuperRegionSelector from './SuperRegionSelector';
 import SubRegionCollectionSelector from './SubRegionCollectionSelector';
 import SubRegionSelector from './SubRegionSelector';
-import selectedSuperRegionNameAtom from '../../../clientState/selectedSuperRegionName';
-import selectedSuperRegionAtom from '../../../clientState/derived/selectedSuperRegion';
+import selectedSuperRegionNameAtom from '../../../state/client/selectedSuperRegionName';
+import selectedSuperRegionAtom from '../../../state/client/derived/selectedSuperRegion';
 import useRegionsIndexQuery from '../../../serverState/regionsIndex';
 
 

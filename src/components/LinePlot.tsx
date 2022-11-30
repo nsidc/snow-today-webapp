@@ -8,7 +8,7 @@ import HighchartsReact from 'highcharts-react-official';
 
 import '../style/LinePlot.css';
 import '../style/card.css';
-import selectedGenericRegionAtom from '../clientState/derived/selectedGenericRegion';
+import selectedGenericRegionAtom from '../state/client/derived/selectedGenericRegion';
 import usePlotDataQuery from '../serverState/plotData';
 import {IPlotData} from '../types/query/plotData';
 import {ISatelliteVariable} from '../types/query/satelliteVariables';

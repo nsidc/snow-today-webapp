@@ -4,7 +4,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
 import {basemapNames} from '../../util/layer/basemaps';
-import selectedBasemapNameAtom from '../../clientState/selectedBasemapName';
+import selectedBasemapNameAtom from '../../state/client/selectedBasemapName';
 
 const BasemapSelector: React.FC = () => {
   const [selectedBasemapName, setSelectedBasemap] = useRecoilState(selectedBasemapNameAtom);

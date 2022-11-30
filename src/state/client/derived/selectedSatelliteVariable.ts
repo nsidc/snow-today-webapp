@@ -6,11 +6,11 @@
 import {selectorFamily} from 'recoil';
 
 import selectedSatelliteVariableNameAtom from '../selectedSatelliteVariableName';
-import {ISatelliteVariable, ISatelliteVariableIndex} from '../../types/query/satelliteVariables';
-import {queryClient} from '../../util/query';
-import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../serverState/variablesIndex';
+import {ISatelliteVariable, ISatelliteVariableIndex} from '../../../types/query/satelliteVariables';
+import {queryClient} from '../../../util/query';
+import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../../serverState/variablesIndex';
 
-import {ITileIdentifier} from '../../types/layout';
+import {ITileIdentifier} from '../../../types/layout';
 
 
 // TODO: Should we call selectors "atoms" for simplicity? They are used

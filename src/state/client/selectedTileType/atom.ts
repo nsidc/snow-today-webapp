@@ -7,7 +7,7 @@
  */
 import {atomFamily} from 'recoil';
 
-import {ITileIdentifier, TileType} from '../../types/layout';
+import {ITileIdentifier, TileType} from '../../../types/layout';
 
 
 export type AtomValue = TileType;

@@ -7,7 +7,7 @@ import {
   TileType,
   tileTypes,
 } from '../../../types/layout';
-import selectedTileTypeAtom from '../../../clientState/selectedTileType';
+import selectedTileTypeAtom from '../../../state/client/selectedTileType';
 
 
 const TileTypeSelector: React.FC<ITileIdentifier> = (props) => {

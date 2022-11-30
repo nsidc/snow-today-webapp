@@ -7,11 +7,11 @@ import '../style/TileLayout.css';
 import {
   selectedLayoutColsAtom,
   selectedLayoutRowsAtom,
-} from '../clientState/layoutDimensions';
-import selectedSatelliteVariableNameAtom from '../clientState/selectedSatelliteVariableName';
-import {AtomValue as SatelliteVariable} from '../clientState/selectedSatelliteVariableName/atom';
-import selectedTileTypeAtom from '../clientState/selectedTileType';
-import {AtomValue as TileType} from '../clientState/selectedTileType/atom';
+} from '../state/client/layoutDimensions';
+import selectedSatelliteVariableNameAtom from '../state/client/selectedSatelliteVariableName';
+import {AtomValue as SatelliteVariable} from '../state/client/selectedSatelliteVariableName/atom';
+import selectedTileTypeAtom from '../state/client/selectedTileType';
+import {AtomValue as TileType} from '../state/client/selectedTileType/atom';
 import {ROW_OPTIONS, COL_OPTIONS} from '../constants/layout';
 import useVariablesIndexQuery from '../serverState/variablesIndex';
 import {StateSetter} from '../types/misc';
