@@ -16,7 +16,7 @@ const BasemapSelector: React.FC = () => {
     setSelectedBasemap(eventKey);
   };
   return (
-    <DropdownButton title='Select a Basemap' onSelect={handleSelect}>
+    <DropdownButton title={'Select a Basemap'} onSelect={handleSelect}>
       {basemapNames.map(basemapName => (
         <Dropdown.Item
           key={basemapName}

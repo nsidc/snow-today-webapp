@@ -24,6 +24,7 @@ interface IBasemapAttrs {
 }
 
 
+// TODO: Extract to constant
 const basemapsInfo: IBasemapAttrs[] = [
   // USGS Basemaps
   {
