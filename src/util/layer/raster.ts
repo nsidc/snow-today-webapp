@@ -112,7 +112,7 @@ export const notProcessedLayer = _memoize((mapId: string): TileLayer => (
       ...geoTiffSourceDefaults,
       sources: [
         {
-          url: 'https://qa.nsidc.org/api/snow-today/cogs/notprocessed.tif',
+          url: `${dataServerUrl}/cogs/notprocessed.tif`,
         },
       ],
     }),
