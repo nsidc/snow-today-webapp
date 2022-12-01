@@ -6,6 +6,13 @@
 * selectedRegionObject -> selectedRegion
 
 
+## Data / server-side considerations
+
+### SWE
+
+Consider converting to GeoJSON in the ingest process.
+
+
 ## Dependencies
 
 ### React-query

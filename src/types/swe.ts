@@ -12,7 +12,7 @@ export interface SwePointForOverlay {
   lon: number;
   lat: number;
   elevation_meters: number;
-  measurement_inches: number;
+  measurement_inches?: number;
 }
 
 export type SwePointsForOverlay = SwePointForOverlay[];

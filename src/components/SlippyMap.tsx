@@ -13,12 +13,14 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 import _uniqueId from 'lodash/uniqueId';
 
 import '../style/SlippyMap.css';
+import {CRS_LONLAT, CRS_MAP} from '../constants/crs';
 import {dataServerUrl} from '../constants/dataServer';
 import notProcessedLayerEnabledAtom from '../state/client/notProcessedLayerEnabled';
 import rasterOpacityAtom from '../state/client/rasterOpacity';
 import selectedBasemapLayerAtom from '../state/client/derived/selectedBasemapLayer';
 import selectedSuperRegionAtom from '../state/client/derived/selectedSuperRegion';
 import selectedGenericRegionAtom from '../state/client/derived/selectedGenericRegion';
+import swePointsForOverlayAtom from '../state/client/derived/swePointsForOverlay';
 import mapViewAtom from '../state/client/derived/mapView';
 import useRegionShapeQuery from '../serverState/regionShape';
 import {
@@ -34,6 +36,7 @@ import {
   useSelectedBasemap,
   useSelectedRegionShape,
   useSelectedRasterVariable,
+  useSweOverlayPoints,
 } from '../util/sideEffects/slippyMap';
 import SlippyMapLegend from './SlippyMapLegend';
 
@@ -59,6 +62,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const selectedBasemap = useRecoilValue(selectedBasemapLayerAtom(slippyMapUid));
   const selectedGenericRegion = useRecoilValue(selectedGenericRegionAtom);
   const selectedSuperRegion = useRecoilValue(selectedSuperRegionAtom);
+  const swePointsForOverlay = useRecoilValue(swePointsForOverlayAtom);
 
   const selectedRegionShapeQuery = useRegionShapeQuery(
     selectedGenericRegion ? selectedGenericRegion['shape_path'] : undefined,
@@ -76,7 +80,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const clickedCoord = slippyMapRef.current.getCoordinateFromPixel(event.pixel);
-    const transormedCoord = transform(clickedCoord, 'EPSG:3857', 'EPSG:4326')
+    const transormedCoord = transform(clickedCoord, CRS_MAP, CRS_LONLAT);
 
     setSelectedCoord(transormedCoord);
   }
@@ -120,6 +124,11 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
     slippyMapUid,
     notProcessedLayerEnabled,
   );
+  useSweOverlayPoints(
+    slippyMapUid,
+    swePointsForOverlay,
+    openLayersMap,
+  );
   useLayoutEffect(() => {
     if (!slippyMapHtmlElement || !slippyMapHtmlElement.current) {
       return;
@@ -162,7 +171,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
         mapUid={slippyMapUid} />
 
     </div>
-  )
+  );
 }
 
-export default SlippyMap
+export default SlippyMap;

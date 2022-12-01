@@ -17,6 +17,7 @@ import {
   ISatelliteVariable,
   ISatelliteVariableIndex,
 } from '../../types/query/satelliteVariables';
+import {SwePointsForOverlay} from '../../types/swe';
 import {basemapLayerGroup} from '../layer/basemaps';
 import {
   rasterLayer,
@@ -24,7 +25,12 @@ import {
   notProcessedLayer,
   toggleNotProcessedLayer,
 } from '../layer/raster';
-import {regionShapeLayer, showRegionShape} from '../layer/regionShape';
+import {showSwePointsOverlay, swePointsLayer} from '../layer/swe';
+import {
+  regionShapeLayer,
+  showRegionShape,
+} from '../layer/regionShape';
+import {} from '../layer/swe';
 import {showBasemapLayer} from '../layer/switch';
 import {queryClient} from '../query';
 import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../serverState/variablesIndex';
@@ -53,6 +59,7 @@ export const useSlippyMapInit = (
         rasterLayer(slippyMapUid),
         notProcessedLayer(slippyMapUid),
         regionShapeLayer(slippyMapUid),
+        swePointsLayer(slippyMapUid),
       ],
       view: sharedView,
       pixelRatio: 1,
@@ -176,4 +183,21 @@ export const useRasterOpacity = (
 
     rasterLayer(slippyMapUid).setOpacity(rasterOpacity / 100);
   }, [slippyMapUid, rasterOpacity, openLayersMap]);
+}
+
+export const useSweOverlayPoints = (
+  slippyMapUid: string,
+  swePointsForOverlay: SwePointsForOverlay,
+  openLayersMap: OptionalOpenLayersMap,
+): void => {
+  useEffect(() => {
+    if (
+      openLayersMap === undefined
+      || swePointsForOverlay.length == 0
+    ) {
+      return;
+    }
+
+    showSwePointsOverlay(slippyMapUid, swePointsForOverlay, openLayersMap);
+  }, [slippyMapUid, swePointsForOverlay, openLayersMap]);
 }
