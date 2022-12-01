@@ -5,6 +5,7 @@ import {Vector as VectorLayer} from 'ol/layer';
 import {transform} from 'ol/proj'
 import {Vector as VectorSource} from 'ol/source';
 import {Circle, Fill, Stroke, Style} from 'ol/style';
+//import {Circle, Fill, Style} from 'ol/style';
 
 import _memoize from 'lodash/memoize';
 
@@ -22,8 +23,8 @@ export const swePointsLayer = _memoize((mapId: string): VectorLayer<VectorSource
     style: new Style({
       image: new Circle({
         radius: 5,
-        fill: new Fill({color: '#666666'}),
-        stroke: new Stroke({color: 'blue', width: 3}),
+        fill: new Fill({color: '#f7fbff'}),
+        stroke: new Stroke({color: 'black', width: 1}),
       }),
     }),
   })
