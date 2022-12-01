@@ -107,7 +107,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       type: 'line',
       data: getSeriesData('year_to_date'),
       zIndex: 99,
-      // color: '#000000',
+      color: '#0098F4',
     },
     {
       name: 'Median',
