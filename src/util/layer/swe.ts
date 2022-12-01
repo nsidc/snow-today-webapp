@@ -35,7 +35,10 @@ export const showSwePointsOverlay = (
   swePoints: SwePointsForOverlay,
   openLayersMap: PluggableMap,
 ): void => {
-  const features = swePoints.map((point) => new Feature({
+  const displayablePoints = swePoints.filter((point) => {
+    return point.measurement_inches !== null && point.measurement_inches !== 0;
+  });
+  const features = displayablePoints.map((point) => new Feature({
     'geometry': new Point(transform([point.lon, point.lat], CRS_LONLAT, CRS_MAP)),
     'foo': point,
   }));
@@ -44,11 +47,4 @@ export const showSwePointsOverlay = (
     features: features,
   })
   swePointsLayer(mapId).setSource(newSource);
-  // zoom to shape
-  openLayersMap.getView().fit(
-    newSource.getExtent(),
-    {
-      padding: [20, 20, 20, 20],
-    },
-  );
 }
