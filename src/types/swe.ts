@@ -2,8 +2,8 @@
 export interface SweFields {
   none: string,
   swe_inches: string,
-  swe_diff_inches: string,
-  swe_normalized_inches: string,
+  swe_delta_inches: string,
+  swe_normalized_pct: string,
 }
 export type SweField = keyof SweFields;
 
