@@ -101,11 +101,12 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     return zipped;
   }
 
+  const ytdSeries = getSeriesData('year_to_date');
   const chartData: Highcharts.SeriesOptionsType[] = [
     {
       name: 'Year to date',
       type: 'line',
-      data: getSeriesData('year_to_date'),
+      data: ytdSeries,
       zIndex: 99,
       color: '#0098F4',
       lineWidth: 3,
@@ -147,6 +148,8 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     },
   ];
 
+  const ytdSeriesLastNonNullPoint = ytdSeries.filter(p => p[1] !== null).slice(-1)[0];
+  const ytdSeriesLastDate = new Date(ytdSeriesLastNonNullPoint[0]);
   const chartOptions: Highcharts.Options = {
     chart: {
       height: '95%',
@@ -159,6 +162,10 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     title: {
       text: chartTitle,
       style: {fontSize: '20px'},
+    },
+    subtitle: {
+      text: `As of ${ytdSeriesLastDate.toISOString().split('T')[0]}`,
+      style: {fontSize: '16px'},
     },
     tooltip: {
       shared: true,
