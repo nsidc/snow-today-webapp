@@ -105,7 +105,7 @@ export const useNotProcessedLayerToggle = (
       return;
     }
     const notProcessedVariables = Object.entries(variablesIndex).filter(
-      ([key, params]) => params.type === 'notprocessed'
+      ([key, params]) => params.type === 'raster_notprocessed'
     );
     if (notProcessedVariables.length !== 1) {
       throw new Error('Exactly one notprocessed variable is required.');

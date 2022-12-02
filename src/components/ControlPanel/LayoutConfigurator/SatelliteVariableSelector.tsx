@@ -47,7 +47,7 @@ const VariableSelector: React.FC<ITileIdentifier> = (props) => {
     variableOptions = (
       Object.entries(variablesIndexQuery.data)
       .filter(([variableName, params]) => !Object.keys(params).includes('enabled') || params['enabled'])
-      .filter(([variableName, params]) => params['type'] === 'variable')
+      .filter(([variableName, params]) => params['type'] === 'raster')
       .map(([variableName, params]) => (
         <option key={variableName} value={variableName}>
           {params[longname_param]}

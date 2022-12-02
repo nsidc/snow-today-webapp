@@ -1,5 +1,5 @@
 export interface ISatelliteVariable {
-  type: 'variable' | 'notprocessed';
+  type: 'raster' | 'raster_notprocessed' | 'point';
   enabled?: boolean;
   default?: boolean;
   longname: string;
