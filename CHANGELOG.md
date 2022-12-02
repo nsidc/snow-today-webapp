@@ -1,3 +1,10 @@
+# NEXT_VERSION
+
+* Fix issue with layout config dropdown displaying improperly in Chrome
+* Improve style of Year to Date plot line
+* Add date as subtitle to line plots
+
+
 # v0.14.0 (2022-09-21)
 
 * Show xAxis Day of Water Year labels as calendar dates
