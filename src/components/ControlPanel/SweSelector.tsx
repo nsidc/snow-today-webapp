@@ -58,7 +58,7 @@ const BasemapSelector: React.FC = () => {
   }
   variableOptions.unshift(
     <Dropdown.Item
-      key={undefined}
+      key={'undefined'}
       eventKey={undefined}
       active={selectedSweVariableName == undefined}>
       None
