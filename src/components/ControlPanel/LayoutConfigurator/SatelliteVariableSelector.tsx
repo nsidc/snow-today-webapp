@@ -11,9 +11,10 @@ const LOADING_VALUE = 'LOADING...';
 
 
 const VariableSelector: React.FC<ITileIdentifier> = (props) => {
-  const [selectedVariableName, setSelectedVariableName] = useRecoilState(
-    selectedSatelliteVariableNameAtom(props),
-  );
+  const [
+    selectedSatelliteVariableName,
+    setSelectedSatelliteVariableName,
+  ] = useRecoilState(selectedSatelliteVariableNameAtom(props));
   const selectedTileType = useRecoilValue(selectedTileTypeAtom(props));
   const variablesIndexQuery = useVariablesIndexQuery();
 
@@ -25,7 +26,7 @@ const VariableSelector: React.FC<ITileIdentifier> = (props) => {
     } else {
       stateValue = targetValue;
     }
-    setSelectedVariableName(stateValue);
+    setSelectedSatelliteVariableName(stateValue);
   }
 
   if (variablesIndexQuery.isError) {
@@ -60,7 +61,7 @@ const VariableSelector: React.FC<ITileIdentifier> = (props) => {
   return (
     <div className={'SatelliteVariableSelector'}>
       <label htmlFor={elementId}>{'Variable: '}</label>
-      <select id={elementId} onChange={handleVariableChange} value={selectedVariableName}>
+      <select id={elementId} onChange={handleVariableChange} value={selectedSatelliteVariableName}>
         <option value={''} disabled hidden>{'Loading...'}</option>
         {variableOptions}
       </select>

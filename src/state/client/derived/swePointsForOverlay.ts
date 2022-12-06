@@ -1,18 +1,28 @@
 import {selector} from 'recoil';
 
 import swePointsQueryAtom from '../../server/swe';
-import selectedSweOverlayAtom from '../selectedSweOverlay';
+import selectedSweVariableNameAtom from '../selectedSweVariableName';
 import {SwePointsForOverlay} from '../../../types/swe';
+import {ISwePoint, SweMeasurementField} from '../../../types/query/swe';
 
 
 const swePointsForOverlayAtom = selector<SwePointsForOverlay>({
   key: 'swePointsForOverlay',
   get: ({get}) => {
+    // NOTE: This code relies on the variable name and the keys in swePoints matching!
     const swePoints = get(swePointsQueryAtom);
-    const selectedSweOverlay = get(selectedSweOverlayAtom);
+    const selectedSweVariableName = get(selectedSweVariableNameAtom);
 
-    if (selectedSweOverlay === 'none') {
+    if (selectedSweVariableName === undefined) {
       return [];
+    }
+
+    const measurementInches = (point: ISwePoint) => {
+      if (selectedSweVariableName === undefined) {
+        return undefined;
+      } else {
+        return point[selectedSweVariableName as SweMeasurementField];
+      }
     }
 
     const overlayPoints = swePoints.map(point => ({
@@ -20,7 +30,7 @@ const swePointsForOverlayAtom = selector<SwePointsForOverlay>({
       lon: point.lon,
       lat: point.lat,
       elevation_meters: point.elevation_meters,
-      measurement_inches: point[selectedSweOverlay],
+      measurement_inches: measurementInches(point),
     }));
 
     return overlayPoints

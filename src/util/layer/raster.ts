@@ -7,7 +7,7 @@ import _memoize from 'lodash/memoize';
 import {dataServerUrl} from '../../constants/dataServer';
 import {CURRENT_DOWY} from '../../constants/waterYear';
 import {colorStopsFromColorMap} from '../colormap';
-import {ISatelliteVariable} from '../../types/query/satelliteVariables';
+import {IVariable} from '../../types/query/variables';
 
 
 const geoTiffSourceDefaults = {
@@ -25,7 +25,7 @@ const styleVariables: IStyleVariables = {
 }
 
 
-const sourceFromVariableObject = (varObj: ISatelliteVariable): GeoTIFF => {
+const sourceFromVariableObject = (varObj: IVariable): GeoTIFF => {
   // Calculate new source URL
   const cogPath = varObj.cog_path;
   const url = `${dataServerUrl}/${cogPath}`;
@@ -50,7 +50,7 @@ const colormapValue = (val: number | string): number => {
     throw new Error(`Unexpected colormap variable: "${val}"`);
   }
 }
-const colormapValueRange = (varObj: ISatelliteVariable): [number, number] => {
+const colormapValueRange = (varObj: IVariable): [number, number] => {
   const cmapRangeIn = varObj.colormap_value_range;
   return [
     colormapValue(cmapRangeIn[0]),
@@ -60,7 +60,7 @@ const colormapValueRange = (varObj: ISatelliteVariable): [number, number] => {
 
 
 
-const colorStyleFromVariableObject = (varObj: ISatelliteVariable): ColorStyle => {
+const colorStyleFromVariableObject = (varObj: IVariable): ColorStyle => {
   // Calculate color stops, nodata value, and new color style
   const colormap = varObj.colormap;
   const [minVal, maxVal] = colormapValueRange(varObj);
@@ -132,7 +132,7 @@ export const notProcessedLayer = _memoize((mapId: string): TileLayer => (
 export const toggleNotProcessedLayer = (
   mapId: string,
   notProcessedLayerEnabled: boolean,
-  notProcessedVariableObject: ISatelliteVariable,
+  notProcessedVariableObject: IVariable,
 ): void => {
   const theNotProcessedLayer = notProcessedLayer(mapId);
 
@@ -163,7 +163,7 @@ export const rasterLayer = _memoize((mapId: string): TileLayer => (
 
 export const changeRasterVariable = (
   mapId: string,
-  rasterVariableObject: ISatelliteVariable,
+  rasterVariableObject: IVariable,
   openLayersMap: PluggableMap,
 ): void => {
   const theRasterLayer = rasterLayer(mapId);

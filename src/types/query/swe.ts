@@ -11,4 +11,5 @@ export interface ISwePoint {
   huc4: number;
 }
 
+export type SweMeasurementField = Extract<keyof ISwePoint, 'swe_inches' | 'swe_delta_inches' | 'swe_normalized_pct'>;
 export type SwePoints = Array<ISwePoint>;

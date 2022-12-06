@@ -50,6 +50,11 @@ const TileLayout: React.FC = () => {
   const selectedLayoutRows = useRecoilValue(selectedLayoutRowsAtom);
 
   const tileStateSetters = useTileStateSetters();
+
+  // TODO: How to ensure that this fires first? The current implementation of
+  // the "useQuery" expects a callback when it's first called. There's
+  // currently a race condition where this function is called by the swe
+  // variable selector first. Move this into the Recoil state graph?
   // @ts-ignore: TS6133 -- this query data is expected not to be used here;
   // init only.
   const variablesIndexQuery = useVariablesIndexQuery((defaultVarName: string) => {

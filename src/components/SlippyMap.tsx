@@ -27,7 +27,7 @@ import {
   OptionalCoordinate,
   OptionalOpenLayersMap,
 } from '../types/SlippyMap';
-import {ISatelliteVariable} from '../types/query/satelliteVariables';
+import {IVariable} from '../types/query/variables';
 import {
   useMapView,
   useNotProcessedLayerToggle,
@@ -42,7 +42,7 @@ import SlippyMapLegend from './SlippyMapLegend';
 
 
 interface ISlippyMapProps {
-  selectedSatelliteVariable: ISatelliteVariable | undefined;
+  selectedSatelliteVariable: IVariable | undefined;
 }
 
 

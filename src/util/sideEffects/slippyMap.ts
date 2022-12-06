@@ -13,10 +13,7 @@ import {
 
 import {OptionalOpenLayersMap} from '../../types/SlippyMap';
 import {StateSetter} from '../../types/misc';
-import {
-  ISatelliteVariable,
-  ISatelliteVariableIndex,
-} from '../../types/query/satelliteVariables';
+import {IVariable, IVariableIndex} from '../../types/query/variables';
 import {SwePointsForOverlay} from '../../types/swe';
 import {basemapLayerGroup} from '../layer/basemaps';
 import {
@@ -99,7 +96,7 @@ export const useNotProcessedLayerToggle = (
   slippyMapUid: string,
   notProcessedLayerEnabled: boolean,
 ): void => {
-  const variablesIndex = queryClient.getQueryData([SERVERSTATE_KEY_VARIABLES_INDEX]) as ISatelliteVariableIndex;
+  const variablesIndex = queryClient.getQueryData([SERVERSTATE_KEY_VARIABLES_INDEX]) as IVariableIndex;
   useEffect(() => {
     if (variablesIndex === undefined) {
       return;
@@ -153,7 +150,7 @@ export const useSelectedRegionShape = (
 
 export const useSelectedRasterVariable = (
   slippyMapUid: string,
-  selectedSatelliteVariableObject: ISatelliteVariable | undefined,
+  selectedSatelliteVariableObject: IVariable | undefined,
   openLayersMap: OptionalOpenLayersMap,
 ): void => {
   useEffect(() => {
@@ -193,7 +190,7 @@ export const useSweOverlayPoints = (
   useEffect(() => {
     if (
       openLayersMap === undefined
-      || swePointsForOverlay.length == 0
+      || swePointsForOverlay.length === 0
     ) {
       return;
     }
