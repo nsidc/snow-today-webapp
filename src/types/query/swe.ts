@@ -1,3 +1,6 @@
+import {Subset} from '../misc';
+
+
 export interface ISwePoint {
   name: string;
   lon: number;
@@ -10,6 +13,7 @@ export interface ISwePoint {
   huc2: number;
   huc4: number;
 }
-
-export type SweMeasurementField = Extract<keyof ISwePoint, 'swe_inches' | 'swe_delta_inches' | 'swe_normalized_pct'>;
 export type SwePoints = Array<ISwePoint>;
+
+export type SwePointField = keyof ISwePoint;
+export type SwePointMeasurementField = Subset<SwePointField, 'swe_inches' | 'swe_delta_inches' | 'swe_normalized_pct'>;
