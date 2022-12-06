@@ -182,19 +182,26 @@ export const useRasterOpacity = (
   }, [slippyMapUid, rasterOpacity, openLayersMap]);
 }
 
-export const useSweOverlayPoints = (
+export const useSelectedSweVariable = (
   slippyMapUid: string,
+  selectedSweVariable: IVariable | undefined,
   swePointsForOverlay: SwePointsForOverlay,
   openLayersMap: OptionalOpenLayersMap,
 ): void => {
   useEffect(() => {
     if (
       openLayersMap === undefined
+      || selectedSweVariable === undefined
       || swePointsForOverlay.length === 0
     ) {
       return;
     }
 
-    showSwePointsOverlay(slippyMapUid, swePointsForOverlay, openLayersMap);
+    showSwePointsOverlay(
+      slippyMapUid,
+      selectedSweVariable,
+      swePointsForOverlay,
+      openLayersMap,
+    );
   }, [slippyMapUid, swePointsForOverlay, openLayersMap]);
 }

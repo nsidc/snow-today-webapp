@@ -17,7 +17,7 @@ type AtomValue = IVariable | undefined;
 const selectedSweVariableAtom = selector<AtomValue>({
   key: 'selectedSweVariable',
   get: ({get}) => {
-    const selectedVariable = get(selectedSweVariableNameAtom)
+    const selectedVariable = get(selectedSweVariableNameAtom);
     if (!selectedVariable) {
       return;
     }

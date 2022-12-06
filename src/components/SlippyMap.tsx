@@ -20,6 +20,7 @@ import rasterOpacityAtom from '../state/client/rasterOpacity';
 import selectedBasemapLayerAtom from '../state/client/derived/selectedBasemapLayer';
 import selectedSuperRegionAtom from '../state/client/derived/selectedSuperRegion';
 import selectedGenericRegionAtom from '../state/client/derived/selectedGenericRegion';
+import selectedSweVariableAtom from '../state/client/derived/selectedSweVariable';
 import swePointsForOverlayAtom from '../state/client/derived/swePointsForOverlay';
 import mapViewAtom from '../state/client/derived/mapView';
 import useRegionShapeQuery from '../serverState/regionShape';
@@ -36,7 +37,7 @@ import {
   useSelectedBasemap,
   useSelectedRegionShape,
   useSelectedRasterVariable,
-  useSweOverlayPoints,
+  useSelectedSweVariable,
 } from '../util/sideEffects/slippyMap';
 import SlippyMapLegend from './SlippyMapLegend';
 
@@ -62,6 +63,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const selectedBasemap = useRecoilValue(selectedBasemapLayerAtom(slippyMapUid));
   const selectedGenericRegion = useRecoilValue(selectedGenericRegionAtom);
   const selectedSuperRegion = useRecoilValue(selectedSuperRegionAtom);
+  const selectedSweVariable = useRecoilValue(selectedSweVariableAtom);
   const swePointsForOverlay = useRecoilValue(swePointsForOverlayAtom);
 
   const selectedRegionShapeQuery = useRegionShapeQuery(
@@ -124,8 +126,9 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
     slippyMapUid,
     notProcessedLayerEnabled,
   );
-  useSweOverlayPoints(
+  useSelectedSweVariable(
     slippyMapUid,
+    selectedSweVariable,
     swePointsForOverlay,
     openLayersMap,
   );

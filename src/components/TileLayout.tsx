@@ -21,7 +21,7 @@ interface ITileStateSetter {
   row: number;
   col: number;
   tileTypeSetter: StateSetter<TileType>;
-  variableSetter: StateSetter<SatelliteVariable>;
+  satelliteVariableSetter: StateSetter<SatelliteVariable>;
 }
 
 
@@ -38,7 +38,7 @@ const useTileStateSetters = (): ITileStateSetter[] => _flatten(
       selectedTileTypeAtom({row: row, col: col})
     ),
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    variableSetter: useSetRecoilState(
+    satelliteVariableSetter: useSetRecoilState(
       selectedSatelliteVariableNameAtom({row: row, col: col})
     ),
   })))
@@ -61,7 +61,7 @@ const TileLayout: React.FC = () => {
     // Initialize state for each default tile based on query results
     tileStateSetters.forEach(setter => {
       setter.tileTypeSetter(setter.col === 1 ? 'map' : 'plot');
-      setter.variableSetter(defaultVarName);
+      setter.satelliteVariableSetter(defaultVarName);
     });
   });
 

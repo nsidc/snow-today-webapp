@@ -3,7 +3,7 @@ import {selector} from 'recoil';
 import swePointsQueryAtom from '../../server/swe';
 import selectedSweVariableNameAtom from '../selectedSweVariableName';
 import {SwePointsForOverlay} from '../../../types/swe';
-import {ISwePoint, SweMeasurementField} from '../../../types/query/swe';
+import {ISwePoint, SwePointMeasurementField} from '../../../types/query/swe';
 
 
 const swePointsForOverlayAtom = selector<SwePointsForOverlay>({
@@ -21,7 +21,7 @@ const swePointsForOverlayAtom = selector<SwePointsForOverlay>({
       if (selectedSweVariableName === undefined) {
         return undefined;
       } else {
-        return point[selectedSweVariableName as SweMeasurementField];
+        return point[selectedSweVariableName as SwePointMeasurementField];
       }
     }
 

@@ -9,8 +9,10 @@ import {Circle, Fill, Stroke, Style} from 'ol/style';
 
 import _memoize from 'lodash/memoize';
 
+import {colorStopsFromVariableObject, findColorStopsNearestColor} from '../colormap';
 import {SwePointsForOverlay} from '../../types/swe';
 import {CRS_LONLAT, CRS_MAP} from '../../constants/crs';
+import {IVariable} from '../../types/query/variables';
 
 
 export const swePointsLayer = _memoize((mapId: string): VectorLayer<VectorSource> => (
@@ -20,32 +22,39 @@ export const swePointsLayer = _memoize((mapId: string): VectorLayer<VectorSource
     }),
     visible: true,
     zIndex: 100,
-    style: new Style({
-      image: new Circle({
-        radius: 5,
-        fill: new Fill({color: '#f7fbff'}),
-        stroke: new Stroke({color: 'black', width: 1}),
-      }),
-    }),
   })
 ));
 
-
 export const showSwePointsOverlay = (
   mapId: string,
+  selectedSweVariable: IVariable,
   swePoints: SwePointsForOverlay,
   openLayersMap: PluggableMap,
 ): void => {
+  const layer = swePointsLayer(mapId);
+
   const displayablePoints = swePoints.filter((point) => {
     return point.measurement_inches !== null && point.measurement_inches !== 0;
   });
   const features = displayablePoints.map((point) => new Feature({
     'geometry': new Point(transform([point.lon, point.lat], CRS_LONLAT, CRS_MAP)),
-    'foo': point,
+    'data': point,
   }));
-  // debugger;
-  const newSource = new VectorSource({
-    features: features,
-  })
-  swePointsLayer(mapId).setSource(newSource);
+  const newSource = new VectorSource({features: features})
+  const colorStops = colorStopsFromVariableObject(selectedSweVariable);
+
+  layer.setSource(newSource);
+  layer.setStyle((feature) => {
+    const featureData = feature.getProperties().data;
+    const value: number = featureData.measurement_inches;
+    const color = findColorStopsNearestColor(colorStops, value);
+
+    return new Style({
+      image: new Circle({
+        radius: 5,
+        fill: new Fill({color}),
+        stroke: new Stroke({color: 'black', width: 1}),
+      }),
+    });
+  });
 }
