@@ -1,4 +1,4 @@
-# NEXT_VERSION
+# v0.15.0 (2022-12-07)
 
 * Add SWE point layer and selector dropdown
   * Display tooltip for selected SWE point (bug: issue #29)
