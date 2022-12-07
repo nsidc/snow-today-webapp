@@ -10,7 +10,7 @@ import {Circle, Fill, Stroke, Style} from 'ol/style';
 import _memoize from 'lodash/memoize';
 
 import {colorStopsFromVariableObject, findColorStopsNearestColor} from '../colormap';
-import {SwePointsForOverlay} from '../../types/swe';
+import {SwePointsForOverlay, SwePointForOverlay} from '../../types/swe';
 import {CRS_LONLAT, CRS_MAP} from '../../constants/crs';
 import {IVariable} from '../../types/query/variables';
 
@@ -45,7 +45,7 @@ export const showSwePointsOverlay = (
 
   layer.setSource(newSource);
   layer.setStyle((feature) => {
-    const featureData = feature.getProperties().data;
+    const featureData = feature.getProperties().data as SwePointForOverlay;
     const value: number = featureData.measurement_inches;
     const color = findColorStopsNearestColor(colorStops, value);
 

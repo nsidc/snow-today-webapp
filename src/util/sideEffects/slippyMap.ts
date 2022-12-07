@@ -110,7 +110,7 @@ export const useNotProcessedLayerToggle = (
     const notProcessedVariableParams = notProcessedVariables[0][1];
 
     toggleNotProcessedLayer(slippyMapUid, notProcessedLayerEnabled, notProcessedVariableParams)
-  }, [slippyMapUid, notProcessedLayerEnabled]);
+  }, [slippyMapUid, notProcessedLayerEnabled, variablesIndex]);
 }
 
 // When the selected basemap is updated, update the map to reflect this.
@@ -203,5 +203,5 @@ export const useSelectedSweVariable = (
       swePointsForOverlay,
       openLayersMap,
     );
-  }, [slippyMapUid, swePointsForOverlay, openLayersMap]);
+  }, [slippyMapUid, selectedSweVariable, swePointsForOverlay, openLayersMap]);
 }

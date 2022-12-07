@@ -60,7 +60,7 @@ const BasemapSelector: React.FC = () => {
     <Dropdown.Item
       key={'undefined'}
       eventKey={undefined}
-      active={selectedSweVariableName == undefined}>
+      active={selectedSweVariableName === undefined}>
       None
     </Dropdown.Item>
   );
