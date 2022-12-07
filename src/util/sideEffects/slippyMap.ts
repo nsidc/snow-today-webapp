@@ -269,17 +269,17 @@ export const useSelectedFeature = (
       return;
     }
     if (selectedFeatures.length === 0) {
-      // @ts-ignore: TS2339
       // .clear is not documented, but is present on the Collection object.
       // Danger?
+      // @ts-ignore: TS2339
       selectInteraction.getFeatures().clear();
       return;
     }
 
-    // @ts-ignore TS2339
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     // .getCoordinates is not documented, but is present on the object.
     // Danger?
+    // @ts-ignore TS2339
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const pos = (selectedFeatures[0].getGeometry()!.getCoordinates()) as Coordinate;
     featureInfoOverlay.setPosition(pos);
   }, [featureInfoOverlay, selectedFeatures, selectInteraction, openLayersMap]);
