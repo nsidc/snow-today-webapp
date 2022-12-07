@@ -7,7 +7,7 @@ import LayoutConfigTiles from './LayoutConfigTiles';
 
 
 const LayoutConfigurator: React.FC = () => (
-  <DropdownButton title='Configure Layout'>
+  <DropdownButton title='Configure Variables'>
     <div className={'LayoutConfigurator dropdown-form'}>
 
       <LayoutDimensionSelector />
