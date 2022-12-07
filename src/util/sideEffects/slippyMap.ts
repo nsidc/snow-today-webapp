@@ -283,14 +283,6 @@ export const useSelectedFeature = (
     // .getCoordinates is not documented, but is present on the object.
     // Danger?
     const pos = selectedFeatures[0].getGeometry()!.getCoordinates() as Array<number, number>;
-    console.log(pos);
-    // @ts-ignore
-    //featureInfoOverlay.setPosition(pos, openLayersMap.getView().getProjection());
     featureInfoOverlay.setPosition(pos);
-
-    // openLayersMap.getView().animate({
-    //   center: pos,
-    //   duration: 1000,
-    // });
   }, [selectedFeatures, selectInteraction, openLayersMap]);
 }
