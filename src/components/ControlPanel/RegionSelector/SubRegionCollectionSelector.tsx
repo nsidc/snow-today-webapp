@@ -2,10 +2,10 @@ import React from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 
 import '../../../style/SubRegionCollectionSelector.css';
-import selectedSuperRegionAtom from '../../../clientState/derived/selectedSuperRegion';
-import selectedSubRegionCollectionNameAtom from '../../../clientState/selectedSubRegionCollectionName';
-import selectedSubRegionNameAtom from '../../../clientState/selectedSubRegionName';
-import {DEFAULT_SUBREGION_COLLECTION_NAME} from '../../../clientState/selectedSubRegionCollectionName/atom';
+import selectedSuperRegionAtom from '../../../state/client/derived/selectedSuperRegion';
+import selectedSubRegionCollectionNameAtom from '../../../state/client/selectedSubRegionCollectionName';
+import selectedSubRegionNameAtom from '../../../state/client/selectedSubRegionName';
+import {DEFAULT_SUBREGION_COLLECTION_NAME} from '../../../state/client/selectedSubRegionCollectionName/atom';
 
 
 const SubRegionCollectionSelector: React.FC = () => {

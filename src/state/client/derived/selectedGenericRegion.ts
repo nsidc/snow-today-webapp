@@ -13,7 +13,7 @@ import selectedSubRegionCollectionNameAtom from '../selectedSubRegionCollectionN
 import selectedSubRegionCollectionAtom from './selectedSubRegionCollection';
 import selectedSubRegionNameAtom from '../selectedSubRegionName';
 import selectedSubRegionAtom from './selectedSubRegion';
-import {IGenericRegion} from '../../types/query/regions';
+import {IGenericRegion} from '../../../types/query/regions';
 
 
 // TODO: Should we call selectors "atoms" for simplicity? They are used

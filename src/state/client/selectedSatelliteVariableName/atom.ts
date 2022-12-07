@@ -7,7 +7,7 @@
  */
 import {atomFamily} from 'recoil';
 
-import {ITileIdentifier} from '../../types/layout';
+import {ITileIdentifier} from '../../../types/layout';
 
 
 export type AtomValue = string | undefined;

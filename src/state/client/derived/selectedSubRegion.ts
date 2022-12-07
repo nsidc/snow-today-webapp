@@ -7,7 +7,7 @@ import {selector} from 'recoil';
 
 import selectedSubRegionCollectionAtom from './selectedSubRegionCollection';
 import selectedSubRegionNameAtom from '../selectedSubRegionName';
-import {ISubRegion} from '../../types/query/regions';
+import {ISubRegion} from '../../../types/query/regions';
 
 
 // TODO: Should we call selectors "atoms" for simplicity? They are used

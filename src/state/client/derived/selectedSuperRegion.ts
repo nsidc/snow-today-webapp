@@ -6,9 +6,9 @@
 import {selector} from 'recoil';
 
 import selectedSuperRegionNameAtom from '../selectedSuperRegionName';
-import {IRegion, IRegionIndex} from '../../types/query/regions';
-import {queryClient} from '../../util/query';
-import {SERVERSTATE_KEY_REGIONS_INDEX} from '../../serverState/regionsIndex';
+import {IRegion, IRegionIndex} from '../../../types/query/regions';
+import {queryClient} from '../../../util/query';
+import {SERVERSTATE_KEY_REGIONS_INDEX} from '../../../serverState/regionsIndex';
 
 
 // TODO: Should we call selectors "atoms" for simplicity? They are used

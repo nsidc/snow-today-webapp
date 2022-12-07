@@ -1,5 +1,6 @@
 # NEXT_VERSION
 
+* Add SWE point layer and selector dropdown
 * Fix issue with layout config dropdown displaying improperly in Chrome
 * Improve style of Year to Date plot line
 * Add date as subtitle to line plots

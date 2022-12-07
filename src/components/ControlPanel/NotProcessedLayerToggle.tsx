@@ -1,7 +1,7 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
 
-import notProcessedLayerEnabledAtom from '../../clientState/notProcessedLayerEnabled';
+import notProcessedLayerEnabledAtom from '../../state/client/notProcessedLayerEnabled';
 
 const NotProcessedLayerToggle: React.FC = () => {
   const [notProcessedLayerEnabled, setNotProcessedLayerEnabled] = useRecoilState(notProcessedLayerEnabledAtom);

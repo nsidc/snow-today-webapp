@@ -2,10 +2,10 @@ import React from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 
 import '../../../style/SubRegionSelector.css';
-import selectedSubRegionCollectionAtom from '../../../clientState/derived/selectedSubRegionCollection';
-import selectedSubRegionCollectionNameAtom from '../../../clientState/selectedSubRegionCollectionName';
-import {DEFAULT_SUBREGION_COLLECTION_NAME} from '../../../clientState/selectedSubRegionCollectionName/atom';
-import selectedSubRegionNameAtom from '../../../clientState/selectedSubRegionName';
+import selectedSubRegionCollectionAtom from '../../../state/client/derived/selectedSubRegionCollection';
+import selectedSubRegionCollectionNameAtom from '../../../state/client/selectedSubRegionCollectionName';
+import {DEFAULT_SUBREGION_COLLECTION_NAME} from '../../../state/client/selectedSubRegionCollectionName/atom';
+import selectedSubRegionNameAtom from '../../../state/client/selectedSubRegionName';
 import SearchableSelect, {ISelectOptionProps} from '../../../components/reusable/SearchableSelect';
 import {ISubRegionCollection} from '../../../types/query/regions';
 

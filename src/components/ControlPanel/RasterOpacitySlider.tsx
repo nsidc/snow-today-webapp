@@ -1,7 +1,7 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
 
-import rasterOpacityAtom from '../../clientState/rasterOpacity';
+import rasterOpacityAtom from '../../state/client/rasterOpacity';
 
 
 const RasterOpacitySlider: React.FC = () => {

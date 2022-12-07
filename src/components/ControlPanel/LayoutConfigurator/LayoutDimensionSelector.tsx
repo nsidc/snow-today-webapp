@@ -5,7 +5,7 @@ import '../../../style/LayoutDimensionSelector.css';
 import {
   selectedLayoutColsAtom,
   selectedLayoutRowsAtom,
-} from '../../../clientState/layoutDimensions';
+} from '../../../state/client/layoutDimensions';
 import {COL_OPTIONS, ROW_OPTIONS} from '../../../constants/layout';
 import {StateSetter} from '../../../types/misc';
 

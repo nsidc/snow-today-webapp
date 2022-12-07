@@ -5,7 +5,7 @@ import '../../../style/LayoutConfigTiles.css';
 import {
   selectedLayoutColsAtom,
   selectedLayoutRowsAtom,
-} from '../../../clientState/layoutDimensions';
+} from '../../../state/client/layoutDimensions';
 import LayoutConfigTile from './LayoutConfigTile';
 
 

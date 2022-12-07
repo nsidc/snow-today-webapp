@@ -2,8 +2,21 @@
 
 ## Names
 
+* SatelliteVariables -> RasterVariables? We now have two mutually exclusive "types" of
+  variables: SWE points, and various raster variables.
 * selectedRegion -> selectedRegionName
 * selectedRegionObject -> selectedRegion
+
+
+## Data / server-side considerations
+
+* Consider moving `variablesIndex` into Recoil state graph instead of ReactQuery, then
+  the `tileLayout` state can be a selector depending on it, instead of the current hacky
+  callback approach.
+
+### SWE
+
+Consider converting to GeoJSON in the ingest process.
 
 
 ## Dependencies

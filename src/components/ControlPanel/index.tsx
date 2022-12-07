@@ -8,6 +8,7 @@ import NotProcessedLayerToggle from './NotProcessedLayerToggle';
 import RegionSelector from './RegionSelector';
 import RasterOpacitySlider from './RasterOpacitySlider';
 import RefreshPageButton from './RefreshPageButton';
+import SweSelector from './SweSelector';
 
 declare const __ENVIRONMENT__: 'development' | 'production';
 if (__ENVIRONMENT__ === 'development') {
@@ -22,9 +23,11 @@ const ControlPanel: React.FC = () => {
         <DebugDumpButton />
       }
 
+      <LayoutConfigurator />
+
       <BasemapSelector />
       <RegionSelector />
-      <LayoutConfigurator />
+      <SweSelector />
 
       <NotProcessedLayerToggle />
       <RasterOpacitySlider />

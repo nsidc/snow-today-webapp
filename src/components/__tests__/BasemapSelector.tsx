@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import {RecoilRoot} from 'recoil';
 
 import BasemapSelector from '../ControlPanel/BasemapSelector';
-import selectedBasemapNameAtom from '../../clientState/selectedBasemapName';
+import selectedBasemapNameAtom from '../../state/client/selectedBasemapName';
 import {RecoilObserver} from '../../util/test';
 
 

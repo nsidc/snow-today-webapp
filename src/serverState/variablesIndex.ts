@@ -1,10 +1,10 @@
 import {useQuery} from '@tanstack/react-query';
 
 import {fetchVariablesIndex} from '../util/fetch/variables';
-import {ISatelliteVariableIndex} from '../types/query/satelliteVariables';
+import {IVariableIndex} from '../types/query/variables';
 
 
-const getDefaultFromData = (data: ISatelliteVariableIndex): string => {
+const getDefaultFromData = (data: IVariableIndex): string => {
   let selectedVariableName: string;
 
   const defaultVariables = Object.entries(data).filter(
@@ -20,11 +20,11 @@ const getDefaultFromData = (data: ISatelliteVariableIndex): string => {
 
 
 
-export const SERVERSTATE_KEY_VARIABLES_INDEX = 'satelliteVariablesIndex';
+export const SERVERSTATE_KEY_VARIABLES_INDEX = 'variablesIndex';
 const useVariablesIndexQuery = (
   stateSetter?: (defaultVarName: string) => void,
 ) => {
-  return useQuery<ISatelliteVariableIndex>(
+  return useQuery<IVariableIndex>(
     [SERVERSTATE_KEY_VARIABLES_INDEX],
     fetchVariablesIndex,
     {
@@ -32,7 +32,7 @@ const useVariablesIndexQuery = (
       // Set the selected variable to the default (or first) in the data
       // NOTE: Requires that this query only fires once in the app's lifecycle,
       // or the state will keep getting re-set...
-      onSuccess: (data: ISatelliteVariableIndex) => {
+      onSuccess: (data: IVariableIndex) => {
         if (!stateSetter) {
           throw new Error(
             'A state setter is required on initial query to update client state.'

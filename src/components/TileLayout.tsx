@@ -7,11 +7,11 @@ import '../style/TileLayout.css';
 import {
   selectedLayoutColsAtom,
   selectedLayoutRowsAtom,
-} from '../clientState/layoutDimensions';
-import selectedSatelliteVariableNameAtom from '../clientState/selectedSatelliteVariableName';
-import {AtomValue as SatelliteVariable} from '../clientState/selectedSatelliteVariableName/atom';
-import selectedTileTypeAtom from '../clientState/selectedTileType';
-import {AtomValue as TileType} from '../clientState/selectedTileType/atom';
+} from '../state/client/layoutDimensions';
+import selectedSatelliteVariableNameAtom from '../state/client/selectedSatelliteVariableName';
+import {AtomValue as SatelliteVariable} from '../state/client/selectedSatelliteVariableName/atom';
+import selectedTileTypeAtom from '../state/client/selectedTileType';
+import {AtomValue as TileType} from '../state/client/selectedTileType/atom';
 import {ROW_OPTIONS, COL_OPTIONS} from '../constants/layout';
 import useVariablesIndexQuery from '../serverState/variablesIndex';
 import {StateSetter} from '../types/misc';
@@ -21,7 +21,7 @@ interface ITileStateSetter {
   row: number;
   col: number;
   tileTypeSetter: StateSetter<TileType>;
-  variableSetter: StateSetter<SatelliteVariable>;
+  satelliteVariableSetter: StateSetter<SatelliteVariable>;
 }
 
 
@@ -38,7 +38,7 @@ const useTileStateSetters = (): ITileStateSetter[] => _flatten(
       selectedTileTypeAtom({row: row, col: col})
     ),
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    variableSetter: useSetRecoilState(
+    satelliteVariableSetter: useSetRecoilState(
       selectedSatelliteVariableNameAtom({row: row, col: col})
     ),
   })))
@@ -50,13 +50,18 @@ const TileLayout: React.FC = () => {
   const selectedLayoutRows = useRecoilValue(selectedLayoutRowsAtom);
 
   const tileStateSetters = useTileStateSetters();
+
+  // TODO: How to ensure that this fires first? The current implementation of
+  // the "useQuery" expects a callback when it's first called. There's
+  // currently a race condition where this function is called by the swe
+  // variable selector first. Move this into the Recoil state graph?
   // @ts-ignore: TS6133 -- this query data is expected not to be used here;
   // init only.
   const variablesIndexQuery = useVariablesIndexQuery((defaultVarName: string) => {
     // Initialize state for each default tile based on query results
     tileStateSetters.forEach(setter => {
       setter.tileTypeSetter(setter.col === 1 ? 'map' : 'plot');
-      setter.variableSetter(defaultVarName);
+      setter.satelliteVariableSetter(defaultVarName);
     });
   });
 

@@ -2,8 +2,8 @@ import React from 'react';
 import {useRecoilState, useRecoilValue} from 'recoil';
 
 import '../../../style/SatelliteVariableSelector.css';
-import selectedSatelliteVariableNameAtom from '../../../clientState/selectedSatelliteVariableName';
-import selectedTileTypeAtom from '../../../clientState/selectedTileType';
+import selectedSatelliteVariableNameAtom from '../../../state/client/selectedSatelliteVariableName';
+import selectedTileTypeAtom from '../../../state/client/selectedTileType';
 import useVariablesIndexQuery from '../../../serverState/variablesIndex';
 import {ITileIdentifier} from '../../../types/layout';
 
@@ -11,9 +11,10 @@ const LOADING_VALUE = 'LOADING...';
 
 
 const VariableSelector: React.FC<ITileIdentifier> = (props) => {
-  const [selectedVariableName, setSelectedVariableName] = useRecoilState(
-    selectedSatelliteVariableNameAtom(props),
-  );
+  const [
+    selectedSatelliteVariableName,
+    setSelectedSatelliteVariableName,
+  ] = useRecoilState(selectedSatelliteVariableNameAtom(props));
   const selectedTileType = useRecoilValue(selectedTileTypeAtom(props));
   const variablesIndexQuery = useVariablesIndexQuery();
 
@@ -25,7 +26,7 @@ const VariableSelector: React.FC<ITileIdentifier> = (props) => {
     } else {
       stateValue = targetValue;
     }
-    setSelectedVariableName(stateValue);
+    setSelectedSatelliteVariableName(stateValue);
   }
 
   if (variablesIndexQuery.isError) {
@@ -47,7 +48,7 @@ const VariableSelector: React.FC<ITileIdentifier> = (props) => {
     variableOptions = (
       Object.entries(variablesIndexQuery.data)
       .filter(([variableName, params]) => !Object.keys(params).includes('enabled') || params['enabled'])
-      .filter(([variableName, params]) => params['type'] === 'variable')
+      .filter(([variableName, params]) => params['type'] === 'raster')
       .map(([variableName, params]) => (
         <option key={variableName} value={variableName}>
           {params[longname_param]}
@@ -60,7 +61,7 @@ const VariableSelector: React.FC<ITileIdentifier> = (props) => {
   return (
     <div className={'SatelliteVariableSelector'}>
       <label htmlFor={elementId}>{'Variable: '}</label>
-      <select id={elementId} onChange={handleVariableChange} value={selectedVariableName}>
+      <select id={elementId} onChange={handleVariableChange} value={selectedSatelliteVariableName}>
         <option value={''} disabled hidden>{'Loading...'}</option>
         {variableOptions}
       </select>

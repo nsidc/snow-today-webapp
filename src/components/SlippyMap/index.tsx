@@ -12,20 +12,22 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
 import _uniqueId from 'lodash/uniqueId';
 
-import '../style/SlippyMap.css';
-import {dataServerUrl} from '../constants/dataServer';
-import notProcessedLayerEnabledAtom from '../clientState/notProcessedLayerEnabled';
-import rasterOpacityAtom from '../clientState/rasterOpacity';
-import selectedBasemapLayerAtom from '../clientState/derived/selectedBasemapLayer';
-import selectedSuperRegionAtom from '../clientState/derived/selectedSuperRegion';
-import selectedGenericRegionAtom from '../clientState/derived/selectedGenericRegion';
-import mapViewAtom from '../clientState/derived/mapView';
-import useRegionShapeQuery from '../serverState/regionShape';
+import '../../style/SlippyMap.css';
+import {CRS_LONLAT, CRS_MAP} from '../../constants/crs';
+import notProcessedLayerEnabledAtom from '../../state/client/notProcessedLayerEnabled';
+import rasterOpacityAtom from '../../state/client/rasterOpacity';
+import selectedBasemapLayerAtom from '../../state/client/derived/selectedBasemapLayer';
+import selectedSuperRegionAtom from '../../state/client/derived/selectedSuperRegion';
+import selectedGenericRegionAtom from '../../state/client/derived/selectedGenericRegion';
+import selectedSweVariableAtom from '../../state/client/derived/selectedSweVariable';
+import swePointsForOverlayAtom from '../../state/client/derived/swePointsForOverlay';
+import mapViewAtom from '../../state/client/derived/mapView';
+import useRegionShapeQuery from '../../serverState/regionShape';
 import {
   OptionalCoordinate,
   OptionalOpenLayersMap,
-} from '../types/SlippyMap';
-import {ISatelliteVariable} from '../types/query/satelliteVariables';
+} from '../../types/SlippyMap';
+import {IVariable} from '../../types/query/variables';
 import {
   useMapView,
   useNotProcessedLayerToggle,
@@ -34,12 +36,13 @@ import {
   useSelectedBasemap,
   useSelectedRegionShape,
   useSelectedRasterVariable,
-} from '../util/sideEffects/slippyMap';
-import SlippyMapLegend from './SlippyMapLegend';
+  useSelectedSweVariable,
+} from '../../util/sideEffects/slippyMap';
+import SlippyMapLegend from './Legend';
 
 
 interface ISlippyMapProps {
-  selectedSatelliteVariable: ISatelliteVariable | undefined;
+  selectedSatelliteVariable: IVariable | undefined;
 }
 
 
@@ -59,6 +62,8 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const selectedBasemap = useRecoilValue(selectedBasemapLayerAtom(slippyMapUid));
   const selectedGenericRegion = useRecoilValue(selectedGenericRegionAtom);
   const selectedSuperRegion = useRecoilValue(selectedSuperRegionAtom);
+  const selectedSweVariable = useRecoilValue(selectedSweVariableAtom);
+  const swePointsForOverlay = useRecoilValue(swePointsForOverlayAtom);
 
   const selectedRegionShapeQuery = useRegionShapeQuery(
     selectedGenericRegion ? selectedGenericRegion['shape_path'] : undefined,
@@ -76,7 +81,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const clickedCoord = slippyMapRef.current.getCoordinateFromPixel(event.pixel);
-    const transormedCoord = transform(clickedCoord, 'EPSG:3857', 'EPSG:4326')
+    const transormedCoord = transform(clickedCoord, CRS_MAP, CRS_LONLAT);
 
     setSelectedCoord(transormedCoord);
   }
@@ -120,6 +125,12 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
     slippyMapUid,
     notProcessedLayerEnabled,
   );
+  useSelectedSweVariable(
+    slippyMapUid,
+    selectedSweVariable,
+    swePointsForOverlay,
+    openLayersMap,
+  );
   useLayoutEffect(() => {
     if (!slippyMapHtmlElement || !slippyMapHtmlElement.current) {
       return;
@@ -141,7 +152,6 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
       </div>
     );
   }
-  const legendUrl = `${dataServerUrl}/${props.selectedSatelliteVariable.legend_path}`;
 
   return (
     <div className={"SlippyMap"}>
@@ -157,12 +167,13 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
       </div>
 
       <SlippyMapLegend
-        imageUrl={legendUrl}
+        selectedSatelliteVariable={props.selectedSatelliteVariable}
+        selectedSweVariable={selectedSweVariable}
         parentWidthPx={componentWidth}
         mapUid={slippyMapUid} />
 
     </div>
-  )
+  );
 }
 
-export default SlippyMap
+export default SlippyMap;

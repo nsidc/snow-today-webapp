@@ -6,16 +6,16 @@
 import {selectorFamily} from 'recoil';
 
 import selectedSatelliteVariableNameAtom from '../selectedSatelliteVariableName';
-import {ISatelliteVariable, ISatelliteVariableIndex} from '../../types/query/satelliteVariables';
-import {queryClient} from '../../util/query';
-import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../serverState/variablesIndex';
+import {IVariable, IVariableIndex} from '../../../types/query/variables';
+import {queryClient} from '../../../util/query';
+import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../../serverState/variablesIndex';
 
-import {ITileIdentifier} from '../../types/layout';
+import {ITileIdentifier} from '../../../types/layout';
 
 
 // TODO: Should we call selectors "atoms" for simplicity? They are used
 // similarly / identically.
-type AtomValue = ISatelliteVariable | undefined;
+type AtomValue = IVariable | undefined;
 type AtomParameter = ITileIdentifier;
 const selectedSatelliteVariableAtom = selectorFamily<AtomValue, AtomParameter>({
   key: 'selectedSatelliteVariable',
@@ -26,7 +26,7 @@ const selectedSatelliteVariableAtom = selectorFamily<AtomValue, AtomParameter>({
     }
 
     // TODO: Can React-query give us typed access to the cache??
-    const variablesIndex = queryClient.getQueryData([SERVERSTATE_KEY_VARIABLES_INDEX]) as ISatelliteVariableIndex;
+    const variablesIndex = queryClient.getQueryData([SERVERSTATE_KEY_VARIABLES_INDEX]) as IVariableIndex;
     return variablesIndex[selectedVariable];
   },
 });

@@ -5,9 +5,9 @@ import '../style/card.css';
 import '../style/Tile.css';
 import {CITATION} from '../constants/citation';
 import {ITileIdentifier} from '../types/layout';
-import selectedSatelliteVariableNameAtom from '../clientState/selectedSatelliteVariableName';
-import selectedSatelliteVariableObjectAtom from '../clientState/derived/selectedSatelliteVariable';
-import selectedTileTypeAtom from '../clientState/selectedTileType';
+import selectedSatelliteVariableNameAtom from '../state/client/selectedSatelliteVariableName';
+import selectedSatelliteVariableObjectAtom from '../state/client/derived/selectedSatelliteVariable';
+import selectedTileTypeAtom from '../state/client/selectedTileType';
 import LinePlot from './LinePlot';
 import SlippyMap from './SlippyMap';
 

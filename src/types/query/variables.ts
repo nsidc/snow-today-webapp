@@ -1,5 +1,5 @@
-export interface ISatelliteVariable {
-  type: 'variable' | 'notprocessed';
+export interface IVariable {
+  type: 'raster' | 'raster_notprocessed' | 'point_swe';
   enabled?: boolean;
   default?: boolean;
   longname: string;
@@ -17,6 +17,6 @@ export interface ISatelliteVariable {
   transparent_zero: boolean;
 }
 
-export interface ISatelliteVariableIndex {
-  [keys: string]: ISatelliteVariable;
+export interface IVariableIndex {
+  [keys: string]: IVariable;
 }
