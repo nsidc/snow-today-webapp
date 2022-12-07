@@ -5,9 +5,11 @@ import React, { useLayoutEffect, useState, useRef } from 'react';
 import {useRecoilValue} from 'recoil';
 
 import 'ol/ol.css';
-import OpenLayersMap from 'ol/Map'
-import {transform} from 'ol/proj'
+import Feature from 'ol/Feature';
+import OpenLayersMap from 'ol/Map';
+import {transform} from 'ol/proj';
 import {toStringXY} from 'ol/coordinate';
+import {SelectEvent} from 'ol/interaction/Select';
 import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
 import _uniqueId from 'lodash/uniqueId';
@@ -26,6 +28,8 @@ import useRegionShapeQuery from '../../serverState/regionShape';
 import {
   OptionalCoordinate,
   OptionalOpenLayersMap,
+  OptionalOverlay,
+  OptionalSelect,
 } from '../../types/SlippyMap';
 import {IVariable} from '../../types/query/variables';
 import {
@@ -34,11 +38,13 @@ import {
   useRasterOpacity,
   useSlippyMapInit,
   useSelectedBasemap,
+  useSelectedFeature,
   useSelectedRegionShape,
   useSelectedRasterVariable,
   useSelectedSweVariable,
 } from '../../util/sideEffects/slippyMap';
 import SlippyMapLegend from './Legend';
+import SlippyMapTooltip from './Tooltip';
 
 
 interface ISlippyMapProps {
@@ -53,9 +59,16 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const [selectedCoord, setSelectedCoord] = useState<OptionalCoordinate>();
   const [componentWidth, setComponentWidth] = useState<number>(0);
 
+  // State related to selecting feature and seeing its data
+  const [selectedFeatures, setSelectedFeatures] = useState<Array<Feature>>([]);
+  const [ featureInfoOverlay, setFeatureInfoOverlay ] =
+    useState<OptionalOverlay>();
+  const [ selectInteraction, setSelectInteraction ] =
+    useState<OptionalSelect>();
 
   const slippyMapHtmlElement = useRef<HTMLDivElement>(null);
   const slippyMapRef = useRef<OpenLayersMap | null>(null);
+  const overlayElement = useRef<HTMLDivElement | null>(null);
 
   const notProcessedLayerEnabled = useRecoilValue(notProcessedLayerEnabledAtom);
   const rasterOpacity = useRecoilValue(rasterOpacityAtom);
@@ -73,6 +86,28 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   )
 
   const mapView = useRecoilValue(mapViewAtom(selectedSuperRegionShapeQuery.data));
+
+  const handleFeatureSelect = (event: SelectEvent) => {
+    setSelectedFeatures(event.selected);
+  }
+  const handleMapTipClose = () => {
+    if (selectInteraction === undefined) {
+      return;
+    }
+    // @ts-ignore: TS2339
+    // .clear is not documented, but is present on the Collection object.
+    // Danger?
+    selectInteraction.getFeatures().clear();
+    selectInteraction.dispatchEvent({
+      type: 'select',
+      // @ts-ignore TS2345
+      // Typescript expects a BaseEvent. This isn't 100% match for a BaseEvent
+      // or SelectEvent... How do?
+      selected: [],
+      // deselected: oldSelected,
+    });
+  }
+
 
   const handleSlippyMapClick = (event: MapBrowserEvent<any>) => {
     if ( !slippyMapRef || !slippyMapRef.current ) {
@@ -93,8 +128,12 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   useSlippyMapInit(
     slippyMapUid,
     slippyMapHtmlElement,
+    overlayElement,
     handleSlippyMapClick,
+    handleFeatureSelect,
     setOpenLayersMap,
+    setFeatureInfoOverlay,
+    setSelectInteraction,
   );
   useMapView(
     mapView,
@@ -131,6 +170,13 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
     swePointsForOverlay,
     openLayersMap,
   );
+	useSelectedFeature(
+    featureInfoOverlay,
+    selectedFeatures,  
+    selectInteraction,
+    openLayersMap,
+	);
+
   useLayoutEffect(() => {
     if (!slippyMapHtmlElement || !slippyMapHtmlElement.current) {
       return;
@@ -160,6 +206,12 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
         id={divId}
         ref={slippyMapHtmlElement}
         className="map-container">
+      </div>
+
+      <div ref={overlayElement}>
+        <SlippyMapTooltip
+          features={selectedFeatures}
+          onClose={handleMapTipClose} />
       </div>
 
       <div className="clicked-coord-label">

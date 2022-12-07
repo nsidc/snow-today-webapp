@@ -3,6 +3,7 @@ export interface SwePointForOverlay {
   lon: number;
   lat: number;
   elevation_meters: number;
+  // Should not be "inches" -- sometimes is percent.
   measurement_inches?: number;
 }
 

@@ -1,8 +1,10 @@
 import {useEffect } from 'react';
 import type {RefObject} from 'react';
 
+import Feature from 'ol/Feature';
 import OpenLayersMap from 'ol/Map'
 import type MapBrowserEvent from 'ol/MapBrowserEvent';
+import Overlay from 'ol/Overlay';
 import View from 'ol/View'
 import BaseLayer from 'ol/layer/Base';
 import {
@@ -10,8 +12,15 @@ import {
   ScaleLine,
   defaults as defaultControls
 } from 'ol/control';
+import {click} from 'ol/events/condition';
+import Select, {SelectEvent} from 'ol/interaction/Select';
+import * as style from 'ol/style';
 
-import {OptionalOpenLayersMap} from '../../types/SlippyMap';
+import {
+  OptionalOpenLayersMap,
+  OptionalOverlay,
+  OptionalSelect,
+} from '../../types/SlippyMap';
 import {StateSetter} from '../../types/misc';
 import {IVariable, IVariableIndex} from '../../types/query/variables';
 import {SwePointsForOverlay} from '../../types/swe';
@@ -45,10 +54,18 @@ const sharedView = new View({
 export const useSlippyMapInit = (
   slippyMapUid: string,
   slippyMapHtmlElement: RefObject<HTMLDivElement>,
+  overlayElement: RefObject<HTMLDivElement>,
   clickHandler: (event: MapBrowserEvent<any>) => void,
+  selectHandler: (event: SelectEvent) => void,
   setOpenLayersMap: StateSetter<OptionalOpenLayersMap>,
+  setFeatureInfoOverlay: StateSetter<OptionalOverlay>,
+  setSelectInteraction: StateSetter<OptionalSelect>,
 ): void => {
   useEffect(() => {
+    const featureInfoOverlay = new Overlay({
+      element: overlayElement.current!,
+    });
+
     const initialOpenLayersMap = new OpenLayersMap({
       target: slippyMapHtmlElement.current || undefined,
       layers: [
@@ -58,6 +75,7 @@ export const useSlippyMapInit = (
         regionShapeLayer(slippyMapUid),
         swePointsLayer(slippyMapUid),
       ],
+      overlays: [featureInfoOverlay],
       view: sharedView,
       pixelRatio: 1,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
@@ -69,8 +87,40 @@ export const useSlippyMapInit = (
 
     initialOpenLayersMap.on('click', clickHandler);
 
+    // We have to add the interaction after instantiating `initialMap` because
+    // we want to take advantage of the default interactions (click-and-drag to
+    // pan, etc.)
+    const initialSelectInteraction = new Select({
+      condition: click,
+      style: new style.Style({
+        image: new style.Circle({
+          radius: 10,
+          stroke: new style.Stroke({
+            color: '#D04721',
+            width: 3,
+          }),
+          fill: new style.Fill({
+            color: '#ffffff',
+          }),
+        }),
+      }),
+    });
+
+    // TODO: Is this the right thing to do? Here, usual control flow is
+    // inverted, where instead of updating the map in response to a React state
+    // change (an Effect), we're updating React state in response to a map
+    // change. I think this is needed because we have to respond to user clicks
+    // on map objects. However, there are cases where we select things
+    // programmatically, and for that it would make more sense to update the
+    // React state and having the map respond in an Effect. But how would we
+    // tell the difference in _how_ the state was changed?
+    initialSelectInteraction.on('select', selectHandler);
+    initialOpenLayersMap.addInteraction(initialSelectInteraction);
+
     // Populate states that depend on map initialization
     setOpenLayersMap(initialOpenLayersMap);
+    setFeatureInfoOverlay(featureInfoOverlay);
+    setSelectInteraction(initialSelectInteraction);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   }, [])
@@ -204,4 +254,43 @@ export const useSelectedSweVariable = (
       openLayersMap,
     );
   }, [slippyMapUid, selectedSweVariable, swePointsForOverlay, openLayersMap]);
+}
+
+// When a feature is selected, position the overlay appropriately.
+export const useSelectedFeature = (
+  featureInfoOverlay: OptionalOverlay,
+  selectedFeatures: Array<Feature>,
+  selectInteraction: OptionalSelect,
+  openLayersMap: OptionalOpenLayersMap,
+): void => {
+  useEffect(() => {
+    if (
+      openLayersMap === undefined
+      || featureInfoOverlay === undefined
+      || selectInteraction === undefined
+    ) {
+      return;
+    }
+    if (selectedFeatures.length === 0) {
+      // @ts-ignore: TS2339
+      // .clear is not documented, but is present on the Collection object.
+      // Danger?
+      selectInteraction.getFeatures().clear();
+      return;
+    }
+
+    // @ts-ignore TS2339
+    // .getCoordinates is not documented, but is present on the object.
+    // Danger?
+    const pos = selectedFeatures[0].getGeometry()!.getCoordinates() as Array<number, number>;
+    console.log(pos);
+    // @ts-ignore
+    //featureInfoOverlay.setPosition(pos, openLayersMap.getView().getProjection());
+    featureInfoOverlay.setPosition(pos);
+
+    // openLayersMap.getView().animate({
+    //   center: pos,
+    //   duration: 1000,
+    // });
+  }, [selectedFeatures, selectInteraction, openLayersMap]);
 }

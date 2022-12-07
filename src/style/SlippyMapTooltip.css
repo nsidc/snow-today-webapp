@@ -1,0 +1,43 @@
+.SlippyMapTooltip {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  border: 0.5px solid #d04721;
+  border-radius: 10px 0px 10px 10px;
+
+  background: white;
+}
+
+.SlippyMapTooltip a, .SlippyMapTooltip a:active {
+  color: #003366;
+}
+
+.SlippyMapTooltip .content {
+  position: relative;
+  padding: 14px;
+  text-align: left;
+}
+
+.SlippyMapTooltip .close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+
+.feature-title h3 {
+  margin-top: 10px;
+  margin-bottom: 5px;
+
+  color: #003366;
+}
+.feature-title h3 a {
+  text-decoration: none;
+}
+
+.feature-attribute {
+  font-size: 90%;
+  font-weight: 900;
+  color: #8a8587;
+}
