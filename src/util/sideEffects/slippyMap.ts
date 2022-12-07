@@ -32,11 +32,7 @@ import {
   toggleNotProcessedLayer,
 } from '../layer/raster';
 import {showSwePointsOverlay, swePointsLayer} from '../layer/swe';
-import {
-  regionShapeLayer,
-  showRegionShape,
-} from '../layer/regionShape';
-import {} from '../layer/swe';
+import {regionShapeLayer, showRegionShape} from '../layer/regionShape';
 import {showBasemapLayer} from '../layer/switch';
 import {queryClient} from '../query';
 import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../serverState/variablesIndex';
