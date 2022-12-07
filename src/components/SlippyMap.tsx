@@ -14,7 +14,6 @@ import _uniqueId from 'lodash/uniqueId';
 
 import '../style/SlippyMap.css';
 import {CRS_LONLAT, CRS_MAP} from '../constants/crs';
-import {dataServerUrl} from '../constants/dataServer';
 import notProcessedLayerEnabledAtom from '../state/client/notProcessedLayerEnabled';
 import rasterOpacityAtom from '../state/client/rasterOpacity';
 import selectedBasemapLayerAtom from '../state/client/derived/selectedBasemapLayer';
@@ -153,7 +152,6 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
       </div>
     );
   }
-  const legendUrl = `${dataServerUrl}/${props.selectedSatelliteVariable.legend_path}`;
 
   return (
     <div className={"SlippyMap"}>
@@ -169,7 +167,8 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
       </div>
 
       <SlippyMapLegend
-        imageUrl={legendUrl}
+        selectedSatelliteVariable={props.selectedSatelliteVariable}
+        selectedSweVariable={selectedSweVariable}
         parentWidthPx={componentWidth}
         mapUid={slippyMapUid} />
 
