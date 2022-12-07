@@ -12,22 +12,22 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
 import _uniqueId from 'lodash/uniqueId';
 
-import '../style/SlippyMap.css';
-import {CRS_LONLAT, CRS_MAP} from '../constants/crs';
-import notProcessedLayerEnabledAtom from '../state/client/notProcessedLayerEnabled';
-import rasterOpacityAtom from '../state/client/rasterOpacity';
-import selectedBasemapLayerAtom from '../state/client/derived/selectedBasemapLayer';
-import selectedSuperRegionAtom from '../state/client/derived/selectedSuperRegion';
-import selectedGenericRegionAtom from '../state/client/derived/selectedGenericRegion';
-import selectedSweVariableAtom from '../state/client/derived/selectedSweVariable';
-import swePointsForOverlayAtom from '../state/client/derived/swePointsForOverlay';
-import mapViewAtom from '../state/client/derived/mapView';
-import useRegionShapeQuery from '../serverState/regionShape';
+import '../../style/SlippyMap.css';
+import {CRS_LONLAT, CRS_MAP} from '../../constants/crs';
+import notProcessedLayerEnabledAtom from '../../state/client/notProcessedLayerEnabled';
+import rasterOpacityAtom from '../../state/client/rasterOpacity';
+import selectedBasemapLayerAtom from '../../state/client/derived/selectedBasemapLayer';
+import selectedSuperRegionAtom from '../../state/client/derived/selectedSuperRegion';
+import selectedGenericRegionAtom from '../../state/client/derived/selectedGenericRegion';
+import selectedSweVariableAtom from '../../state/client/derived/selectedSweVariable';
+import swePointsForOverlayAtom from '../../state/client/derived/swePointsForOverlay';
+import mapViewAtom from '../../state/client/derived/mapView';
+import useRegionShapeQuery from '../../serverState/regionShape';
 import {
   OptionalCoordinate,
   OptionalOpenLayersMap,
-} from '../types/SlippyMap';
-import {IVariable} from '../types/query/variables';
+} from '../../types/SlippyMap';
+import {IVariable} from '../../types/query/variables';
 import {
   useMapView,
   useNotProcessedLayerToggle,
@@ -37,8 +37,8 @@ import {
   useSelectedRegionShape,
   useSelectedRasterVariable,
   useSelectedSweVariable,
-} from '../util/sideEffects/slippyMap';
-import SlippyMapLegend from './SlippyMapLegend';
+} from '../../util/sideEffects/slippyMap';
+import SlippyMapLegend from './Legend';
 
 
 interface ISlippyMapProps {
