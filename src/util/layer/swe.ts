@@ -46,7 +46,7 @@ export const showSwePointsOverlay = (
   layer.setSource(newSource);
   layer.setStyle((feature) => {
     const featureData = feature.getProperties().data as SwePointForOverlay;
-    const value: number = featureData.measurement_inches;
+    const value = featureData.measurement_inches!;
     const color = findColorStopsNearestColor(colorStops, value);
 
     return new Style({
