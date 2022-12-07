@@ -17,6 +17,7 @@
   position: relative;
   padding: 14px;
   text-align: left;
+  white-space: nowrap;
 }
 
 .SlippyMapTooltip .close-button {
