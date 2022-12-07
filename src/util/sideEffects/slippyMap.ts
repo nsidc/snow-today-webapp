@@ -12,6 +12,7 @@ import {
   ScaleLine,
   defaults as defaultControls
 } from 'ol/control';
+import {Coordinate} from 'ol/coordinate';
 import {click} from 'ol/events/condition';
 import Select, {SelectEvent} from 'ol/interaction/Select';
 import * as style from 'ol/style';
@@ -276,9 +277,10 @@ export const useSelectedFeature = (
     }
 
     // @ts-ignore TS2339
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     // .getCoordinates is not documented, but is present on the object.
     // Danger?
-    const pos = selectedFeatures[0].getGeometry()!.getCoordinates() as Array<number, number>;
+    const pos = (selectedFeatures[0].getGeometry()!.getCoordinates()) as Coordinate;
     featureInfoOverlay.setPosition(pos);
-  }, [selectedFeatures, selectInteraction, openLayersMap]);
+  }, [featureInfoOverlay, selectedFeatures, selectInteraction, openLayersMap]);
 }
