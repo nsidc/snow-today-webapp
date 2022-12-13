@@ -236,11 +236,7 @@ export const useSelectedSweVariable = (
   openLayersMap: OptionalOpenLayersMap,
 ): void => {
   useEffect(() => {
-    if (
-      openLayersMap === undefined
-      || selectedSweVariable === undefined
-      || swePointsForOverlay.length === 0
-    ) {
+    if (openLayersMap === undefined) {
       return;
     }
 

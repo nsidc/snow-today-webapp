@@ -27,11 +27,18 @@ export const swePointsLayer = _memoize((mapId: string): VectorLayer<VectorSource
 
 export const showSwePointsOverlay = (
   mapId: string,
-  selectedSweVariable: IVariable,
+  selectedSweVariable: IVariable | undefined,
   swePoints: SwePointsForOverlay,
   openLayersMap: PluggableMap,
 ): void => {
   const layer = swePointsLayer(mapId);
+  if (
+    swePoints.length === 0
+    || selectedSweVariable === undefined
+  ) {
+    layer.setSource(new VectorSource({features: []}));
+    return;
+  }
 
   const displayablePoints = swePoints.filter((point) => {
     return point.measurement_inches !== null && point.measurement_inches !== 0;

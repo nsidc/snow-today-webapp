@@ -22,6 +22,7 @@ const BasemapSelector: React.FC = () => {
 
   const handleSelect = (eventKey: string | null): void => {
     if (!eventKey) {
+      setSelectedSweVariableName(undefined);
       return;
     }
     setSelectedSweVariableName(eventKey);

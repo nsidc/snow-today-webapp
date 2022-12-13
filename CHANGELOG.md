@@ -1,3 +1,8 @@
+# v0.15.1 (2022-12-13)
+
+* Bugfix: SWE points would not clear when selecting "None" from dropdown
+
+
 # v0.15.0 (2022-12-07)
 
 * Add SWE point layer and selector dropdown
