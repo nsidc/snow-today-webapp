@@ -69,36 +69,36 @@ const basemapsInfo: IBasemapAttrs[] = [
   },
 
   // ArcGIS Basemaps
-  {
-    title: 'ArcGIS Light Gray',
-    visible: false,
-    children: [
-      {
-        title: 'ArcGIS Light Gray Base',
-        sourceInfo: {
-          id: 'Canvas/World_Light_Gray_Base',
-          fn: getArcGisBasemapSource,
-        },
-        visible: true,
-      },
-      {
-        title: 'ArcGIS Light Gray Reference',
-        sourceInfo: {
-          id: 'Canvas/World_Light_Gray_Reference',
-          fn: getArcGisBasemapSource,
-        },
-        visible: true,
-      },
-    ],
-  },
-  {
-    title: 'ArcGIS Light Gray - Base only',
-    sourceInfo: {
-      id: 'Canvas/World_Light_Gray_Base',
-      fn: getArcGisBasemapSource,
-    },
-    visible: false,
-  },
+  // {
+  //   title: 'ArcGIS Light Gray',
+  //   visible: false,
+  //   children: [
+  //     {
+  //       title: 'ArcGIS Light Gray Base',
+  //       sourceInfo: {
+  //         id: 'Canvas/World_Light_Gray_Base',
+  //         fn: getArcGisBasemapSource,
+  //       },
+  //       visible: true,
+  //     },
+  //     {
+  //       title: 'ArcGIS Light Gray Reference',
+  //       sourceInfo: {
+  //         id: 'Canvas/World_Light_Gray_Reference',
+  //         fn: getArcGisBasemapSource,
+  //       },
+  //       visible: true,
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: 'ArcGIS Light Gray - Base only',
+  //   sourceInfo: {
+  //     id: 'Canvas/World_Light_Gray_Base',
+  //     fn: getArcGisBasemapSource,
+  //   },
+  //   visible: false,
+  // },
   {
     title: 'ArcGIS Dark Gray',
     visible: false,
