@@ -23,6 +23,7 @@ jobs:
         uses: "mamba-org/setup-micromamba@v1"
         with:
           node-version: "18.x"
+          cache: "npm"
 
       - name: "Install locked JavaScript dependencies"
         run: "npm ci"
