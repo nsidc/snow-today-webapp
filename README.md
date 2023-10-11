@@ -29,20 +29,21 @@ This package requires either Docker or the NPM environment described by `package
 ## Usage
 
 Run from source:
-```
+
+```bash
 docker-compose up --build
 ```
 
 Deploy latest version from UNPKG (replace `snow-today-webapp` in URLs with
 `snow-today-webapp@X.Y.Z` to deploy a specific version):
-```
+
+```html
 <div id="snow-today-webapp-appcontainer"></div>
 ...
 <link rel="stylesheet"
       href="https://unpkg.com/@nsidc/snow-today-webapp/dist/main.css"
       type="text/css"></style>
 <script src="https://unpkg.com/@nsidc/snow-today-webapp"></script>
-
 ```
 
 
@@ -50,14 +51,6 @@ Deploy latest version from UNPKG (replace `snow-today-webapp` in URLs with
 
 *TODO*
 
-
-## License
-
-See [LICENSE](LICENSE).
-
-## Code of Conduct
-
-See [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Credit
 

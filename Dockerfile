@@ -2,12 +2,13 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-COPY package* ./
-# Install from lockfile
+# Install locked dependencies
+# NOTE: `node_modules` is intentionally not copied into the image! We want to
+# be sure that the environment installed into the image is exactly as specified
+# in our lock file.
+COPY package*.json ./
 RUN npm ci
 
-# NOTE: _DO NOT_ copy node_modules, that would overwrite the install we just
-# did.
 # COPY scripts ./scripts
 COPY src ./src
 COPY index.html ./
