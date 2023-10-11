@@ -1,4 +1,4 @@
-name: "Test"
+name: "Test (test)"
 
 on:
   # The tests will be run on the main branch as part of the container build workflow.
