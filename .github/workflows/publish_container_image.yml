@@ -1,0 +1,23 @@
+name: "Publish container image"
+
+on:
+  push:
+    branches:
+      - "main"
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+*"
+
+
+jobs:
+
+  test:
+    uses: "./.github/workflows/test.yml"
+
+  # When a push to the default branch occurs, build and release "latest" images
+  # When a tag `vX.Y.Z` push occurs, build and release images with that tag
+  build-and-publish-image:
+    name: "Build and publish container image"
+    needs:
+      - "test"
+    uses: "nsidc/.github/.github/workflows/build-and-publish-container-image.yml@main"
+    secrets: "inherit"

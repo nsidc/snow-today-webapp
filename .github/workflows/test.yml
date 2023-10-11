@@ -1,0 +1,38 @@
+name: "Test (test)"
+
+on:
+  # The tests will be run on the main branch as part of the container build workflow.
+  # push:
+  #   branches:
+  #     - "main"
+  pull_request:
+  # Enable running this workflow from the container build workflow:
+  workflow_call:
+
+
+jobs:
+  test:
+    name: "Run tests"
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - name: "Check out repository"
+        uses: "actions/checkout@v3"
+
+      - name: "Setup NodeJS"
+        uses: "actions/setup-node@v3"
+        with:
+          node-version: "18.x"
+          cache: "npm"
+
+      - name: "Install locked JavaScript dependencies"
+        run: "npm ci"
+
+      - name: "Run linter(s)"
+        run: "npm run lint"
+
+      - name: "Run tests"
+        run: "npm run test"
+
+      - name: "Test build"
+        run: "npm run build"
