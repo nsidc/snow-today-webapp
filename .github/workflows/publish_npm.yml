@@ -1,0 +1,34 @@
+name: "Publish bundle to npmjs.com"
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+*"
+
+
+jobs:
+  test:
+    uses: "./.github/workflows/test.yml"
+
+  publish-to-npmjs:
+    name: "Publish to npmjs.com"
+    needs:
+      - "test"
+    runs-on: "ubuntu-latest"
+    steps:
+
+      - name: "Check out repository"
+        uses: "actions/checkout@v3"
+
+      - name: "Setup NodeJS"
+        uses: "mamba-org/setup-micromamba@v1"
+        with:
+          node-version: "18.x"
+
+      - name: "Build"
+        run: "npm run build"
+
+      - name: "Publish to npmjs.com"
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_DEPLOY_TOKEN}" > .npmrc
+          npm publish --access public
