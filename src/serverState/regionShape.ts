@@ -21,6 +21,8 @@ const useRegionShapeQuery = (regionShapeFilePath: string | undefined) => useQuer
     // Never re-fetch this data!
     cacheTime: Infinity,
     staleTime: Infinity,
+    // Propagate all errors to the nearest error boundary
+    useErrorBoundary: true,
   },
 );
 export default useRegionShapeQuery;
