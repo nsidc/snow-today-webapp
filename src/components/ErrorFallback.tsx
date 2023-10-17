@@ -1,6 +1,3 @@
-import Error from 'react-error-boundary';
-
-
 type ErrorFallbackParams = {error: Error, resetErrorBoundary: () => void};
 const ErrorFallbackComponent = ({error, resetErrorBoundary}: ErrorFallbackParams) => (
   <div role="alert" className="error">
