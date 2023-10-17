@@ -1,4 +1,8 @@
-const ErrorFallbackComponent = ({ error, resetErrorBoundary }) => (
+import Error from 'react-error-boundary';
+
+
+type ErrorFallbackParams = {error: Error, resetErrorBoundary: () => void};
+const ErrorFallbackComponent = ({error, resetErrorBoundary}: ErrorFallbackParams) => (
   <div role="alert" className="error">
     <h3>Woops!</h3>
 
