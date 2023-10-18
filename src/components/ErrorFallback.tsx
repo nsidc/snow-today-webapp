@@ -6,7 +6,7 @@ const ErrorFallbackComponent = ({error, resetErrorBoundary}: ErrorFallbackParams
     <div className="error-message">{error.message}</div>
 
     <p>
-     Something went wrong. This application is currently unavaialbe. Please try again later.
+     Something went wrong. This application is currently unavailable. Please try again later.
      If the error persists, copy the red error text and send to NSIDC User Services at the link below.
     </p>
 
