@@ -6,8 +6,8 @@ const ErrorFallbackComponent = ({error, resetErrorBoundary}: ErrorFallbackParams
     <div className="error-message">{error.message}</div>
 
     <p>
-     It's likely this application is down because other web services it depends on are currently down.
-     Refresh the page later to try again.
+     Something went wrong. This application is currently unavaialbe. Please try again later.
+     If the error persists, copy the red error text and send to NSIDC User Services at the link below.
     </p>
 
     <p><b>
