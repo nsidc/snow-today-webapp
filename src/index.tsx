@@ -6,7 +6,9 @@ import {QueryClientProvider} from '@tanstack/react-query';
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 
 import './style/index.css';
+import './style/common.css';
 import App from './App';
+import LoadingMessage from './components/common/LoadingMessage';
 import {queryClient} from './util/query';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -34,7 +36,7 @@ import '@fontsource/roboto/900.css';
 // See the browser console for details on this issue and a link to more docs.
 ReactDOM.render(
   <React.StrictMode>
-    <Suspense fallback={<p>Loading</p>}>
+    <Suspense fallback={<div className="centered"><LoadingMessage small={false} /></div>}>
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <App />
