@@ -1,4 +1,5 @@
 import React from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import {useRecoilValue} from 'recoil';
 
 import '../style/card.css';
@@ -10,6 +11,7 @@ import selectedSatelliteVariableObjectAtom from '../state/client/derived/selecte
 import selectedTileTypeAtom from '../state/client/selectedTileType';
 import LinePlot from './LinePlot';
 import SlippyMap from './SlippyMap';
+import ErrorFallbackComponent from './ErrorFallback';
 
 
 type ITileProps = ITileIdentifier & {style: React.CSSProperties};
@@ -44,12 +46,14 @@ const Tile: React.FC<ITileProps> = (props) => {
     throw new Error('This can not happen!');
   }
   return (
-    <div className={'Tile snow-today-card'} style={props.style}>
-      {content}
-      <div className='tile-citation'>
-        {CITATION}
+      <div className={'Tile snow-today-card'} style={props.style}>
+        <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
+          {content}
+          <div className='tile-citation'>
+            {CITATION}
+          </div>
+        </ErrorBoundary>
       </div>
-    </div>
   );
 }
 

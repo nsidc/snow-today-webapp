@@ -1,0 +1,14 @@
+.error {
+  margin: 10px;
+}
+
+.error-message {
+  font-family: monospace;
+  white-space: pre;
+
+  margin: 10px;
+  padding: 10px;
+
+  background-color: whitesmoke;
+  color: red;
+}
