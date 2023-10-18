@@ -6,7 +6,7 @@ const ErrorFallbackComponent = ({error, resetErrorBoundary}: ErrorFallbackParams
     <div className="error-message">{error.message}</div>
 
     <p>
-     It's likely this application is down because other web services it depends on are currently down.
+     It's probable this application is down because other web services it depends on are currently down.
      Refresh the page later to try again.
     </p>
 
