@@ -15,7 +15,8 @@
     "serve": "webpack serve",
     "lint": "eslint src --ext .ts --ext .tsx",
     "compile": "tsc --project tsconfig.json",
-    "test": "node jest/scripts/test.js"
+    "test": "node jest/scripts/test.js",
+    "test:debug": "node inspect jest/scripts/test.js"
   },
   "dependencies": {
     "@fontsource/roboto": "^4.5.7",
