@@ -1,21 +1,14 @@
 import React from 'react';
-import {Button, Spinner} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 
-const LoadingButton: React.FC = () => {
-  return (
+import LoadingMessage from './LoadingMessage';
+
+const LoadingButton: React.FC = () => (
     <span>
       <Button variant="primary" disabled>
-        <Spinner
-          as="span"
-          animation="border"
-          size="sm"
-          role="status"
-          aria-hidden="true"
-        />
-        Loading...
+        <LoadingMessage />
       </Button>
     </span>
-  );
-}
+);
 
 export default LoadingButton;
