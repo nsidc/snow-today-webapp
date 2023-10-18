@@ -15,7 +15,7 @@ const DebugDumpButton: React.FC = () => {
   }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  return <button className={'DebugDumpButton'} onClick={onClick}>Dump State</button>
+  return <button className={'DebugDumpButton'} onClick={onClick}>Dump state</button>
 }
 
 export default DebugDumpButton;

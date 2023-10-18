@@ -1,7 +1,7 @@
 type ErrorFallbackParams = {error: Error, resetErrorBoundary: () => void};
 const ErrorFallbackComponent = ({error, resetErrorBoundary}: ErrorFallbackParams) => (
   <div role="alert" className="error">
-    <h3>Woops!</h3>
+    <h3>Whoops!</h3>
 
     <div className="error-message">{error.message}</div>
 
