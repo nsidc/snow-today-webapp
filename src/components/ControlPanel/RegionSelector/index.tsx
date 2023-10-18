@@ -6,6 +6,7 @@ import '../../../style/dropdownForm.css';
 import SuperRegionSelector from './SuperRegionSelector';
 import SubRegionCollectionSelector from './SubRegionCollectionSelector';
 import SubRegionSelector from './SubRegionSelector';
+import LoadingButton from '../../reusable/LoadingButton';
 import selectedSuperRegionNameAtom from '../../../state/client/selectedSuperRegionName';
 import selectedSuperRegionAtom from '../../../state/client/derived/selectedSuperRegion';
 import useRegionsIndexQuery from '../../../serverState/regionsIndex';
@@ -27,7 +28,7 @@ const RegionSelector: React.FC = () => {
     || !selectedSuperRegion
   ) {
     return (
-      <span>{'Loading...'}</span>
+      <LoadingButton />
     );
   }
 
