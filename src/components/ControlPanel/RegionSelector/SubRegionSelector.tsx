@@ -6,7 +6,7 @@ import selectedSubRegionCollectionAtom from '../../../state/client/derived/selec
 import selectedSubRegionCollectionNameAtom from '../../../state/client/selectedSubRegionCollectionName';
 import {DEFAULT_SUBREGION_COLLECTION_NAME} from '../../../state/client/selectedSubRegionCollectionName/atom';
 import selectedSubRegionNameAtom from '../../../state/client/selectedSubRegionName';
-import SearchableSelect, {ISelectOptionProps} from '../../../components/reusable/SearchableSelect';
+import SearchableSelect, {ISelectOptionProps} from '../../../components/common/SearchableSelect';
 import {ISubRegionCollection} from '../../../types/query/regions';
 
 
