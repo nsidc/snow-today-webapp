@@ -12,7 +12,8 @@ const getDataServerUrl = (): string => {
 export const dataServerUrl = getDataServerUrl();
 
 // Information about regions:
-export const regionsIndexUrl = `${dataServerUrl}/regions.json`;
+export const regionsUrl = `${dataServerUrl}/regions`;
+export const regionsIndexUrl = `${regionsUrl}/root.json`;
 
 // Information about satellite variables corresponding to plot data and
 // Cloud-Optimized GeoTIFFs:
