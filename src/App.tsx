@@ -6,7 +6,7 @@ import './style/App.css';
 import './style/error.css';
 import ControlPanel from './components/ControlPanel';
 import TileLayout from './components/TileLayout';
-import ErrorFallbackComponent from './components/ErrorFallback';
+import ErrorFallbackComponent from './components/common/ErrorFallback';
 
 
 const App: React.FC = () => {
