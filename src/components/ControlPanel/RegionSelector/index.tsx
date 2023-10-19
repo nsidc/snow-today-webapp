@@ -33,7 +33,7 @@ const RegionSelector: React.FC = () => {
   }
 
   return (
-    <DropdownButton title={'Select a Region'}>
+    <DropdownButton title={'Select a Region'} variant={'success'}>
       <div className={'RegionSelector dropdown-form'}>
 
         <SuperRegionSelector regionsIndexQueryData={regionsIndexQuery.data}/>

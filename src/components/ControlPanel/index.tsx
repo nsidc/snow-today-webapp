@@ -23,10 +23,10 @@ const ControlPanel: React.FC = () => {
         <DebugDumpButton />
       }
 
+      <RegionSelector />
       <LayoutConfigurator />
 
       <BasemapSelector />
-      <RegionSelector />
       <SweSelector />
 
       <NotProcessedLayerToggle />
