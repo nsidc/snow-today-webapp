@@ -1,15 +1,15 @@
 import {useQuery} from '@tanstack/react-query';
 
-import {fetchRegionsIndex} from '@src/util/fetch/regions';
-import {IRegionIndex} from '@src/types/query/regions';
+import {fetchSuperRegionsIndex} from '@src/util/fetch/regions';
+import {ISuperRegionIndex} from '@src/types/query/regions';
 
 
-export const SERVERSTATE_KEY_REGIONS_INDEX = 'regionsIndex';
+export const SERVERSTATE_KEY_REGIONS_INDEX = 'superRegionsIndex';
 
 const useRegionsIndexQuery = () => {
-  return useQuery<IRegionIndex>(
+  return useQuery<ISuperRegionIndex>(
     [SERVERSTATE_KEY_REGIONS_INDEX],
-    fetchRegionsIndex,
+    fetchSuperRegionsIndex,
     {
       // Never re-fetch this data!
       cacheTime: Infinity,

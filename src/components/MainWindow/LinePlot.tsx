@@ -46,7 +46,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
   }
 
   const varLongname = props.selectedSatelliteVariable.longname_plot;
-  const regionLongname = selectedGenericRegion.longname;
+  const regionLongname = selectedGenericRegion.longName;
   if (plotDataQuery.isError) {
     console.debug(`Error!: ${String(plotDataQuery.error)}`);
     return (

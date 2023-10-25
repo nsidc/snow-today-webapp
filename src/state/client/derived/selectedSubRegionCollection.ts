@@ -7,7 +7,7 @@ import {selector} from 'recoil';
 
 import selectedSuperRegionAtom from './selectedSuperRegion';
 import selectedSubRegionCollectionNameAtom from '../selectedSubRegionCollectionName';
-import {ISubRegionCollection} from '../../../types/query/regions';
+import {ISubRegionCollection} from '@src/types/query/regions';
 
 
 // TODO: Should we call selectors "atoms" for simplicity? They are used
@@ -21,7 +21,7 @@ const selectedSubRegionCollectionAtom = selector<ISubRegionCollection | undefine
       return;
     }
 
-    return selectedSuperRegion['subregion_collections'][selectedSubRegionCollection];
+    return selectedSuperRegion.subregionCollections[selectedSubRegionCollection];
   },
 });
 

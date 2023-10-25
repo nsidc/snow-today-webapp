@@ -3,11 +3,11 @@ import {useRecoilState} from 'recoil';
 
 import '@src/style/SuperRegionSelector.css';
 import selectedSuperRegionIdAtom from '@src/state/client/selectedSuperRegionId';
-import {IRegionIndex} from '@src/types/query/regions';
+import {ISuperRegionIndex} from '@src/types/query/regions';
 
 
 interface ISuperRegionSelectorProps {
-  regionsIndexQueryData: IRegionIndex;
+  regionsIndexQueryData: ISuperRegionIndex;
 }
 
 const SuperRegionSelector: React.FC<ISuperRegionSelectorProps> = (props) => {

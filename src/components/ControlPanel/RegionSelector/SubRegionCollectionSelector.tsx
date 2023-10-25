@@ -1,11 +1,11 @@
 import React from 'react';
 import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 
-import '../../../style/SubRegionCollectionSelector.css';
-import selectedSuperRegionAtom from '../../../state/client/derived/selectedSuperRegion';
-import selectedSubRegionCollectionNameAtom from '../../../state/client/selectedSubRegionCollectionName';
-import selectedSubRegionNameAtom from '../../../state/client/selectedSubRegionName';
-import {DEFAULT_SUBREGION_COLLECTION_NAME} from '../../../state/client/selectedSubRegionCollectionName/atom';
+import '@src/style/SubRegionCollectionSelector.css';
+import selectedSuperRegionAtom from '@src/state/client/derived/selectedSuperRegion';
+import selectedSubRegionCollectionNameAtom from '@src/state/client/selectedSubRegionCollectionName';
+import selectedSubRegionNameAtom from '@src/state/client/selectedSubRegionName';
+import {DEFAULT_SUBREGION_COLLECTION_NAME} from '@src/state/client/selectedSubRegionCollectionName/atom';
 
 
 const SubRegionCollectionSelector: React.FC = () => {
@@ -41,7 +41,7 @@ const SubRegionCollectionSelector: React.FC = () => {
           checked={selectedSubRegionCollectionName === DEFAULT_SUBREGION_COLLECTION_NAME} />
       </div>
     ),
-    ...Object.entries(selectedSuperRegion.subregion_collections)
+    ...Object.entries(selectedSuperRegion.subregionCollections)
     .map(([regionCollectionId, params]) => (
       <div className={'sub-region-collection-option'} key={regionCollectionId}>
         <label htmlFor={`region-collection-${regionCollectionId}`}>

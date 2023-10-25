@@ -1,7 +1,7 @@
 export interface ISubRegion {
-  longname: string;
-  shortname: string;
-  shape_path: string;
+  longName: string;
+  shortName: string;
+  shapeRelativePath: string;
   enabled?: boolean;
 }
 export interface ISubRegionIndex {
@@ -9,28 +9,32 @@ export interface ISubRegionIndex {
 }
 
 export interface ISubRegionCollection {
-  longname: string;
-  shortname: string;
+  longName: string;
+  shortName: string;
   items: ISubRegionIndex;
 }
 export interface ISubRegionCollectionIndex {
   [subRegionCollectionId: string]: ISubRegionCollection;
 }
 
-export interface IRegion {
-  longname: string;
-  shortname: string;
-  shape_path: string;
-  subregion_collections: ISubRegionCollectionIndex;
+export interface ISuperRegion {
+  longName: string;
+  shortName: string;
+  crs: string;
+  shapeRelativePath: string;
+  subregionsRelativePath: string;
+  subregionsHierarchyRelativePath: string;
+  // TODO: how to populate this?
+  subregionCollections: ISubRegionCollectionIndex;
 }
-export interface IRegionIndex {
-  [regionId: string]: IRegion;
+export interface ISuperRegionIndex {
+  [superRegionId: string]: ISuperRegion;
 }
 
 // TODO: Express this as a union of IRegion and ISubRegion, plus an `id` field.
 export interface IGenericRegion {
   id: string;
-  longname: string;
-  shortname: string;
-  shape_path: string;
+  longName: string;
+  shortName: string;
+  shapeRelativePath: string;
 }

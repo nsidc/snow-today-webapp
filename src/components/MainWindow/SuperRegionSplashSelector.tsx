@@ -29,7 +29,7 @@ const SuperRegionSplashSelector: React.FC = () => {
           variant='success'
           value={superRegionId}
           onClick={e => setSelectedSuperRegionId(superRegionId)}>
-          {superRegion['name']}
+          {superRegion.longName}
         </Button>
       </div>
     ),

@@ -41,9 +41,9 @@ const selectedGenericRegionAtom = selector<IGenericRegion | undefined>({
     ) {
       return {
         'id': selectedSuperRegionId,
-        'longname': selectedSuperRegion['name'],
-        'shortname': selectedSuperRegion['shortname'],
-        'shape_path': selectedSuperRegion['shape_path'],
+        'longName': selectedSuperRegion['longName'],
+        'shortName': selectedSuperRegion['shortName'],
+        'shapeRelativePath': selectedSuperRegion['shapeRelativePath'],
       }
     }
 
@@ -51,9 +51,9 @@ const selectedGenericRegionAtom = selector<IGenericRegion | undefined>({
     // TODO: Don't think this is right...
     return {
       'id': `${selectedSuperRegionId}_${selectedSubRegionCollectionName}_${selectedSubRegionName}`,
-      'longname': selectedSubRegion['longname'],
-      'shortname': selectedSubRegion['shortname'],
-      'shape_path': selectedSubRegion['shape_path'],
+      'longName': selectedSubRegion['longName'],
+      'shortName': selectedSubRegion['shortName'],
+      'shapeRelativePath': selectedSubRegion['shapeRelativePath'],
     }
   },
 });
