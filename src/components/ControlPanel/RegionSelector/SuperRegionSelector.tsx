@@ -1,9 +1,9 @@
 import React from 'react';
 import {useRecoilState} from 'recoil';
 
-import '../../../style/SuperRegionSelector.css';
-import selectedSuperRegionNameAtom from '../../../state/client/selectedSuperRegionName';
-import {IRegionIndex} from '../../../types/query/regions';
+import '@src/style/SuperRegionSelector.css';
+import selectedSuperRegionIdAtom from '@src/state/client/selectedSuperRegionId';
+import {IRegionIndex} from '@src/types/query/regions';
 
 
 interface ISuperRegionSelectorProps {
@@ -11,20 +11,22 @@ interface ISuperRegionSelectorProps {
 }
 
 const SuperRegionSelector: React.FC<ISuperRegionSelectorProps> = (props) => {
-  const [selectedSuperRegionName, setSelectedSuperRegionName] = useRecoilState(selectedSuperRegionNameAtom);
+  const [selectedSuperRegionId, setSelectedSuperRegionId] = useRecoilState(selectedSuperRegionIdAtom);
 
   const superRegionOptions = Object.entries(props.regionsIndexQueryData).map(
-    ([superRegionId, params]) => (
-      <option key={superRegionId} value={superRegionId}>{params['longname']}</option>
+    ([superRegionId, superRegion]) => (
+      <option key={superRegionId} value={superRegionId}>{superRegion['name']}</option>
     )
   );
+
+  /* TODO: Handle undefined super region? Let it fall to an error boundary? */
 
   return (
     <div id={'SuperRegionSelector'}>
       <label htmlFor={'super-region-selector'}>{'Region: '}</label>
       <select id={'super-region-selector'}
-        value={selectedSuperRegionName}
-        onChange={e => setSelectedSuperRegionName(e.currentTarget.value)}
+        value={selectedSuperRegionId}
+        onChange={e => setSelectedSuperRegionId(e.currentTarget.value)}
       >
         {superRegionOptions}
       </select>

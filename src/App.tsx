@@ -5,7 +5,7 @@ import pkg from '../package.json';
 import './style/App.css';
 import './style/error.css';
 import ControlPanel from './components/ControlPanel';
-import TileLayout from './components/TileLayout';
+import MainWindow from './components/MainWindow';
 import ErrorFallbackComponent from './components/common/ErrorFallback';
 
 
@@ -16,7 +16,7 @@ const App: React.FC = () => {
 
       <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
         <ControlPanel />
-        <TileLayout />
+        <MainWindow />
       </ErrorBoundary>
 
     </div>

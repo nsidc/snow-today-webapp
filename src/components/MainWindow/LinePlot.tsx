@@ -6,14 +6,14 @@ import HighchartsAccessibility from 'highcharts/modules/accessibility';
 import HighchartsMore from 'highcharts/highcharts-more';
 import HighchartsReact from 'highcharts-react-official';
 
-import '../style/LinePlot.css';
-import '../style/card.css';
-import selectedGenericRegionAtom from '../state/client/derived/selectedGenericRegion';
-import usePlotDataQuery from '../serverState/plotData';
-import {IPlotData} from '../types/query/plotData';
-import {IVariable} from '../types/query/variables';
-import {unixDateFromDowy} from '../util/waterYear';
-import LoadingMessage from './common/LoadingMessage';
+import '@src/style/LinePlot.css';
+import '@src/style/card.css';
+import selectedGenericRegionAtom from '@src/state/client/derived/selectedGenericRegion';
+import usePlotDataQuery from '@src/serverState/plotData';
+import {IPlotData} from '@src/types/query/plotData';
+import {IVariable} from '@src/types/query/variables';
+import {unixDateFromDowy} from '@src/util/waterYear';
+import LoadingMessage from '@src/components/common/LoadingMessage';
 
 HighchartsAccessibility(Highcharts);
 HighchartsMore(Highcharts);

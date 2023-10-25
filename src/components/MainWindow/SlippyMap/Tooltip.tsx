@@ -3,8 +3,8 @@ import React from 'react';
 import Feature from 'ol/Feature';
 import {MdClose} from 'react-icons/md';
 
-import '../../style/SlippyMapTooltip.css';
-import {SwePointForOverlay} from '../../types/swe';
+import '@src/style/SlippyMapTooltip.css';
+import {SwePointForOverlay} from '@src/types/swe';
 
 interface ISlippyMapTooltipProps {
   features: Array<Feature>;

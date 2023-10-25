@@ -13,7 +13,6 @@ import selectedSatelliteVariableObjectAtom from '@src/state/client/derived/selec
 import selectedTileTypeAtom from '@src/state/client/selectedTileType';
 import LinePlot from './LinePlot';
 import SlippyMap from './SlippyMap';
-import {ErrorFallbackTileComponent} from './common/ErrorFallback';
 
 
 type ITileProps = ITileIdentifier & {style: React.CSSProperties};

@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 
 import {Rnd} from 'react-rnd';
 
-import {IVariable} from '../../types/query/variables';
-import {dataServerUrl} from '../../constants/dataServer';
+import {IVariable} from '@src/types/query/variables';
+import {dataServerUrl} from '@src/constants/dataServer';
 
 
 interface ISlippyMapLegendProps {

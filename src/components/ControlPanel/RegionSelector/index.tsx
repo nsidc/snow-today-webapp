@@ -1,22 +1,19 @@
 import React from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-import '../../../style/dropdownForm.css';
+import '@src/style/dropdownForm.css';
+import LoadingButton from '@src/components/common/LoadingButton';
+import selectedSuperRegionAtom from '@src/state/client/derived/selectedSuperRegion';
+import useRegionsIndexQuery from '@src/serverState/regionsIndex';
 import SuperRegionSelector from './SuperRegionSelector';
 import SubRegionCollectionSelector from './SubRegionCollectionSelector';
 import SubRegionSelector from './SubRegionSelector';
-import LoadingButton from '../../common/LoadingButton';
-import selectedSuperRegionNameAtom from '../../../state/client/selectedSuperRegionName';
-import selectedSuperRegionAtom from '../../../state/client/derived/selectedSuperRegion';
-import useRegionsIndexQuery from '../../../serverState/regionsIndex';
 
 
 const RegionSelector: React.FC = () => {
-  const setSelectedSuperRegionName = useSetRecoilState(selectedSuperRegionNameAtom);
   const selectedSuperRegion = useRecoilValue(selectedSuperRegionAtom);
-
-  const regionsIndexQuery = useRegionsIndexQuery(setSelectedSuperRegionName);
+  const regionsIndexQuery = useRegionsIndexQuery();
 
   if (regionsIndexQuery.isError) {
     console.debug(`Error!: ${regionsIndexQuery.error as string}`);
@@ -28,7 +25,7 @@ const RegionSelector: React.FC = () => {
     || !selectedSuperRegion
   ) {
     return (
-      <LoadingButton />
+      <LoadingButton variant={'success'} message={'Waiting...'}/>
     );
   }
 

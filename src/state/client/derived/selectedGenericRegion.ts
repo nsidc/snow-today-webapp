@@ -7,7 +7,7 @@
  */
 import {selector} from 'recoil';
 
-import selectedSuperRegionNameAtom from '../selectedSuperRegionName';
+import selectedSuperRegionIdAtom from '../selectedSuperRegionId';
 import selectedSuperRegionAtom from './selectedSuperRegion';
 import selectedSubRegionCollectionNameAtom from '../selectedSubRegionCollectionName';
 import selectedSubRegionCollectionAtom from './selectedSubRegionCollection';
@@ -22,8 +22,8 @@ const selectedGenericRegionAtom = selector<IGenericRegion | undefined>({
   key: 'selectedGenericRegion',
   get: ({get}) => {
     const selectedSuperRegion = get(selectedSuperRegionAtom);
-    const selectedSuperRegionName = get(selectedSuperRegionNameAtom);
-    if (!selectedSuperRegion || !selectedSuperRegionName) {
+    const selectedSuperRegionId = get(selectedSuperRegionIdAtom);
+    if (!selectedSuperRegion || !selectedSuperRegionId) {
       return;
     }
 
@@ -40,16 +40,17 @@ const selectedGenericRegionAtom = selector<IGenericRegion | undefined>({
       || !selectedSubRegionName
     ) {
       return {
-        'id': selectedSuperRegionName,
-        'longname': selectedSuperRegion['longname'],
+        'id': selectedSuperRegionId,
+        'longname': selectedSuperRegion['name'],
         'shortname': selectedSuperRegion['shortname'],
         'shape_path': selectedSuperRegion['shape_path'],
       }
     }
 
     // Region is a sub-region:
+    // TODO: Don't think this is right...
     return {
-      'id': `${selectedSuperRegionName}_${selectedSubRegionCollectionName}_${selectedSubRegionName}`,
+      'id': `${selectedSuperRegionId}_${selectedSubRegionCollectionName}_${selectedSubRegionName}`,
       'longname': selectedSubRegion['longname'],
       'shortname': selectedSubRegion['shortname'],
       'shape_path': selectedSubRegion['shape_path'],
