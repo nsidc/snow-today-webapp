@@ -1,5 +1,6 @@
-import {dataServerUrl} from '../../constants/dataServer';
-import {IPlotData} from '../../types/query/plotData';
+import {dataServerUrl} from '@src/constants/dataServer';
+import {IPlotData} from '@src/types/query/plotData';
+import {genericFetch} from './generic';
 
 
 export const fetchPlotData = (
@@ -7,14 +8,5 @@ export const fetchPlotData = (
   variableId: string,
 ): Promise<IPlotData> => {
   const url = `${dataServerUrl}/plots/${regionId}-${variableId}.json`;
-  return fetch(url)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Failed to fetch plot data for ${regionId} ${variableId}: ${response.statusText}`);
-      }
-      return response.json() as Promise<IPlotData>;
-    })
-    .catch((error) => {
-      throw new Error(`Failed to fetch plot data for ${regionId} ${variableId}: ${String(error)}`);
-    });
+  return genericFetch<IPlotData>(url, `plot data for ${regionId} ${variableId}`)
 };
