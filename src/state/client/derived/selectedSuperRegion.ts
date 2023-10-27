@@ -6,13 +6,14 @@
 import {selector} from 'recoil';
 
 import selectedSuperRegionIdAtom from '@src/state/client/selectedSuperRegionId';
-import {ISuperRegion, ISuperRegionIndex} from '@src/types/query/regions';
+import {
+  ISuperRegion,
+  ISuperRegionIndex,
+} from '@src/types/query/regions';
 import {queryClient} from '@src/util/query';
 import {SERVERSTATE_KEY_REGIONS_INDEX} from '@src/serverState/regionsIndex';
 
 
-// TODO: Should we call selectors "atoms" for simplicity? They are used
-// similarly / identically.
 const selectedSuperRegionAtom = selector<ISuperRegion | undefined>({
   key: 'selectedSuperRegion',
   get: ({get}) => {

@@ -8,6 +8,12 @@
 * selectedRegionObject -> selectedRegion
 
 
+### Recoil atoms/selectors
+
+Selectors are not atoms. We should use the suffix `State` per the docs.
+
+
+
 ## Data / server-side considerations
 
 * Consider moving `variablesIndex` into Recoil state graph instead of ReactQuery, then

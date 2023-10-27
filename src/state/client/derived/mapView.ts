@@ -9,8 +9,6 @@ import GeoJSON from 'ol/format/GeoJSON';
 import {buffer} from 'ol/extent';
 
 
-// TODO: Should we call selectors "atoms" for simplicity? They are used
-// similarly / identically.
 type AtomValue = View | undefined;
 type AtomParameter = object | undefined;
 // TODO: Remove ts-ignore and figure out a better design for this atom

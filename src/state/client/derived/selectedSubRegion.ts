@@ -10,8 +10,6 @@ import selectedSubRegionNameAtom from '../selectedSubRegionName';
 import {ISubRegion} from '../../../types/query/regions';
 
 
-// TODO: Should we call selectors "atoms" for simplicity? They are used
-// similarly / identically.
 const selectedSubRegionAtom = selector<ISubRegion | undefined>({
   key: 'selectedSubRegion',
   get: ({get}) => {
