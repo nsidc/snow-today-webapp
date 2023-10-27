@@ -1,8 +1,5 @@
 #SuperRegionSplashSelector {
-  white-space: nowrap;
-  text-align: center;
-}
-
-.SuperRegionSplashSelectorButton {
-  margin: 10px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 300px;
 }

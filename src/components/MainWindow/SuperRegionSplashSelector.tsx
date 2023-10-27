@@ -24,14 +24,14 @@ const SuperRegionSplashSelector: React.FC = () => {
 
   const superRegionButtons = Object.entries(regionsIndexQuery.data).map(
     ([superRegionId, superRegion]) => (
-      <div key={superRegionId} className={'SuperRegionSplashSelectorButton'}>
-        <Button
-          variant='success'
-          value={superRegionId}
-          onClick={e => setSelectedSuperRegionId(superRegionId)}>
-          {superRegion.longName}
-        </Button>
-      </div>
+      <Button
+        variant='success'
+        value={superRegionId}
+        key={superRegionId}
+        onClick={e => setSelectedSuperRegionId(superRegionId)}
+        block>
+        {superRegion.longName}
+      </Button>
     ),
   );
 
