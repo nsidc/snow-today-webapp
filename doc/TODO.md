@@ -36,3 +36,8 @@ its mutation features anyway.
   (query types)? Can we write a utility that analyzes jsonschema files with typescript
   type definitions for compatibility? Maybe we could use `typescript-json-schema` to
   convert the Typescript interfaces to JSON schemas and diff?
+
+
+## Package size
+
+* Use only one icon set, instead of 3 (Bootstrap, FontAwesome, Material)

@@ -36,7 +36,7 @@ import '@fontsource/roboto/900.css';
 // See the browser console for details on this issue and a link to more docs.
 ReactDOM.render(
   <React.StrictMode>
-    <Suspense fallback={<div className="centered"><LoadingMessage small={false} /></div>}>
+    <Suspense fallback={<div className="centered"><LoadingMessage /></div>}>
       <QueryClientProvider client={queryClient}>
         <RecoilRoot>
           <App />
