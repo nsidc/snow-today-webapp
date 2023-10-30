@@ -1,6 +1,7 @@
 import {FallbackProps} from 'react-error-boundary';
 
 import '@src/style/error.css';
+import RefreshPageButton from './RefreshPageButton';
 
 
 export const ErrorFallbackComponent = (props: FallbackProps) => {
@@ -18,6 +19,8 @@ export const ErrorFallbackComponent = (props: FallbackProps) => {
         {"If the error persists, copy the red error text and send to "}
         <a href="mailto:nsidc@nsidc.org">NSIDC User Services</a>.
       </b></p>
+
+      <RefreshPageButton />
     </div>
   );
 };

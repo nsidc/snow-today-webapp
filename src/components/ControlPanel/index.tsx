@@ -4,13 +4,13 @@ import {useRecoilValue} from 'recoil';
 import '@src/style/ControlPanel.css';
 import selectedSuperRegionIdAtom from '@src/state/client/selectedSuperRegionId';
 import LoadingMessage from '@src/components/common/LoadingMessage';
+import RefreshPageButton from '@src/components/common/RefreshPageButton';
 import BasemapSelector from './BasemapSelector';
 import DebugDumpButton from './DebugDumpButton';
 import LayoutConfigurator from './LayoutConfigurator';
 import NotProcessedLayerToggle from './NotProcessedLayerToggle';
 import RegionSelector from './RegionSelector';
 import RasterOpacitySlider from './RasterOpacitySlider';
-import RefreshPageButton from './RefreshPageButton';
 import SweSelector from './SweSelector';
 
 declare const __ENVIRONMENT__: 'development' | 'production';
