@@ -44,6 +44,12 @@ its mutation features anyway.
   convert the Typescript interfaces to JSON schemas and diff?
 
 
+## Checks
+
+* Disallow subscript notation (`foo["bar"]`) in favor of dot notation (`foo.bar`) to get
+  stronger interface safety. (<https://eslint.org/docs/latest/rules/dot-notation>)
+
+
 ## Package size
 
 * Use only one icon set, instead of 3 (Bootstrap, FontAwesome, Material)

@@ -1,6 +1,6 @@
 import {useQuery} from '@tanstack/react-query';
 
-import {fetchRegionShape} from '../util/fetch/regions';
+import {fetchRegionShape} from '@src/util/fetch/regions';
 
 
 export const SERVERSTATE_KEY_SHAPE_DATA = 'shapeData';

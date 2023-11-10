@@ -11,19 +11,21 @@ import {
   ISuperRegionIndex,
 } from '@src/types/query/regions';
 import {queryClient} from '@src/util/query';
-import {SERVERSTATE_KEY_REGIONS_INDEX} from '@src/serverState/regionsIndex';
+import {SERVERSTATE_KEY_SUPERREGIONS_INDEX} from '@src/serverState/regionsIndex';
 
 
 const selectedSuperRegionAtom = selector<ISuperRegion | undefined>({
   key: 'selectedSuperRegion',
   get: ({get}) => {
-    const selectedRegionId = get(selectedSuperRegionIdAtom);
-    if (!selectedRegionId) {
+    const selectedSuperRegionId = get(selectedSuperRegionIdAtom);
+    if (!selectedSuperRegionId) {
       return;
     }
 
-    const regionsIndex = queryClient.getQueryData([SERVERSTATE_KEY_REGIONS_INDEX]) as ISuperRegionIndex;
-    return regionsIndex[selectedRegionId];
+    const superRegionsIndex = queryClient.getQueryData([SERVERSTATE_KEY_SUPERREGIONS_INDEX]) as ISuperRegionIndex;
+
+    let superRegion = superRegionsIndex[selectedSuperRegionId];
+    return superRegion;
   },
 });
 

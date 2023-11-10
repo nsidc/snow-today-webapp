@@ -1,9 +1,9 @@
-#SubRegionSelector {
+.SubRegionSelector {
   white-space: nowrap;
 }
-#SubRegionSelector label {
+.SubRegionSelector label {
   display: inline-block;
 }
-#SubRegionSelector select {
+.SubRegionSelector select {
   display: inline-block;
 }

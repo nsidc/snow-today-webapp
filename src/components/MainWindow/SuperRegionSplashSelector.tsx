@@ -3,7 +3,7 @@ import {useSetRecoilState} from 'recoil';
 import Button from 'react-bootstrap/Button';
 
 import selectedSuperRegionIdAtom from '@src/state/client/selectedSuperRegionId';
-import useRegionsIndexQuery from '@src/serverState/regionsIndex';
+import {useSuperRegionsIndexQuery} from '@src/serverState/regionsIndex';
 import LoadingMessage from '@src/components/common/LoadingMessage';
 import '@src/style/SuperRegionSplashSelector.css';
 
@@ -12,17 +12,17 @@ import '@src/style/SuperRegionSplashSelector.css';
 /* TODO: Loading */
 const SuperRegionSplashSelector: React.FC = () => {
   const setSelectedSuperRegionId = useSetRecoilState(selectedSuperRegionIdAtom);
-  const regionsIndexQuery = useRegionsIndexQuery();
+  const superRegionsIndexQuery = useSuperRegionsIndexQuery();
 
-  if (regionsIndexQuery.isLoading) {
+  if (superRegionsIndexQuery.isLoading) {
     return (<div className={'centered-card-text'}><LoadingMessage /></div>);
   }
 
-  if (regionsIndexQuery.isError) {
+  if (superRegionsIndexQuery.isError) {
     throw 'how to handle this better? Shouldn\'t the error boundary handle this??';
   }
 
-  const superRegionButtons = Object.entries(regionsIndexQuery.data).map(
+  const superRegionButtons = Object.entries(superRegionsIndexQuery.data).map(
     ([superRegionId, superRegion]) => (
       <Button
         variant='success'

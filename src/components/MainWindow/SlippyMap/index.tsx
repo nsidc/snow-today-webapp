@@ -20,7 +20,7 @@ import notProcessedLayerEnabledAtom from '@src/state/client/notProcessedLayerEna
 import rasterOpacityAtom from '@src/state/client/rasterOpacity';
 import selectedBasemapLayerAtom from '@src/state/client/derived/selectedBasemapLayer';
 import selectedSuperRegionAtom from '@src/state/client/derived/selectedSuperRegion';
-import selectedGenericRegionAtom from '@src/state/client/derived/selectedGenericRegion';
+import selectedRegionAtom from '@src/state/client/derived/selectedRegion';
 import selectedSweVariableAtom from '@src/state/client/derived/selectedSweVariable';
 import swePointsForOverlayAtom from '@src/state/client/derived/swePointsForOverlay';
 import mapViewAtom from '@src/state/client/derived/mapView';
@@ -73,16 +73,16 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const notProcessedLayerEnabled = useRecoilValue(notProcessedLayerEnabledAtom);
   const rasterOpacity = useRecoilValue(rasterOpacityAtom);
   const selectedBasemap = useRecoilValue(selectedBasemapLayerAtom(slippyMapUid));
-  const selectedGenericRegion = useRecoilValue(selectedGenericRegionAtom);
+  const selectedRegion = useRecoilValue(selectedRegionAtom);
   const selectedSuperRegion = useRecoilValue(selectedSuperRegionAtom);
   const selectedSweVariable = useRecoilValue(selectedSweVariableAtom);
   const swePointsForOverlay = useRecoilValue(swePointsForOverlayAtom);
 
   const selectedRegionShapeQuery = useRegionShapeQuery(
-    selectedGenericRegion ? selectedGenericRegion['shape_path'] : undefined,
+    selectedRegion ? selectedRegion.shapeRelativePath : undefined,
   );
   const selectedSuperRegionShapeQuery = useRegionShapeQuery(
-    selectedSuperRegion ? selectedSuperRegion['shape_path'] : undefined,
+    selectedSuperRegion ? selectedSuperRegion.shapeRelativePath : undefined,
   )
 
   const mapView = useRecoilValue(mapViewAtom(selectedSuperRegionShapeQuery.data));

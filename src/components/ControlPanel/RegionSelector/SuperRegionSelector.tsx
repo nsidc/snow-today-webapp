@@ -7,15 +7,15 @@ import {ISuperRegionIndex} from '@src/types/query/regions';
 
 
 interface ISuperRegionSelectorProps {
-  regionsIndexQueryData: ISuperRegionIndex;
+  indexQueryData: ISuperRegionIndex;
 }
 
 const SuperRegionSelector: React.FC<ISuperRegionSelectorProps> = (props) => {
   const [selectedSuperRegionId, setSelectedSuperRegionId] = useRecoilState(selectedSuperRegionIdAtom);
 
-  const superRegionOptions = Object.entries(props.regionsIndexQueryData).map(
+  const superRegionOptions = Object.entries(props.indexQueryData).map(
     ([superRegionId, superRegion]) => (
-      <option key={superRegionId} value={superRegionId}>{superRegion['name']}</option>
+      <option key={superRegionId} value={superRegionId}>{superRegion.longName}</option>
     )
   );
 

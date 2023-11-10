@@ -8,7 +8,7 @@ import HighchartsReact from 'highcharts-react-official';
 
 import '@src/style/LinePlot.css';
 import '@src/style/card.css';
-import selectedGenericRegionAtom from '@src/state/client/derived/selectedGenericRegion';
+import selectedRegionAtom from '@src/state/client/derived/selectedRegion';
 import usePlotDataQuery from '@src/serverState/plotData';
 import {IPlotData} from '@src/types/query/plotData';
 import {IVariable} from '@src/types/query/variables';
@@ -29,10 +29,10 @@ interface ILinePlotProps {
 const LinePlot: React.FC<ILinePlotProps> = (props) => {
   const chartRef = useRef<HighchartsReact.RefObject>(null);
 
-  const selectedGenericRegion = useRecoilValue(selectedGenericRegionAtom);
+  const selectedRegion = useRecoilValue(selectedRegionAtom);
 
   const plotDataQuery = usePlotDataQuery(
-    !!selectedGenericRegion ? selectedGenericRegion['id'] : undefined,
+    !!selectedRegion ? selectedRegion['id'] : undefined,
     props.selectedSatelliteVariableName,
   );
 
@@ -40,13 +40,13 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
   if (
     plotDataQuery.isLoading
     || !props.selectedSatelliteVariable
-    || !selectedGenericRegion
+    || !selectedRegion
   ) {
     return loadingDiv;
   }
 
   const varLongname = props.selectedSatelliteVariable.longname_plot;
-  const regionLongname = selectedGenericRegion.longName;
+  const regionLongname = selectedRegion.longName;
   if (plotDataQuery.isError) {
     console.debug(`Error!: ${String(plotDataQuery.error)}`);
     return (

@@ -1,44 +1,31 @@
 import React from 'react';
-import {useRecoilValue} from 'recoil';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
 import '@src/style/dropdownForm.css';
 import LoadingButton from '@src/components/common/LoadingButton';
-import selectedSuperRegionAtom from '@src/state/client/derived/selectedSuperRegion';
-import useRegionsIndexQuery from '@src/serverState/regionsIndex';
+import {useSuperRegionsIndexQuery} from '@src/serverState/regionsIndex';
 import SuperRegionSelector from './SuperRegionSelector';
-import SubRegionCollectionSelector from './SubRegionCollectionSelector';
-import SubRegionSelector from './SubRegionSelector';
+import SubRegionExplorer from './SubRegionExplorer';
 
 
 const RegionSelector: React.FC = () => {
-  const selectedSuperRegion = useRecoilValue(selectedSuperRegionAtom);
-  const regionsIndexQuery = useRegionsIndexQuery();
+  const superRegionsIndexQuery = useSuperRegionsIndexQuery();
 
-  if (regionsIndexQuery.isError) {
-    console.debug(`Error!: ${regionsIndexQuery.error as string}`);
+  if (superRegionsIndexQuery.isError) {
+    throw new Error(String(superRegionsIndexQuery.error));
+  } else if (superRegionsIndexQuery.isLoading) {
     return (
-      <span>{`Error: ${regionsIndexQuery.error as string}`}</span>
-    );
-  } else if (
-    regionsIndexQuery.isLoading
-    || !selectedSuperRegion
-  ) {
-    return (
-      <LoadingButton variant={'success'} message={'Waiting...'}/>
+      <LoadingButton variant={'success'} />
     );
   }
 
+  // TODO: Should we pass in superRegionsIndexQuery.data as a prop or use the
+  // query hook in SuperRegionSelector? Trade-offs?
   return (
     <DropdownButton title={'Select a Region'} variant={'success'}>
       <div className={'RegionSelector dropdown-form'}>
-
-        <SuperRegionSelector regionsIndexQueryData={regionsIndexQuery.data}/>
-
-        <SubRegionCollectionSelector />
-
-        <SubRegionSelector />
-
+        <SuperRegionSelector indexQueryData={superRegionsIndexQuery.data} />
+        <SubRegionExplorer />
       </div>
     </DropdownButton>
   );
