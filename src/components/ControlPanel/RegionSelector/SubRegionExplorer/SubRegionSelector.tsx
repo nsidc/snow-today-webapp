@@ -31,13 +31,22 @@ const getSubRegionOptionProps = (
 interface ISubRegionSelector {
   subRegionChoices: ISubRegionHierarchyCollectionRegionRichIndex;
   parentCollectionShortName: string;
+  parentRegionId: string;
 }
 const SubRegionSelector: React.FC<ISubRegionSelector> = (props) => {
   const [selectedSubRegionId, setSelectedSubRegionId] = useState<string | undefined>(undefined);
   const setSelectedRegionId = useSetRecoilState(selectedRegionIdAtom);
 
+  // Reset the selection when the choices change
+  useEffect(() => {
+    setSelectedSubRegionId(undefined);
+  }, [props.subRegionChoices]);
+
+  // Update the "generic" app-level selected region when the local selection changes
   useEffect(() => {
     if (selectedSubRegionId === undefined) {
+      console.debug(`Resetting to parent region: ${props.parentRegionId}`);
+      setSelectedRegionId(props.parentRegionId);
       return;
     }
     setSelectedRegionId(selectedSubRegionId);

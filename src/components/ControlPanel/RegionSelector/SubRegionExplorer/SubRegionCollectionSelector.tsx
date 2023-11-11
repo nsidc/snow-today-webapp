@@ -15,6 +15,7 @@ const SubRegionCollectionSelector: React.FC<ISubRegionCollectionSelector> = (pro
   const [selectedCollectionId, setSelectedCollectionId] = useState<string | undefined>(undefined);
   const setSelectedRegionId = useSetRecoilState(selectedRegionIdAtom);
 
+  // Set the selected region to the parent region when "None" is selected
   useEffect(() => {
     if (selectedCollectionId === undefined) {
       setSelectedRegionId(props.parentRegionId);
@@ -67,6 +68,7 @@ const SubRegionCollectionSelector: React.FC<ISubRegionCollectionSelector> = (pro
         selectedCollectionId &&
         <SubRegionSelector
           parentCollectionShortName={props.collectionChoices[selectedCollectionId].metadata.shortName}
+          parentRegionId={props.parentRegionId}
           subRegionChoices={props.collectionChoices[selectedCollectionId].regions}
         />
       }
