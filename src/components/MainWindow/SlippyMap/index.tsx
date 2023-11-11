@@ -15,7 +15,9 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 import _uniqueId from 'lodash/uniqueId';
 
 import '@src/style/SlippyMap.css';
+import '@src/style/card.css';
 import {CRS_LONLAT, CRS_MAP} from '@src/constants/crs';
+import LoadingIcon from '@src/components/common/LoadingIcon';
 import notProcessedLayerEnabledAtom from '@src/state/client/notProcessedLayerEnabled';
 import rasterOpacityAtom from '@src/state/client/rasterOpacity';
 import selectedBasemapLayerAtom from '@src/state/client/derived/selectedBasemapLayer';
@@ -81,10 +83,11 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const selectedRegionShapeQuery = useRegionShapeQuery(
     selectedRegion ? selectedRegion.shapeRelativePath : undefined,
   );
+
+  // TODO: Why do we need the super region shape? To constrain the map view?
   const selectedSuperRegionShapeQuery = useRegionShapeQuery(
     selectedSuperRegion ? selectedSuperRegion.shapeRelativePath : undefined,
   )
-
   const mapView = useRecoilValue(mapViewAtom(selectedSuperRegionShapeQuery.data));
 
   const handleFeatureSelect = (event: SelectEvent) => {
@@ -172,7 +175,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   );
 	useSelectedFeature(
     featureInfoOverlay,
-    selectedFeatures,  
+    selectedFeatures,
     selectInteraction,
     openLayersMap,
 	);
@@ -201,6 +204,12 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
 
   return (
     <div className={"SlippyMap"}>
+
+      { selectedRegionShapeQuery.isLoading &&
+        <div className={"card-loading-overlay"}>
+          <LoadingIcon size={200} />
+        </div>
+      }
 
       <div
         id={divId}

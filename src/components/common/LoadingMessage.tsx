@@ -1,6 +1,6 @@
 import React from 'react';
-import {FaSnowflake} from 'react-icons/fa';
-import '@src/style/loading.css';
+
+import LoadingIcon from './LoadingIcon';
 
 
 interface ILoadingMessageProps {
@@ -11,7 +11,7 @@ const LoadingMessage: React.FC<ILoadingMessageProps> = (props) => {
 
   return (
     <>
-      <FaSnowflake className={'loading-spinner'}/>
+      <LoadingIcon />
       <i>{message}</i>
     </>
   );

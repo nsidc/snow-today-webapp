@@ -3,7 +3,9 @@
   position: relative;
 }
 
-.map-container {
+/* NOTE: Why :first-child selector? Helps ensure the map-container div doesn't
+ * overlap other divs... somehow. */
+.map-container:first-child {
   height: 100%;
   width: 100%;
 }

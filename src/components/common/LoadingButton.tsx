@@ -3,6 +3,7 @@ import {Button} from 'react-bootstrap';
 
 import LoadingMessage from './LoadingMessage';
 
+
 interface ILoadingButton {
   variant?: string;
   message?: string;

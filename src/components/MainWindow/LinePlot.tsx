@@ -13,7 +13,7 @@ import usePlotDataQuery from '@src/serverState/plotData';
 import {IPlotData} from '@src/types/query/plotData';
 import {IVariable} from '@src/types/query/variables';
 import {unixDateFromDowy} from '@src/util/waterYear';
-import LoadingMessage from '@src/components/common/LoadingMessage';
+import LoadingIcon from '@src/components/common/LoadingIcon';
 
 HighchartsAccessibility(Highcharts);
 HighchartsMore(Highcharts);
@@ -36,13 +36,18 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     props.selectedSatelliteVariableName,
   );
 
-  const loadingDiv = (<div className={'centered-card-text'}><LoadingMessage /></div>);
   if (
     plotDataQuery.isLoading
     || !props.selectedSatelliteVariable
     || !selectedRegion
   ) {
-    return loadingDiv;
+    return (
+      <div className={'LinePlot'}>
+        <div className={'card-loading-overlay'}>
+          <LoadingIcon size={200} />
+        </div>
+      </div>
+    );
   }
 
   const varLongname = props.selectedSatelliteVariable.longname_plot;
