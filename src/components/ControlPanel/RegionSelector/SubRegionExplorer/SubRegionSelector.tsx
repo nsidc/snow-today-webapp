@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSetRecoilState} from 'recoil';
 
 import '@src/style/SubRegionSelector.css';
@@ -36,12 +36,17 @@ const SubRegionSelector: React.FC<ISubRegionSelector> = (props) => {
   const [selectedSubRegionId, setSelectedSubRegionId] = useState<string | undefined>(undefined);
   const setSelectedRegionId = useSetRecoilState(selectedRegionIdAtom);
 
-  const handleSelectedSubRegionId = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  useEffect(() => {
+    if (selectedSubRegionId === undefined) {
+      return;
+    }
+    setSelectedRegionId(selectedSubRegionId);
+  }, [selectedSubRegionId]);
+
+  const handleSelectedSubRegionId  = (e: React.ChangeEvent<HTMLSelectElement>) => {
     // The "undefined" selection will come through as an empty string:
     const newRegionId = e.currentTarget.value;
     setSelectedSubRegionId(newRegionId);
-    // TODO: Hook to change in response to the state change?
-    setSelectedRegionId(newRegionId);
   }
 
   const subRegionOptionProps = getSubRegionOptionProps(

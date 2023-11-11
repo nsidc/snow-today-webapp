@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSetRecoilState} from 'recoil';
 
 import '@src/style/SubRegionCollectionSelector.css';
@@ -15,15 +15,16 @@ const SubRegionCollectionSelector: React.FC<ISubRegionCollectionSelector> = (pro
   const [selectedCollectionId, setSelectedCollectionId] = useState<string | undefined>(undefined);
   const setSelectedRegionId = useSetRecoilState(selectedRegionIdAtom);
 
+  useEffect(() => {
+    if (selectedCollectionId === undefined) {
+      setSelectedRegionId(props.parentRegionId);
+    }
+  }, [selectedCollectionId]);
+
   const handleSelectedCollectionId = (e: React.ChangeEvent<HTMLInputElement>) => {
     // The "undefined" selection will come through as an empty string:
     const newCollectionId = e.currentTarget.value === "" ? undefined : e.currentTarget.value;
     setSelectedCollectionId(newCollectionId);
-
-    // TODO: Hook?
-    if (newCollectionId === undefined) {
-      setSelectedRegionId(props.parentRegionId);
-    }
   }
 
   const noSelectedCollectionValue = undefined;
