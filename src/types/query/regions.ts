@@ -36,11 +36,12 @@ export interface ISubRegionHierarchy {
 // Rich Sub Region structure: After we query the back-end for sub-region index
 // and hierarchy, we combine them into a "rich" hierarchy which has all the
 // information in both.
-export type ISubRegionHierarchyCollectionRegionRich = ISubRegionHierarchyCollectionRegion & {
+export type ISubRegionHierarchyCollectionRegionRich = {
   metadata: ISubRegion;
+  collections?: ISubRegionHierarchyCollectionRichIndex;
 }
 export type ISubRegionHierarchyCollectionRegionRichIndex = IIndex<string, ISubRegionHierarchyCollectionRegionRich>;
-export type ISubRegionHierarchyCollectionRich = ISubRegionHierarchyCollection & {
+export type ISubRegionHierarchyCollectionRich = {
   metadata: ISubRegionCollection;
   regions: ISubRegionHierarchyCollectionRegionRichIndex;
 };
