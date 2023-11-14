@@ -8,7 +8,7 @@ export const ErrorFallbackComponent = (props: FallbackProps) => (
   <div role="alert" className="error">
     <h3>Whoops!</h3>
 
-    <div className="error-message">{props.error.message}</div>
+    <div className="error-message">{(props.error as Error).message}</div>
 
     <p>
      Something went wrong. This application is currently unavailable. Please try again later.
@@ -30,7 +30,7 @@ export const ErrorFallbackTileComponent = (props: FallbackProps) => (
       Unable to display this tile.
     </h3>
 
-    <div className="error-message">{props.error.message}</div>
+    <div className="error-message">{(props.error as Error).message}</div>
   
     <p><b>
       To recover, try changing the selected region, variable, or tile type.
@@ -43,7 +43,7 @@ export const ErrorFallbackRegionSelectorComponent = (props: FallbackProps) => (
   <div role="alert" className="error">
     <details>
       <summary>Failed to load sub-regions. Please select another region!</summary>
-      <div className="error-message">{props.error.message}</div>
+      <div className="error-message">{(props.error as Error).message}</div>
     </details>
   </div>
 )

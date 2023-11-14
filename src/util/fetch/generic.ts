@@ -1,6 +1,3 @@
-import _partial from 'lodash/partial';
-
-
 export const genericFetch = <Type>(
   url: string,
   errorMessageThing: string,

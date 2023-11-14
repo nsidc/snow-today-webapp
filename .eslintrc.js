@@ -7,6 +7,8 @@ module.exports = {
   //     https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/README.md#configuration
   "parserOptions": {
     "tsconfigRootDir": __dirname,
+    // Do type-aware linting. This is expensive:
+    // https://typescript-eslint.io/linting/typed-linting/#how-is-performance
     "project": ["./tsconfig.json"],
   },
 

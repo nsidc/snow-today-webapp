@@ -24,7 +24,7 @@ const selectedSuperRegionAtom = selector<ISuperRegion | undefined>({
 
     const superRegionsIndex = queryClient.getQueryData([SERVERSTATE_KEY_SUPERREGIONS_INDEX]) as ISuperRegionIndex;
 
-    let superRegion = superRegionsIndex[selectedSuperRegionId];
+    const superRegion = superRegionsIndex[selectedSuperRegionId];
     return superRegion;
   },
 });

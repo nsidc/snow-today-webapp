@@ -14,6 +14,7 @@ import SubRegionExplorer from './SubRegionExplorer';
 
 const RegionSelector: React.FC = () => {
   const superRegionsIndexQuery = useSuperRegionsIndexQuery();
+  const selectedSuperRegionId = useRecoilValue(selectedSuperRegionIdAtom);
 
   if (superRegionsIndexQuery.isError) {
     throw new Error(String(superRegionsIndexQuery.error));
@@ -23,7 +24,6 @@ const RegionSelector: React.FC = () => {
     );
   }
 
-  const selectedSuperRegionId = useRecoilValue(selectedSuperRegionIdAtom);
 
   // TODO: Should we pass in superRegionsIndexQuery.data as a prop or use the
   // query hook in SuperRegionSelector? Trade-offs?

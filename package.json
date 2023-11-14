@@ -14,6 +14,8 @@
     "watch": "webpack --watch",
     "serve": "webpack serve",
     "lint": "eslint src --ext .ts --ext .tsx",
+    "lint:cache": "eslint src --ext .ts --ext .tsx --cache",
+    "lint:fix": "eslint src --ext .ts --ext .tsx --fix",
     "compile": "tsc --project tsconfig.json",
     "test": "node jest/scripts/test.js",
     "test:debug": "node inspect jest/scripts/test.js"

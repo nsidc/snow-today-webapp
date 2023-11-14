@@ -9,7 +9,9 @@ import {
 } from '@src/util/fetch/regions';
 import {
   ISuperRegionIndex,
+  ISubRegion,
   ISubRegionIndex,
+  ISubRegionCollection,
   ISubRegionCollectionIndex,
   ISubRegionHierarchy,
   ISubRegionHierarchyRich,
@@ -93,19 +95,19 @@ type QueryResultishSuccess<T> = {
   data: T;
   isLoading: false;
   isError: false;
-  error: Error | unknown;
+  error: undefined;
 }
 type QueryResultishLoading = {
   data: undefined;
   isLoading: true;
   isError: boolean;
-  error?: Error | unknown;
+  error?: Error | undefined;
 }
 type QueryResultishError = {
   data: undefined;
   isLoading: boolean;
   isError: true;
-  error?: Error | unknown;
+  error?: Error;
 }
 type QueryResultish<T> =
 | QueryResultishSuccess<T>
@@ -164,12 +166,26 @@ export const useSubRegionsQuery = (
 }
 
 
+// The annotation for `stack` is `any`, but we know a little more:
+type StackLike = {
+  size: number,
+  __data__: {__data__: Array<Array<Array<object>>>},
+};
+
 const composeRichSubRegionHierarchy = (
   collections: ISubRegionCollectionIndex,
   index: ISubRegionIndex,
   hierarchy: ISubRegionHierarchy,
 ): ISubRegionHierarchyRich => {
-  const customizer = (value, key, obj, stack) => {
+  /* Generate a rich hierarchy from sparse hierarchy, region, and collection data.
+   *
+   * The data we're pulling from the back-end is relational and here we're
+   * looking up references to provide a unified data structure.
+   *
+   * TODO: Is there a better alternative to lodash's cloneDeepWith that handles
+   * types better, or should we rewrite this by hand?
+   */
+  const customizer = (value, key?: string | number, obj, stack): any => {
     // If this is the root node, continue:
     if (key === undefined) {
       return undefined;
@@ -184,10 +200,10 @@ const composeRichSubRegionHierarchy = (
     const expectedOddKeys = ["collections", "regions"];
 
     // If we are at an odd depth, check for key correctness and continue:
-    if (stack.size % 2 === 1) {
+    if ((stack as StackLike).size % 2 === 1) {
       if (!expectedOddKeys.includes(key)){
         throw new Error(
-          `Encountered unexpected key ${key}. Expected ${expectedOddKeys}.`,
+          `Encountered unexpected key ${key}. Expected ${String(expectedOddKeys)}.`,
         )
       }
       return undefined;
@@ -195,15 +211,17 @@ const composeRichSubRegionHierarchy = (
 
     // Look at parent key; is this a region or a collection?
     // TODO: Can this be less awful? Why do I have to access `stack` like this??
-    const parentKey = Object.keys(stack.__data__.__data__.slice(-2)[0][0])[0] as string;
+    const parentKey = Object.keys(
+      (stack as StackLike).__data__.__data__.slice(-2)[0][0]
+    )[0];
 
     // If collection, look up in `collections`; if region, look up in `index`.
-    let metadata: NonNullable<any>;
+    let metadata: ISubRegionCollection | ISubRegion;
     if (!expectedOddKeys.includes(parentKey)){
       throw new Error(
-        `Encountered unexpected key ${parentKey}. Expected ${expectedOddKeys}.`,
+        `Encountered unexpected key ${parentKey}. Expected ${String(expectedOddKeys)}.`,
       );
-    } else if (parentKey === "collections") { 
+    } else if (parentKey === "collections") {
       metadata = collections[key];
     } else if (parentKey === "regions") {
       metadata = index[key];
@@ -221,6 +239,6 @@ const composeRichSubRegionHierarchy = (
     return _cloneDeepWith({...value, metadata}, customizer);
   }
 
-  const richHierarchy = _cloneDeepWith(hierarchy, customizer);
+  const richHierarchy = _cloneDeepWith(hierarchy, customizer) as ISubRegionHierarchyRich;
   return richHierarchy;
 }
