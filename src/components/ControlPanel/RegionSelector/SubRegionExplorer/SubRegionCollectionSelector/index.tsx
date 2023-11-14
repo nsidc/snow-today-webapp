@@ -12,6 +12,14 @@ interface ISubRegionCollectionSelector {
   parentRegionId: string;
 }
 const SubRegionCollectionSelector: React.FC<ISubRegionCollectionSelector> = (props) => {
+  /* Generates a tree of selectors in mutual recursion with SubRegionSelector.
+   *
+   * Because the hierarchical `collectionChoices` data alternates between
+   * region collections and members, starting with collections, the two
+   * components can render each other until reaching the end of the data.
+   *
+   * This component should always be rendered by external components, never the SubRegionSelector.
+   */
   const [selectedCollectionId, setSelectedCollectionId] = useState<string | undefined>(undefined);
   const setSelectedRegionId = useSetRecoilState(selectedRegionIdAtom);
 

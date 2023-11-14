@@ -5,7 +5,7 @@ import '@src/style/SubRegionSelector.css';
 import selectedRegionIdAtom from '@src/state/client/selectedRegionId';
 import SearchableSelect, {ISelectOptionProps} from '@src/components/common/SearchableSelect';
 import {ISubRegionHierarchyCollectionRegionRichIndex} from '@src/types/query/regions';
-import SubRegionCollectionSelector from './SubRegionCollectionSelector';
+import SubRegionCollectionSelector from './index';  // is this an anti-pattern?
 
 
 const getSubRegionOptionProps = (
