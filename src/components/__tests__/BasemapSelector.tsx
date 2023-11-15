@@ -17,8 +17,10 @@ test('Calls onChange with value as argument', async () => {
     </RecoilRoot>
   );
 
-  await userEvent.click(screen.getByText('Select a Basemap'));
-  await userEvent.click(screen.getByText('USGS Topographic + Imagery'));
+  const basemapName = 'USGS Topographic + Imagery';
 
-  expect(changeFunc).toHaveBeenCalledWith('USGS Topographic + Imagery');
+  await userEvent.click(screen.getByText('Select a Basemap'));
+  await userEvent.click(screen.getByText(basemapName));
+
+  expect(changeFunc).toHaveBeenCalledWith(basemapName);
 });
