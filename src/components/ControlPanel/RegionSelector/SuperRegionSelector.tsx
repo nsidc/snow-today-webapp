@@ -23,7 +23,7 @@ const SuperRegionSelector: React.FC<ISuperRegionSelectorProps> = (props) => {
 
   /* TODO: Handle undefined super region? Let it fall to an error boundary? */
 
-  const handleSelection = (e: React.ChangeEvent<HTMLOptionElement>) => {
+  const handleSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newRegionId = e.currentTarget.value;
     setSelectedSuperRegionId(newRegionId);
     // TODO: Is this a good practice? Setting two pieces of Recoil state
