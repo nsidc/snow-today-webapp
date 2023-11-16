@@ -1,13 +1,16 @@
 import React from 'react';
+import {useRecoilValue} from 'recoil';
 
-import '../../style/ControlPanel.css';
+import '@src/style/ControlPanel.css';
+import selectedSuperRegionIdAtom from '@src/state/client/selectedSuperRegionId';
+import LoadingMessage from '@src/components/common/LoadingMessage';
+import RefreshPageButton from '@src/components/common/RefreshPageButton';
 import BasemapSelector from './BasemapSelector';
 import DebugDumpButton from './DebugDumpButton';
 import LayoutConfigurator from './LayoutConfigurator';
 import NotProcessedLayerToggle from './NotProcessedLayerToggle';
 import RegionSelector from './RegionSelector';
 import RasterOpacitySlider from './RasterOpacitySlider';
-import RefreshPageButton from './RefreshPageButton';
 import SweSelector from './SweSelector';
 
 declare const __ENVIRONMENT__: 'development' | 'production';
@@ -17,16 +20,26 @@ if (__ENVIRONMENT__ === 'development') {
 
 
 const ControlPanel: React.FC = () => {
+  const selectedSuperRegionId = useRecoilValue(selectedSuperRegionIdAtom);
+
+  if (!selectedSuperRegionId) {
+    return (
+      <div className={'centered-card-text'}>
+        <LoadingMessage message="Select a region to begin..." />
+      </div>
+    );
+  }
+
   return (
     <div className="ControlPanel">
       {__ENVIRONMENT__ === 'development' &&
         <DebugDumpButton />
       }
 
+      <RegionSelector />
       <LayoutConfigurator />
 
       <BasemapSelector />
-      <RegionSelector />
       <SweSelector />
 
       <NotProcessedLayerToggle />

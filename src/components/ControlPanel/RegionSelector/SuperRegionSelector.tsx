@@ -1,30 +1,42 @@
 import React from 'react';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 
-import '../../../style/SuperRegionSelector.css';
-import selectedSuperRegionNameAtom from '../../../state/client/selectedSuperRegionName';
-import {IRegionIndex} from '../../../types/query/regions';
+import '@src/style/SuperRegionSelector.css';
+import selectedSuperRegionIdAtom from '@src/state/client/selectedSuperRegionId';
+import selectedRegionIdAtom from '@src/state/client/selectedRegionId';
+import {ISuperRegionIndex} from '@src/types/query/regions';
 
 
 interface ISuperRegionSelectorProps {
-  regionsIndexQueryData: IRegionIndex;
+  indexQueryData: ISuperRegionIndex;
 }
 
 const SuperRegionSelector: React.FC<ISuperRegionSelectorProps> = (props) => {
-  const [selectedSuperRegionName, setSelectedSuperRegionName] = useRecoilState(selectedSuperRegionNameAtom);
+  const [selectedSuperRegionId, setSelectedSuperRegionId] = useRecoilState(selectedSuperRegionIdAtom);
+  const setSelectedRegionId = useSetRecoilState(selectedRegionIdAtom);
 
-  const superRegionOptions = Object.entries(props.regionsIndexQueryData).map(
-    ([superRegionId, params]) => (
-      <option key={superRegionId} value={superRegionId}>{params['longname']}</option>
+  const superRegionOptions = Object.entries(props.indexQueryData).map(
+    ([superRegionId, superRegion]) => (
+      <option key={superRegionId} value={superRegionId}>{superRegion.longName}</option>
     )
   );
+
+  /* TODO: Handle undefined super region? Let it fall to an error boundary? */
+
+  const handleSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newRegionId = e.currentTarget.value;
+    setSelectedSuperRegionId(newRegionId);
+    // TODO: Is this a good practice? Setting two pieces of Recoil state
+    // together? Why not use the state graph?
+    setSelectedRegionId(newRegionId);
+  }
 
   return (
     <div id={'SuperRegionSelector'}>
       <label htmlFor={'super-region-selector'}>{'Region: '}</label>
       <select id={'super-region-selector'}
-        value={selectedSuperRegionName}
-        onChange={e => setSelectedSuperRegionName(e.currentTarget.value)}
+        value={selectedSuperRegionId}
+        onChange={handleSelection}
       >
         {superRegionOptions}
       </select>

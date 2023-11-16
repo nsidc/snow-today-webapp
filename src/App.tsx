@@ -1,25 +1,28 @@
 import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { IconContext } from 'react-icons';
 
 import pkg from '../package.json';
-import './style/App.css';
-import './style/error.css';
-import ControlPanel from './components/ControlPanel';
-import TileLayout from './components/TileLayout';
-import ErrorFallbackComponent from './components/ErrorFallback';
+import '@src/style/App.css';
+import '@src/style/icons.css';
+import ControlPanel from '@src/components/ControlPanel';
+import MainWindow from '@src/components/MainWindow';
+import ErrorFallbackComponent from '@src/components/common/ErrorFallback';
 
 
 const App: React.FC = () => {
   return (
-    <div className={"App"}>
-      <div id={"version"}>v{pkg.version}</div>
+    <IconContext.Provider value={{ className: 'react-icons' }}>
+      <div className={"App"}>
+        <div id={"version"}>v{pkg.version}</div>
 
-      <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
-        <ControlPanel />
-        <TileLayout />
-      </ErrorBoundary>
+        <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
+          <ControlPanel />
+          <MainWindow />
+        </ErrorBoundary>
 
-    </div>
+      </div>
+    </IconContext.Provider>
   );
 }
 

@@ -5,6 +5,7 @@
 .error-message {
   font-family: monospace;
   white-space: pre;
+  overflow: scroll;
 
   margin: 10px;
   padding: 10px;

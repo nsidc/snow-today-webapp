@@ -6,14 +6,14 @@ import HighchartsAccessibility from 'highcharts/modules/accessibility';
 import HighchartsMore from 'highcharts/highcharts-more';
 import HighchartsReact from 'highcharts-react-official';
 
-import '../style/LinePlot.css';
-import '../style/card.css';
-import selectedGenericRegionAtom from '../state/client/derived/selectedGenericRegion';
-import usePlotDataQuery from '../serverState/plotData';
-import {IPlotData} from '../types/query/plotData';
-import {IVariable} from '../types/query/variables';
-import {unixDateFromDowy} from '../util/waterYear';
-import LoadingMessage from './common/LoadingMessage';
+import '@src/style/LinePlot.css';
+import '@src/style/card.css';
+import selectedRegionAtom from '@src/state/client/derived/selectedRegion';
+import usePlotDataQuery from '@src/serverState/plotData';
+import {IPlotData} from '@src/types/query/plotData';
+import {IVariable} from '@src/types/query/variables';
+import {unixDateFromDowy} from '@src/util/waterYear';
+import LoadingIcon from '@src/components/common/LoadingIcon';
 
 HighchartsAccessibility(Highcharts);
 HighchartsMore(Highcharts);
@@ -29,24 +29,29 @@ interface ILinePlotProps {
 const LinePlot: React.FC<ILinePlotProps> = (props) => {
   const chartRef = useRef<HighchartsReact.RefObject>(null);
 
-  const selectedGenericRegion = useRecoilValue(selectedGenericRegionAtom);
+  const selectedRegion = useRecoilValue(selectedRegionAtom);
 
   const plotDataQuery = usePlotDataQuery(
-    !!selectedGenericRegion ? selectedGenericRegion['id'] : undefined,
+    !!selectedRegion ? selectedRegion['id'] : undefined,
     props.selectedSatelliteVariableName,
   );
 
-  const loadingDiv = (<div className={'centered-card-text'}><LoadingMessage /></div>);
   if (
     plotDataQuery.isLoading
     || !props.selectedSatelliteVariable
-    || !selectedGenericRegion
+    || !selectedRegion
   ) {
-    return loadingDiv;
+    return (
+      <div className={'LinePlot'}>
+        <div className={'card-loading-overlay'}>
+          <LoadingIcon size={200} />
+        </div>
+      </div>
+    );
   }
 
   const varLongname = props.selectedSatelliteVariable.longname_plot;
-  const regionLongname = selectedGenericRegion.longname;
+  const regionLongname = selectedRegion.longName;
   if (plotDataQuery.isError) {
     console.debug(`Error!: ${String(plotDataQuery.error)}`);
     return (

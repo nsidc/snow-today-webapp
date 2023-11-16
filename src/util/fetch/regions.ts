@@ -1,30 +1,42 @@
-import {dataServerUrl, regionsIndexUrl} from '../../constants/dataServer';
-import {IRegionIndex} from '../../types/query/regions';
+import {dataServerUrl, regionsUrl, regionsIndexUrl} from '@src/constants/dataServer';
+import {
+  ISuperRegionIndex,
+  ISubRegionIndex,
+  ISubRegionCollectionIndex,
+  ISubRegionHierarchy,
+} from '@src/types/query/regions';
+import {genericFetch} from './generic';
 
 
-export const fetchRegionsIndex = (): Promise<IRegionIndex> => {
-  return fetch(regionsIndexUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Failed to fetch index of region data: ${response.statusText}`);
-      }
-      return response.json() as Promise<IRegionIndex>;
-    })
-    .catch((error) => {
-      throw new Error(`Failed to fetch index of region data: ${String(error)}`);
-    });
+export const fetchSuperRegionsIndex = (): Promise<ISuperRegionIndex> => (
+  genericFetch<ISuperRegionIndex>(regionsIndexUrl, 'index of all super-regions')
+);
+
+export const fetchSubRegionsIndex = (superRegionId: string): Promise<ISubRegionIndex> => {
+  const fetchUrl = `${regionsUrl}/${superRegionId}.json`;
+  return genericFetch<ISubRegionIndex>(
+    fetchUrl,
+    `index of sub-regions of super-region ${superRegionId}`,
+  );
+};
+
+export const fetchSubRegionCollectionsIndex = (): Promise<ISubRegionCollectionIndex> => {
+  const fetchUrl = `${regionsUrl}/collections.json`;
+  return genericFetch<ISubRegionCollectionIndex>(
+    fetchUrl,
+    'index of sub-regions collections',
+  );
+};
+
+export const fetchSubRegionsHierarchy = (superRegionId: string): Promise<ISubRegionHierarchy> => {
+  const fetchUrl = `${regionsUrl}/${superRegionId}_hierarchy.json`;
+  return genericFetch<ISubRegionHierarchy>(
+    fetchUrl,
+    `hierarchy of sub-regions of super-region ${superRegionId}`,
+  );
 };
 
 export const fetchRegionShape = (shapeFilePath: string): Promise<object> => {
-  const url = `${dataServerUrl}/${shapeFilePath}`;
-  return fetch(url)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Failed to fetch region data for ${shapeFilePath}: ${response.statusText}`);
-      }
-      return response.json() as Promise<object>;
-    })
-    .catch((error) => {
-      throw new Error(`Failed to fetch region data for ${shapeFilePath}: ${String(error)}`);
-    });
+  const fetchUrl = `${dataServerUrl}/${shapeFilePath}`;
+  return genericFetch<object>(fetchUrl, "region shape data");
 };

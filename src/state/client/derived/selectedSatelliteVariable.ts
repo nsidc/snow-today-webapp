@@ -13,8 +13,6 @@ import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../../serverState/variablesInd
 import {ITileIdentifier} from '../../../types/layout';
 
 
-// TODO: Should we call selectors "atoms" for simplicity? They are used
-// similarly / identically.
 type AtomValue = IVariable | undefined;
 type AtomParameter = ITileIdentifier;
 const selectedSatelliteVariableAtom = selectorFamily<AtomValue, AtomParameter>({

@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV == 'production';
 
@@ -25,6 +26,13 @@ const config = {
     allowedHosts: 'all',
     // Enable hot reloading over websocket port through Docker port map:
     hot: true,
+    client: {
+      overlay: {
+        // Don't display overlay for runtime errors; adding in 4.12.0
+        // TODO: Remove!
+        runtimeErrors: false,
+      }
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -68,6 +76,7 @@ const config = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    plugins: [new TsconfigPathsPlugin({})]
   },
   stats: {
     errorDetails: true,

@@ -11,8 +11,6 @@ import {queryClient} from '../../../util/query';
 import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../../serverState/variablesIndex';
 
 
-// TODO: Should we call selectors "atoms" for simplicity? They are used
-// similarly / identically.
 type AtomValue = IVariable | undefined;
 const selectedSweVariableAtom = selector<AtomValue>({
   key: 'selectedSweVariable',

@@ -1,17 +1,18 @@
 import React from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
+import {ErrorBoundary} from 'react-error-boundary';
 import {useRecoilValue} from 'recoil';
 
-import '../style/card.css';
-import '../style/Tile.css';
-import {CITATION} from '../constants/citation';
-import {ITileIdentifier} from '../types/layout';
-import selectedSatelliteVariableNameAtom from '../state/client/selectedSatelliteVariableName';
-import selectedSatelliteVariableObjectAtom from '../state/client/derived/selectedSatelliteVariable';
-import selectedTileTypeAtom from '../state/client/selectedTileType';
+import '@src/style/card.css';
+import '@src/style/Tile.css';
+import {CITATION} from '@src/constants/citation';
+import {ErrorFallbackTileComponent} from '@src/components/common/ErrorFallback';
+import {ITileIdentifier} from '@src/types/layout';
+import selectedRegionIdAtom from '@src/state/client/selectedRegionId';
+import selectedSatelliteVariableNameAtom from '@src/state/client/selectedSatelliteVariableName';
+import selectedSatelliteVariableObjectAtom from '@src/state/client/derived/selectedSatelliteVariable';
+import selectedTileTypeAtom from '@src/state/client/selectedTileType';
 import LinePlot from './LinePlot';
 import SlippyMap from './SlippyMap';
-import ErrorFallbackComponent from './ErrorFallback';
 
 
 type ITileProps = ITileIdentifier & {style: React.CSSProperties};
@@ -26,6 +27,7 @@ const Tile: React.FC<ITileProps> = (props) => {
   const selectedTileType = useRecoilValue(
     selectedTileTypeAtom({row: props.row, col: props.col})
   );
+  const selectedRegionId = useRecoilValue(selectedRegionIdAtom);
 
   // TODO: Pass in selected variable as props? Or pass in row and column as
   // props and let the tiles themselves access state?
@@ -47,7 +49,10 @@ const Tile: React.FC<ITileProps> = (props) => {
   }
   return (
       <div className={'Tile snow-today-card'} style={props.style}>
-        <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
+        <ErrorBoundary
+          FallbackComponent={ErrorFallbackTileComponent}
+          resetKeys={[selectedTileType, selectedRegionId, selectedSatelliteVariableName]}
+        >
           {content}
           <div className='tile-citation'>
             {CITATION}

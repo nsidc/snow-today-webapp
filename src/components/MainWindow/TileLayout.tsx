@@ -3,18 +3,18 @@ import {useSetRecoilState, useRecoilValue} from 'recoil';
 
 import _flatten from 'lodash/flatten';
 
-import '../style/TileLayout.css';
+import '@src/style/TileLayout.css';
 import {
   selectedLayoutColsAtom,
   selectedLayoutRowsAtom,
-} from '../state/client/layoutDimensions';
-import selectedSatelliteVariableNameAtom from '../state/client/selectedSatelliteVariableName';
-import {AtomValue as SatelliteVariable} from '../state/client/selectedSatelliteVariableName/atom';
-import selectedTileTypeAtom from '../state/client/selectedTileType';
-import {AtomValue as TileType} from '../state/client/selectedTileType/atom';
-import {ROW_OPTIONS, COL_OPTIONS} from '../constants/layout';
-import useVariablesIndexQuery from '../serverState/variablesIndex';
-import {StateSetter} from '../types/misc';
+} from '@src/state/client/layoutDimensions';
+import selectedSatelliteVariableNameAtom from '@src/state/client/selectedSatelliteVariableName';
+import {AtomValue as SatelliteVariable} from '@src/state/client/selectedSatelliteVariableName/atom';
+import selectedTileTypeAtom from '@src/state/client/selectedTileType';
+import {AtomValue as TileType} from '@src/state/client/selectedTileType/atom';
+import {ROW_OPTIONS, COL_OPTIONS} from '@src/constants/layout';
+import useVariablesIndexQuery from '@src/serverState/variablesIndex';
+import {StateSetter} from '@src/types/misc';
 import Tile from './Tile';
 
 interface ITileStateSetter {

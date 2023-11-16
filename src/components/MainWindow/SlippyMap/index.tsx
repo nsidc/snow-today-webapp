@@ -14,24 +14,26 @@ import type MapBrowserEvent from 'ol/MapBrowserEvent';
 
 import _uniqueId from 'lodash/uniqueId';
 
-import '../../style/SlippyMap.css';
-import {CRS_LONLAT, CRS_MAP} from '../../constants/crs';
-import notProcessedLayerEnabledAtom from '../../state/client/notProcessedLayerEnabled';
-import rasterOpacityAtom from '../../state/client/rasterOpacity';
-import selectedBasemapLayerAtom from '../../state/client/derived/selectedBasemapLayer';
-import selectedSuperRegionAtom from '../../state/client/derived/selectedSuperRegion';
-import selectedGenericRegionAtom from '../../state/client/derived/selectedGenericRegion';
-import selectedSweVariableAtom from '../../state/client/derived/selectedSweVariable';
-import swePointsForOverlayAtom from '../../state/client/derived/swePointsForOverlay';
-import mapViewAtom from '../../state/client/derived/mapView';
-import useRegionShapeQuery from '../../serverState/regionShape';
+import '@src/style/SlippyMap.css';
+import '@src/style/card.css';
+import {CRS_LONLAT, CRS_MAP} from '@src/constants/crs';
+import LoadingIcon from '@src/components/common/LoadingIcon';
+import notProcessedLayerEnabledAtom from '@src/state/client/notProcessedLayerEnabled';
+import rasterOpacityAtom from '@src/state/client/rasterOpacity';
+import selectedBasemapLayerAtom from '@src/state/client/derived/selectedBasemapLayer';
+import selectedSuperRegionAtom from '@src/state/client/derived/selectedSuperRegion';
+import selectedRegionAtom from '@src/state/client/derived/selectedRegion';
+import selectedSweVariableAtom from '@src/state/client/derived/selectedSweVariable';
+import swePointsForOverlayAtom from '@src/state/client/derived/swePointsForOverlay';
+import mapViewAtom from '@src/state/client/derived/mapView';
+import useRegionShapeQuery from '@src/serverState/regionShape';
 import {
   OptionalCoordinate,
   OptionalOpenLayersMap,
   OptionalOverlay,
   OptionalSelect,
-} from '../../types/SlippyMap';
-import {IVariable} from '../../types/query/variables';
+} from '@src/types/SlippyMap';
+import {IVariable} from '@src/types/query/variables';
 import {
   useMapView,
   useNotProcessedLayerToggle,
@@ -42,7 +44,7 @@ import {
   useSelectedRegionShape,
   useSelectedRasterVariable,
   useSelectedSweVariable,
-} from '../../util/sideEffects/slippyMap';
+} from '@src/util/sideEffects/slippyMap';
 import SlippyMapLegend from './Legend';
 import SlippyMapTooltip from './Tooltip';
 
@@ -73,18 +75,19 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const notProcessedLayerEnabled = useRecoilValue(notProcessedLayerEnabledAtom);
   const rasterOpacity = useRecoilValue(rasterOpacityAtom);
   const selectedBasemap = useRecoilValue(selectedBasemapLayerAtom(slippyMapUid));
-  const selectedGenericRegion = useRecoilValue(selectedGenericRegionAtom);
+  const selectedRegion = useRecoilValue(selectedRegionAtom);
   const selectedSuperRegion = useRecoilValue(selectedSuperRegionAtom);
   const selectedSweVariable = useRecoilValue(selectedSweVariableAtom);
   const swePointsForOverlay = useRecoilValue(swePointsForOverlayAtom);
 
   const selectedRegionShapeQuery = useRegionShapeQuery(
-    selectedGenericRegion ? selectedGenericRegion['shape_path'] : undefined,
+    selectedRegion ? selectedRegion.shapeRelativePath : undefined,
   );
-  const selectedSuperRegionShapeQuery = useRegionShapeQuery(
-    selectedSuperRegion ? selectedSuperRegion['shape_path'] : undefined,
-  )
 
+  // TODO: Why do we need the super region shape? To constrain the map view?
+  const selectedSuperRegionShapeQuery = useRegionShapeQuery(
+    selectedSuperRegion ? selectedSuperRegion.shapeRelativePath : undefined,
+  )
   const mapView = useRecoilValue(mapViewAtom(selectedSuperRegionShapeQuery.data));
 
   const handleFeatureSelect = (event: SelectEvent) => {
@@ -172,7 +175,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   );
 	useSelectedFeature(
     featureInfoOverlay,
-    selectedFeatures,  
+    selectedFeatures,
     selectInteraction,
     openLayersMap,
 	);
@@ -201,6 +204,12 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
 
   return (
     <div className={"SlippyMap"}>
+
+      { selectedRegionShapeQuery.isLoading &&
+        <div className={"card-loading-overlay"}>
+          <LoadingIcon size={200} />
+        </div>
+      }
 
       <div
         id={divId}

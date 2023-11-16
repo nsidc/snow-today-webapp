@@ -6,3 +6,6 @@ node_modules/
 
 # Webpack ephemera
 /dist
+
+# ESLint ephemera
+.eslintcache

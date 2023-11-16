@@ -1,17 +1,8 @@
-import {variablesIndexUrl} from '../../constants/dataServer';
+import {variablesIndexUrl} from '@src/constants/dataServer';
+import {IVariableIndex} from '@src/types/query/variables';
+import {genericFetch} from './generic';
 
-import {IVariableIndex} from '../../types/query/variables';
 
-
-export const fetchVariablesIndex = (): Promise<IVariableIndex> => {
-  return fetch(variablesIndexUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Failed to fetch index of variable data: ${response.statusText}`);
-      }
-      return response.json() as Promise<IVariableIndex>;
-    })
-    .catch((error) => {
-      throw new Error(`Failed to fetch index of variable data: ${String(error)}`);
-    });
-};
+export const fetchVariablesIndex = (): Promise<IVariableIndex> => (
+  genericFetch<IVariableIndex>(variablesIndexUrl, "index of variable data")
+);
