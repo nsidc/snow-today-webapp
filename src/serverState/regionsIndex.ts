@@ -101,13 +101,13 @@ type QueryResultishLoading = {
   data: undefined;
   isLoading: true;
   isError: boolean;
-  error?: Error | undefined;
+  error?: unknown;
 }
 type QueryResultishError = {
   data: undefined;
   isLoading: boolean;
   isError: true;
-  error?: Error;
+  error?: unknown;
 }
 type QueryResultish<T> =
 | QueryResultishSuccess<T>
@@ -161,7 +161,7 @@ export const useSubRegionsQuery = (
     data,
     isLoading,
     isError,
-    error,
+    error: undefined,
   };
 }
 
@@ -185,7 +185,7 @@ const composeRichSubRegionHierarchy = (
    * TODO: Is there a better alternative to lodash's cloneDeepWith that handles
    * types better, or should we rewrite this by hand?
    */
-  const customizer = (value, key?: string | number, obj, stack): any => {
+  const customizer = (value, key?: string | number, obj?: object, stack?): any => {
     // If this is the root node, continue:
     if (key === undefined) {
       return undefined;
@@ -201,7 +201,7 @@ const composeRichSubRegionHierarchy = (
 
     // If we are at an odd depth, check for key correctness and continue:
     if ((stack as StackLike).size % 2 === 1) {
-      if (!expectedOddKeys.includes(key)){
+      if (!expectedOddKeys.includes(key as string)){
         throw new Error(
           `Encountered unexpected key ${key}. Expected ${String(expectedOddKeys)}.`,
         )
@@ -225,6 +225,8 @@ const composeRichSubRegionHierarchy = (
       metadata = collections[key];
     } else if (parentKey === "regions") {
       metadata = index[key];
+    } else {
+      throw new Error(`Programmer error. parentKey cannot be ${parentKey}`);
     }
 
     // Add `metadata` key for the looked-up item.
@@ -236,7 +238,12 @@ const composeRichSubRegionHierarchy = (
     //   * `{regions: {...}, metadata: {...}}`
     //   * `{collections: {...}, metadata: {...}}`.
     // NOTE: We are avoiding mutating `value`.
-    return _cloneDeepWith({...value, metadata}, customizer);
+    return _cloneDeepWith(
+      // TODO: Without the `as object` hint, the compiler sees this as
+      // `any`. WHY?
+      {...value, metadata} as object,
+      customizer,
+    );
   }
 
   const richHierarchy = _cloneDeepWith(hierarchy, customizer) as ISubRegionHierarchyRich;

@@ -23,9 +23,10 @@ const usePlotDataQuery = (
     cacheTime: Infinity,
     staleTime: Infinity,
     // Don't retry failed requests; in this case there is no plot!
-    retry: false,
+    // retry: false,
     // Propagate all errors to the nearest error boundary
-    useErrorBoundary: true,
+    // NOTE: Disabled because errors are handled specially for this component
+    // useErrorBoundary: true,
   },
 );
 export default usePlotDataQuery;
