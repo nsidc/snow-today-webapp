@@ -36,6 +36,15 @@ The codebase could be much simpler if we eliminated ReactQuery -- we're not usin
 its mutation features anyway.
 
 
+### Webpack dev server
+
+[v4.12.x-v4.15.x](https://github.com/webpack/webpack-dev-server/blob/master/CHANGELOG.md)
+added overlays for runtime errors and unhandled promise rejection. These seem to be
+triggered by errors that we are handling with error boundaries. Disabled runtime error
+overlays to work around. We need to add handling for the runtime errors, or figure out
+why webpack-dev-server isn't understanding our error boundaries.
+
+
 ## Versioning
 
 * How to keep track of compatibility between the server (data schemas) and this app

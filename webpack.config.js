@@ -26,6 +26,13 @@ const config = {
     allowedHosts: 'all',
     // Enable hot reloading over websocket port through Docker port map:
     hot: true,
+    client: {
+      overlay: {
+        // Don't display overlay for runtime errors; adding in 4.12.0
+        // TODO: Remove!
+        runtimeErrors: false,
+      }
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
