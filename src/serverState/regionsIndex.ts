@@ -238,7 +238,12 @@ const composeRichSubRegionHierarchy = (
     //   * `{regions: {...}, metadata: {...}}`
     //   * `{collections: {...}, metadata: {...}}`.
     // NOTE: We are avoiding mutating `value`.
-    return _cloneDeepWith({...value, metadata}, customizer);
+    return _cloneDeepWith(
+      // TODO: Without the `as object` hint, the compiler sees this as
+      // `any`. WHY?
+      {...value, metadata} as object,
+      customizer,
+    );
   }
 
   const richHierarchy = _cloneDeepWith(hierarchy, customizer) as ISubRegionHierarchyRich;
