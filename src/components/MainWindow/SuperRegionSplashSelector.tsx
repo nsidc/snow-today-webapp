@@ -9,9 +9,8 @@ import LoadingMessage from '@src/components/common/LoadingMessage';
 import '@src/style/SuperRegionSplashSelector.css';
 
 
-/* A splash selector for use when no super region has been selected */
-/* TODO: Loading */
 const SuperRegionSplashSelector: React.FC = () => {
+  /* A splash selector for use on app init, when no super region has been selected. */
   const setSelectedSuperRegionId = useSetRecoilState(selectedSuperRegionIdAtom);
   const setSelectedRegionId = useSetRecoilState(selectedRegionIdAtom);
   const superRegionsIndexQuery = useSuperRegionsIndexQuery();
