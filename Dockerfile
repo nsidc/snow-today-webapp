@@ -11,8 +11,8 @@ RUN npm ci
 
 # COPY scripts ./scripts
 COPY src ./src
-COPY index.html ./
-COPY webpack.config.js tsconfig.json .eslintrc.js .stylelintrc.json ./
+COPY nginx/index.html ./
+COPY vite.config.ts vite-env.d.ts tsconfig.json .eslintrc.js .stylelintrc.json ./
 
 ARG env="production"
 RUN if [ "$env" = "production" ]; then \
@@ -21,8 +21,7 @@ fi
 
 # These lines are only required to use this stage of the build to run a dev
 # server (see docker-compose.dev.yml).
-EXPOSE 3000
-CMD ["npm", "run", "serve"]
+CMD ["npm", "start"]
 
 
 FROM nginx:1.23-alpine AS server

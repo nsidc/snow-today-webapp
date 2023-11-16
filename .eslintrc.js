@@ -9,11 +9,10 @@ module.exports = {
   },
   "plugins": [
     "@typescript-eslint",
+    "react",
     "react-hooks",
   ],
   "extends": [
-    "react-app",
-    "react-app/jest",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
   ],

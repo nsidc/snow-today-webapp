@@ -9,17 +9,13 @@ import RegionSelector from './RegionSelector';
 import RasterOpacitySlider from './RasterOpacitySlider';
 import RefreshPageButton from './RefreshPageButton';
 import SweSelector from './SweSelector';
-
-declare const __ENVIRONMENT__: 'development' | 'production';
-if (__ENVIRONMENT__ === 'development') {
-  console.debug(`Environment is: ${__ENVIRONMENT__}`);
-}
+import {ENVIRONMENT} from '../../constants/env';
 
 
 const ControlPanel: React.FC = () => {
   return (
     <div className="ControlPanel">
-      {__ENVIRONMENT__ === 'development' &&
+      {ENVIRONMENT === 'development' &&
         <DebugDumpButton />
       }
 
