@@ -27,9 +27,9 @@ export APP_VERSION
 
 # Replace the current app
 ln -sf docker-compose.live.yml docker-compose.override.yml
-docker-compose pull
-docker-compose down --remove-orphans
-docker-compose up -d
+docker compose pull
+docker compose down --remove-orphans
+docker compose up -d
 
 # Cleanup
 docker system prune -af
