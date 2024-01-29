@@ -1,5 +1,5 @@
 # Docker ephemera
-docker-compose.override.yml
+*compose.override.yml
 
 # NPM ephemera
 node_modules/

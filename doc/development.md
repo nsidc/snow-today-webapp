@@ -3,7 +3,7 @@
 To use the development configuration, create a compose override file:
 
 ```
-ln -s docker-compose.dev.yml docker-compose.override.yml
+ln -s compose.dev.yml compose.override.yml
 ```
 
 
