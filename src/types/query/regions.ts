@@ -53,13 +53,29 @@ export interface ISubRegionHierarchyRich {
 /************
  * Super Regions
  */
+export interface ISuperRegionVariable {
+  default: boolean;
+  dataValueRange: [number, number];
+  geotiffRelativePath: string;
+}
+export interface ISuperRegionVariablesIndex {
+  [variableId: string]: ISuperRegionVariable;
+}
+
 export interface ISuperRegion {
   longName: string;
   shortName: string;
   crs: string;
+  waterYear: number;
+  waterYearStartDate: string;
+  historicWaterYearRange: [number, number];
+  lastDateWithData: string;
+
   shapeRelativePath: string;
   subRegionsRelativePath: string;
   subRegionsHierarchyRelativePath: string;
+
+  variables: ISuperRegionVariablesIndex;
 }
 export interface ISuperRegionIndex {
   [regionId: string]: ISuperRegion;
@@ -68,8 +84,9 @@ export interface ISuperRegionIndex {
 /************
  * Generic Regions
  */
-// TODO: Express this as a union of IRegion and ISubRegion, plus an `id` field?:
-//     IRegion & ISubRegion & { id: string }
+// TODO: Express this as a union of IRegion and ISubRegion, plus an `id`
+//       field?:
+//           IRegion & ISubRegion & { id: string }
 export interface IGenericRegion {
   id: string;
   longName: string;

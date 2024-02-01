@@ -6,6 +6,12 @@ node_modules/
 
 # Webpack ephemera
 /dist
+## I have no idea why these started showing up:
+##     *.tsx~
+##     *.ty~
+##     *.tz~
+##     *.ts~
+*.*~
 
 # ESLint ephemera
 .eslintcache

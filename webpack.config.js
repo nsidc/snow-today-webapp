@@ -25,7 +25,11 @@ const config = {
     // Resolve "Invalid Host header" error when running dev server in Docker
     allowedHosts: 'all',
     // Enable hot reloading over websocket port through Docker port map:
-    hot: true,
+    //hot: true,
+    hot: false,
+    // Full reload the app instead of attempting to preserve state.
+    // TODO: Enable hot reload once we figure out how to make it work with Jotai (Vite?)
+    liveReload: true,
     client: {
       overlay: {
         // Don't display overlay for runtime errors; adding in 4.12.0

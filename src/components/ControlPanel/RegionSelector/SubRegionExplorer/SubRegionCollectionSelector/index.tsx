@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {useSetRecoilState} from 'recoil';
+import {useSetAtom} from 'jotai';
 
 import '@src/style/SubRegionCollectionSelector.css';
-import selectedRegionIdAtom from '@src/state/client/selectedRegionId';
+import {selectedRegionIdAtom} from '@src/state/client/selectedRegionId';
 import {ISubRegionHierarchyCollectionRichIndex} from '@src/types/query/regions';
 import SubRegionSelector from './SubRegionSelector';
 
@@ -21,7 +21,7 @@ const SubRegionCollectionSelector: React.FC<ISubRegionCollectionSelector> = (pro
    * This component should always be rendered by external components, never the SubRegionSelector.
    */
   const [selectedCollectionId, setSelectedCollectionId] = useState<string | undefined>(undefined);
-  const setSelectedRegionId = useSetRecoilState(selectedRegionIdAtom);
+  const setSelectedRegionId = useSetAtom(selectedRegionIdAtom);
 
   // Set the selected region to the parent region when "None" is selected
   useEffect(() => {

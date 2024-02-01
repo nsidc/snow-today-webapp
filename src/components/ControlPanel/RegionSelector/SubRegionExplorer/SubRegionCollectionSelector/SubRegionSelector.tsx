@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {useSetRecoilState} from 'recoil';
+import {useSetAtom} from 'jotai';
 
 import '@src/style/SubRegionSelector.css';
-import selectedRegionIdAtom from '@src/state/client/selectedRegionId';
+import {selectedRegionIdAtom} from '@src/state/client/selectedRegionId';
 import SearchableSelect, {ISelectOptionProps} from '@src/components/common/SearchableSelect';
 import {ISubRegionHierarchyCollectionRegionRichIndex} from '@src/types/query/regions';
 import SubRegionCollectionSelector from './index';  // is this an anti-pattern?
@@ -35,7 +35,7 @@ interface ISubRegionSelector {
 }
 const SubRegionSelector: React.FC<ISubRegionSelector> = (props) => {
   const [selectedSubRegionId, setSelectedSubRegionId] = useState<string | undefined>(undefined);
-  const setSelectedRegionId = useSetRecoilState(selectedRegionIdAtom);
+  const setSelectedRegionId = useSetAtom(selectedRegionIdAtom);
 
   // Reset the selection when the choices change
   useEffect(() => {

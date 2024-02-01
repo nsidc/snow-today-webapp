@@ -1,3 +1,4 @@
+// TODO: Jotai
 import {atom} from 'recoil';
 
 import {fetchSwePoints} from '../../util/fetch/swe';

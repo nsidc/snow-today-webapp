@@ -2,48 +2,45 @@
  *
  * Depends on server state!
  * */
+import {atom} from 'jotai';
 
-import {selector} from 'recoil';
-
-import selectedRegionIdAtom from '@src/state/client/selectedRegionId';
-import selectedSuperRegionIdAtom from '@src/state/client/selectedSuperRegionId';
-import {
-  IGenericRegion,
-  ISuperRegionIndex,
-  ISubRegionIndex,
-} from '@src/types/query/regions';
-import {queryClient} from '@src/util/query';
-import {
-  SERVERSTATE_KEY_SUPERREGIONS_INDEX,
-  SERVERSTATE_KEY_SUBREGIONS_INDEX,
-} from '@src/serverState/regionsIndex';
+import {IGenericRegion} from '@src/types/query/regions';
+import {selectedRegionIdAtom} from '@src/state/client/selectedRegionId';
+import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
+import {superRegionsIndexQueryAtom} from '@src/state/server/regionsIndex';
 
 
-const selectedRegionAtom = selector<IGenericRegion | undefined>({
-  key: 'selectedRegion',
-  get: ({get}) => {
+export const selectedRegionAtom = atom<Promise<IGenericRegion | undefined>>(
+  async (get) => {
+    const superRegionsIndex = await get(superRegionsIndexQueryAtom);
     const selectedRegionId = get(selectedRegionIdAtom);
     const selectedSuperRegionId = get(selectedSuperRegionIdAtom);
-    if (!selectedRegionId || !selectedSuperRegionId) {
+
+    // TODO: ...?
+    if (
+      selectedRegionId === undefined
+      || selectedSuperRegionId === undefined
+    ) {
       return;
     }
 
+    // FIXME: Restore!
     // Look for the region, first checking if it's a super-region, then sub-region:
     // TODO: Simplify? Create a mock query that indexes super and sub-regions?
-    const superRegionsIndex = queryClient.getQueryData([SERVERSTATE_KEY_SUPERREGIONS_INDEX]) as ISuperRegionIndex;
-    if (selectedRegionId in superRegionsIndex) {
+    if (selectedRegionId in superRegionsIndex.data) {
+      // TODO: Just use selectedSuperRegion atom instead of accessing a query??
       return {
         id: selectedRegionId,
-        ...superRegionsIndex[selectedRegionId],
+        ...superRegionsIndex.data[selectedRegionId],
       }
     }
-    
-    const subRegionsIndex = queryClient.getQueryData([SERVERSTATE_KEY_SUBREGIONS_INDEX, selectedSuperRegionId]) as ISubRegionIndex;
-    return {
-      id: selectedRegionId,
-      ...subRegionsIndex[selectedRegionId],
-    }
-  },
-});
 
-export default selectedRegionAtom;
+    throw Error("foo");
+    // FIXME: Restore!
+    // return {
+    //   id: selectedRegionId,
+    //   // ...subRegionsIndex.data[selectedRegionId],
+    // }
+  }
+);
+selectedRegionAtom.debugLabel = "selectedRegionAtom";

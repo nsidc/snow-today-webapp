@@ -1,8 +1,8 @@
 import React from 'react';
-import {useRecoilValue} from 'recoil';
+import {useAtomValue} from 'jotai';
 
 import '@src/style/ControlPanel.css';
-import selectedSuperRegionIdAtom from '@src/state/client/selectedSuperRegionId';
+import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
 import LoadingMessage from '@src/components/common/LoadingMessage';
 import RefreshPageButton from '@src/components/common/RefreshPageButton';
 import BasemapSelector from './BasemapSelector';
@@ -20,7 +20,7 @@ if (__ENVIRONMENT__ === 'development') {
 
 
 const ControlPanel: React.FC = () => {
-  const selectedSuperRegionId = useRecoilValue(selectedSuperRegionIdAtom);
+  const selectedSuperRegionId = useAtomValue(selectedSuperRegionIdAtom);
 
   if (!selectedSuperRegionId) {
     return (

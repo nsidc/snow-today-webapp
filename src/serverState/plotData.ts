@@ -1,3 +1,4 @@
+/*
 import {useQuery} from '@tanstack/react-query';
 
 import {fetchPlotData} from '../util/fetch/plotData';
@@ -30,3 +31,4 @@ const usePlotDataQuery = (
   },
 );
 export default usePlotDataQuery;
+*/

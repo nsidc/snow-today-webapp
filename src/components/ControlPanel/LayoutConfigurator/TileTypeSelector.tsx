@@ -1,18 +1,14 @@
 import React from 'react';
-import {useRecoilState} from 'recoil';
+import {useAtom} from 'jotai';
 
-import '../../../style/TileTypeSelector.css';
-import {
-  ITileIdentifier,
-  TileType,
-  tileTypes,
-} from '../../../types/layout';
-import selectedTileTypeAtom from '../../../state/client/selectedTileType';
+import '@src/style/TileTypeSelector.css';
+import {ITileIdentifier, TileType, tileTypes} from '@src/types/layout';
+import {selectedTileTypeAtomFamily} from '@src/state/client/selectedTileType';
 
 
 const TileTypeSelector: React.FC<ITileIdentifier> = (props) => {
-  const [selectedTileType, setSelectedTileType] = useRecoilState(
-    selectedTileTypeAtom(props)
+  const [selectedTileType, setSelectedTileType] = useAtom(
+    selectedTileTypeAtomFamily(props)
   );
 
   const selectId = `tile-type-${props.row}-${props.col}`;

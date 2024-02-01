@@ -1,28 +1,28 @@
 import React, {useState} from 'react';
-
-import {Rnd} from 'react-rnd';
+import {useAtomValue} from 'jotai';
 
 import {IVariable} from '@src/types/query/variables';
-import {dataServerUrl} from '@src/constants/dataServer';
+import {legendsUrl} from '@src/constants/dataServer';
+import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
 
 
 interface ISlippyMapLegendProps {
-  selectedSatelliteVariable: IVariable;
+  selectedSatelliteVariableId: string;
   selectedSweVariable: IVariable | undefined;
-  mapUid: string;
-  parentWidthPx: number;
 }
 
 const SlippyMapLegend: React.FC<ISlippyMapLegendProps> = (props) => {
   const [legendWidth, setLegendWidth] = useState<number>(0);
 
-  const legendUrls = [`${dataServerUrl}/${props.selectedSatelliteVariable.legend_path}`];
-  if (props.selectedSweVariable !== undefined) {
-    legendUrls.push(`${dataServerUrl}/${props.selectedSweVariable.legend_path}`);
-  }
+  const selectedSuperRegionId = useAtomValue(selectedSuperRegionIdAtom);
 
-  const legendElementId = `legend-${props.mapUid}`;
-  const xPos = (props.parentWidthPx - legendWidth) / 2;
+  // TODO: Pass in JSON, don't calculate!
+  const legendUrls = [`${legendsUrl}/${selectedSuperRegionId}_${props.selectedSatelliteVariableId}.svg`];
+  // TODO: SWE! IMO, as separate components.
+  // if (props.selectedSweVariable !== undefined) {
+  //   legendUrls.push(`${dataServerUrl}/${props.selectedSweVariable.legendPath}`);
+  // }
+
   const imageElements = legendUrls.map((u) => (
     <img
       src={u}
@@ -34,30 +34,11 @@ const SlippyMapLegend: React.FC<ISlippyMapLegendProps> = (props) => {
         }
       }} />
   ));
-  const legendElement = (
-    <div
-      id={legendElementId}
-      style={{width: 'inherit'}}
-      draggable={false}>
+
+  return (
+    <div style={{width: '100%'}}>
       {imageElements}
     </div>
-  );
-
-  // We must trigger the image element's `onLoad` to get its width _before_
-  // setting default position on the Rnd component
-  if (legendWidth === 0) {
-    return legendElement;
-  }
-  return (
-    <Rnd
-      bounds='parent'
-      lockAspectRatio={true}
-      maxWidth={'100%'}
-      default={{x: xPos, y: 650, width: 'auto', height: 'auto'}} >
-      
-      {legendElement}
-
-    </Rnd>
   );
 
 }

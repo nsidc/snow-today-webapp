@@ -1,14 +1,14 @@
 import React from 'react';
-import {useRecoilValue} from 'recoil';
+import {useAtomValue} from 'jotai';
 
 import LoadingMessage from '@src/components/common/LoadingMessage';
 import {useSubRegionsQuery} from '@src/serverState/regionsIndex';
-import selectedSuperRegionIdAtom from '@src/state/client/selectedSuperRegionId';
+import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
 import SubRegionCollectionSelector from './SubRegionCollectionSelector';
 
 
 const SubRegionExplorer: React.FC = () => {
-  const selectedSuperRegionId = useRecoilValue(selectedSuperRegionIdAtom);
+  const selectedSuperRegionId = useAtomValue(selectedSuperRegionIdAtom);
   if (!selectedSuperRegionId) {
     throw new Error(
       'Programmer error: A SuperRegion should have already been selected.'

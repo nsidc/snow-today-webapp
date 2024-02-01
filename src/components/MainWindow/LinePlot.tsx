@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {useRecoilValue} from 'recoil';
+import {useAtomValue} from 'jotai';
 
 import Highcharts from 'highcharts';
 import HighchartsAccessibility from 'highcharts/modules/accessibility';
@@ -8,11 +8,10 @@ import HighchartsReact from 'highcharts-react-official';
 
 import '@src/style/LinePlot.css';
 import '@src/style/card.css';
-import selectedRegionAtom from '@src/state/client/derived/selectedRegion';
-import usePlotDataQuery from '@src/serverState/plotData';
+import {selectedRegionAtom} from '@src/state/client/derived/selectedRegion';
+import {plotDataQueryAtomFamily} from '@src/state/server/plotData';
 import {IPlotData} from '@src/types/query/plotData';
-import {IVariable} from '@src/types/query/variables';
-import {unixDateFromDowy} from '@src/util/waterYear';
+import {IRichSuperRegionVariable} from '@src/types/query/variables';
 import LoadingIcon from '@src/components/common/LoadingIcon';
 
 HighchartsAccessibility(Highcharts);
@@ -20,8 +19,8 @@ HighchartsMore(Highcharts);
 
 
 interface ILinePlotProps {
-  selectedSatelliteVariableName: string | undefined;
-  selectedSatelliteVariable: IVariable | undefined;
+  selectedSatelliteVariableId: string | undefined;
+  selectedSatelliteVariable: IRichSuperRegionVariable | undefined;
 }
 
 
@@ -29,17 +28,12 @@ interface ILinePlotProps {
 const LinePlot: React.FC<ILinePlotProps> = (props) => {
   const chartRef = useRef<HighchartsReact.RefObject>(null);
 
-  const selectedRegion = useRecoilValue(selectedRegionAtom);
-
-  const plotDataQuery = usePlotDataQuery(
-    !!selectedRegion ? selectedRegion['id'] : undefined,
-    props.selectedSatelliteVariableName,
-  );
+  const selectedRegion = useAtomValue(selectedRegionAtom);
 
   if (
-    plotDataQuery.isLoading
-    || !props.selectedSatelliteVariable
-    || !selectedRegion
+    props.selectedSatelliteVariable === undefined
+    || props.selectedSatelliteVariableId === undefined
+    || selectedRegion === undefined
   ) {
     return (
       <div className={'LinePlot'}>
@@ -49,8 +43,12 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       </div>
     );
   }
+  const plotDataQuery = useAtomValue(plotDataQueryAtomFamily({
+    regionId: selectedRegion.id,
+    variableId: props.selectedSatelliteVariableId,
+  }));
 
-  const varLongname = props.selectedSatelliteVariable.longname_plot;
+  const varLongname = props.selectedSatelliteVariable.longNamePlot;
   const regionLongname = selectedRegion.longName;
   if (plotDataQuery.isError) {
     console.debug(`Error!: ${String(plotDataQuery.error)}`);
@@ -70,44 +68,46 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
   }
 
   const chartTitle = `${regionLongname} - ${varLongname}`;
-  const yAxisTitle = props.selectedSatelliteVariable.label_plot_yaxis;
+  const yAxisTitle = props.selectedSatelliteVariable.labelPlotYaxis;
 
   // WARNING: It is _critical_ that the data is copied before passing to
   // Highcharts. Highcharts will mutate the arrays, and we don't want state to
   // be mutated!!!
-  type IPlotDataForHighcharts = {
-    [Property in keyof Omit<IPlotData, 'day_of_water_year'>]: number[];
-  } & {
-    unix_date: number[];
-  }
-  type SeriesData = [number, number];
+  type IPlotDataForHighcharts = Omit<IPlotData, 'dayOfWaterYear'>;
+  // type IPlotDataForHighcharts = {
+  //   // TODO: 
+  //   [Property in keyof Omit<IPlotData, 'dayOfWaterYear'>]: number[];
+  // }
+  type SeriesData = [string, number];
   // TODO: Is there a programmatic way to do this object transformation
   // *WITHOUT* type casting? This is not friendly to maintain. Easy to
   // make mistakes with values, but Typescript protects us from messing up
   // structure (keys and types of values).
+  const plotData = plotDataQuery.data['data'];
+  // const plotMetadata = plotDataQuery.data.metadata;
   const data: IPlotDataForHighcharts = {
-    unix_date: [...plotDataQuery.data['day_of_water_year']].map(unixDateFromDowy),
-    max: [...plotDataQuery.data['max']],
-    median: [...plotDataQuery.data['median']],
-    min: [...plotDataQuery.data['min']],
-    prc25: [...plotDataQuery.data['prc25']],
-    prc75: [...plotDataQuery.data['prc75']],
-    year_to_date: [...plotDataQuery.data['year_to_date']],
+    date: [...plotData['date']],
+    max: [...plotData['max']],
+    median: [...plotData['median']],
+    min: [...plotData['min']],
+    prc25: [...plotData['prc25']],
+    prc75: [...plotData['prc75']],
+    yearToDate: [...plotData['yearToDate']],
   };
 
-  // Re-join a given column with the X value (unix_date)
+  // Re-join a given column with the X value (date)
   const getSeriesData = (
-    column: keyof Omit<IPlotDataForHighcharts, 'unix_date'>,
+    column: keyof Omit<IPlotDataForHighcharts, 'date'>,
   ): SeriesData[] => {
     // NOTE: We don't use the lodash zip function because it supports
     // different-length lists, using "undefined" to fill in shorter lists.
-    const zipped = data.unix_date.map(
-      (unixDate, index): [number, number] => [unixDate, data[column][index]]
+    const zipped = data.date.map(
+      (date, index): SeriesData => [date, data[column][index]]
     );
     return zipped;
   }
 
-  const ytdSeries = getSeriesData('year_to_date');
+  const ytdSeries = getSeriesData('yearToDate');
   const chartData: Highcharts.SeriesOptionsType[] = [
     {
       name: 'Year to date',
@@ -175,7 +175,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     },
     tooltip: {
       shared: true,
-      valueDecimals: props.selectedSatelliteVariable.value_precision,
+      valueDecimals: props.selectedSatelliteVariable.valuePrecision,
     },
     yAxis: {
       title: {

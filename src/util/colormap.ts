@@ -1,29 +1,10 @@
 import colormap from 'colormap';
 
 import {IVariable} from '../types/query/variables';
-import {CURRENT_DOWY} from '../constants/waterYear';
 
 type ColorStyle = Array<string | number | Array<string | number>>
 export interface IStyleVariables {
   color: ColorStyle;
-}
-
-const colormapValue = (val: number | string): number => {
-  if (typeof val === 'number') {
-    return val;
-  }
-  if (val === '$DOWY') {
-    return CURRENT_DOWY;
-  } else {
-    throw new Error(`Unexpected colormap variable: "${val}"`);
-  }
-}
-const colormapValueRange = (varObj: IVariable): [number, number] => {
-  const cmapRangeIn = varObj.colormap_value_range;
-  return [
-    colormapValue(cmapRangeIn[0]),
-    colormapValue(cmapRangeIn[1]),
-  ]
 }
 
 export const colorStopsFromColorMapName = (
@@ -75,19 +56,23 @@ export const colorStopsFromColorMap = (
 export const colorStopsFromVariableObject = (
   varObj: IVariable,
 ): Array<number | number[]> => {
-  const colormap = varObj.colormap;
-  const [minVal, maxVal] = colormapValueRange(varObj);
+  // TODO: FIX? DELETE?
+  // const colormap = varObj.colormap;
+  // const [minVal, maxVal] = colormapValueRange(varObj);
 
-  const colorStops = colorStopsFromColorMap(colormap, minVal, maxVal, false);
-  return colorStops;
+  // const colorStops = colorStopsFromColorMap(colormap, minVal, maxVal, false);
+  // return colorStops;
+  return [];
 }
 
 export const colorStyleFromVariableObject = (varObj: IVariable): ColorStyle => {
   // Calculate color stops, nodata value, and new color style
-  const colormap = varObj.colormap;
-  const [minVal, maxVal] = colormapValueRange(varObj);
-  const noDataValue = varObj.nodata_value;
-  const transparentZero = varObj.transparent_zero;
+  // TODO: FIX
+  // const colormap = varObj.colormap;
+  const colormap = []
+  const [minVal, maxVal] = varObj.valueRange;
+  const noDataValue = varObj.noDataValue;
+  const transparentZero = varObj.transparentZero;
 
   const colorStops = colorStopsFromColorMap(colormap, minVal, maxVal, false);
   let transparentZeroColorStops: (number | number[])[];
@@ -99,8 +84,11 @@ export const colorStyleFromVariableObject = (varObj: IVariable): ColorStyle => {
     // It's expected that minVal is >=1 if transparentZero is enabled. If it's
     // >1, we'll use the first colormap value for 1 to prevent any
     // intermediate partially-transparent values.
+    // TODO: Fix; is this test still relevant?
     if (minVal < 1) {
-      throw new Error(`Expected minVal to be 1; received ${minVal}`);
+      // throw new Error(`Expected minVal to be 1; received ${minVal}`);
+      console.log("foo");
+    // TODO: Why isn't the 1 case represented???
     } else if (minVal > 1) {
       transparentZeroColorStops.push(1);
       transparentZeroColorStops.push(...colormap.slice(1));

@@ -24,6 +24,14 @@ The COGs _must_ be in the same projection as the OpenLayers map in order to prop
 display. A script `scripts/make_cogs.sh` can prepare the files correctly.
 
 
+## Style
+
+### Avoid default exports
+
+This allows imported names to mismatch the export, which is bad for readability when not
+done explicitly, i.e. `import {foo as bar} from '...';`.
+
+
 ## TODO
 
 ### GeoTIFF Hosting

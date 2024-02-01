@@ -1,19 +1,19 @@
 import React from 'react';
-import {useSetRecoilState} from 'recoil';
+import {useSetAtom, useAtomValue} from 'jotai';
 import Button from 'react-bootstrap/Button';
 
-import selectedSuperRegionIdAtom from '@src/state/client/selectedSuperRegionId';
-import selectedRegionIdAtom from '@src/state/client/selectedRegionId';
-import {useSuperRegionsIndexQuery} from '@src/serverState/regionsIndex';
+import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
+import {selectedRegionIdAtom} from '@src/state/client/selectedRegionId';
+import {superRegionsIndexQueryAtom} from '@src/state/server/regionsIndex';
 import LoadingMessage from '@src/components/common/LoadingMessage';
 import '@src/style/SuperRegionSplashSelector.css';
 
 
 const SuperRegionSplashSelector: React.FC = () => {
-  /* A splash selector for use on app init, when no super region has been selected. */
-  const setSelectedSuperRegionId = useSetRecoilState(selectedSuperRegionIdAtom);
-  const setSelectedRegionId = useSetRecoilState(selectedRegionIdAtom);
-  const superRegionsIndexQuery = useSuperRegionsIndexQuery();
+  /* A splash selector for use on app init, when no super region has been selected yet. */
+  const setSelectedSuperRegionId = useSetAtom(selectedSuperRegionIdAtom);
+  const setSelectedRegionId = useSetAtom(selectedRegionIdAtom);
+  const superRegionsIndexQuery = useAtomValue(superRegionsIndexQueryAtom);
 
   if (superRegionsIndexQuery.isLoading) {
     return (<div className={'centered-card-text'}><LoadingMessage /></div>);

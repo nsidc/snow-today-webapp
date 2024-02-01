@@ -1,67 +1,53 @@
 import React from 'react';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useAtom, useAtomValue} from 'jotai';
 
-import '../../../style/SatelliteVariableSelector.css';
-import selectedSatelliteVariableNameAtom from '../../../state/client/selectedSatelliteVariableName';
-import selectedTileTypeAtom from '../../../state/client/selectedTileType';
-import useVariablesIndexQuery from '../../../serverState/variablesIndex';
-import {ITileIdentifier} from '../../../types/layout';
-
-const LOADING_VALUE = 'LOADING...';
+import '@src/style/SatelliteVariableSelector.css';
+import {selectedSatelliteVariableIdAtomFamily} from '@src/state/client/selectedSatelliteVariableId';
+import {selectedTileTypeAtomFamily} from '@src/state/client/selectedTileType';
+import {availableVariablesAtom} from '@src/state/client/derived/availableVariables';
+import {defaultVariableIdAtom} from '@src/state/client/derived/defaultVariableId';
+import {ITileIdentifier} from '@src/types/layout';
 
 
 const VariableSelector: React.FC<ITileIdentifier> = (props) => {
   const [
-    selectedSatelliteVariableName,
-    setSelectedSatelliteVariableName,
-  ] = useRecoilState(selectedSatelliteVariableNameAtom(props));
-  const selectedTileType = useRecoilValue(selectedTileTypeAtom(props));
-  const variablesIndexQuery = useVariablesIndexQuery();
+    selectedSatelliteVariableId,
+    setSelectedSatelliteVariableId,
+  ] = useAtom(selectedSatelliteVariableIdAtomFamily(props));
+  const selectedTileType = useAtomValue(selectedTileTypeAtomFamily(props));
+  const availableVariables = useAtomValue(availableVariablesAtom);
+  const defaultVariableId = useAtomValue(defaultVariableIdAtom);
+  console.debug(defaultVariableId);
+
+  if (
+    availableVariables === undefined
+  ) {
+    throw Error("Programmer error; this component should be wrapped in <Suspense>!");
+  }
 
   const handleVariableChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const targetValue = e.currentTarget.value;
-    let stateValue: string | undefined;
-    if (!targetValue || targetValue === LOADING_VALUE) {
-      stateValue = undefined;
-    } else {
-      stateValue = targetValue;
-    }
-    setSelectedSatelliteVariableName(stateValue);
+    const stateValue = targetValue || undefined;
+    debugger;
+    setSelectedSatelliteVariableId(stateValue);
   }
 
-  if (variablesIndexQuery.isError) {
-    console.debug(`Error!: ${variablesIndexQuery.error as string}`);
-    return (
-      <span>{`Error: ${variablesIndexQuery.error as string}`}</span>
-    );
-  }
-
-  let variableOptions: JSX.Element | Array<JSX.Element>;
-  if (variablesIndexQuery.isLoading) {
-    variableOptions = (
-      <option key={LOADING_VALUE} value={LOADING_VALUE}>
-        {'Loading variables...'}
+  const longNameParam = selectedTileType === 'plot' ? 'longNamePlot' : 'longName';
+  const variableOptions: Array<JSX.Element> = (
+    Object.entries(availableVariables)
+    .filter(([variableId, params]) => params.layerType === 'raster')
+    .map(([variableId, params]) => (
+      <option key={variableId} value={variableId}>
+        {params[longNameParam]}
       </option>
-    );
-  } else {
-    const longname_param = selectedTileType === 'plot' ? 'longname_plot' : 'longname';
-    variableOptions = (
-      Object.entries(variablesIndexQuery.data)
-      .filter(([variableName, params]) => !Object.keys(params).includes('enabled') || params['enabled'])
-      .filter(([variableName, params]) => params['type'] === 'raster')
-      .map(([variableName, params]) => (
-        <option key={variableName} value={variableName}>
-          {params[longname_param]}
-        </option>
-      ))
-    );
-  }
+    ))
+  );
 
   const elementId = `variable-select-row${props.row}-col${props.col}`;
   return (
     <div className={'SatelliteVariableSelector'}>
       <label htmlFor={elementId}>{'Variable: '}</label>
-      <select id={elementId} onChange={handleVariableChange} value={selectedSatelliteVariableName}>
+      <select id={elementId} onChange={handleVariableChange} value={selectedSatelliteVariableId}>
         <option value={''} disabled hidden>{'Loading...'}</option>
         {variableOptions}
       </select>

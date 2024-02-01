@@ -1,9 +1,9 @@
 import React from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useAtom, useSetAtom} from 'jotai';
 
 import '@src/style/SuperRegionSelector.css';
-import selectedSuperRegionIdAtom from '@src/state/client/selectedSuperRegionId';
-import selectedRegionIdAtom from '@src/state/client/selectedRegionId';
+import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
+import {selectedRegionIdAtom} from '@src/state/client/selectedRegionId';
 import {ISuperRegionIndex} from '@src/types/query/regions';
 
 
@@ -12,8 +12,8 @@ interface ISuperRegionSelectorProps {
 }
 
 const SuperRegionSelector: React.FC<ISuperRegionSelectorProps> = (props) => {
-  const [selectedSuperRegionId, setSelectedSuperRegionId] = useRecoilState(selectedSuperRegionIdAtom);
-  const setSelectedRegionId = useSetRecoilState(selectedRegionIdAtom);
+  const [selectedSuperRegionId, setSelectedSuperRegionId] = useAtom(selectedSuperRegionIdAtom);
+  const setSelectedRegionId = useSetAtom(selectedRegionIdAtom);
 
   const superRegionOptions = Object.entries(props.indexQueryData).map(
     ([superRegionId, superRegion]) => (

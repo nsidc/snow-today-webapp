@@ -19,7 +19,6 @@ const getDefaultFromData = (data: IVariableIndex): string => {
 }
 
 
-
 export const SERVERSTATE_KEY_VARIABLES_INDEX = 'variablesIndex';
 const useVariablesIndexQuery = (
   stateSetter?: (defaultVarName: string) => void,
@@ -28,6 +27,7 @@ const useVariablesIndexQuery = (
     [SERVERSTATE_KEY_VARIABLES_INDEX],
     fetchVariablesIndex,
     {
+      // TODO: ???
       enabled: !!stateSetter,
       // Set the selected variable to the default (or first) in the data
       // NOTE: Requires that this query only fires once in the app's lifecycle,
@@ -38,6 +38,7 @@ const useVariablesIndexQuery = (
             'A state setter is required on initial query to update client state.'
           );
         }
+        // debugger;
         const defaultVariableName = getDefaultFromData(data);
         stateSetter(defaultVariableName);
       },

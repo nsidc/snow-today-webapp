@@ -17,26 +17,25 @@ import {click} from 'ol/events/condition';
 import Select, {SelectEvent} from 'ol/interaction/Select';
 import * as style from 'ol/style';
 
+import {IAvailableVariablesIndex} from '@src/state/client/derived/availableVariables';
 import {
   OptionalOpenLayersMap,
   OptionalOverlay,
   OptionalSelect,
-} from '../../types/SlippyMap';
-import {StateSetter} from '../../types/misc';
-import {IVariable, IVariableIndex} from '../../types/query/variables';
-import {SwePointsForOverlay} from '../../types/swe';
-import {basemapLayerGroup} from '../layer/basemaps';
+} from '@src/types/SlippyMap';
+import {StateSetter} from '@src/types/misc';
+import {IVariable, IRichSuperRegionVariable} from '@src/types/query/variables';
+import {SwePointsForOverlay} from '@src/types/swe';
+import {basemapLayerGroup} from '@src/util/layer/basemaps';
 import {
   rasterLayer,
   changeRasterVariable,
   notProcessedLayer,
   toggleNotProcessedLayer,
-} from '../layer/raster';
-import {showSwePointsOverlay, swePointsLayer} from '../layer/swe';
-import {regionShapeLayer, showRegionShape} from '../layer/regionShape';
-import {showBasemapLayer} from '../layer/switch';
-import {queryClient} from '../query';
-import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../serverState/variablesIndex';
+} from '@src/util/layer/raster';
+import {showSwePointsOverlay, swePointsLayer} from '@src/util/layer/swe';
+import {regionShapeLayer, showRegionShape} from '@src/util/layer/regionShape';
+import {showBasemapLayer} from '@src/util/layer/switch';
 
 const sharedView = new View({
   projection: 'EPSG:3857',
@@ -142,22 +141,37 @@ export const useMapView = (
 export const useNotProcessedLayerToggle = (
   slippyMapUid: string,
   notProcessedLayerEnabled: boolean,
+  selectedSatelliteVariableObject: IVariable | undefined,
+  // FIXME: no any...
+  availableVariables: IAvailableVariablesIndex | undefined,
 ): void => {
-  const variablesIndex = queryClient.getQueryData([SERVERSTATE_KEY_VARIABLES_INDEX]) as IVariableIndex;
   useEffect(() => {
-    if (variablesIndex === undefined) {
+    if (
+      selectedSatelliteVariableObject === undefined
+      || availableVariables === undefined
+    ) {
       return;
     }
-    const notProcessedVariables = Object.entries(variablesIndex).filter(
-      ([key, params]) => params.type === 'raster_notprocessed'
+    // TODO: Depend on availableVariables instead!
+    const notProcessedVariables = Object.entries(availableVariables).filter(
+      ([key, params]) => (
+        params.layerType === 'raster_notprocessed'
+        && params.sensor == selectedSatelliteVariableObject.sensor
+        && params.platform == selectedSatelliteVariableObject.platform
+        && params.algorithm == selectedSatelliteVariableObject.algorithm
+      )
     );
-    if (notProcessedVariables.length !== 1) {
-      throw new Error('Exactly one notprocessed variable is required.');
-    }
+    // FIXME: Commented to pass through to another error
+    return;
+    // if (notProcessedVariables.length !== 1) {
+    //   throw new Error(
+    //     `Exactly one matching notprocessed variable is expected. Got ${notProcessedVariables}.`
+    //   );
+    // }
     const notProcessedVariableParams = notProcessedVariables[0][1];
 
     toggleNotProcessedLayer(slippyMapUid, notProcessedLayerEnabled, notProcessedVariableParams)
-  }, [slippyMapUid, notProcessedLayerEnabled, variablesIndex]);
+  }, [slippyMapUid, notProcessedLayerEnabled, selectedSatelliteVariableObject, availableVariables]);
 }
 
 // When the selected basemap is updated, update the map to reflect this.
@@ -197,7 +211,7 @@ export const useSelectedRegionShape = (
 
 export const useSelectedRasterVariable = (
   slippyMapUid: string,
-  selectedSatelliteVariableObject: IVariable | undefined,
+  selectedSatelliteVariableObject: IRichSuperRegionVariable | undefined,
   openLayersMap: OptionalOpenLayersMap,
 ): void => {
   useEffect(() => {

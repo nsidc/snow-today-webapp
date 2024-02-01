@@ -4,9 +4,9 @@ import GeoTIFF from 'ol/source/GeoTIFF';
 
 import _memoize from 'lodash/memoize';
 
-import {dataServerUrl} from '../../constants/dataServer';
+import {sspDataUrl} from '../../constants/dataServer';
 import {colorStyleFromVariableObject, IStyleVariables} from '../colormap';
-import {IVariable} from '../../types/query/variables';
+import {IRichSuperRegionVariable} from '../../types/query/variables';
 
 
 const geoTiffSourceDefaults = {
@@ -20,10 +20,11 @@ const styleVariables: IStyleVariables = {
 }
 
 
-const sourceFromVariableObject = (varObj: IVariable): GeoTIFF => {
-  // Calculate new source URL
-  const cogPath = varObj.cog_path;
-  const url = `${dataServerUrl}/${cogPath}`;
+const sourceFromVariableObject = (varObj: IRichSuperRegionVariable): GeoTIFF => {
+  // const cogPath = varObj.geotiffRelativePath;
+  const url = `${sspDataUrl}/regions/cogs/26000_snow_fraction.tif`;
+  // const url = 'https://example.com/cog';
+  // debugger;
   return new GeoTIFF({
     ...geoTiffSourceDefaults,
     sources: [
@@ -41,7 +42,9 @@ export const notProcessedLayer = _memoize((mapId: string): TileLayer => (
       ...geoTiffSourceDefaults,
       sources: [
         {
-          url: `${dataServerUrl}/cogs/notprocessed.tif`,
+          // TODO: FIX. This comes from root.json now
+          // url: "https://example.com/",
+          url: `${sspDataUrl}/regions/cogs/26000_notprocessed.tif`,
         },
       ],
     }),
@@ -61,7 +64,7 @@ export const notProcessedLayer = _memoize((mapId: string): TileLayer => (
 export const toggleNotProcessedLayer = (
   mapId: string,
   notProcessedLayerEnabled: boolean,
-  notProcessedVariableObject: IVariable,
+  notProcessedVariableObject: IRichSuperRegionVariable,
 ): void => {
   const layer = notProcessedLayer(mapId);
 
@@ -70,7 +73,9 @@ export const toggleNotProcessedLayer = (
 
   layer.setVisible(notProcessedLayerEnabled);
   layer.setSource(newSource);
-  layer.setStyle({color: newColorStyle});
+  // FIXME
+  console.log(newColorStyle);
+  // layer.setStyle({color: newColorStyle});
 };
 
 
@@ -92,7 +97,7 @@ export const rasterLayer = _memoize((mapId: string): TileLayer => (
 
 export const changeRasterVariable = (
   mapId: string,
-  rasterVariableObject: IVariable,
+  rasterVariableObject: IRichSuperRegionVariable,
   openLayersMap: PluggableMap,
 ): void => {
   const layer = rasterLayer(mapId);
@@ -101,5 +106,7 @@ export const changeRasterVariable = (
   const newColorStyle = colorStyleFromVariableObject(rasterVariableObject);
 
   layer.setSource(newSource);
-  layer.setStyle({color: newColorStyle});
+  // FIXME
+  console.log(newColorStyle);
+  // layer.setStyle({color: newColorStyle});
 }
