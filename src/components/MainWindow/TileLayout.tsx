@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import {useRecoilValue} from 'recoil';
 import {useAtomValue, useSetAtom} from 'jotai';
 
 import _flatten from 'lodash/flatten';
@@ -47,8 +46,8 @@ const useTileStateSetters = (): ITileStateSetter[] => _flatten(
 
 
 const TileLayout: React.FC = () => {
-  const selectedLayoutCols = useRecoilValue(selectedLayoutColsAtom);
-  const selectedLayoutRows = useRecoilValue(selectedLayoutRowsAtom);
+  const selectedLayoutCols = useAtomValue(selectedLayoutColsAtom);
+  const selectedLayoutRows = useAtomValue(selectedLayoutRowsAtom);
   const defaultVariableId = useAtomValue(defaultVariableIdAtom);
 
   const tileStateSetters = useTileStateSetters();

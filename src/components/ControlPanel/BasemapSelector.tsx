@@ -1,13 +1,14 @@
 import React from 'react';
-import {useRecoilState} from 'recoil';
+import {useAtom} from 'jotai';
+
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-import {basemapNames} from '../../util/layer/basemaps';
-import selectedBasemapNameAtom from '../../state/client/selectedBasemapName';
+import {basemapNames} from '@src/util/layer/basemaps';
+import {selectedBasemapNameAtom} from '@src/state/client/selectedBasemapName';
 
 const BasemapSelector: React.FC = () => {
-  const [selectedBasemapName, setSelectedBasemap] = useRecoilState(selectedBasemapNameAtom);
+  const [selectedBasemapName, setSelectedBasemap] = useAtom(selectedBasemapNameAtom);
 
   const handleSelect = (eventKey: string | null): void => {
     if (!eventKey) {

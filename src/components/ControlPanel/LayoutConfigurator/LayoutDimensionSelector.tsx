@@ -1,5 +1,5 @@
 import React from 'react';
-import {useRecoilState} from 'recoil';
+import {useAtom} from 'jotai';
 
 import '../../../style/LayoutDimensionSelector.css';
 import {
@@ -19,8 +19,8 @@ const onChange = (
 
 
 const LayoutDimensionSelector: React.FC = () => {
-  const [selectedLayoutCols, setSelectedLayoutCols] = useRecoilState(selectedLayoutColsAtom);
-  const [selectedLayoutRows, setSelectedLayoutRows] = useRecoilState(selectedLayoutRowsAtom);
+  const [selectedLayoutCols, setSelectedLayoutCols] = useAtom(selectedLayoutColsAtom);
+  const [selectedLayoutRows, setSelectedLayoutRows] = useAtom(selectedLayoutRowsAtom);
 
   return (
     <div className={'LayoutDimensionSelector'}>

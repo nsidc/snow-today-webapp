@@ -1,9 +1,10 @@
 import React from 'react';
-import {useRecoilState} from 'recoil';
+import {useAtom} from 'jotai';
+
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-import selectedSweVariableNameAtom from '../../state/client/selectedSweVariableName';
+import {selectedSweVariableNameAtom} from '@src/state/client/selectedSweVariableName';
 import useVariablesIndexQuery from '../../serverState/variablesIndex';
 
 
@@ -13,7 +14,7 @@ const BasemapSelector: React.FC = () => {
   const [
     selectedSweVariableName,
     setSelectedSweVariableName,
-  ] = useRecoilState(selectedSweVariableNameAtom);
+  ] = useAtom(selectedSweVariableNameAtom);
   // NOTE: Anonymous function is a hack to deal with race condition
   // initializing component state (e.g. tile layout) from variables index.
   // TODO: Migrate this query into Recoil server state, and use a selector to

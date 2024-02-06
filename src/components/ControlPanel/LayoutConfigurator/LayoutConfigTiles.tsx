@@ -1,5 +1,5 @@
 import React from 'react';
-import {useRecoilValue} from 'recoil';
+import {useAtomValue} from 'jotai';
 
 import '../../../style/LayoutConfigTiles.css';
 import {
@@ -10,8 +10,8 @@ import LayoutConfigTile from './LayoutConfigTile';
 
 
 const LayoutConfigTiles: React.FC = () => {
-  const selectedLayoutCols = useRecoilValue(selectedLayoutColsAtom);
-  const selectedLayoutRows = useRecoilValue(selectedLayoutRowsAtom);
+  const selectedLayoutCols = useAtomValue(selectedLayoutColsAtom);
+  const selectedLayoutRows = useAtomValue(selectedLayoutRowsAtom);
 
   // Make 1-indexed arrays of rows and columns: [1, 2, ..., MAX]
   const colOptions = Array.from(

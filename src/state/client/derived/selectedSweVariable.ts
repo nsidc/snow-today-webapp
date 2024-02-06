@@ -2,16 +2,29 @@
  *
  * Depends on server state!
  * */
+import {atom} from 'jotai';
 
-import {selector} from 'recoil';
-
-import selectedSweVariableNameAtom from '../selectedSweVariableName';
-import {IVariable, IVariableIndex} from '../../../types/query/variables';
-import {queryClient} from '../../../util/query';
-import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../../serverState/variablesIndex';
+import {selectedSweVariableNameAtom} from '../selectedSweVariableName';
+import {IVariable} from '@src/types/query/variables';
+import {variablesIndexQueryAtom} from '@src/state/server/variablesIndex';
 
 
 type AtomValue = IVariable | undefined;
+export const selectedSweVariableAtom = atom<Promise<AtomValue>>(
+  async (get) => {
+    // TODO: should be availableVariables?
+    const variablesIndex = await get(variablesIndexQueryAtom);
+    const selectedVariable = get(selectedSweVariableNameAtom);
+    if (selectedVariable === undefined) {
+      return;
+    }
+    return variablesIndex[selectedVariable];
+  }
+);
+selectedSweVariableAtom.debugLabel = 'selectedSweVariableAtom';
+
+
+/*
 const selectedSweVariableAtom = selector<AtomValue>({
   key: 'selectedSweVariable',
   get: ({get}) => {
@@ -27,3 +40,4 @@ const selectedSweVariableAtom = selector<AtomValue>({
 });
 
 export default selectedSweVariableAtom;
+*/

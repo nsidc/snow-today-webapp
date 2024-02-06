@@ -1,13 +1,16 @@
 // TODO: Jotai
-import {atom} from 'recoil';
+import {atomWithQuery} from 'jotai-tanstack-query';
 
-import {fetchSwePoints} from '../../util/fetch/swe';
-import {SwePoints} from '../../types/query/swe';
+import {fetchSwePoints} from '@src/util/fetch/swe';
+import {SwePoints} from '@src/types/query/swe';
 
 
-const swePointsQueryAtom = atom<SwePoints>({
-  key: 'swePointsQuery',
-  default: fetchSwePoints(),
-});
-
-export default swePointsQueryAtom;
+export const SERVERSTATE_KEY_SWE_POINTS = 'swePointsQuery';
+export const swePointsQueryAtom = atomWithQuery<SwePoints>(
+  () => {
+    return {
+      queryKey: [SERVERSTATE_KEY_SWE_POINTS],
+      queryFn: fetchSwePoints,
+    }
+  }
+);

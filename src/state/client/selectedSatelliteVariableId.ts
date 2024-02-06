@@ -11,7 +11,7 @@ export type AtomParameter = ITileIdentifier;
 export const selectedSatelliteVariableIdAtomFamily = atomFamily(
   // TODO: Can we set the initial values by making this family dependent on defaultVariable?
   (tileId: AtomParameter) => {
-    const atm = atom<AtomValue>(undefined)
+    const atm = atom<AtomValue>(undefined);
     atm.debugLabel = `selectedSatelliteVariableIdAtomFamily_row${tileId.row}-col${tileId.col}`;
     return atm;
   },

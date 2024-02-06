@@ -1,14 +1,9 @@
-import {atom} from 'recoil';
+import {atom} from 'jotai';
 
 import {DEFAULT_ROWS, DEFAULT_COLS} from '../../constants/layout';
 
 
-export const selectedLayoutRowsAtom = atom<number>({
-  key: 'selectedLayoutRows',
-  default: DEFAULT_ROWS,
-});
-
-export const selectedLayoutColsAtom = atom<number>({
-  key: 'selectedLayoutCols',
-  default: DEFAULT_COLS,
-});
+export const selectedLayoutRowsAtom = atom<number>(DEFAULT_ROWS);
+selectedLayoutRowsAtom.debugLabel = "selectedLayoutRowsAtom";
+export const selectedLayoutColsAtom = atom<number>(DEFAULT_COLS);
+selectedLayoutColsAtom.debugLabel = "selectedLayoutColsAtom";

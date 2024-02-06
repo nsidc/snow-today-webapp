@@ -19,14 +19,14 @@ import '@src/style/SlippyMap.css';
 import '@src/style/card.css';
 import {CRS_LONLAT, CRS_MAP} from '@src/constants/crs';
 import LoadingIcon from '@src/components/common/LoadingIcon';
-import notProcessedLayerEnabledAtom from '@src/state/client/notProcessedLayerEnabled';
-import rasterOpacityAtom from '@src/state/client/rasterOpacity';
+import {notProcessedLayerEnabledAtom} from '@src/state/client/notProcessedLayerEnabled';
+import {rasterOpacityAtom} from '@src/state/client/rasterOpacity';
 import {availableVariablesAtom} from '@src/state/client/derived/availableVariables';
-import selectedBasemapLayerAtom from '@src/state/client/derived/selectedBasemapLayer';
+import {selectedBasemapLayerAtomFamily} from '@src/state/client/derived/selectedBasemapLayer';
 import {selectedSuperRegionAtom} from '@src/state/client/derived/selectedSuperRegion';
 import {selectedRegionAtom} from '@src/state/client/derived/selectedRegion';
-import selectedSweVariableAtom from '@src/state/client/derived/selectedSweVariable';
-import swePointsForOverlayAtom from '@src/state/client/derived/swePointsForOverlay';
+import {selectedSweVariableAtom} from '@src/state/client/derived/selectedSweVariable';
+import {swePointsForOverlayAtom} from '@src/state/client/derived/swePointsForOverlay';
 import mapViewAtom from '@src/state/client/derived/mapView';
 import useRegionShapeQuery from '@src/serverState/regionShape';
 import {
@@ -75,13 +75,13 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const overlayElement = useRef<HTMLDivElement | null>(null);
 
   const availableVariables = useAtomValue(availableVariablesAtom);
-  const notProcessedLayerEnabled = useRecoilValue(notProcessedLayerEnabledAtom);
-  const rasterOpacity = useRecoilValue(rasterOpacityAtom);
-  const selectedBasemap = useRecoilValue(selectedBasemapLayerAtom(slippyMapUid));
+  const notProcessedLayerEnabled = useAtomValue(notProcessedLayerEnabledAtom);
+  const rasterOpacity = useAtomValue(rasterOpacityAtom);
+  const selectedBasemap = useAtomValue(selectedBasemapLayerAtomFamily(slippyMapUid));
   const selectedRegion = useAtomValue(selectedRegionAtom);
   const selectedSuperRegion = useAtomValue(selectedSuperRegionAtom);
-  const selectedSweVariable = useRecoilValue(selectedSweVariableAtom);
-  const swePointsForOverlay = useRecoilValue(swePointsForOverlayAtom);
+  const selectedSweVariable = useAtomValue(selectedSweVariableAtom);
+  const swePointsForOverlay = useAtomValue(swePointsForOverlayAtom);
 
   // debugger;
   const selectedRegionShapeQuery = useRegionShapeQuery(
