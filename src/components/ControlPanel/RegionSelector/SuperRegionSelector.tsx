@@ -26,7 +26,7 @@ const SuperRegionSelector: React.FC<ISuperRegionSelectorProps> = (props) => {
   const handleSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newRegionId = e.currentTarget.value;
     setSelectedSuperRegionId(newRegionId);
-    // TODO: Is this a good practice? Setting two pieces of Recoil state
+    // TODO: Is this a good practice? Setting two pieces of Jotai state
     // together? Why not use the state graph?
     setSelectedRegionId(newRegionId);
   }

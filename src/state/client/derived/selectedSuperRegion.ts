@@ -26,7 +26,6 @@ selectedSuperRegionAtom.debugLabel = "selectedSuperRegionAtom";
 
 
 /*
-import {selector} from 'recoil';
 import {queryClient} from '@src/util/query';
 import {SERVERSTATE_KEY_SUPERREGIONS_INDEX} from '@src/serverState/regionsIndex';
 import {

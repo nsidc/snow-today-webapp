@@ -1,6 +1,5 @@
 import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom';
-import {RecoilRoot} from 'recoil';
 import {QueryClientProvider} from '@tanstack/react-query';
 // NOTE: This shouldn't be included in non-dev builds...
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
@@ -38,9 +37,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<div className="centered"><LoadingMessage /></div>}>
       <QueryClientProvider client={queryClient}>
-        <RecoilRoot>
-          <App />
-        </RecoilRoot>
+        <App />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </Suspense>

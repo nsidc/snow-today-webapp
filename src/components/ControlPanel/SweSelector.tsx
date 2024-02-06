@@ -5,7 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
 import {selectedSweVariableNameAtom} from '@src/state/client/selectedSweVariableName';
-import useVariablesIndexQuery from '../../serverState/variablesIndex';
+import useVariablesIndexQuery from '@src/serverState/variablesIndex';
 
 
 const LOADING_VALUE = 'LOADING...';
@@ -17,8 +17,7 @@ const BasemapSelector: React.FC = () => {
   ] = useAtom(selectedSweVariableNameAtom);
   // NOTE: Anonymous function is a hack to deal with race condition
   // initializing component state (e.g. tile layout) from variables index.
-  // TODO: Migrate this query into Recoil server state, and use a selector to
-  // create the dependent layout state.
+  // TODO: Switch to using Jotai query 
   const variablesIndexQuery = useVariablesIndexQuery(() => null);
 
   const handleSelect = (eventKey: string | null): void => {

@@ -14,3 +14,4 @@ export const swePointsQueryAtom = atomWithQuery<SwePoints>(
     }
   }
 );
+swePointsQueryAtom.debugLabel = 'swePointsQueryAtom';

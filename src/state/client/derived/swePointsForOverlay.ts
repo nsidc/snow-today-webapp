@@ -40,3 +40,4 @@ export const swePointsForOverlayAtom = atom<SwePointsForOverlay>(
     return overlayPoints;
   }
 );
+swePointsForOverlayAtom.debugLabel = 'swePointsForOverlayAtom';

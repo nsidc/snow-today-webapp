@@ -1,6 +1,6 @@
-// NOTE: Using an interface instead of a type is not compatible with AtomFamily
-// type signature.
-//     https://github.com/facebookexperimental/Recoil/issues/457
+// TODO: Can this be an interface? Was previously a type because recoil (using
+// an interface instead of a type is not compatible with AtomFamily type
+// signature: https://github.com/facebookexperimental/Recoil/issues/457)
 export type ITileIdentifier = {
   row: number;
   col: number;

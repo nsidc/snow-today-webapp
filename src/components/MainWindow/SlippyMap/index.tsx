@@ -2,7 +2,6 @@
 //     https://taylor.callsen.me/using-openlayers-with-react-functional-components/
 
 import React, {useState, useRef} from 'react';
-import {useRecoilValue} from 'recoil';
 import {useAtomValue} from 'jotai'
 
 import 'ol/ol.css';
@@ -27,7 +26,7 @@ import {selectedSuperRegionAtom} from '@src/state/client/derived/selectedSuperRe
 import {selectedRegionAtom} from '@src/state/client/derived/selectedRegion';
 import {selectedSweVariableAtom} from '@src/state/client/derived/selectedSweVariable';
 import {swePointsForOverlayAtom} from '@src/state/client/derived/swePointsForOverlay';
-import mapViewAtom from '@src/state/client/derived/mapView';
+import {mapViewAtomFamily} from '@src/state/client/derived/mapView';
 import useRegionShapeQuery from '@src/serverState/regionShape';
 import {
   OptionalCoordinate,
@@ -92,7 +91,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const selectedSuperRegionShapeQuery = useRegionShapeQuery(
     selectedSuperRegion ? selectedSuperRegion.shapeRelativePath : undefined,
   )
-  const mapView = useRecoilValue(mapViewAtom(selectedSuperRegionShapeQuery.data));
+  const mapView = useAtomValue(mapViewAtomFamily(selectedSuperRegionShapeQuery.data));
 
   const handleFeatureSelect = (event: SelectEvent) => {
     setSelectedFeatures(event.selected);
