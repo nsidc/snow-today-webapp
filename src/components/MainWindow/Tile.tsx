@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 // import {ErrorBoundary} from 'react-error-boundary';
 import {useAtomValue} from 'jotai';
 
@@ -11,6 +11,7 @@ import {selectedRegionIdAtom} from '@src/state/client/selectedRegionId';
 import {selectedSatelliteVariableIdAtomFamily} from '@src/state/client/selectedSatelliteVariableId';
 import {selectedSatelliteVariableAtomFamily} from '@src/state/client/derived/selectedSatelliteVariable';
 import {selectedTileTypeAtomFamily} from '@src/state/client/selectedTileType';
+import LoadingIcon from '@src/components/common/LoadingIcon';
 import LinePlot from './LinePlot';
 import SlippyMap from './SlippyMap';
 
@@ -59,7 +60,9 @@ const Tile: React.FC<ITileProps> = (props) => {
         FallbackComponent={ErrorFallbackTileComponent}
         resetKeys={[selectedTileType, selectedRegionId, selectedSatelliteVariableId]}
       > */}
-        {content}
+        <Suspense fallback={<LoadingIcon size={200} />}>
+          {content}
+        </Suspense>
         <div className='tile-citation'>
           {CITATION}
         </div>
