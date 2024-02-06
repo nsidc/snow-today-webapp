@@ -1,7 +1,7 @@
 // Inspired by a very helpful blog post:
 //     https://taylor.callsen.me/using-openlayers-with-react-functional-components/
 
-import React, {useState, useRef, useLayoutEffect} from 'react';
+import React, {useState, useRef} from 'react';
 import {useRecoilValue} from 'recoil';
 import {useAtomValue} from 'jotai'
 
@@ -62,14 +62,12 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   // TODO: More specific types; maybe some way to succinctly make optional?
   const [openLayersMap, setOpenLayersMap] = useState<OptionalOpenLayersMap>();
   const [selectedCoord, setSelectedCoord] = useState<OptionalCoordinate>();
-  const [componentWidth, setComponentWidth] = useState<number>(0);
-  console.log(componentWidth);
 
   // State related to selecting feature and seeing its data
   const [selectedFeatures, setSelectedFeatures] = useState<Array<Feature>>([]);
-  const [ featureInfoOverlay, setFeatureInfoOverlay ] =
+  const [featureInfoOverlay, setFeatureInfoOverlay] =
     useState<OptionalOverlay>();
-  const [ selectInteraction, setSelectInteraction ] =
+  const [selectInteraction, setSelectInteraction] =
     useState<OptionalSelect>();
 
   const slippyMapHtmlElement = useRef<HTMLDivElement>(null);
@@ -189,12 +187,6 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
     openLayersMap,
 	);
 
-  useLayoutEffect(() => {
-    if (!slippyMapHtmlElement || !slippyMapHtmlElement.current) {
-      return;
-    }
-    setComponentWidth(slippyMapHtmlElement.current.offsetWidth);
-  }, []);
 
   slippyMapRef.current = openLayersMap || null;
   const divId = `map-container-${slippyMapUid}`
@@ -215,7 +207,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   return (
     <div className={"SlippyMap"}>
 
-      {selectedRegionShapeQuery.isLoading &&
+      { selectedRegionShapeQuery.isLoading &&
         <div className={"card-loading-overlay"}>
           <LoadingIcon size={200} />
         </div>
@@ -230,25 +222,20 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
       <div ref={overlayElement}>
         <SlippyMapTooltip
           features={selectedFeatures}
-          onClose={handleMapTipClose}
-        />
+          onClose={handleMapTipClose} />
       </div>
 
       <div className="clicked-coord-label">
         <p>{ (selectedCoord) ? toStringXY(selectedCoord, 5) : '' }</p>
       </div>
 
-      {/*
       <SlippyMapLegend
         selectedSatelliteVariableId={props.selectedSatelliteVariableId}
         selectedSweVariable={selectedSweVariable}
       />
-      */}
 
     </div>
-
   );
 }
-console.log(SlippyMapLegend);
 
 export default SlippyMap;

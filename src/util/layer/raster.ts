@@ -4,7 +4,7 @@ import GeoTIFF from 'ol/source/GeoTIFF';
 
 import _memoize from 'lodash/memoize';
 
-import {sspDataUrl} from '../../constants/dataServer';
+// import {sspDataUrl} from '../../constants/dataServer';
 import {colorStyleFromVariableObject, IStyleVariables} from '../colormap';
 import {IRichSuperRegionVariable} from '../../types/query/variables';
 
@@ -22,8 +22,8 @@ const styleVariables: IStyleVariables = {
 
 const sourceFromVariableObject = (varObj: IRichSuperRegionVariable): GeoTIFF => {
   // const cogPath = varObj.geotiffRelativePath;
-  const url = `${sspDataUrl}/regions/cogs/26000_snow_fraction.tif`;
-  // const url = 'https://example.com/cog';
+  // const url = `${sspDataUrl}/regions/cogs/26000_snow_fraction.tif`;
+  const url = 'https://example.com/cog';
   // debugger;
   return new GeoTIFF({
     ...geoTiffSourceDefaults,
@@ -43,8 +43,8 @@ export const notProcessedLayer = _memoize((mapId: string): TileLayer => (
       sources: [
         {
           // TODO: FIX. This comes from root.json now
-          // url: "https://example.com/",
-          url: `${sspDataUrl}/regions/cogs/26000_notprocessed.tif`,
+          url: "https://example.com/",
+          // url: `${sspDataUrl}/regions/cogs/26000_notprocessed.tif`,
         },
       ],
     }),

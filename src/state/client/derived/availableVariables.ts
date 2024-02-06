@@ -6,11 +6,12 @@
 import {atom} from 'jotai';
 import {selectedSuperRegionAtom} from '@src/state/client/derived/selectedSuperRegion';
 import {variablesIndexQueryAtom} from '@src/state/server/variablesIndex';
-import {IRichSuperRegionVariable} from '@src/types/query/variables';
+import {IVariable} from '@src/types/query/variables';
+import {ISuperRegionVariable} from '@src/types/query/regions';
 
 
 export interface IAvailableVariablesIndex {
-  [variableId: string]: IRichSuperRegionVariable;
+  [variableId: string]: ISuperRegionVariable & IVariable;
 }
 
 export const availableVariablesAtom = atom<Promise<IAvailableVariablesIndex | undefined>>(
@@ -18,7 +19,10 @@ export const availableVariablesAtom = atom<Promise<IAvailableVariablesIndex | un
     const variablesIndex = await get(variablesIndexQueryAtom);
     const selectedSuperRegion = await get(selectedSuperRegionAtom);
 
-    if (selectedSuperRegion === undefined) {
+    if (
+      selectedSuperRegion === undefined
+      || !variablesIndex.isSuccess
+    ) {
       return;
     }
 

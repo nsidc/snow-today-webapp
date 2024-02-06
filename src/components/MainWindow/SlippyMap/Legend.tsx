@@ -7,6 +7,7 @@ import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId
 
 
 interface ISlippyMapLegendProps {
+  // TODO: Do we need this?
   selectedSatelliteVariableId: string;
   selectedSweVariable: IVariable | undefined;
 }
@@ -34,11 +35,18 @@ const SlippyMapLegend: React.FC<ISlippyMapLegendProps> = (props) => {
         }
       }} />
   ));
-
-  return (
-    <div style={{width: '100%'}}>
+  const legendElement = (
+    <div style={{width: 'inherit'}}>
       {imageElements}
     </div>
+  );
+
+  // We must trigger the image element's `onLoad` to get its width _before_
+  // setting default position on the Rnd component
+  return (
+    <>
+      {legendElement}
+    </>
   );
 
 }
