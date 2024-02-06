@@ -11,7 +11,7 @@ import {selectedRegionIdAtom} from '@src/state/client/selectedRegionId';
 import {selectedSatelliteVariableIdAtomFamily} from '@src/state/client/selectedSatelliteVariableId';
 import {selectedSatelliteVariableAtomFamily} from '@src/state/client/derived/selectedSatelliteVariable';
 import {selectedTileTypeAtomFamily} from '@src/state/client/selectedTileType';
-//import LinePlot from './LinePlot';
+import LinePlot from './LinePlot';
 import SlippyMap from './SlippyMap';
 
 
@@ -37,14 +37,10 @@ const Tile: React.FC<ITileProps> = (props) => {
   let content: JSX.Element;
   if (selectedTileType === 'plot') {
     content = (
-      <>
-      {/*
       <LinePlot
         selectedSatelliteVariableId={selectedSatelliteVariableId}
         selectedSatelliteVariable={selectedSatelliteVariable}
       />
-      */}
-      </>
     );
   } else if (selectedTileType === 'map') {
     content = (
@@ -56,7 +52,6 @@ const Tile: React.FC<ITileProps> = (props) => {
     throw new Error('This can not happen!');
   }
 
-  // debugger;
   // FIXME: Obviously, remove paragraph below after restoring error boundaries
   return (
     <div className={'Tile snow-today-card'} style={props.style}>

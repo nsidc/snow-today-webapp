@@ -8,7 +8,6 @@ export const fetchPlotData = (
   variableId: string,
 ): Promise<IPlotPayload> => {
   // TODO: Pass the plot relative URL in directly!!!
-  // const url = `${sspDataUrl}/plots/${regionId}_${variableId}.json`;
-  const url = `${sspDataUrl}/splots/${regionId}_${variableId}.json`;
+  const url = `${sspDataUrl}/plots/${regionId}_${variableId}.json`;
   return genericFetch<IPlotPayload>(url, `plot data for ${regionId} ${variableId}`)
 };
