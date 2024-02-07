@@ -2,13 +2,11 @@ import {useQuery} from '@tanstack/react-query';
 import _cloneDeepWith from 'lodash/cloneDeepWith'
 
 import {
-  fetchSuperRegionsIndex,
   fetchSubRegionsIndex,
   fetchSubRegionsHierarchy,
   fetchSubRegionCollectionsIndex,
 } from '@src/util/fetch/regions';
 import {
-  ISuperRegionIndex,
   ISubRegion,
   ISubRegionIndex,
   ISubRegionCollection,
@@ -17,21 +15,6 @@ import {
   ISubRegionHierarchyRich,
 } from '@src/types/query/regions';
 
-
-export const SERVERSTATE_KEY_SUPERREGIONS_INDEX = 'superRegionsIndex';
-export const useSuperRegionsIndexQuery = () => {
-  return useQuery<ISuperRegionIndex>(
-    [SERVERSTATE_KEY_SUPERREGIONS_INDEX],
-    fetchSuperRegionsIndex,
-    {
-      // Never re-fetch this data!
-      cacheTime: Infinity,
-      staleTime: Infinity,
-      // Propagate all errors to the nearest error boundary
-      useErrorBoundary: true,
-    }
-  );
-}
 
 export const SERVERSTATE_KEY_SUBREGIONS_INDEX = 'subRegionsIndex';
 export const useSubRegionsIndexQuery = (

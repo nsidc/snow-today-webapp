@@ -1,11 +1,11 @@
 import React from 'react';
-import {useAtom} from 'jotai';
+import {useAtom, useAtomValue} from 'jotai';
 
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
 import {selectedSweVariableNameAtom} from '@src/state/client/selectedSweVariableName';
-import useVariablesIndexQuery from '@src/serverState/variablesIndex';
+import {variablesIndexQueryAtom} from '@src/state/server/variablesIndex';
 
 
 const LOADING_VALUE = 'LOADING...';
@@ -15,10 +15,7 @@ const BasemapSelector: React.FC = () => {
     selectedSweVariableName,
     setSelectedSweVariableName,
   ] = useAtom(selectedSweVariableNameAtom);
-  // NOTE: Anonymous function is a hack to deal with race condition
-  // initializing component state (e.g. tile layout) from variables index.
-  // TODO: Switch to using Jotai query 
-  const variablesIndexQuery = useVariablesIndexQuery(() => null);
+  const variablesIndexQuery = useAtomValue(variablesIndexQueryAtom);
 
   const handleSelect = (eventKey: string | null): void => {
     if (!eventKey) {
@@ -29,14 +26,17 @@ const BasemapSelector: React.FC = () => {
   };
 
   if (variablesIndexQuery.isError) {
-    console.debug(`Error!: ${variablesIndexQuery.error as string}`);
+    console.debug(`Error!: ${variablesIndexQuery.error}`);
     return (
-      <span>{`Error: ${variablesIndexQuery.error as string}`}</span>
+      <span>{`Error: ${variablesIndexQuery.error}`}</span>
     );
   }
 
+  // TODO: More elegant way of checking for success. Without the success check,
+  // even though we checked for loading and error, typescript thinks .data can
+  // be undefined.
   let variableOptions: JSX.Element | Array<JSX.Element>;
-  if (variablesIndexQuery.isLoading) {
+  if (variablesIndexQuery.isLoading || !variablesIndexQuery.isSuccess) {
     variableOptions = [
       <Dropdown.Item key={LOADING_VALUE} eventKey={LOADING_VALUE}>
         {'Loading variables...'}
