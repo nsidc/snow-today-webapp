@@ -5,17 +5,20 @@
 import {atom} from 'jotai';
 
 import {selectedSweVariableNameAtom} from '../selectedSweVariableName';
-import {IVariable} from '@src/types/query/variables';
-import {variablesIndexQueryAtom} from '@src/state/server/variablesIndex';
+import {IRichVariable} from '@src/types/query/variables';
+import {richVariablesIndexAtom} from '@src/state/client/derived/richVariablesIndex';
 
 
-type AtomValue = IVariable | undefined;
+type AtomValue = IRichVariable | undefined;
 export const selectedSweVariableAtom = atom<Promise<AtomValue>>(
   async (get) => {
-    // TODO: should be availableVariables?
-    const variablesIndex = await get(variablesIndexQueryAtom);
+    // TODO: Should change rich index query to async and await it?
+    const variablesIndex = get(richVariablesIndexAtom);
     const selectedVariable = get(selectedSweVariableNameAtom);
-    if (selectedVariable === undefined) {
+    if (
+      selectedVariable === undefined
+      || variablesIndex === undefined
+    ) {
       return;
     }
     return variablesIndex[selectedVariable];

@@ -1,11 +1,12 @@
 import colormap from 'colormap';
 
-import {IVariable} from '../types/query/variables';
+import {IRichSuperRegionVariable} from '@src/types/query/variables';
 
 type ColorStyle = Array<string | number | Array<string | number>>
 export interface IStyleVariables {
   color: ColorStyle;
 }
+
 
 export const colorStopsFromColorMapName = (
   colorMapName: string,
@@ -54,22 +55,29 @@ export const colorStopsFromColorMap = (
 }
 
 export const colorStopsFromVariableObject = (
-  varObj: IVariable,
+  // TODO: The Swe variables aren't present in the root.json and in
+  //       variables.json, they don't have the data_value_range information
+  //       that's needed to generate legends and these colorstops. I think we
+  //       need a dedicated swe/variables.json file with its own schema,
+  //       unfortunately.
+  // varObj: IRichSuperRegionVariable | ISweVariable,
+  varObj: IRichSuperRegionVariable,
 ): Array<number | number[]> => {
-  // TODO: FIX? DELETE?
-  // const colormap = varObj.colormap;
-  // const [minVal, maxVal] = colormapValueRange(varObj);
+  const [minVal, maxVal] = varObj.valueRange;
+  debugger;
 
-  // const colorStops = colorStopsFromColorMap(colormap, minVal, maxVal, false);
-  // return colorStops;
-  return [];
+  const colorStops = colorStopsFromColorMap(
+    varObj.colormap.colors,
+    minVal,
+    maxVal,
+    false,
+  );
+  return colorStops;
 }
 
-export const colorStyleFromVariableObject = (varObj: IVariable): ColorStyle => {
+export const colorStyleFromVariableObject = (varObj: IRichSuperRegionVariable): ColorStyle => {
   // Calculate color stops, nodata value, and new color style
-  // TODO: FIX
-  // const colormap = varObj.colormap;
-  const colormap = []
+  const colormap = varObj.colormap.colors;
   const [minVal, maxVal] = varObj.valueRange;
   const noDataValue = varObj.noDataValue;
   const transparentZero = varObj.transparentZero;

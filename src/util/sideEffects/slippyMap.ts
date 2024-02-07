@@ -24,7 +24,7 @@ import {
   OptionalSelect,
 } from '@src/types/SlippyMap';
 import {StateSetter} from '@src/types/misc';
-import {IVariable, IRichSuperRegionVariable} from '@src/types/query/variables';
+import {IRichVariable, IRichSuperRegionVariable} from '@src/types/query/variables';
 import {SwePointsForOverlay} from '@src/types/swe';
 import {basemapLayerGroup} from '@src/util/layer/basemaps';
 import {
@@ -141,7 +141,7 @@ export const useMapView = (
 export const useNotProcessedLayerToggle = (
   slippyMapUid: string,
   notProcessedLayerEnabled: boolean,
-  selectedSatelliteVariableObject: IVariable | undefined,
+  selectedSatelliteVariableObject: IRichVariable | undefined,
   // FIXME: no any...
   availableVariables: IAvailableVariablesIndex | undefined,
 ): void => {
@@ -152,7 +152,7 @@ export const useNotProcessedLayerToggle = (
     ) {
       return;
     }
-    // TODO: Depend on availableVariables instead!
+
     const notProcessedVariables = Object.entries(availableVariables).filter(
       ([key, params]) => (
         params.layerType === 'raster_notprocessed'
@@ -161,13 +161,12 @@ export const useNotProcessedLayerToggle = (
         && params.algorithm == selectedSatelliteVariableObject.algorithm
       )
     );
-    // FIXME: Commented to pass through to another error
-    return;
-    // if (notProcessedVariables.length !== 1) {
-    //   throw new Error(
-    //     `Exactly one matching notprocessed variable is expected. Got ${notProcessedVariables}.`
-    //   );
-    // }
+
+    if (notProcessedVariables.length !== 1) {
+      throw new Error(
+        `Exactly one matching notprocessed variable is expected. Got ${notProcessedVariables}.`
+      );
+    }
     const notProcessedVariableParams = notProcessedVariables[0][1];
 
     toggleNotProcessedLayer(slippyMapUid, notProcessedLayerEnabled, notProcessedVariableParams)
@@ -245,7 +244,7 @@ export const useRasterOpacity = (
 
 export const useSelectedSweVariable = (
   slippyMapUid: string,
-  selectedSweVariable: IVariable | undefined,
+  selectedSweVariable: IRichVariable | undefined,
   swePointsForOverlay: SwePointsForOverlay,
   openLayersMap: OptionalOpenLayersMap,
 ): void => {
