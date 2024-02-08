@@ -38,5 +38,5 @@ export const fetchSubRegionsHierarchy = (superRegionId: string): Promise<ISubReg
 
 export const fetchRegionShape = (shapeFilePath: string): Promise<object> => {
   const fetchUrl = `${sspDataUrl}/${shapeFilePath}`;
-  return genericFetch<object>(fetchUrl, "region shape data");
+  return genericFetchAsync<object>(fetchUrl, "region shape data");
 };

@@ -22,12 +22,13 @@ import {notProcessedLayerEnabledAtom} from '@src/state/client/notProcessedLayerE
 import {rasterOpacityAtom} from '@src/state/client/rasterOpacity';
 import {availableVariablesAtom} from '@src/state/client/derived/availableVariables';
 import {selectedBasemapLayerAtomFamily} from '@src/state/client/derived/selectedBasemapLayer';
-import {selectedSuperRegionAtom} from '@src/state/client/derived/selectedSuperRegion';
-import {selectedRegionAtom} from '@src/state/client/derived/selectedRegion';
 import {selectedSweVariableAtom} from '@src/state/client/derived/selectedSweVariable';
 import {swePointsForOverlayAtom} from '@src/state/client/derived/swePointsForOverlay';
 import {mapViewAtomFamily} from '@src/state/client/derived/mapView';
-import useRegionShapeQuery from '@src/serverState/regionShape';
+import {
+  regionShapeQueryAtom,
+  superRegionShapeQueryAtom,
+} from '@src/state/server/regionShape';
 import {
   OptionalCoordinate,
   OptionalOpenLayersMap,
@@ -77,20 +78,14 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const notProcessedLayerEnabled = useAtomValue(notProcessedLayerEnabledAtom);
   const rasterOpacity = useAtomValue(rasterOpacityAtom);
   const selectedBasemap = useAtomValue(selectedBasemapLayerAtomFamily(slippyMapUid));
-  const selectedRegion = useAtomValue(selectedRegionAtom);
-  const selectedSuperRegion = useAtomValue(selectedSuperRegionAtom);
   const selectedSweVariable = useAtomValue(selectedSweVariableAtom);
   const swePointsForOverlay = useAtomValue(swePointsForOverlayAtom);
 
   // debugger;
-  const selectedRegionShapeQuery = useRegionShapeQuery(
-    selectedRegion ? selectedRegion.shapeRelativePath : undefined,
-  );
+  const selectedRegionShapeQuery = useAtomValue(regionShapeQueryAtom);
 
   // TODO: Why do we need the super region shape? To constrain the map view?
-  const selectedSuperRegionShapeQuery = useRegionShapeQuery(
-    selectedSuperRegion ? selectedSuperRegion.shapeRelativePath : undefined,
-  )
+  const selectedSuperRegionShapeQuery = useAtomValue(superRegionShapeQueryAtom);
   const mapView = useAtomValue(mapViewAtomFamily(selectedSuperRegionShapeQuery.data));
 
   const handleFeatureSelect = (event: SelectEvent) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import {useAtomValue} from 'jotai';
 
 import LoadingMessage from '@src/components/common/LoadingMessage';
-import {useSubRegionsQuery} from '@src/serverState/regionsIndex';
+import {richSubRegionsHierarchyAtom} from '@src/state/client/derived/richSubRegionsHierarchy';
 import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
 import SubRegionCollectionSelector from './SubRegionCollectionSelector';
 
@@ -15,20 +15,17 @@ const SubRegionExplorer: React.FC = () => {
     );
   }
 
-  const subRegionsQuery = useSubRegionsQuery(selectedSuperRegionId);
-  if (subRegionsQuery.isLoading) {
+  const subRegionsHierarchy = useAtomValue(richSubRegionsHierarchyAtom);
+  // TODO: Better handle loading and errors? Previous code had a react-query
+  //       interface, but now that's behind a derived atom.
+  if (subRegionsHierarchy === undefined) {
     return <LoadingMessage message={"Loading subregions..."} />;
-  }
-  if (subRegionsQuery.isError) {
-    throw new Error(
-      'Programmer error: This should have been caught by an error boundary.'
-    );
   }
 
   return (
     <div className="SubRegionExplorer">
       <SubRegionCollectionSelector
-        collectionChoices={subRegionsQuery.data.collections}
+        collectionChoices={subRegionsHierarchy.collections}
         parentRegionId={selectedSuperRegionId}
       />
     </div>

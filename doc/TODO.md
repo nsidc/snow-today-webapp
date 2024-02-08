@@ -1,17 +1,17 @@
 # TODO
 
-## Names
+## Refactors
+
+### Names
 
 * SatelliteVariables -> RasterVariables? We now have two mutually exclusive "types" of
   variables: SWE points, and various raster variables.
 * selectedRegion -> selectedRegionName
 * selectedRegionObject -> selectedRegion
 
+### State
 
-### Recoil atoms/selectors
-
-Selectors are not atoms. We should use the suffix `State` per the docs.
-
+* More consistent use of jotai-tanstack-query functions
 
 
 ## Data / server-side considerations

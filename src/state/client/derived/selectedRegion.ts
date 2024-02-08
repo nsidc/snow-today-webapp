@@ -7,16 +7,19 @@ import {atom} from 'jotai';
 import {IGenericRegion} from '@src/types/query/regions';
 import {selectedRegionIdAtom} from '@src/state/client/selectedRegionId';
 import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
-import {superRegionsIndexQueryAtom} from '@src/state/server/regionsIndex';
+import {
+  superRegionsIndexQueryAtom,
+  subRegionsIndexQueryAtom,
+} from '@src/state/server/regionsIndex';
 
 
 export const selectedRegionAtom = atom<Promise<IGenericRegion | undefined>>(
   async (get) => {
     const superRegionsIndex = await get(superRegionsIndexQueryAtom);
+    const subRegionsIndex = await get(subRegionsIndexQueryAtom);
     const selectedRegionId = get(selectedRegionIdAtom);
     const selectedSuperRegionId = get(selectedSuperRegionIdAtom);
 
-    // TODO: ...?
     if (
       selectedRegionId === undefined
       || selectedSuperRegionId === undefined
@@ -35,12 +38,10 @@ export const selectedRegionAtom = atom<Promise<IGenericRegion | undefined>>(
       }
     }
 
-    throw Error("foo");
-    // FIXME: Restore!
-    // return {
-    //   id: selectedRegionId,
-    //   // ...subRegionsIndex.data[selectedRegionId],
-    // }
+    return {
+      id: selectedRegionId,
+      ...subRegionsIndex.data[selectedRegionId],
+    }
   }
 );
 selectedRegionAtom.debugLabel = "selectedRegionAtom";
