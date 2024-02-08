@@ -1,7 +1,7 @@
 import {atom} from 'jotai';
 
 import {swePointsQueryAtom} from '@src/state/server/swe';
-import {selectedSweVariableNameAtom} from '../selectedSweVariableName';
+import {selectedSweVariableIdAtom} from '@src/state/client/selectedSweVariableId';
 import {SwePointsForOverlay} from '@src/types/swe';
 import {ISwePoint, SwePointMeasurementField} from '@src/types/query/swe';
 
@@ -11,10 +11,10 @@ export const swePointsForOverlayAtom = atom<SwePointsForOverlay>(
     // NOTE: This code relies on the variable name and the keys in swePoints matching!
     // TODO: Clarify above note.
     const swePoints = get(swePointsQueryAtom);
-    const selectedSweVariableName = get(selectedSweVariableNameAtom);
+    const selectedSweVariableId = get(selectedSweVariableIdAtom);
 
     if (
-      selectedSweVariableName === undefined
+      selectedSweVariableId === undefined
       || !swePoints.isSuccess
     ) {
       // TODO: Should probably be undefined...
@@ -22,14 +22,14 @@ export const swePointsForOverlayAtom = atom<SwePointsForOverlay>(
     }
 
     const measurementInches = (point: ISwePoint) => {
-      if (selectedSweVariableName === undefined) {
+      if (selectedSweVariableId === undefined) {
         return undefined;
       } else {
-        return point[selectedSweVariableName as SwePointMeasurementField];
+        return point[selectedSweVariableId as SwePointMeasurementField];
       }
     }
 
-    const overlayPoints = swePoints.data.map(point => ({
+    const overlayPoints = swePoints.data.data.map(point => ({
       name: point.name,
       lon: point.lon,
       lat: point.lat,

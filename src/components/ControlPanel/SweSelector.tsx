@@ -4,7 +4,7 @@ import {useAtom, useAtomValue} from 'jotai';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-import {selectedSweVariableNameAtom} from '@src/state/client/selectedSweVariableName';
+import {selectedSweVariableIdAtom} from '@src/state/client/selectedSweVariableId';
 import {variablesIndexQueryAtom} from '@src/state/server/variablesIndex';
 
 
@@ -12,17 +12,17 @@ const LOADING_VALUE = 'LOADING...';
 
 const BasemapSelector: React.FC = () => {
   const [
-    selectedSweVariableName,
-    setSelectedSweVariableName,
-  ] = useAtom(selectedSweVariableNameAtom);
+    selectedSweVariableId,
+    setSelectedSweVariableId,
+  ] = useAtom(selectedSweVariableIdAtom);
   const variablesIndexQuery = useAtomValue(variablesIndexQueryAtom);
 
   const handleSelect = (eventKey: string | null): void => {
     if (!eventKey) {
-      setSelectedSweVariableName(undefined);
+      setSelectedSweVariableId(undefined);
       return;
     }
-    setSelectedSweVariableName(eventKey);
+    setSelectedSweVariableId(eventKey);
   };
 
   if (variablesIndexQuery.isError) {
@@ -45,14 +45,16 @@ const BasemapSelector: React.FC = () => {
   } else {
     variableOptions = (
       Object.entries(variablesIndexQuery.data)
-      .filter(([variableName, params]) => !Object.keys(params).includes('enabled') || params['enabled'])
-      .filter(([variableName, params]) => params['type'] === 'point_swe')
+      // TODO: "enabled" is now region-specific, but SWE variables are not. SWE
+      // variables need to have their own dedicated schema!
+      // .filter(([variableName, params]) => !Object.keys(params).includes('enabled') || params.enabled)
+      .filter(([variableName, params]) => params.layerType === 'point_swe')
       .map(([variableName, params]) => (
         <Dropdown.Item
           key={variableName}
           eventKey={variableName}
-          active={variableName === selectedSweVariableName}>
-          {params['longname']}
+          active={variableName === selectedSweVariableId}>
+          {params.longName}
         </Dropdown.Item>
       ))
     );
@@ -61,7 +63,7 @@ const BasemapSelector: React.FC = () => {
     <Dropdown.Item
       key={'undefined'}
       eventKey={undefined}
-      active={selectedSweVariableName === undefined}>
+      active={selectedSweVariableId === undefined}>
       None
     </Dropdown.Item>
   );

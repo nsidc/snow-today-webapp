@@ -1,8 +1,8 @@
 import {swePointsUrl} from '@src/constants/dataServer';
-import {SwePoints} from '@src/types/query/swe';
+import {ISwePayload} from '@src/types/query/swe';
 import {genericFetchAsync} from './generic';
 
 
-export const fetchSwePoints = (): Promise<SwePoints> => (
-  genericFetchAsync<SwePoints>(swePointsUrl, "SWE points data")
+export const fetchSwePoints = (): Promise<ISwePayload> => (
+  genericFetchAsync<ISwePayload>(swePointsUrl, "SWE points data")
 );

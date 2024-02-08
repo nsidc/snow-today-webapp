@@ -1,6 +1,9 @@
 import {Subset} from '../misc';
 
 
+export interface ISweMetadata {
+  last_date_with_data: string;
+}
 export interface ISwePoint {
   name: string;
   lon: number;
@@ -17,3 +20,8 @@ export type SwePoints = Array<ISwePoint>;
 
 export type SwePointField = keyof ISwePoint;
 export type SwePointMeasurementField = Subset<SwePointField, 'swe_inches' | 'swe_delta_inches' | 'swe_normalized_pct'>;
+
+export interface ISwePayload {
+  readonly metadata: ISweMetadata;
+  readonly data: SwePoints;
+}
