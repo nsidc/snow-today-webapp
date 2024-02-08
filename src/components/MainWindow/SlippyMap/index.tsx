@@ -82,9 +82,9 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const swePointsForOverlay = useAtomValue(swePointsForOverlayAtom);
 
   const selectedRegionShapeQuery = useAtomValue(regionShapeQueryAtom);
-
-  // TODO: Why do we need the super region shape? To constrain the map view?
+  // NOTE: Super region shape is used to constrain the map view:
   const selectedSuperRegionShapeQuery = useAtomValue(superRegionShapeQueryAtom);
+
   const mapView = useAtomValue(mapViewAtomFamily(selectedSuperRegionShapeQuery.data));
 
   const handleFeatureSelect = (event: SelectEvent) => {
