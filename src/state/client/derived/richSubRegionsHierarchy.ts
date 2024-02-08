@@ -37,7 +37,6 @@ export const richSubRegionsHierarchyAtom = atom<Promise<ISubRegionHierarchyRich 
       // throw new Error('Programmer error. This type guard makes the compiler happy.');
     }
 
-    debugger;
     const data = composeRichSubRegionHierarchy(
       collectionsQuery.data,
       indexQuery.data,

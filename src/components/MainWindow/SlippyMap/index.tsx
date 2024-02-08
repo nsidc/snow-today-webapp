@@ -81,7 +81,6 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   const selectedSweVariable = useAtomValue(selectedSweVariableAtom);
   const swePointsForOverlay = useAtomValue(swePointsForOverlayAtom);
 
-  // debugger;
   const selectedRegionShapeQuery = useAtomValue(regionShapeQueryAtom);
 
   // TODO: Why do we need the super region shape? To constrain the map view?
@@ -121,7 +120,6 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
 
     setSelectedCoord(transormedCoord);
   }
-  // debugger;
 
 
   // Register behaviors

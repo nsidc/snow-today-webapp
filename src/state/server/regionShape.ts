@@ -22,6 +22,9 @@ export const regionShapeQueryAtom = atomWithSuspenseQuery<object | undefined>(
       // FIXME: Why is the id field unknown (see plotData server state for similar)?
       queryFn: async ({queryKey: [, shapeRelativePath]}) => {
         if (!shapeRelativePath) {
+          // FIXME: this is "working", but prints an error in console:
+          // "Query data cannot be undefined. Please make sure to return a value
+          // other than undefined from your query function"
           return;
         }
         // FIXME: Remove cast!

@@ -64,7 +64,6 @@ export const colorStopsFromVariableObject = (
   varObj: IRichSuperRegionVariable,
 ): Array<number | number[]> => {
   const [minVal, maxVal] = varObj.valueRange;
-  debugger;
 
   const colorStops = colorStopsFromColorMap(
     varObj.colormap.colors,

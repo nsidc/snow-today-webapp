@@ -28,7 +28,6 @@ const VariableSelector: React.FC<ITileIdentifier> = (props) => {
   const handleVariableChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const targetValue = e.currentTarget.value;
     const stateValue = targetValue || undefined;
-    //debugger;
     setSelectedSatelliteVariableId(stateValue);
   }
 
