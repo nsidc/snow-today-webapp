@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useAtomValue} from 'jotai';
 
 import {sspLegendsUrl, sweLegendsUrl} from '@src/constants/dataServer';
@@ -11,8 +11,6 @@ interface ISlippyMapLegendProps {
 }
 
 const SlippyMapLegend: React.FC<ISlippyMapLegendProps> = (props) => {
-  const [legendWidth, setLegendWidth] = useState<number>(0);
-
   const selectedSuperRegionId = useAtomValue(selectedSuperRegionIdAtom);
   const selectedSweVariableId = useAtomValue(selectedSweVariableIdAtom);
 
@@ -24,19 +22,11 @@ const SlippyMapLegend: React.FC<ISlippyMapLegendProps> = (props) => {
   }
 
   const imageElements = legendUrls.map((u) => (
-    <img
-      src={u}
-      key={u}
-      style={{width: 'inherit', display: 'block', margin: '0 auto'}}
-      onLoad={(e: React.ChangeEvent<HTMLImageElement>) => {
-        if (e.target.offsetWidth > legendWidth) {
-          setLegendWidth(e.target.offsetWidth);
-        }
-      }} />
+    <img src={u} key={u} />
   ));
 
   return (
-    <div style={{width: 'inherit'}}>
+    <div style={{display: 'flex', margin: '0 auto'}}>
       {imageElements}
     </div>
   );

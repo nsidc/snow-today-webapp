@@ -197,35 +197,35 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   }
 
   return (
-    <div className={"SlippyMap"}>
+    <>
+      <div className={"SlippyMap"}>
+        { selectedRegionShapeQuery.isLoading &&
+          <div className={"card-loading-overlay"}>
+            <LoadingIcon size={200} />
+          </div>
+        }
 
-      { selectedRegionShapeQuery.isLoading &&
-        <div className={"card-loading-overlay"}>
-          <LoadingIcon size={200} />
+        <div
+          id={divId}
+          ref={slippyMapHtmlElement}
+          className="map-container">
         </div>
-      }
 
-      <div
-        id={divId}
-        ref={slippyMapHtmlElement}
-        className="map-container">
-      </div>
+        <div ref={overlayElement}>
+          <SlippyMapTooltip
+            features={selectedFeatures}
+            onClose={handleMapTipClose} />
+        </div>
 
-      <div ref={overlayElement}>
-        <SlippyMapTooltip
-          features={selectedFeatures}
-          onClose={handleMapTipClose} />
-      </div>
-
-      <div className="clicked-coord-label">
-        <p>{ (selectedCoord) ? toStringXY(selectedCoord, 5) : '' }</p>
+        <div className="clicked-coord-label">
+          <p>{ (selectedCoord) ? toStringXY(selectedCoord, 5) : '' }</p>
+        </div>
       </div>
 
       <SlippyMapLegend
         selectedSatelliteVariableId={props.selectedSatelliteVariableId}
       />
-
-    </div>
+    </>
   );
 }
 
