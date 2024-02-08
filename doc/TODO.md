@@ -2,6 +2,9 @@
 
 ## Refactors
 
+* Minimize undefined checks. The fact that we have them in so many places is a smell I
+  don't like!
+
 ### Names
 
 * SatelliteVariables -> RasterVariables? We now have two mutually exclusive "types" of
