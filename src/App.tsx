@@ -1,5 +1,5 @@
 import React from 'react';
-// import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorBoundary } from 'react-error-boundary';
 import { IconContext } from 'react-icons';
 import { DevTools } from 'jotai-devtools';
 
@@ -8,7 +8,7 @@ import '@src/style/App.css';
 import '@src/style/icons.css';
 import ControlPanel from '@src/components/ControlPanel';
 import MainWindow from '@src/components/MainWindow';
-// import ErrorFallbackComponent from '@src/components/common/ErrorFallback';
+import ErrorFallbackComponent from '@src/components/common/ErrorFallback';
 
 
 const App: React.FC = () => {
@@ -19,10 +19,10 @@ const App: React.FC = () => {
         <div className={"App"}>
           <div id={"version"}>v{pkg.version}</div>
 
-          {/* <ErrorBoundary FallbackComponent={ErrorFallbackComponent}> */}
+          <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
             <ControlPanel />
             <MainWindow />
-          {/* </ErrorBoundary> */}
+          </ErrorBoundary>
 
         </div>
       </IconContext.Provider>

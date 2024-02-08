@@ -1,11 +1,11 @@
 import React, {Suspense} from 'react';
-// import {ErrorBoundary} from 'react-error-boundary';
+import {ErrorBoundary} from 'react-error-boundary';
 import {useAtomValue} from 'jotai';
 
 import '@src/style/card.css';
 import '@src/style/Tile.css';
 import {CITATION} from '@src/constants/citation';
-// import {ErrorFallbackTileComponent} from '@src/components/common/ErrorFallback';
+import {ErrorFallbackTileComponent} from '@src/components/common/ErrorFallback';
 import {ITileIdentifier} from '@src/types/layout';
 import {selectedRegionIdAtom} from '@src/state/client/selectedRegionId';
 import {selectedSatelliteVariableIdAtomFamily} from '@src/state/client/selectedSatelliteVariableId';
@@ -56,17 +56,17 @@ const Tile: React.FC<ITileProps> = (props) => {
   // FIXME: Obviously, remove paragraph below after restoring error boundaries
   return (
     <div className={'Tile snow-today-card'} style={props.style}>
-      {/* <ErrorBoundary
+      <ErrorBoundary
         FallbackComponent={ErrorFallbackTileComponent}
         resetKeys={[selectedTileType, selectedRegionId, selectedSatelliteVariableId]}
-      > */}
+      >
         <Suspense fallback={<LoadingIcon size={200} />}>
           {content}
         </Suspense>
         <div className='tile-citation'>
           {CITATION}
         </div>
-      {/* </ErrorBoundary> */}
+      </ErrorBoundary>
     </div>
   );
 }
