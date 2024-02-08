@@ -5,7 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
 import {selectedSweVariableIdAtom} from '@src/state/client/selectedSweVariableId';
-import {variablesIndexQueryAtom} from '@src/state/server/variablesIndex';
+import {sweVariablesIndexQueryAtom} from '@src/state/server/variablesIndex';
 
 
 const LOADING_VALUE = 'LOADING...';
@@ -15,7 +15,7 @@ const BasemapSelector: React.FC = () => {
     selectedSweVariableId,
     setSelectedSweVariableId,
   ] = useAtom(selectedSweVariableIdAtom);
-  const variablesIndexQuery = useAtomValue(variablesIndexQueryAtom);
+  const sweVariablesIndexQuery = useAtomValue(sweVariablesIndexQueryAtom);
 
   const handleSelect = (eventKey: string | null): void => {
     if (!eventKey) {
@@ -25,10 +25,10 @@ const BasemapSelector: React.FC = () => {
     setSelectedSweVariableId(eventKey);
   };
 
-  if (variablesIndexQuery.isError) {
-    console.debug(`Error!: ${variablesIndexQuery.error}`);
+  if (sweVariablesIndexQuery.isError) {
+    console.debug(`Error!: ${sweVariablesIndexQuery.error}`);
     return (
-      <span>{`Error: ${variablesIndexQuery.error}`}</span>
+      <span>{`Error: ${sweVariablesIndexQuery.error}`}</span>
     );
   }
 
@@ -36,7 +36,7 @@ const BasemapSelector: React.FC = () => {
   // even though we checked for loading and error, typescript thinks .data can
   // be undefined.
   let variableOptions: JSX.Element | Array<JSX.Element>;
-  if (variablesIndexQuery.isLoading || !variablesIndexQuery.isSuccess) {
+  if (sweVariablesIndexQuery.isLoading || !sweVariablesIndexQuery.isSuccess) {
     variableOptions = [
       <Dropdown.Item key={LOADING_VALUE} eventKey={LOADING_VALUE}>
         {'Loading variables...'}
@@ -44,11 +44,7 @@ const BasemapSelector: React.FC = () => {
     ];
   } else {
     variableOptions = (
-      Object.entries(variablesIndexQuery.data)
-      // TODO: "enabled" is now region-specific, but SWE variables are not. SWE
-      // variables need to have their own dedicated schema!
-      // .filter(([variableName, params]) => !Object.keys(params).includes('enabled') || params.enabled)
-      .filter(([variableName, params]) => params.layerType === 'point_swe')
+      Object.entries(sweVariablesIndexQuery.data)
       .map(([variableName, params]) => (
         <Dropdown.Item
           key={variableName}

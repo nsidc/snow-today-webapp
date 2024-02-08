@@ -24,7 +24,11 @@ import {
   OptionalSelect,
 } from '@src/types/SlippyMap';
 import {StateSetter} from '@src/types/misc';
-import {IRichVariable, IRichSuperRegionVariable} from '@src/types/query/variables';
+import {
+  ISspRichVariable,
+  ISweRichVariable,
+  IRichSuperRegionVariable,
+} from '@src/types/query/variables';
 import {SwePointsForOverlay} from '@src/types/swe';
 import {basemapLayerGroup} from '@src/util/layer/basemaps';
 import {
@@ -141,7 +145,7 @@ export const useMapView = (
 export const useNotProcessedLayerToggle = (
   slippyMapUid: string,
   notProcessedLayerEnabled: boolean,
-  selectedSatelliteVariableObject: IRichVariable | undefined,
+  selectedSatelliteVariableObject: ISspRichVariable | undefined,
   // FIXME: no any...
   availableVariables: IAvailableVariablesIndex | undefined,
 ): void => {
@@ -244,7 +248,7 @@ export const useRasterOpacity = (
 
 export const useSelectedSweVariable = (
   slippyMapUid: string,
-  selectedSweVariable: IRichVariable | undefined,
+  selectedSweVariable: ISweRichVariable | undefined,
   swePointsForOverlay: SwePointsForOverlay,
   openLayersMap: OptionalOpenLayersMap,
 ): void => {

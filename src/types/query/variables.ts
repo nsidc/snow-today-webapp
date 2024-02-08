@@ -2,7 +2,7 @@ import {ISuperRegionVariable} from '@src/types/query/regions';
 import {IColormap} from '@src/types/query/colormaps';
 
 
-export interface IVariable {
+export interface ISspVariable {
   sensor: string;
   platform: string;
   algorithm: string;
@@ -10,7 +10,7 @@ export interface IVariable {
   // TODO: Document!
   source: string;
 
-  layerType: 'raster' | 'raster_notprocessed' | 'point_swe';
+  layerType: 'raster' | 'raster_notprocessed';
 
   longName: string;
   longNamePlot: string;
@@ -18,7 +18,6 @@ export interface IVariable {
   labelMapLegend: string;
   labelPlotYaxis: string;
 
-  legendPath: string;  //TODO: This fieldname isn't following convention!
   valuePrecision: number;
   valueRange: [number, number];
   noDataValue: number;
@@ -26,16 +25,38 @@ export interface IVariable {
   transparentZero: boolean;
 }
 
-export interface IVariableIndex {
-  [variableId: string]: IVariable;
+export interface ISspVariableIndex {
+  [variableId: string]: ISspVariable;
 }
 
-export type IRichVariable = IVariable & {colormap: IColormap};
-export interface IRichVariableIndex {
-  [variableId: string]: IRichVariable;
+export type ISspRichVariable = ISspVariable & {colormap: IColormap};
+export interface ISspRichVariableIndex {
+  [variableId: string]: ISspRichVariable;
 }
 
 // Variables don't directly link to cloud-optimized geotiff files except in
 // relation to a region. This enriched version provides everything about the
 // variable needed to display region-variable-specific things!
-export type IRichSuperRegionVariable = IRichVariable & ISuperRegionVariable;
+export type IRichSuperRegionVariable = ISspRichVariable & ISuperRegionVariable;
+
+
+export interface ISweVariable {
+  longName: string;
+  helpText: string;
+  labelMapLegend: string;
+
+  valuePrecision: number;
+  valueRange: [number, number];
+  noDataValue: number;
+  colormapId:  number;
+  transparentZero: boolean;
+}
+
+export interface ISweVariableIndex {
+  [variableId: string]: ISweVariable;
+}
+
+export type ISweRichVariable = ISweVariable & {colormap: IColormap};
+export interface ISweRichVariableIndex {
+  [variableId: string]: ISweRichVariable;
+}

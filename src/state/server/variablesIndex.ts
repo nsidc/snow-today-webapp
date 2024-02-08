@@ -1,16 +1,31 @@
 import {atomWithQuery} from 'jotai-tanstack-query';
 
-import {fetchVariablesIndex} from '@src/util/fetch/variables';
-import {IVariableIndex} from '@src/types/query/variables';
+import {
+  fetchSspVariablesIndex,
+  fetchSweVariablesIndex,
+} from '@src/util/fetch/variables';
+import {ISspVariableIndex, ISweVariableIndex} from '@src/types/query/variables';
 
 
-export const SERVERSTATE_KEY_VARIABLES_INDEX = 'variablesIndex';
-export const variablesIndexQueryAtom = atomWithQuery<IVariableIndex>(
+export const SERVERSTATE_KEY_SSP_VARIABLES_INDEX = 'sspVariablesIndex';
+export const sspVariablesIndexQueryAtom = atomWithQuery<ISspVariableIndex>(
   () => {
     return {
-      queryKey: [SERVERSTATE_KEY_VARIABLES_INDEX],
-      queryFn: fetchVariablesIndex,
+      queryKey: [SERVERSTATE_KEY_SSP_VARIABLES_INDEX],
+      queryFn: fetchSspVariablesIndex,
     }
   }
 );
-variablesIndexQueryAtom.debugLabel = "variablesIndexQueryAtom";
+sspVariablesIndexQueryAtom.debugLabel = "sspVariablesIndexQueryAtom";
+
+
+export const SERVERSTATE_KEY_SWE_VARIABLES_INDEX = 'sweVariablesIndex';
+export const sweVariablesIndexQueryAtom = atomWithQuery<ISweVariableIndex>(
+  () => {
+    return {
+      queryKey: [SERVERSTATE_KEY_SWE_VARIABLES_INDEX],
+      queryFn: fetchSweVariablesIndex,
+    }
+  }
+);
+sweVariablesIndexQueryAtom.debugLabel = "sweVariablesIndexQueryAtom";

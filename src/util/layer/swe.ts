@@ -9,11 +9,10 @@ import {Circle, Fill, Stroke, Style} from 'ol/style';
 
 import _memoize from 'lodash/memoize';
 
-import {findColorStopsNearestColor} from '@src/util/colormap';
-// import {colorStopsFromVariableObject, findColorStopsNearestColor} from '@src/util/colormap';
+import {colorStopsFromVariableObject, findColorStopsNearestColor} from '@src/util/colormap';
 import {SwePointsForOverlay, SwePointForOverlay} from '@src/types/swe';
 import {CRS_LONLAT, CRS_MAP} from '@src/constants/crs';
-import {IRichVariable} from '@src/types/query/variables';
+import {ISweRichVariable} from '@src/types/query/variables';
 
 
 export const swePointsLayer = _memoize((mapId: string): VectorLayer<VectorSource> => (
@@ -28,7 +27,7 @@ export const swePointsLayer = _memoize((mapId: string): VectorLayer<VectorSource
 
 export const showSwePointsOverlay = (
   mapId: string,
-  selectedSweVariable: IRichVariable | undefined,
+  selectedSweVariable: ISweRichVariable | undefined,
   swePoints: SwePointsForOverlay,
   openLayersMap: PluggableMap,
 ): void => {
@@ -51,8 +50,7 @@ export const showSwePointsOverlay = (
   const newSource = new VectorSource({features: features})
   // FIXME: Support swe colorstops again; see the function definition for more
   // notes...
-  // const colorStops = colorStopsFromVariableObject(selectedSweVariable);
-  const colorStops = [];
+  const colorStops = colorStopsFromVariableObject(selectedSweVariable);
 
   layer.setSource(newSource);
   layer.setStyle((feature) => {

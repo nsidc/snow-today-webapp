@@ -1,28 +1,27 @@
 import React, {useState} from 'react';
 import {useAtomValue} from 'jotai';
 
-import {IVariable} from '@src/types/query/variables';
-import {legendsUrl} from '@src/constants/dataServer';
+import {sspLegendsUrl, sweLegendsUrl} from '@src/constants/dataServer';
 import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
+import {selectedSweVariableIdAtom} from '@src/state/client/selectedSweVariableId';
 
 
 interface ISlippyMapLegendProps {
-  // TODO: Do we need this?
   selectedSatelliteVariableId: string;
-  selectedSweVariable: IVariable | undefined;
 }
 
 const SlippyMapLegend: React.FC<ISlippyMapLegendProps> = (props) => {
   const [legendWidth, setLegendWidth] = useState<number>(0);
 
   const selectedSuperRegionId = useAtomValue(selectedSuperRegionIdAtom);
+  const selectedSweVariableId = useAtomValue(selectedSweVariableIdAtom);
 
   // TODO: Pass in JSON, don't calculate!
-  const legendUrls = [`${legendsUrl}/${selectedSuperRegionId}_${props.selectedSatelliteVariableId}.svg`];
-  // TODO: SWE! IMO, as separate components.
-  // if (props.selectedSweVariable !== undefined) {
-  //   legendUrls.push(`${dataServerUrl}/${props.selectedSweVariable.legendPath}`);
-  // }
+  const legendUrls = [`${sspLegendsUrl}/${selectedSuperRegionId}_${props.selectedSatelliteVariableId}.svg`];
+  // TODO: Separate SWE and SSP legends into own components?
+  if (selectedSweVariableId !== undefined) {
+    legendUrls.push(`${sweLegendsUrl}/${selectedSweVariableId}.svg`);
+  }
 
   const imageElements = legendUrls.map((u) => (
     <img
@@ -35,18 +34,11 @@ const SlippyMapLegend: React.FC<ISlippyMapLegendProps> = (props) => {
         }
       }} />
   ));
-  const legendElement = (
+
+  return (
     <div style={{width: 'inherit'}}>
       {imageElements}
     </div>
-  );
-
-  // We must trigger the image element's `onLoad` to get its width _before_
-  // setting default position on the Rnd component
-  return (
-    <>
-      {legendElement}
-    </>
   );
 
 }

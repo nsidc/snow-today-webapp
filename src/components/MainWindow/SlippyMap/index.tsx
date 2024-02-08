@@ -223,7 +223,6 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
 
       <SlippyMapLegend
         selectedSatelliteVariableId={props.selectedSatelliteVariableId}
-        selectedSweVariable={selectedSweVariable}
       />
 
     </div>

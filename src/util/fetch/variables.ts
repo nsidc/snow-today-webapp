@@ -1,8 +1,12 @@
-import {variablesIndexUrl} from '@src/constants/dataServer';
-import {IVariableIndex} from '@src/types/query/variables';
+import {sspVariablesIndexUrl, sweVariablesIndexUrl} from '@src/constants/dataServer';
+import {ISspVariableIndex, ISweVariableIndex} from '@src/types/query/variables';
 import {genericFetch} from './generic';
 
 
-export const fetchVariablesIndex = (): Promise<IVariableIndex> => (
-  genericFetch<IVariableIndex>(variablesIndexUrl, "index of variable data")
+export const fetchSspVariablesIndex = (): Promise<ISspVariableIndex> => (
+  genericFetch<ISspVariableIndex>(sspVariablesIndexUrl, "index of SSP variable data")
+);
+
+export const fetchSweVariablesIndex = (): Promise<ISweVariableIndex> => (
+  genericFetch<ISweVariableIndex>(sweVariablesIndexUrl, "index of SWE variable data")
 );

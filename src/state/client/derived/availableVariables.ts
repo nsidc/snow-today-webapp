@@ -6,7 +6,7 @@
 import {atom} from 'jotai';
 
 import {selectedSuperRegionAtom} from '@src/state/client/derived/selectedSuperRegion';
-import {richVariablesIndexAtom} from '@src/state/client/derived/richVariablesIndex';
+import {sspRichVariablesIndexAtom} from '@src/state/client/derived/richVariablesIndex';
 import {IRichSuperRegionVariable} from '@src/types/query/variables';
 
 
@@ -16,7 +16,7 @@ export interface IAvailableVariablesIndex {
 
 export const availableVariablesAtom = atom<Promise<IAvailableVariablesIndex | undefined>>(
   async (get) => {
-    const variablesIndex = await get(richVariablesIndexAtom);
+    const variablesIndex = await get(sspRichVariablesIndexAtom);
     const selectedSuperRegion = await get(selectedSuperRegionAtom);
 
     if (

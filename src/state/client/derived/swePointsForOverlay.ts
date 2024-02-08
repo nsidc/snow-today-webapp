@@ -8,14 +8,14 @@ import {ISwePoint, SwePointMeasurementField} from '@src/types/query/swe';
 
 export const swePointsForOverlayAtom = atom<SwePointsForOverlay>(
   (get) => {
-    // NOTE: This code relies on the variable name and the keys in swePoints matching!
+    // NOTE: This code relies on the variable name and the keys in swePointsQuery matching!
     // TODO: Clarify above note.
-    const swePoints = get(swePointsQueryAtom);
+    const swePointsQuery = get(swePointsQueryAtom);
     const selectedSweVariableId = get(selectedSweVariableIdAtom);
 
     if (
       selectedSweVariableId === undefined
-      || !swePoints.isSuccess
+      || !swePointsQuery.isSuccess
     ) {
       // TODO: Should probably be undefined...
       return [];
@@ -25,11 +25,12 @@ export const swePointsForOverlayAtom = atom<SwePointsForOverlay>(
       if (selectedSweVariableId === undefined) {
         return undefined;
       } else {
+        // FIXME: Remove cast:
         return point[selectedSweVariableId as SwePointMeasurementField];
       }
     }
 
-    const overlayPoints = swePoints.data.data.map(point => ({
+    const overlayPoints = swePointsQuery.data.data.map(point => ({
       name: point.name,
       lon: point.lon,
       lat: point.lat,
