@@ -47,6 +47,7 @@ export interface ISweVariable {
 
   valuePrecision: number;
   valueRange: [number, number];
+  colormapValueRange: [number, number];
   noDataValue: number;
   colormapId:  number;
   transparentZero: boolean;

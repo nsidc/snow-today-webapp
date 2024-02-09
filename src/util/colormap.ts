@@ -57,7 +57,8 @@ export const colorStopsFromColorMap = (
 export const colorStopsFromVariableObject = (
   varObj: IRichSuperRegionVariable | ISweRichVariable,
 ): Array<number | number[]> => {
-  const [minVal, maxVal] = varObj.valueRange;
+  // NOTE: The naming consistency needs to be fixed at the model level.
+  const [minVal, maxVal] = "colormapValueRange" in varObj ? varObj.colormapValueRange : varObj.dataValueRange;
 
   const colorStops = colorStopsFromColorMap(
     varObj.colormap.colors,
@@ -71,7 +72,9 @@ export const colorStopsFromVariableObject = (
 export const colorStyleFromVariableObject = (varObj: IRichSuperRegionVariable): ColorStyle => {
   // Calculate color stops, nodata value, and new color style
   const colormap = varObj.colormap.colors;
-  const [minVal, maxVal] = varObj.valueRange;
+  // NOTE: "dataValueRange" is somewhat unclear IMO. It's the value range of
+  // the _colormap_. The data can exceed that range.
+  const [minVal, maxVal] = varObj.dataValueRange;
   const noDataValue = varObj.noDataValue;
   const transparentZero = varObj.transparentZero;
 
@@ -87,8 +90,7 @@ export const colorStyleFromVariableObject = (varObj: IRichSuperRegionVariable): 
     // intermediate partially-transparent values.
     // TODO: Fix; is this test still relevant?
     if (minVal < 1) {
-      // throw new Error(`Expected minVal to be 1; received ${minVal}`);
-      console.log("foo");
+      throw new Error(`Expected minVal to be 1; received ${minVal}`);
     // TODO: Why isn't the 1 case represented???
     } else if (minVal > 1) {
       transparentZeroColorStops.push(1);
