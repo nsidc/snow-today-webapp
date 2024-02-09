@@ -1,11 +1,11 @@
 import React from 'react';
 import {useAtomValue} from 'jotai';
 
-import '../../../style/LayoutConfigTiles.css';
+import '@src/style/LayoutConfigTiles.css';
 import {
   selectedLayoutColsAtom,
   selectedLayoutRowsAtom,
-} from '../../../state/client/layoutDimensions';
+} from '@src/state/client/layoutDimensions';
 import LayoutConfigTile from './LayoutConfigTile';
 
 

@@ -1,6 +1,6 @@
 import {atom} from 'jotai';
 
-import {DEFAULT_ROWS, DEFAULT_COLS} from '../../constants/layout';
+import {DEFAULT_ROWS, DEFAULT_COLS} from '@src/constants/layout';
 
 
 export const selectedLayoutRowsAtom = atom<number>(DEFAULT_ROWS);

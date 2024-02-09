@@ -1,8 +1,8 @@
 import React, {Suspense} from 'react';
 
-import '../../../style/card.css';
-import '../../../style/LayoutConfigTile.css';
-import {ITileIdentifier} from '../../../types/layout';
+import '@src/style/card.css';
+import '@src/style/LayoutConfigTile.css';
+import {ITileIdentifier} from '@src/types/layout';
 import SatelliteVariableSelector from './SatelliteVariableSelector';
 import TileTypeSelector from './TileTypeSelector';
 

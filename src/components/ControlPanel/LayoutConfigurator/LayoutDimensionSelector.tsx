@@ -1,13 +1,13 @@
 import React from 'react';
 import {useAtom} from 'jotai';
 
-import '../../../style/LayoutDimensionSelector.css';
+import '@src/style/LayoutDimensionSelector.css';
 import {
   selectedLayoutColsAtom,
   selectedLayoutRowsAtom,
-} from '../../../state/client/layoutDimensions';
-import {COL_OPTIONS, ROW_OPTIONS} from '../../../constants/layout';
-import {StateSetter} from '../../../types/misc';
+} from '@src/state/client/layoutDimensions';
+import {COL_OPTIONS, ROW_OPTIONS} from '@src/constants/layout';
+import {StateSetter} from '@src/types/misc';
 
 
 const onChange = (
