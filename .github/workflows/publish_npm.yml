@@ -24,11 +24,16 @@ jobs:
         uses: "actions/setup-node@v3"
         with:
           node-version: "18.x"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: "Install dependencies"
+        run: "npm install"
 
       - name: "Build"
         run: "npm run build"
 
       - name: "Publish to npmjs.com"
         run: |
-          echo "//registry.npmjs.org/:_authToken=${NPM_DEPLOY_TOKEN}" > .npmrc
           npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: "${{secrets.NPM_DEPLOY_TOKEN}}"
