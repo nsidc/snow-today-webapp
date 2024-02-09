@@ -10,13 +10,18 @@ const getDataServerUrl = (): string => {
 }
 
 export const dataServerUrl = getDataServerUrl();
+export const commonDataUrl = `${dataServerUrl}/common`;
+export const sspDataUrl = `${dataServerUrl}/snow-surface-properties`;
+export const sweDataUrl = `${dataServerUrl}/snow-water-equivalent`;
 
-// Information about regions:
-export const regionsUrl = `${dataServerUrl}/regions`;
+export const colormapsIndexUrl = `${commonDataUrl}/colormaps.json`;
+
+export const regionsUrl = `${sspDataUrl}/regions`;
 export const regionsIndexUrl = `${regionsUrl}/root.json`;
 
-// Information about satellite variables corresponding to plot data and
-// Cloud-Optimized GeoTIFFs:
-export const variablesIndexUrl = `${dataServerUrl}/variables.json`;
+export const sspVariablesIndexUrl = `${sspDataUrl}/variables.json`;
+export const sspLegendsUrl = `${sspDataUrl}/legends`;
 
-export const swePointsUrl = `${dataServerUrl}/points/swe.json`;
+export const sweVariablesIndexUrl = `${sweDataUrl}/variables.json`;
+export const sweLegendsUrl = `${sweDataUrl}/legends`;
+export const swePointsUrl = `${sweDataUrl}/points/swe.json`;

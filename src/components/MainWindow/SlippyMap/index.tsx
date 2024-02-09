@@ -1,8 +1,8 @@
 // Inspired by a very helpful blog post:
 //     https://taylor.callsen.me/using-openlayers-with-react-functional-components/
 
-import React, { useLayoutEffect, useState, useRef } from 'react';
-import {useRecoilValue} from 'recoil';
+import React, {useState, useRef} from 'react';
+import {useAtomValue} from 'jotai'
 
 import 'ol/ol.css';
 import Feature from 'ol/Feature';
@@ -18,22 +18,24 @@ import '@src/style/SlippyMap.css';
 import '@src/style/card.css';
 import {CRS_LONLAT, CRS_MAP} from '@src/constants/crs';
 import LoadingIcon from '@src/components/common/LoadingIcon';
-import notProcessedLayerEnabledAtom from '@src/state/client/notProcessedLayerEnabled';
-import rasterOpacityAtom from '@src/state/client/rasterOpacity';
-import selectedBasemapLayerAtom from '@src/state/client/derived/selectedBasemapLayer';
-import selectedSuperRegionAtom from '@src/state/client/derived/selectedSuperRegion';
-import selectedRegionAtom from '@src/state/client/derived/selectedRegion';
-import selectedSweVariableAtom from '@src/state/client/derived/selectedSweVariable';
-import swePointsForOverlayAtom from '@src/state/client/derived/swePointsForOverlay';
-import mapViewAtom from '@src/state/client/derived/mapView';
-import useRegionShapeQuery from '@src/serverState/regionShape';
+import {notProcessedLayerEnabledAtom} from '@src/state/client/notProcessedLayerEnabled';
+import {rasterOpacityAtom} from '@src/state/client/rasterOpacity';
+import {availableVariablesAtom} from '@src/state/client/derived/availableVariables';
+import {selectedBasemapLayerAtomFamily} from '@src/state/client/derived/selectedBasemapLayer';
+import {selectedSweVariableAtom} from '@src/state/client/derived/selectedSweVariable';
+import {swePointsForOverlayAtom} from '@src/state/client/derived/swePointsForOverlay';
+import {mapViewAtomFamily} from '@src/state/client/derived/mapView';
+import {
+  regionShapeQueryAtom,
+  superRegionShapeQueryAtom,
+} from '@src/state/server/regionShape';
 import {
   OptionalCoordinate,
   OptionalOpenLayersMap,
   OptionalOverlay,
   OptionalSelect,
 } from '@src/types/SlippyMap';
-import {IVariable} from '@src/types/query/variables';
+import {IRichSuperRegionVariable} from '@src/types/query/variables';
 import {
   useMapView,
   useNotProcessedLayerToggle,
@@ -50,7 +52,8 @@ import SlippyMapTooltip from './Tooltip';
 
 
 interface ISlippyMapProps {
-  selectedSatelliteVariable: IVariable | undefined;
+  selectedSatelliteVariableId: string;
+  selectedSatelliteVariable: IRichSuperRegionVariable;
 }
 
 
@@ -59,36 +62,30 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   // TODO: More specific types; maybe some way to succinctly make optional?
   const [openLayersMap, setOpenLayersMap] = useState<OptionalOpenLayersMap>();
   const [selectedCoord, setSelectedCoord] = useState<OptionalCoordinate>();
-  const [componentWidth, setComponentWidth] = useState<number>(0);
 
   // State related to selecting feature and seeing its data
   const [selectedFeatures, setSelectedFeatures] = useState<Array<Feature>>([]);
-  const [ featureInfoOverlay, setFeatureInfoOverlay ] =
+  const [featureInfoOverlay, setFeatureInfoOverlay] =
     useState<OptionalOverlay>();
-  const [ selectInteraction, setSelectInteraction ] =
+  const [selectInteraction, setSelectInteraction] =
     useState<OptionalSelect>();
 
   const slippyMapHtmlElement = useRef<HTMLDivElement>(null);
   const slippyMapRef = useRef<OpenLayersMap | null>(null);
   const overlayElement = useRef<HTMLDivElement | null>(null);
 
-  const notProcessedLayerEnabled = useRecoilValue(notProcessedLayerEnabledAtom);
-  const rasterOpacity = useRecoilValue(rasterOpacityAtom);
-  const selectedBasemap = useRecoilValue(selectedBasemapLayerAtom(slippyMapUid));
-  const selectedRegion = useRecoilValue(selectedRegionAtom);
-  const selectedSuperRegion = useRecoilValue(selectedSuperRegionAtom);
-  const selectedSweVariable = useRecoilValue(selectedSweVariableAtom);
-  const swePointsForOverlay = useRecoilValue(swePointsForOverlayAtom);
+  const availableVariables = useAtomValue(availableVariablesAtom);
+  const notProcessedLayerEnabled = useAtomValue(notProcessedLayerEnabledAtom);
+  const rasterOpacity = useAtomValue(rasterOpacityAtom);
+  const selectedBasemap = useAtomValue(selectedBasemapLayerAtomFamily(slippyMapUid));
+  const selectedSweVariable = useAtomValue(selectedSweVariableAtom);
+  const swePointsForOverlay = useAtomValue(swePointsForOverlayAtom);
 
-  const selectedRegionShapeQuery = useRegionShapeQuery(
-    selectedRegion ? selectedRegion.shapeRelativePath : undefined,
-  );
+  const selectedRegionShapeQuery = useAtomValue(regionShapeQueryAtom);
+  // NOTE: Super region shape is used to constrain the map view:
+  const selectedSuperRegionShapeQuery = useAtomValue(superRegionShapeQueryAtom);
 
-  // TODO: Why do we need the super region shape? To constrain the map view?
-  const selectedSuperRegionShapeQuery = useRegionShapeQuery(
-    selectedSuperRegion ? selectedSuperRegion.shapeRelativePath : undefined,
-  )
-  const mapView = useRecoilValue(mapViewAtom(selectedSuperRegionShapeQuery.data));
+  const mapView = useAtomValue(mapViewAtomFamily(selectedSuperRegionShapeQuery.data));
 
   const handleFeatureSelect = (event: SelectEvent) => {
     setSelectedFeatures(event.selected);
@@ -166,6 +163,8 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   useNotProcessedLayerToggle(
     slippyMapUid,
     notProcessedLayerEnabled,
+    props.selectedSatelliteVariable,
+    availableVariables,
   );
   useSelectedSweVariable(
     slippyMapUid,
@@ -180,60 +179,40 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
     openLayersMap,
 	);
 
-  useLayoutEffect(() => {
-    if (!slippyMapHtmlElement || !slippyMapHtmlElement.current) {
-      return;
-    }
-    setComponentWidth(slippyMapHtmlElement.current.offsetWidth);
-  }, []);
-
-
 
   slippyMapRef.current = openLayersMap || null;
   const divId = `map-container-${slippyMapUid}`
 
-  if (props.selectedSatelliteVariable === undefined) {
-    return (
-      <div
-        id={divId}
-        ref={slippyMapHtmlElement}
-        className="map-container">
-      </div>
-    );
-  }
-
   return (
-    <div className={"SlippyMap"}>
+    <>
+      <div className={"SlippyMap"}>
+        { selectedRegionShapeQuery.isLoading &&
+          <div className={"card-loading-overlay"}>
+            <LoadingIcon size={200} />
+          </div>
+        }
 
-      { selectedRegionShapeQuery.isLoading &&
-        <div className={"card-loading-overlay"}>
-          <LoadingIcon size={200} />
+        <div
+          id={divId}
+          ref={slippyMapHtmlElement}
+          className="map-container">
         </div>
-      }
 
-      <div
-        id={divId}
-        ref={slippyMapHtmlElement}
-        className="map-container">
-      </div>
+        <div ref={overlayElement}>
+          <SlippyMapTooltip
+            features={selectedFeatures}
+            onClose={handleMapTipClose} />
+        </div>
 
-      <div ref={overlayElement}>
-        <SlippyMapTooltip
-          features={selectedFeatures}
-          onClose={handleMapTipClose} />
-      </div>
-
-      <div className="clicked-coord-label">
-        <p>{ (selectedCoord) ? toStringXY(selectedCoord, 5) : '' }</p>
+        <div className="clicked-coord-label">
+          <p>{ (selectedCoord) ? toStringXY(selectedCoord, 5) : '' }</p>
+        </div>
       </div>
 
       <SlippyMapLegend
-        selectedSatelliteVariable={props.selectedSatelliteVariable}
-        selectedSweVariable={selectedSweVariable}
-        parentWidthPx={componentWidth}
-        mapUid={slippyMapUid} />
-
-    </div>
+        selectedSatelliteVariableId={props.selectedSatelliteVariableId}
+      />
+    </>
   );
 }
 

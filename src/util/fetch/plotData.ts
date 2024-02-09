@@ -1,12 +1,13 @@
-import {dataServerUrl} from '@src/constants/dataServer';
-import {IPlotData} from '@src/types/query/plotData';
+import {sspDataUrl} from '@src/constants/dataServer';
+import {IPlotPayload} from '@src/types/query/plotData';
 import {genericFetch} from './generic';
 
 
 export const fetchPlotData = (
   regionId: string,
   variableId: string,
-): Promise<IPlotData> => {
-  const url = `${dataServerUrl}/plots/${regionId}-${variableId}.json`;
-  return genericFetch<IPlotData>(url, `plot data for ${regionId} ${variableId}`)
+): Promise<IPlotPayload> => {
+  // TODO: Pass the plot relative URL in directly!!!
+  const url = `${sspDataUrl}/plots/${regionId}_${variableId}.json`;
+  return genericFetch<IPlotPayload>(url, `plot data for ${regionId} ${variableId}`)
 };

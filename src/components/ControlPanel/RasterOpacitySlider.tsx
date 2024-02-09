@@ -1,11 +1,11 @@
 import React from 'react';
-import {useRecoilState} from 'recoil';
+import {useAtom} from 'jotai';
 
-import rasterOpacityAtom from '../../state/client/rasterOpacity';
+import {rasterOpacityAtom} from '@src/state/client/rasterOpacity';
 
 
 const RasterOpacitySlider: React.FC = () => {
-  const [rasterOpacity, setRasterOpacity] = useRecoilState(rasterOpacityAtom);
+  const [rasterOpacity, setRasterOpacity] = useAtom(rasterOpacityAtom);
 
   return (
     <span className={'RasterOpacity'}>

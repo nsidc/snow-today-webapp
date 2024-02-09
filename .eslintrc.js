@@ -39,6 +39,13 @@ module.exports = {
       "error",
     ],
 
+    // Default exports allow renaming on import, which can lead to confusing
+    // code. IMO, we should ban them. Do we need to upgrade eslint or
+    // something?
+    // "no-default-export": [
+    //   "warn",
+    // ],
+
     // react
     "react/function-component-definition": [
       "error",

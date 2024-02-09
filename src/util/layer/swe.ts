@@ -9,10 +9,10 @@ import {Circle, Fill, Stroke, Style} from 'ol/style';
 
 import _memoize from 'lodash/memoize';
 
-import {colorStopsFromVariableObject, findColorStopsNearestColor} from '../colormap';
-import {SwePointsForOverlay, SwePointForOverlay} from '../../types/swe';
-import {CRS_LONLAT, CRS_MAP} from '../../constants/crs';
-import {IVariable} from '../../types/query/variables';
+import {colorStopsFromVariableObject, findColorStopsNearestColor} from '@src/util/colormap';
+import {SwePointsForOverlay, SwePointForOverlay} from '@src/types/swe';
+import {CRS_LONLAT, CRS_MAP} from '@src/constants/crs';
+import {ISweRichVariable} from '@src/types/query/variables';
 
 
 export const swePointsLayer = _memoize((mapId: string): VectorLayer<VectorSource> => (
@@ -27,7 +27,7 @@ export const swePointsLayer = _memoize((mapId: string): VectorLayer<VectorSource
 
 export const showSwePointsOverlay = (
   mapId: string,
-  selectedSweVariable: IVariable | undefined,
+  selectedSweVariable: ISweRichVariable | undefined,
   swePoints: SwePointsForOverlay,
   openLayersMap: PluggableMap,
 ): void => {

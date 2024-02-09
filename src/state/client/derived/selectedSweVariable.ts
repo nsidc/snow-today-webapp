@@ -2,28 +2,26 @@
  *
  * Depends on server state!
  * */
+import {atom} from 'jotai';
 
-import {selector} from 'recoil';
-
-import selectedSweVariableNameAtom from '../selectedSweVariableName';
-import {IVariable, IVariableIndex} from '../../../types/query/variables';
-import {queryClient} from '../../../util/query';
-import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../../serverState/variablesIndex';
+import {selectedSweVariableIdAtom} from '@src/state/client/selectedSweVariableId';
+import {ISweRichVariable} from '@src/types/query/variables';
+import {sweRichVariablesIndexAtom} from '@src/state/client/derived/richVariablesIndex';
 
 
-type AtomValue = IVariable | undefined;
-const selectedSweVariableAtom = selector<AtomValue>({
-  key: 'selectedSweVariable',
-  get: ({get}) => {
-    const selectedVariable = get(selectedSweVariableNameAtom);
-    if (!selectedVariable) {
+type AtomValue = ISweRichVariable | undefined;
+export const selectedSweVariableAtom = atom<AtomValue>(
+  (get) => {
+    // TODO: Should change rich index query to async and await it?
+    const variablesIndex = get(sweRichVariablesIndexAtom);
+    const selectedVariable = get(selectedSweVariableIdAtom);
+    if (
+      selectedVariable === undefined
+      || variablesIndex === undefined
+    ) {
       return;
     }
-
-    // TODO: Can React-query give us typed access to the cache??
-    const variablesIndex = queryClient.getQueryData([SERVERSTATE_KEY_VARIABLES_INDEX]) as IVariableIndex;
     return variablesIndex[selectedVariable];
-  },
-});
-
-export default selectedSweVariableAtom;
+  }
+);
+selectedSweVariableAtom.debugLabel = 'selectedSweVariableAtom';

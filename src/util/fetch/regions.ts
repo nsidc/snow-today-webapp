@@ -1,15 +1,15 @@
-import {dataServerUrl, regionsUrl, regionsIndexUrl} from '@src/constants/dataServer';
+import {sspDataUrl, regionsUrl, regionsIndexUrl} from '@src/constants/dataServer';
 import {
   ISuperRegionIndex,
   ISubRegionIndex,
   ISubRegionCollectionIndex,
   ISubRegionHierarchy,
 } from '@src/types/query/regions';
-import {genericFetch} from './generic';
+import {genericFetch, genericFetchAsync} from './generic';
 
 
-export const fetchSuperRegionsIndex = (): Promise<ISuperRegionIndex> => (
-  genericFetch<ISuperRegionIndex>(regionsIndexUrl, 'index of all super-regions')
+export const fetchSuperRegionsIndex = () => (
+  genericFetchAsync<ISuperRegionIndex>(regionsIndexUrl, 'index of all super-regions')
 );
 
 export const fetchSubRegionsIndex = (superRegionId: string): Promise<ISubRegionIndex> => {
@@ -37,6 +37,6 @@ export const fetchSubRegionsHierarchy = (superRegionId: string): Promise<ISubReg
 };
 
 export const fetchRegionShape = (shapeFilePath: string): Promise<object> => {
-  const fetchUrl = `${dataServerUrl}/${shapeFilePath}`;
-  return genericFetch<object>(fetchUrl, "region shape data");
+  const fetchUrl = `${sspDataUrl}/${shapeFilePath}`;
+  return genericFetchAsync<object>(fetchUrl, "region shape data");
 };

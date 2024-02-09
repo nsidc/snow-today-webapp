@@ -1,17 +1,26 @@
 # TODO
 
-## Names
+## Refactors
+
+* Minimize undefined checks. The fact that we have them in so many places is a smell I
+  don't like!
+
+### Names
 
 * SatelliteVariables -> RasterVariables? We now have two mutually exclusive "types" of
   variables: SWE points, and various raster variables.
 * selectedRegion -> selectedRegionName
 * selectedRegionObject -> selectedRegion
 
+### State
 
-### Recoil atoms/selectors
-
-Selectors are not atoms. We should use the suffix `State` per the docs.
-
+* More consistent use of jotai-tanstack-query functions
+* Combine ID atoms with their related object atoms, e.g. combine region ID and region
+  definition into one atom. 
+      export interface StateWithId<StateType, IdType = string> {
+        id: IdType;
+        state: StateType;
+      }
 
 
 ## Data / server-side considerations

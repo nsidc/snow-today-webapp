@@ -1,31 +1,36 @@
-import {selector} from 'recoil';
+import {atom} from 'jotai';
 
-import swePointsQueryAtom from '../../server/swe';
-import selectedSweVariableNameAtom from '../selectedSweVariableName';
-import {SwePointsForOverlay} from '../../../types/swe';
-import {ISwePoint, SwePointMeasurementField} from '../../../types/query/swe';
+import {swePointsQueryAtom} from '@src/state/server/swe';
+import {selectedSweVariableIdAtom} from '@src/state/client/selectedSweVariableId';
+import {SwePointsForOverlay} from '@src/types/swe';
+import {ISwePoint, SwePointMeasurementField} from '@src/types/query/swe';
 
 
-const swePointsForOverlayAtom = selector<SwePointsForOverlay>({
-  key: 'swePointsForOverlay',
-  get: ({get}) => {
-    // NOTE: This code relies on the variable name and the keys in swePoints matching!
-    const swePoints = get(swePointsQueryAtom);
-    const selectedSweVariableName = get(selectedSweVariableNameAtom);
+export const swePointsForOverlayAtom = atom<SwePointsForOverlay>(
+  (get) => {
+    // NOTE: This code relies on the variable name and the keys in swePointsQuery matching!
+    // TODO: Clarify above note.
+    const swePointsQuery = get(swePointsQueryAtom);
+    const selectedSweVariableId = get(selectedSweVariableIdAtom);
 
-    if (selectedSweVariableName === undefined) {
+    if (
+      selectedSweVariableId === undefined
+      || !swePointsQuery.isSuccess
+    ) {
+      // TODO: Should probably be undefined...
       return [];
     }
 
     const measurementInches = (point: ISwePoint) => {
-      if (selectedSweVariableName === undefined) {
+      if (selectedSweVariableId === undefined) {
         return undefined;
       } else {
-        return point[selectedSweVariableName as SwePointMeasurementField];
+        // FIXME: Remove cast:
+        return point[selectedSweVariableId as SwePointMeasurementField];
       }
     }
 
-    const overlayPoints = swePoints.map(point => ({
+    const overlayPoints = swePointsQuery.data.data.map(point => ({
       name: point.name,
       lon: point.lon,
       lat: point.lat,
@@ -33,8 +38,7 @@ const swePointsForOverlayAtom = selector<SwePointsForOverlay>({
       measurement_inches: measurementInches(point),
     }));
 
-    return overlayPoints
-  },
-});
-
-export default swePointsForOverlayAtom;
+    return overlayPoints;
+  }
+);
+swePointsForOverlayAtom.debugLabel = 'swePointsForOverlayAtom';

@@ -3,30 +3,37 @@
  * Depends on server state!
  * */
 
-import {selectorFamily} from 'recoil';
+import {atom} from 'jotai';
+import {atomFamily} from 'jotai/utils';
+import deepEqual from 'fast-deep-equal';
 
-import selectedSatelliteVariableNameAtom from '../selectedSatelliteVariableName';
-import {IVariable, IVariableIndex} from '../../../types/query/variables';
-import {queryClient} from '../../../util/query';
-import {SERVERSTATE_KEY_VARIABLES_INDEX} from '../../../serverState/variablesIndex';
-
-import {ITileIdentifier} from '../../../types/layout';
+import {selectedSatelliteVariableIdAtomFamily} from '@src/state/client/selectedSatelliteVariableId';
+import {availableVariablesAtom} from '@src/state/client/derived/availableVariables';
+import {IRichSuperRegionVariable} from '@src/types/query/variables';
+import {ITileIdentifier} from '@src/types/layout';
 
 
-type AtomValue = IVariable | undefined;
+type AtomValue = IRichSuperRegionVariable | undefined;
 type AtomParameter = ITileIdentifier;
-const selectedSatelliteVariableAtom = selectorFamily<AtomValue, AtomParameter>({
-  key: 'selectedSatelliteVariable',
-  get: (tileIdentifier: AtomParameter) => ({get}) => {
-    const selectedVariable = get(selectedSatelliteVariableNameAtom(tileIdentifier))
-    if (!selectedVariable) {
-      return;
-    }
 
-    // TODO: Can React-query give us typed access to the cache??
-    const variablesIndex = queryClient.getQueryData([SERVERSTATE_KEY_VARIABLES_INDEX]) as IVariableIndex;
-    return variablesIndex[selectedVariable];
+export const selectedSatelliteVariableAtomFamily = atomFamily(
+  (tileId: AtomParameter) => {
+    const atm = atom<Promise<AtomValue>>(
+      async (get) => {
+        const availableVariables = await get(availableVariablesAtom);
+        const selectedVariableId = get(selectedSatelliteVariableIdAtomFamily(tileId));
+
+        if (
+          selectedVariableId === undefined
+          || availableVariables === undefined
+        ) {
+          return;
+        }
+        return availableVariables[selectedVariableId];
+      }
+    );
+    atm.debugLabel = `selectedSatelliteVariableAtomFamily_row${tileId.row}-col${tileId.col}`;
+    return atm;
   },
-});
-
-export default selectedSatelliteVariableAtom;
+  deepEqual,
+);

@@ -1,7 +1,7 @@
 import React from 'react';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-import '../../../style/dropdownForm.css';
+import '@src/style/dropdownForm.css';
 import LayoutDimensionSelector from './LayoutDimensionSelector';
 import LayoutConfigTiles from './LayoutConfigTiles';
 

@@ -2,31 +2,24 @@
  *
  * Depends on server state!
  * */
+import {atom} from 'jotai';
 
-import {selector} from 'recoil';
-
-import selectedSuperRegionIdAtom from '@src/state/client/selectedSuperRegionId';
-import {
-  ISuperRegion,
-  ISuperRegionIndex,
-} from '@src/types/query/regions';
-import {queryClient} from '@src/util/query';
-import {SERVERSTATE_KEY_SUPERREGIONS_INDEX} from '@src/serverState/regionsIndex';
+import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
+import {superRegionsIndexQueryAtom} from '@src/state/server/regionsIndex';
+import {ISuperRegion} from '@src/types/query/regions';
 
 
-const selectedSuperRegionAtom = selector<ISuperRegion | undefined>({
-  key: 'selectedSuperRegion',
-  get: ({get}) => {
+export const selectedSuperRegionAtom = atom<Promise<ISuperRegion | undefined>>(
+  async (get) => {
+    const regionsIndex = await get(superRegionsIndexQueryAtom);
     const selectedSuperRegionId = get(selectedSuperRegionIdAtom);
-    if (!selectedSuperRegionId) {
-      return;
+
+    if (selectedSuperRegionId === undefined) {
+      return
     }
 
-    const superRegionsIndex = queryClient.getQueryData([SERVERSTATE_KEY_SUPERREGIONS_INDEX]) as ISuperRegionIndex;
-
-    const superRegion = superRegionsIndex[selectedSuperRegionId];
+    const superRegion = regionsIndex.data[selectedSuperRegionId];
     return superRegion;
-  },
-});
-
-export default selectedSuperRegionAtom;
+  }
+);
+selectedSuperRegionAtom.debugLabel = "selectedSuperRegionAtom";

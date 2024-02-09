@@ -20,7 +20,7 @@ RUN if [ "$env" = "production" ]; then \
 fi
 
 # These lines are only required to use this stage of the build to run a dev
-# server (see docker-compose.dev.yml).
+# server (see compose.dev.yml).
 EXPOSE 3000
 CMD ["npm", "run", "serve"]
 

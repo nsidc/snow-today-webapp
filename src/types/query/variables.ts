@@ -1,22 +1,63 @@
-export interface IVariable {
-  type: 'raster' | 'raster_notprocessed' | 'point_swe';
-  enabled?: boolean;
-  default?: boolean;
-  longname: string;
-  longname_plot: string;
-  helptext: string;
-  label_map_legend: string;
-  label_plot_yaxis: string;
-  cog_path: string;
-  legend_path: string;
-  value_precision: number;
-  value_range: [number, number];
-  nodata_value: number;
-  colormap: [number, number, number][] | [number, number, number, number][];
-  colormap_value_range: [number | string, number | string];
-  transparent_zero: boolean;
+import {ISuperRegionVariable} from '@src/types/query/regions';
+import {IColormap} from '@src/types/query/colormaps';
+
+
+export interface ISspVariable {
+  sensor: string;
+  platform: string;
+  algorithm: string;
+
+  // TODO: Document!
+  source: string;
+
+  layerType: 'raster' | 'raster_notprocessed';
+
+  longName: string;
+  longNamePlot: string;
+  helpText: string;
+  labelMapLegend: string;
+  labelPlotYaxis: string;
+
+  valuePrecision: number;
+  valueRange: [number, number];
+  noDataValue: number;
+  colormapId:  number;
+  transparentZero: boolean;
 }
 
-export interface IVariableIndex {
-  [keys: string]: IVariable;
+export interface ISspVariableIndex {
+  [variableId: string]: ISspVariable;
+}
+
+export type ISspRichVariable = ISspVariable & {colormap: IColormap};
+export interface ISspRichVariableIndex {
+  [variableId: string]: ISspRichVariable;
+}
+
+// Variables don't directly link to cloud-optimized geotiff files except in
+// relation to a region. This enriched version provides everything about the
+// variable needed to display region-variable-specific things!
+export type IRichSuperRegionVariable = ISspRichVariable & ISuperRegionVariable;
+
+
+export interface ISweVariable {
+  longName: string;
+  helpText: string;
+  labelMapLegend: string;
+
+  valuePrecision: number;
+  valueRange: [number, number];
+  colormapValueRange: [number, number];
+  noDataValue: number;
+  colormapId:  number;
+  transparentZero: boolean;
+}
+
+export interface ISweVariableIndex {
+  [variableId: string]: ISweVariable;
+}
+
+export type ISweRichVariable = ISweVariable & {colormap: IColormap};
+export interface ISweRichVariableIndex {
+  [variableId: string]: ISweRichVariable;
 }

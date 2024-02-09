@@ -1,10 +1,10 @@
 import React from 'react';
-import {useRecoilState} from 'recoil';
+import {useAtom} from 'jotai';
 
-import notProcessedLayerEnabledAtom from '../../state/client/notProcessedLayerEnabled';
+import {notProcessedLayerEnabledAtom} from '@src/state/client/notProcessedLayerEnabled';
 
 const NotProcessedLayerToggle: React.FC = () => {
-  const [notProcessedLayerEnabled, setNotProcessedLayerEnabled] = useRecoilState(notProcessedLayerEnabledAtom);
+  const [notProcessedLayerEnabled, setNotProcessedLayerEnabled] = useAtom(notProcessedLayerEnabledAtom);
 
   return (
     <span className={'NotProcessedLayerToggle'}>

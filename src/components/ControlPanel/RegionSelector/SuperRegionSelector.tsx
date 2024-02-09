@@ -1,9 +1,9 @@
 import React from 'react';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useAtom, useSetAtom} from 'jotai';
 
 import '@src/style/SuperRegionSelector.css';
-import selectedSuperRegionIdAtom from '@src/state/client/selectedSuperRegionId';
-import selectedRegionIdAtom from '@src/state/client/selectedRegionId';
+import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
+import {selectedRegionIdAtom} from '@src/state/client/selectedRegionId';
 import {ISuperRegionIndex} from '@src/types/query/regions';
 
 
@@ -12,8 +12,8 @@ interface ISuperRegionSelectorProps {
 }
 
 const SuperRegionSelector: React.FC<ISuperRegionSelectorProps> = (props) => {
-  const [selectedSuperRegionId, setSelectedSuperRegionId] = useRecoilState(selectedSuperRegionIdAtom);
-  const setSelectedRegionId = useSetRecoilState(selectedRegionIdAtom);
+  const [selectedSuperRegionId, setSelectedSuperRegionId] = useAtom(selectedSuperRegionIdAtom);
+  const setSelectedRegionId = useSetAtom(selectedRegionIdAtom);
 
   const superRegionOptions = Object.entries(props.indexQueryData).map(
     ([superRegionId, superRegion]) => (
@@ -26,7 +26,7 @@ const SuperRegionSelector: React.FC<ISuperRegionSelectorProps> = (props) => {
   const handleSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newRegionId = e.currentTarget.value;
     setSelectedSuperRegionId(newRegionId);
-    // TODO: Is this a good practice? Setting two pieces of Recoil state
+    // TODO: Is this a good practice? Setting two pieces of Jotai state
     // together? Why not use the state graph?
     setSelectedRegionId(newRegionId);
   }

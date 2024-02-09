@@ -1,42 +1,44 @@
 import React from 'react';
-import {useRecoilState} from 'recoil';
+import {useAtom, useAtomValue} from 'jotai';
+
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-import selectedSweVariableNameAtom from '../../state/client/selectedSweVariableName';
-import useVariablesIndexQuery from '../../serverState/variablesIndex';
+import {selectedSweVariableIdAtom} from '@src/state/client/selectedSweVariableId';
+import {sweVariablesIndexQueryAtom} from '@src/state/server/variablesIndex';
 
 
 const LOADING_VALUE = 'LOADING...';
 
 const BasemapSelector: React.FC = () => {
   const [
-    selectedSweVariableName,
-    setSelectedSweVariableName,
-  ] = useRecoilState(selectedSweVariableNameAtom);
-  // NOTE: Anonymous function is a hack to deal with race condition
-  // initializing component state (e.g. tile layout) from variables index.
-  // TODO: Migrate this query into Recoil server state, and use a selector to
-  // create the dependent layout state.
-  const variablesIndexQuery = useVariablesIndexQuery(() => null);
+    selectedSweVariableId,
+    setSelectedSweVariableId,
+  ] = useAtom(selectedSweVariableIdAtom);
+  const sweVariablesIndexQuery = useAtomValue(sweVariablesIndexQueryAtom);
 
   const handleSelect = (eventKey: string | null): void => {
     if (!eventKey) {
-      setSelectedSweVariableName(undefined);
+      setSelectedSweVariableId(undefined);
       return;
     }
-    setSelectedSweVariableName(eventKey);
+    setSelectedSweVariableId(eventKey);
   };
 
-  if (variablesIndexQuery.isError) {
-    console.debug(`Error!: ${variablesIndexQuery.error as string}`);
+  // TODO: This isn't how we handle errors! Let's catch it with an error
+  // boundary instead? Do we need a wrapper component for that? Ugh.
+  if (sweVariablesIndexQuery.isError) {
+    console.debug(`Error!: ${sweVariablesIndexQuery.error.message}`);
     return (
-      <span>{`Error: ${variablesIndexQuery.error as string}`}</span>
+      <span>{`Error: ${sweVariablesIndexQuery.error.message}`}</span>
     );
   }
 
+  // TODO: More elegant way of checking for success. Without the success check,
+  // even though we checked for loading and error, typescript thinks .data can
+  // be undefined.
   let variableOptions: JSX.Element | Array<JSX.Element>;
-  if (variablesIndexQuery.isLoading) {
+  if (sweVariablesIndexQuery.isLoading || !sweVariablesIndexQuery.isSuccess) {
     variableOptions = [
       <Dropdown.Item key={LOADING_VALUE} eventKey={LOADING_VALUE}>
         {'Loading variables...'}
@@ -44,15 +46,13 @@ const BasemapSelector: React.FC = () => {
     ];
   } else {
     variableOptions = (
-      Object.entries(variablesIndexQuery.data)
-      .filter(([variableName, params]) => !Object.keys(params).includes('enabled') || params['enabled'])
-      .filter(([variableName, params]) => params['type'] === 'point_swe')
+      Object.entries(sweVariablesIndexQuery.data)
       .map(([variableName, params]) => (
         <Dropdown.Item
           key={variableName}
           eventKey={variableName}
-          active={variableName === selectedSweVariableName}>
-          {params['longname']}
+          active={variableName === selectedSweVariableId}>
+          {params.longName}
         </Dropdown.Item>
       ))
     );
@@ -61,7 +61,7 @@ const BasemapSelector: React.FC = () => {
     <Dropdown.Item
       key={'undefined'}
       eventKey={undefined}
-      active={selectedSweVariableName === undefined}>
+      active={selectedSweVariableId === undefined}>
       None
     </Dropdown.Item>
   );

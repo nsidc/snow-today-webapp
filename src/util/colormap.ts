@@ -1,30 +1,12 @@
 import colormap from 'colormap';
 
-import {IVariable} from '../types/query/variables';
-import {CURRENT_DOWY} from '../constants/waterYear';
+import {IRichSuperRegionVariable, ISweRichVariable} from '@src/types/query/variables';
 
 type ColorStyle = Array<string | number | Array<string | number>>
 export interface IStyleVariables {
   color: ColorStyle;
 }
 
-const colormapValue = (val: number | string): number => {
-  if (typeof val === 'number') {
-    return val;
-  }
-  if (val === '$DOWY') {
-    return CURRENT_DOWY;
-  } else {
-    throw new Error(`Unexpected colormap variable: "${val}"`);
-  }
-}
-const colormapValueRange = (varObj: IVariable): [number, number] => {
-  const cmapRangeIn = varObj.colormap_value_range;
-  return [
-    colormapValue(cmapRangeIn[0]),
-    colormapValue(cmapRangeIn[1]),
-  ]
-}
 
 export const colorStopsFromColorMapName = (
   colorMapName: string,
@@ -73,21 +55,28 @@ export const colorStopsFromColorMap = (
 }
 
 export const colorStopsFromVariableObject = (
-  varObj: IVariable,
+  varObj: IRichSuperRegionVariable | ISweRichVariable,
 ): Array<number | number[]> => {
-  const colormap = varObj.colormap;
-  const [minVal, maxVal] = colormapValueRange(varObj);
+  // NOTE: The naming consistency needs to be fixed at the model level.
+  const [minVal, maxVal] = "colormapValueRange" in varObj ? varObj.colormapValueRange : varObj.dataValueRange;
 
-  const colorStops = colorStopsFromColorMap(colormap, minVal, maxVal, false);
+  const colorStops = colorStopsFromColorMap(
+    varObj.colormap.colors,
+    minVal,
+    maxVal,
+    false,
+  );
   return colorStops;
 }
 
-export const colorStyleFromVariableObject = (varObj: IVariable): ColorStyle => {
+export const colorStyleFromVariableObject = (varObj: IRichSuperRegionVariable): ColorStyle => {
   // Calculate color stops, nodata value, and new color style
-  const colormap = varObj.colormap;
-  const [minVal, maxVal] = colormapValueRange(varObj);
-  const noDataValue = varObj.nodata_value;
-  const transparentZero = varObj.transparent_zero;
+  const colormap = varObj.colormap.colors;
+  // NOTE: "dataValueRange" is somewhat unclear IMO. It's the value range of
+  // the _colormap_. The data can exceed that range.
+  const [minVal, maxVal] = varObj.dataValueRange;
+  const noDataValue = varObj.noDataValue;
+  const transparentZero = varObj.transparentZero;
 
   const colorStops = colorStopsFromColorMap(colormap, minVal, maxVal, false);
   let transparentZeroColorStops: (number | number[])[];
@@ -101,6 +90,7 @@ export const colorStyleFromVariableObject = (varObj: IVariable): ColorStyle => {
     // intermediate partially-transparent values.
     if (minVal < 1) {
       throw new Error(`Expected minVal to be 1; received ${minVal}`);
+    // TODO: Why isn't the 1 case represented???
     } else if (minVal > 1) {
       transparentZeroColorStops.push(1);
       transparentZeroColorStops.push(...colormap.slice(1));

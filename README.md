@@ -31,7 +31,7 @@ This package requires either Docker or the NPM environment described by `package
 Run from source:
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 Deploy latest version from UNPKG (replace `snow-today-webapp` in URLs with
@@ -49,7 +49,8 @@ Deploy latest version from UNPKG (replace `snow-today-webapp` in URLs with
 
 ## Troubleshooting
 
-*TODO*
+* `unknown` type from `jotai-tanstack-query` objects: use `<0.8.2`
+  (https://github.com/jotaijs/jotai-tanstack-query/issues/67)
 
 
 ## Credit

@@ -4,9 +4,9 @@ import GeoTIFF from 'ol/source/GeoTIFF';
 
 import _memoize from 'lodash/memoize';
 
-import {dataServerUrl} from '../../constants/dataServer';
-import {colorStyleFromVariableObject, IStyleVariables} from '../colormap';
-import {IVariable} from '../../types/query/variables';
+import {sspDataUrl} from '@src/constants/dataServer';
+import {colorStyleFromVariableObject, IStyleVariables} from '@src/util/colormap';
+import {IRichSuperRegionVariable} from '@src/types/query/variables';
 
 
 const geoTiffSourceDefaults = {
@@ -20,10 +20,9 @@ const styleVariables: IStyleVariables = {
 }
 
 
-const sourceFromVariableObject = (varObj: IVariable): GeoTIFF => {
-  // Calculate new source URL
-  const cogPath = varObj.cog_path;
-  const url = `${dataServerUrl}/${cogPath}`;
+const sourceFromVariableObject = (varObj: IRichSuperRegionVariable): GeoTIFF => {
+  const cogPath = varObj.geotiffRelativePath;
+  const url = `${sspDataUrl}/${cogPath}`;
   return new GeoTIFF({
     ...geoTiffSourceDefaults,
     sources: [
@@ -41,27 +40,27 @@ export const notProcessedLayer = _memoize((mapId: string): TileLayer => (
       ...geoTiffSourceDefaults,
       sources: [
         {
-          url: `${dataServerUrl}/cogs/notprocessed.tif`,
+          // FIXME: Replace hardcode. This comes from a variable object now.
+          url: `${sspDataUrl}/regions/cogs/26000_notprocessed.tif`,
+          // url: 'https://nsidc.org/api/snow-today/cogs/notprocessed.tif',
         },
       ],
     }),
     visible: false,
     zIndex: 98,
     // WebGL tiles don't support `setStyle`, so you have to use variables like so
-    /*
     style: {
       color: ['var', 'color'],
       // @ts-ignore: TS2322
       variables: styleVariables,
     },
-    */
   })
 ));
 
 export const toggleNotProcessedLayer = (
   mapId: string,
   notProcessedLayerEnabled: boolean,
-  notProcessedVariableObject: IVariable,
+  notProcessedVariableObject: IRichSuperRegionVariable,
 ): void => {
   const layer = notProcessedLayer(mapId);
 
@@ -85,14 +84,14 @@ export const rasterLayer = _memoize((mapId: string): TileLayer => (
       color: ['var', 'color'],
       // @ts-ignore: TS2322
       variables: styleVariables,
-    }
+    },
   })
 ));
 
 
 export const changeRasterVariable = (
   mapId: string,
-  rasterVariableObject: IVariable,
+  rasterVariableObject: IRichSuperRegionVariable,
   openLayersMap: PluggableMap,
 ): void => {
   const layer = rasterLayer(mapId);

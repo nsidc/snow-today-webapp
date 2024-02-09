@@ -1,63 +1,34 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {useAtomValue} from 'jotai';
 
-import {Rnd} from 'react-rnd';
-
-import {IVariable} from '@src/types/query/variables';
-import {dataServerUrl} from '@src/constants/dataServer';
+import {sspLegendsUrl, sweLegendsUrl} from '@src/constants/dataServer';
+import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
+import {selectedSweVariableIdAtom} from '@src/state/client/selectedSweVariableId';
 
 
 interface ISlippyMapLegendProps {
-  selectedSatelliteVariable: IVariable;
-  selectedSweVariable: IVariable | undefined;
-  mapUid: string;
-  parentWidthPx: number;
+  selectedSatelliteVariableId: string;
 }
 
 const SlippyMapLegend: React.FC<ISlippyMapLegendProps> = (props) => {
-  const [legendWidth, setLegendWidth] = useState<number>(0);
+  const selectedSuperRegionId = useAtomValue(selectedSuperRegionIdAtom);
+  const selectedSweVariableId = useAtomValue(selectedSweVariableIdAtom);
 
-  const legendUrls = [`${dataServerUrl}/${props.selectedSatelliteVariable.legend_path}`];
-  if (props.selectedSweVariable !== undefined) {
-    legendUrls.push(`${dataServerUrl}/${props.selectedSweVariable.legend_path}`);
+  // TODO: Pass in JSON, don't calculate!
+  const legendUrls = [`${sspLegendsUrl}/${selectedSuperRegionId}_${props.selectedSatelliteVariableId}.svg`];
+  // TODO: Separate SWE and SSP legends into own components?
+  if (selectedSweVariableId !== undefined) {
+    legendUrls.push(`${sweLegendsUrl}/${selectedSweVariableId}.svg`);
   }
 
-  const legendElementId = `legend-${props.mapUid}`;
-  const xPos = (props.parentWidthPx - legendWidth) / 2;
   const imageElements = legendUrls.map((u) => (
-    <img
-      src={u}
-      key={u}
-      style={{width: 'inherit', display: 'block', margin: '0 auto'}}
-      onLoad={(e: React.ChangeEvent<HTMLImageElement>) => {
-        if (e.target.offsetWidth > legendWidth) {
-          setLegendWidth(e.target.offsetWidth);
-        }
-      }} />
+    <img src={u} key={u} />
   ));
-  const legendElement = (
-    <div
-      id={legendElementId}
-      style={{width: 'inherit'}}
-      draggable={false}>
+
+  return (
+    <div style={{display: 'flex', margin: '0 auto'}}>
       {imageElements}
     </div>
-  );
-
-  // We must trigger the image element's `onLoad` to get its width _before_
-  // setting default position on the Rnd component
-  if (legendWidth === 0) {
-    return legendElement;
-  }
-  return (
-    <Rnd
-      bounds='parent'
-      lockAspectRatio={true}
-      maxWidth={'100%'}
-      default={{x: xPos, y: 650, width: 'auto', height: 'auto'}} >
-      
-      {legendElement}
-
-    </Rnd>
   );
 
 }

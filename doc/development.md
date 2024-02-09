@@ -3,7 +3,7 @@
 To use the development configuration, create a compose override file:
 
 ```
-ln -s docker-compose.dev.yml docker-compose.override.yml
+ln -s compose.dev.yml compose.override.yml
 ```
 
 
@@ -22,6 +22,14 @@ The raster data is stored in COGs accessed by HTTP.
 
 The COGs _must_ be in the same projection as the OpenLayers map in order to properly
 display. A script `scripts/make_cogs.sh` can prepare the files correctly.
+
+
+## Style
+
+### Avoid default exports
+
+This allows imported names to mismatch the export, which is bad for readability when not
+done explicitly, i.e. `import {foo as bar} from '...';`.
 
 
 ## TODO

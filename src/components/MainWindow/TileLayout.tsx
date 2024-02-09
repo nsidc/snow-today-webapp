@@ -1,5 +1,5 @@
-import React from 'react';
-import {useSetRecoilState, useRecoilValue} from 'recoil';
+import React, {useEffect} from 'react';
+import {useAtomValue, useSetAtom} from 'jotai';
 
 import _flatten from 'lodash/flatten';
 
@@ -8,12 +8,12 @@ import {
   selectedLayoutColsAtom,
   selectedLayoutRowsAtom,
 } from '@src/state/client/layoutDimensions';
-import selectedSatelliteVariableNameAtom from '@src/state/client/selectedSatelliteVariableName';
-import {AtomValue as SatelliteVariable} from '@src/state/client/selectedSatelliteVariableName/atom';
-import selectedTileTypeAtom from '@src/state/client/selectedTileType';
-import {AtomValue as TileType} from '@src/state/client/selectedTileType/atom';
+import {selectedSatelliteVariableIdAtomFamily} from '@src/state/client/selectedSatelliteVariableId';
+import {AtomValue as SatelliteVariable} from '@src/state/client/selectedSatelliteVariableId';
+import {defaultVariableIdAtom} from '@src/state/client/derived/defaultVariableId';
+import {selectedTileTypeAtomFamily} from '@src/state/client/selectedTileType';
+import {AtomValue as TileType} from '@src/state/client/selectedTileType';
 import {ROW_OPTIONS, COL_OPTIONS} from '@src/constants/layout';
-import useVariablesIndexQuery from '@src/serverState/variablesIndex';
 import {StateSetter} from '@src/types/misc';
 import Tile from './Tile';
 
@@ -34,20 +34,21 @@ const useTileStateSetters = (): ITileStateSetter[] => _flatten(
     row: row,
     col: col,
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    tileTypeSetter: useSetRecoilState(
-      selectedTileTypeAtom({row: row, col: col})
+    tileTypeSetter: useSetAtom(
+      selectedTileTypeAtomFamily({row: row, col: col})
     ),
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    satelliteVariableSetter: useSetRecoilState(
-      selectedSatelliteVariableNameAtom({row: row, col: col})
+    satelliteVariableSetter: useSetAtom(
+      selectedSatelliteVariableIdAtomFamily({row: row, col: col})
     ),
   })))
 );
 
 
 const TileLayout: React.FC = () => {
-  const selectedLayoutCols = useRecoilValue(selectedLayoutColsAtom);
-  const selectedLayoutRows = useRecoilValue(selectedLayoutRowsAtom);
+  const selectedLayoutCols = useAtomValue(selectedLayoutColsAtom);
+  const selectedLayoutRows = useAtomValue(selectedLayoutRowsAtom);
+  const defaultVariableId = useAtomValue(defaultVariableIdAtom);
 
   const tileStateSetters = useTileStateSetters();
 
@@ -57,13 +58,14 @@ const TileLayout: React.FC = () => {
   // variable selector first. Move this into the Recoil state graph?
   // @ts-ignore: TS6133 -- this query data is expected not to be used here;
   // init only.
-  const variablesIndexQuery = useVariablesIndexQuery((defaultVarName: string) => {
-    // Initialize state for each default tile based on query results
+  useEffect(() => {
+    if (defaultVariableId === undefined) { return; }
     tileStateSetters.forEach(setter => {
       setter.tileTypeSetter(setter.col === 1 ? 'map' : 'plot');
-      setter.satelliteVariableSetter(defaultVarName);
+      setter.satelliteVariableSetter(defaultVariableId);
     });
-  });
+    // FIXME: Below dependency is probably wrong? This will change with region changes.
+  }, [defaultVariableId]);
 
   // Make 1-indexed arrays of rows and columns: [1, 2, ..., MAX]
   const colOptions = Array.from(
