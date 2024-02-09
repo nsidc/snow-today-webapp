@@ -5,7 +5,6 @@ import '@src/style/SatelliteVariableSelector.css';
 import {selectedSatelliteVariableIdAtomFamily} from '@src/state/client/selectedSatelliteVariableId';
 import {selectedTileTypeAtomFamily} from '@src/state/client/selectedTileType';
 import {availableVariablesAtom} from '@src/state/client/derived/availableVariables';
-import {defaultVariableIdAtom} from '@src/state/client/derived/defaultVariableId';
 import {ITileIdentifier} from '@src/types/layout';
 
 
@@ -16,8 +15,6 @@ const VariableSelector: React.FC<ITileIdentifier> = (props) => {
   ] = useAtom(selectedSatelliteVariableIdAtomFamily(props));
   const selectedTileType = useAtomValue(selectedTileTypeAtomFamily(props));
   const availableVariables = useAtomValue(availableVariablesAtom);
-  const defaultVariableId = useAtomValue(defaultVariableIdAtom);
-  console.debug(defaultVariableId);
 
   if (
     availableVariables === undefined
