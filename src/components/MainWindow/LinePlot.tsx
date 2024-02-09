@@ -58,8 +58,9 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
   // WARNING: It is _critical_ that the data is copied before passing to
   // Highcharts. Highcharts will mutate the arrays, and we don't want state to
   // be mutated!!!
-  type IPlotDataForHighcharts = Omit<IPlotData, 'dayOfWaterYear'>;
-  type SeriesData = [string, number];
+  type IPlotDataForHighcharts = Omit<IPlotData, 'dayOfWaterYear'> & {unixDate: number[]};
+  // Each series is a list of tuples of unix dates and values:
+  type SeriesData = [number, number];
   // TODO: Is there a programmatic way to do this object transformation
   // *WITHOUT* type casting? This is not friendly to maintain. Easy to
   // make mistakes with values, but Typescript protects us from messing up
@@ -67,6 +68,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
   const plotData = plotDataQuery.data.data;
   const plotMetadata = plotDataQuery.data.metadata;
   const data: IPlotDataForHighcharts = {
+    unixDate: [...plotData.date.map(Date.parse)],
     date: [...plotData.date],
     max: [...plotData.max],
     median: [...plotData.median],
@@ -76,13 +78,13 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     yearToDate: [...plotData.yearToDate],
   };
 
-  // Re-join a given column with the X value (date)
+  // Re-join a given column with the X value (unixDate)
   const getSeriesData = (
-    column: keyof Omit<IPlotDataForHighcharts, 'date'>,
+    column: keyof Omit<IPlotDataForHighcharts, 'unixDate' | 'date'>,
   ): SeriesData[] => {
     // NOTE: We don't use the lodash zip function because it supports
     // different-length lists, using "undefined" to fill in shorter lists.
-    const zipped = data.date.map(
+    const zipped = data.unixDate.map(
       (date, index): SeriesData => [date, data[column][index]]
     );
     return zipped;
