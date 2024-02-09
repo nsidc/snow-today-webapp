@@ -145,30 +145,27 @@ export const useMapView = (
 export const useNotProcessedLayerToggle = (
   slippyMapUid: string,
   notProcessedLayerEnabled: boolean,
-  selectedSatelliteVariableObject: ISspRichVariable | undefined,
-  // FIXME: no any...
+  selectedSatelliteVariableObject: ISspRichVariable,
   availableVariables: IAvailableVariablesIndex | undefined,
 ): void => {
   useEffect(() => {
-    if (
-      selectedSatelliteVariableObject === undefined
-      || availableVariables === undefined
-    ) {
+    if (availableVariables === undefined) {
       return;
     }
 
     const notProcessedVariables = Object.entries(availableVariables).filter(
       ([key, params]) => (
         params.layerType === 'raster_notprocessed'
-        && params.sensor == selectedSatelliteVariableObject.sensor
-        && params.platform == selectedSatelliteVariableObject.platform
-        && params.algorithm == selectedSatelliteVariableObject.algorithm
+        && params.sensor === selectedSatelliteVariableObject.sensor
+        && params.platform === selectedSatelliteVariableObject.platform
+        && params.algorithm === selectedSatelliteVariableObject.algorithm
       )
     );
 
     if (notProcessedVariables.length !== 1) {
       throw new Error(
-        `Exactly one matching notprocessed variable is expected. Got ${notProcessedVariables}.`
+        'Exactly one matching notprocessed variable is expected.'
+        + `Got: ${JSON.stringify(notProcessedVariables)}.`
       );
     }
     const notProcessedVariableParams = notProcessedVariables[0][1];
@@ -214,14 +211,11 @@ export const useSelectedRegionShape = (
 
 export const useSelectedRasterVariable = (
   slippyMapUid: string,
-  selectedSatelliteVariableObject: IRichSuperRegionVariable | undefined,
+  selectedSatelliteVariableObject: IRichSuperRegionVariable,
   openLayersMap: OptionalOpenLayersMap,
 ): void => {
   useEffect(() => {
-    if (
-      openLayersMap === undefined
-      || selectedSatelliteVariableObject === undefined
-    ) {
+    if (openLayersMap === undefined) {
       return;
     }
 

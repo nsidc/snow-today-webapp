@@ -8,19 +8,19 @@ import HighchartsReact from 'highcharts-react-official';
 
 import '@src/style/LinePlot.css';
 import '@src/style/card.css';
-import {selectedRegionAtom} from '@src/state/client/derived/selectedRegion';
 import {plotDataQueryAtomFamily} from '@src/state/server/plotData';
 import {IPlotData} from '@src/types/query/plotData';
 import {IRichSuperRegionVariable} from '@src/types/query/variables';
-import LoadingIcon from '@src/components/common/LoadingIcon';
+import {IGenericRegion} from '@src/types/query/regions';
 
 HighchartsAccessibility(Highcharts);
 HighchartsMore(Highcharts);
 
 
 interface ILinePlotProps {
-  selectedSatelliteVariableId: string | undefined;
-  selectedSatelliteVariable: IRichSuperRegionVariable | undefined;
+  selectedSatelliteVariableId: string;
+  selectedSatelliteVariable: IRichSuperRegionVariable;
+  selectedRegion: IGenericRegion;
 }
 
 
@@ -28,28 +28,13 @@ interface ILinePlotProps {
 const LinePlot: React.FC<ILinePlotProps> = (props) => {
   const chartRef = useRef<HighchartsReact.RefObject>(null);
 
-  const selectedRegion = useAtomValue(selectedRegionAtom);
-
-  if (
-    props.selectedSatelliteVariable === undefined
-    || props.selectedSatelliteVariableId === undefined
-    || selectedRegion === undefined
-  ) {
-    return (
-      <div className={'LinePlot'}>
-        <div className={'card-loading-overlay'}>
-          <LoadingIcon size={200} />
-        </div>
-      </div>
-    );
-  }
   const plotDataQuery = useAtomValue(plotDataQueryAtomFamily({
-    regionId: selectedRegion.id,
+    regionId: props.selectedRegion.id,
     variableId: props.selectedSatelliteVariableId,
   }));
 
   const varLongname = props.selectedSatelliteVariable.longNamePlot;
-  const regionLongname = selectedRegion.longName;
+  const regionLongname = props.selectedRegion.longName;
   if (plotDataQuery.isError) {
     console.debug(`Error!: ${String(plotDataQuery.error)}`);
     return (

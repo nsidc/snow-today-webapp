@@ -25,7 +25,7 @@ export const mapViewAtomFamily = atomFamily(
       // if (geoJsonGeometryFeatures.length !== 1) {
       //   throw new Error('GeoJSON should only include 1 feature.');
       // }
-      if (geoJsonGeometryFeatures.length == 0) {
+      if (geoJsonGeometryFeatures.length === 0) {
         throw new Error('GeoJSON should include >=1 features; found 0.');
       }
       const superRegionExtent = geoJsonGeometryFeatures[0].getGeometry()!.getExtent();

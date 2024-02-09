@@ -52,8 +52,8 @@ import SlippyMapTooltip from './Tooltip';
 
 
 interface ISlippyMapProps {
-  selectedSatelliteVariableId: string | undefined;
-  selectedSatelliteVariable: IRichSuperRegionVariable | undefined;
+  selectedSatelliteVariableId: string;
+  selectedSatelliteVariable: IRichSuperRegionVariable;
 }
 
 
@@ -182,19 +182,6 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
 
   slippyMapRef.current = openLayersMap || null;
   const divId = `map-container-${slippyMapUid}`
-
-  if (
-    props.selectedSatelliteVariable === undefined
-    || props.selectedSatelliteVariableId === undefined
-  ) {
-    return (
-      <div
-        id={divId}
-        ref={slippyMapHtmlElement}
-        className="map-container">
-      </div>
-    );
-  }
 
   return (
     <>

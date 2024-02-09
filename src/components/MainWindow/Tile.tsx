@@ -7,10 +7,10 @@ import '@src/style/Tile.css';
 import {CITATION} from '@src/constants/citation';
 import {ErrorFallbackTileComponent} from '@src/components/common/ErrorFallback';
 import {ITileIdentifier} from '@src/types/layout';
-import {selectedRegionIdAtom} from '@src/state/client/selectedRegionId';
 import {selectedSatelliteVariableIdAtomFamily} from '@src/state/client/selectedSatelliteVariableId';
-import {selectedSatelliteVariableAtomFamily} from '@src/state/client/derived/selectedSatelliteVariable';
 import {selectedTileTypeAtomFamily} from '@src/state/client/selectedTileType';
+import {selectedSatelliteVariableAtomFamily} from '@src/state/client/derived/selectedSatelliteVariable';
+import {selectedRegionAtom} from '@src/state/client/derived/selectedRegion';
 import LoadingIcon from '@src/components/common/LoadingIcon';
 import LinePlot from './LinePlot';
 import SlippyMap from './SlippyMap';
@@ -29,11 +29,18 @@ const Tile: React.FC<ITileProps> = (props) => {
   const selectedTileType = useAtomValue(
     selectedTileTypeAtomFamily(tileIdentifier)
   );
-  const selectedRegionId = useAtomValue(selectedRegionIdAtom);
-  console.debug(selectedRegionId);
+  const selectedRegion = useAtomValue(selectedRegionAtom);
 
-  // TODO: Pass in selected variable as props? Or pass in row and column as
-  // props and let the tiles themselves access state?
+  // NOTE: Hoisted these checks out of the visualization components so they
+  // don't have to worry about undefined. 
+  if (
+    selectedRegion === undefined
+    || selectedSatelliteVariableId === undefined
+    || selectedSatelliteVariable === undefined
+  ) {
+    return (<LoadingIcon size={200} />);
+  }
+
 
   let content: JSX.Element;
   if (selectedTileType === 'plot') {
@@ -41,6 +48,7 @@ const Tile: React.FC<ITileProps> = (props) => {
       <LinePlot
         selectedSatelliteVariableId={selectedSatelliteVariableId}
         selectedSatelliteVariable={selectedSatelliteVariable}
+        selectedRegion={selectedRegion}
       />
     );
   } else if (selectedTileType === 'map') {
@@ -58,7 +66,7 @@ const Tile: React.FC<ITileProps> = (props) => {
     <div className={'Tile snow-today-card'} style={props.style}>
       <ErrorBoundary
         FallbackComponent={ErrorFallbackTileComponent}
-        resetKeys={[selectedTileType, selectedRegionId, selectedSatelliteVariableId]}
+        resetKeys={[selectedTileType, selectedRegion, selectedSatelliteVariableId]}
       >
         <Suspense fallback={<LoadingIcon size={200} />}>
           {content}

@@ -10,8 +10,8 @@ import {sweRichVariablesIndexAtom} from '@src/state/client/derived/richVariables
 
 
 type AtomValue = ISweRichVariable | undefined;
-export const selectedSweVariableAtom = atom<Promise<AtomValue>>(
-  async (get) => {
+export const selectedSweVariableAtom = atom<AtomValue>(
+  (get) => {
     // TODO: Should change rich index query to async and await it?
     const variablesIndex = get(sweRichVariablesIndexAtom);
     const selectedVariable = get(selectedSweVariableIdAtom);

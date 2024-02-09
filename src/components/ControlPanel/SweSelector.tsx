@@ -25,10 +25,12 @@ const BasemapSelector: React.FC = () => {
     setSelectedSweVariableId(eventKey);
   };
 
+  // TODO: This isn't how we handle errors! Let's catch it with an error
+  // boundary instead? Do we need a wrapper component for that? Ugh.
   if (sweVariablesIndexQuery.isError) {
-    console.debug(`Error!: ${sweVariablesIndexQuery.error}`);
+    console.debug(`Error!: ${sweVariablesIndexQuery.error.message}`);
     return (
-      <span>{`Error: ${sweVariablesIndexQuery.error}`}</span>
+      <span>{`Error: ${sweVariablesIndexQuery.error.message}`}</span>
     );
   }
 

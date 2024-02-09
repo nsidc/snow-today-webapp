@@ -16,8 +16,8 @@ export interface IAvailableVariablesIndex {
 
 export const availableVariablesAtom = atom<Promise<IAvailableVariablesIndex | undefined>>(
   async (get) => {
-    const variablesIndex = await get(sspRichVariablesIndexAtom);
     const selectedSuperRegion = await get(selectedSuperRegionAtom);
+    const variablesIndex = get(sspRichVariablesIndexAtom);
 
     if (
       selectedSuperRegion === undefined
