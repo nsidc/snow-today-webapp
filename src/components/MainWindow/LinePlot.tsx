@@ -59,25 +59,21 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
   // Highcharts. Highcharts will mutate the arrays, and we don't want state to
   // be mutated!!!
   type IPlotDataForHighcharts = Omit<IPlotData, 'dayOfWaterYear'>;
-  // type IPlotDataForHighcharts = {
-  //   // TODO: 
-  //   [Property in keyof Omit<IPlotData, 'dayOfWaterYear'>]: number[];
-  // }
   type SeriesData = [string, number];
   // TODO: Is there a programmatic way to do this object transformation
   // *WITHOUT* type casting? This is not friendly to maintain. Easy to
   // make mistakes with values, but Typescript protects us from messing up
   // structure (keys and types of values).
-  const plotData = plotDataQuery.data['data'];
-  // const plotMetadata = plotDataQuery.data.metadata;
+  const plotData = plotDataQuery.data.data;
+  const plotMetadata = plotDataQuery.data.metadata;
   const data: IPlotDataForHighcharts = {
-    date: [...plotData['date']],
-    max: [...plotData['max']],
-    median: [...plotData['median']],
-    min: [...plotData['min']],
-    prc25: [...plotData['prc25']],
-    prc75: [...plotData['prc75']],
-    yearToDate: [...plotData['yearToDate']],
+    date: [...plotData.date],
+    max: [...plotData.max],
+    median: [...plotData.median],
+    min: [...plotData.min],
+    prc25: [...plotData.prc25],
+    prc75: [...plotData.prc75],
+    yearToDate: [...plotData.yearToDate],
   };
 
   // Re-join a given column with the X value (date)
@@ -111,7 +107,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       dashStyle: 'Dash',
     },
     {
-      name: 'Maximum',
+      name: `Maximum (${plotMetadata.maxYear})`,
       type: 'line',
       data: getSeriesData('max'),
       zIndex: 9,
@@ -119,7 +115,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       dashStyle: 'ShortDashDot',
     },
     {
-      name: 'Minimum',
+      name: `Minimum (${plotMetadata.minYear})`,
       type: 'line',
       data: getSeriesData('min'),
       zIndex: 8,
