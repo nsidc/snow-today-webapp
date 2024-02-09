@@ -1,3 +1,12 @@
+# v0.16.0 (2024-02-08)
+
+* Support multiple super-regions
+* Support arbitrary hierarchy of sub-region/collections
+* Display legends statically (remove drag-and-resize function)
+* Display minimum and maximum years in plot legend
+* Migrate internal state management from Recoil -> Jotai
+
+
 # v0.15.1 (2022-12-13)
 
 * Bugfix: SWE points would not clear when selecting "None" from dropdown

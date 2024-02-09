@@ -1,7 +1,7 @@
 {
   "description": "Snow Today Webapp",
   "name": "@nsidc/snow-today-webapp",
-  "version": "0.15.1",
+  "version": "0.16.0",
   "private": false,
   "files": [
     "dist"
