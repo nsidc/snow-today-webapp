@@ -88,7 +88,6 @@ export const colorStyleFromVariableObject = (varObj: IRichSuperRegionVariable): 
     // It's expected that minVal is >=1 if transparentZero is enabled. If it's
     // >1, we'll use the first colormap value for 1 to prevent any
     // intermediate partially-transparent values.
-    // TODO: Fix; is this test still relevant?
     if (minVal < 1) {
       throw new Error(`Expected minVal to be 1; received ${minVal}`);
     // TODO: Why isn't the 1 case represented???

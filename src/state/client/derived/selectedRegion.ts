@@ -27,7 +27,6 @@ export const selectedRegionAtom = atom<Promise<IGenericRegion | undefined>>(
       return;
     }
 
-    // FIXME: Restore!
     // Look for the region, first checking if it's a super-region, then sub-region:
     // TODO: Simplify? Create a mock query that indexes super and sub-regions?
     if (selectedRegionId in superRegionsIndex.data) {

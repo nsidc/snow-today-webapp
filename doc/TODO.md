@@ -15,6 +15,12 @@
 ### State
 
 * More consistent use of jotai-tanstack-query functions
+* Combine ID atoms with their related object atoms, e.g. combine region ID and region
+  definition into one atom. 
+      export interface StateWithId<StateType, IdType = string> {
+        id: IdType;
+        state: StateType;
+      }
 
 
 ## Data / server-side considerations

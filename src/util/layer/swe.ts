@@ -48,8 +48,6 @@ export const showSwePointsOverlay = (
     'data': point,
   }));
   const newSource = new VectorSource({features: features})
-  // FIXME: Support swe colorstops again; see the function definition for more
-  // notes...
   const colorStops = colorStopsFromVariableObject(selectedSweVariable);
 
   layer.setSource(newSource);

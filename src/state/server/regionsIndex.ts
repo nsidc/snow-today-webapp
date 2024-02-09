@@ -9,12 +9,9 @@ import {
 } from '@src/util/fetch/regions';
 import {
   ISuperRegionIndex,
-  // ISubRegion,
   ISubRegionIndex,
-  // ISubRegionCollection,
   ISubRegionCollectionIndex,
   ISubRegionHierarchy,
-  // ISubRegionHierarchyRich,
 } from '@src/types/query/regions';
 import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
 

@@ -24,19 +24,3 @@ export const selectedBasemapLayerAtomFamily = atomFamily(
     return atm;
   }
 );
-
-/*
-
-const selectedBasemapLayerAtom = selectorFamily<AtomValue, AtomParameter>({
-  key: 'selectedBasemapLayer',
-  get: (mapId: AtomParameter) => ({get}) => (
-    basemapLayersByName(mapId).get(get(selectedBasemapNameAtom))!
-  ),
-  // WARNING: We allow mutability because openlayers mutates layer objects, but
-  //   Recoil freezes state objects. If this is disabled, openlayers breaks
-  //   with confusing errors because Recoil froze the layer object.
-  dangerouslyAllowMutability: true,
-});
-
-export default selectedBasemapLayerAtom;
-*/

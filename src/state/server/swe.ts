@@ -1,4 +1,3 @@
-// TODO: Jotai
 import {atomWithQuery} from 'jotai-tanstack-query';
 
 import {fetchSwePoints} from '@src/util/fetch/swe';
