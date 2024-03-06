@@ -69,7 +69,7 @@ const Tile: React.FC<ITileProps> = (props) => {
         resetKeys={[selectedTileType, selectedRegion, selectedSatelliteVariableId]}
       >
         <div className='tile-title'>
-          <h1><b>{selectedTileType == "map" ? selectedSatelliteVariable.longName : selectedSatelliteVariable.longNamePlot}</b></h1>
+          <h1><b>{selectedTileType === "map" ? selectedSatelliteVariable.longName : selectedSatelliteVariable.longNamePlot}</b></h1>
           <h2><b>{selectedRegion.longName}</b> as of <b>{selectedSatelliteVariable.lastDateWithData}</b></h2>
           <h3>
             Climatology calculated over{' '}
