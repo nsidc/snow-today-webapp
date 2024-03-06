@@ -4,6 +4,10 @@
 
 * Minimize undefined checks. The fact that we have them in so many places is a smell I
   don't like!
+* Eliminate all positional parameters from functions with >1 parameter (partial exceptions are
+  OK for functions with obvious context, like
+  `const logMessage = (message: str, params:  {...}) -> ...`
+
 
 ### Names
 
@@ -11,6 +15,7 @@
   variables: SWE points, and various raster variables.
 * selectedRegion -> selectedRegionName
 * selectedRegionObject -> selectedRegion
+
 
 ### State
 
