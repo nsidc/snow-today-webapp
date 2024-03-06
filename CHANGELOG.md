@@ -7,6 +7,7 @@
     * Legends are now displayed at the bottom of the map instead of as a draggable and
       resizable element within the map viewport.
     * Display sensor/platform/algorithm in variable selectors.
+    * Default basemap is now _USGS Topographic + Imagery_
 
 
 ## Under the hood
