@@ -34,7 +34,7 @@ const VariableSelector: React.FC<ITileIdentifier> = (props) => {
     .filter(([variableId, params]) => params.layerType === 'raster')
     .map(([variableId, params]) => (
       <option key={variableId} value={variableId}>
-        {params[longNameParam]}
+        {`${params[longNameParam]} (${params.sensor}/${params.platform}/${params.algorithm})`}
       </option>
     ))
   );
