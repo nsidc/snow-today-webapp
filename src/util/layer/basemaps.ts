@@ -12,14 +12,30 @@ import {
 } from './source';
 
 
+// TODO: Don't use titles as IDs anymore (NOTE: We're not using the source ID
+// because those aren't necessarily unique)
+export type BasemapTitle =
+  | "USGS Topographic"
+  | "USGS Topographic + Imagery"
+  | "USGS Imagery"
+  | "USGS Shaded Relief"
+  | "USGS Hydro Cached"
+  | "ArcGIS Dark Gray"
+  | "ArcGIS Dark Gray Reference"  // TODO: Remove?
+  | "ArcGIS Dark Gray Base"  // TODO: Remove?
+  | "ArcGIS Dark Gray - Base only"
+  | "ArcGIS National Geographic"
+  | "ArcGIS World Topographic"
+
 interface ISourceAttrs {
   id: string;
   fn: (id: any) => XYZ;
 }
 interface IBasemapAttrs {
-  title: string;
+  title: BasemapTitle;
   visible: boolean;
   sourceInfo?: ISourceAttrs;
+  // For when multiple sources must be combined
   children?: IBasemapAttrs[];
 }
 
@@ -146,7 +162,10 @@ const basemapsInfo: IBasemapAttrs[] = [
     visible: false,
   },
 ];
-export const basemapNames = basemapsInfo.map(
+
+// NOTE: Children are not included here. Could probably use clearer
+// nomenclature.
+export const basemapTitles: Array<BasemapTitle> = basemapsInfo.map(
   (basemapInfoEntry) => basemapInfoEntry['title']
 );
 

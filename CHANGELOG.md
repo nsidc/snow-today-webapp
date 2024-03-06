@@ -1,12 +1,10 @@
-# v1.0.0 (Unreleased)
+# v0.17.0 (2024-03-06)
 
-* Update expected JSON structures to match new snow-today-webapp-server specifications.
+* Display sensor/platform/algorithm in variable selectors.
+* Default basemap is now _USGS Topographic + Imagery_
+* Update expected JSON structures to match
+  [new snow-today-webapp-server specifications](https://snow-today-webapp-server.readthedocs.io/interfaces/).
     * Support arbitrary nesting of sub-regions specified in server-side data.
-* Update appearance
-    * New Super Region splash selector on first launch of application.
-    * Legends are now displayed at the bottom of the map instead of as a draggable and
-      resizable element within the map viewport.
-    * Display sensor/platform/algorithm in variable selectors.
 
 
 ## Under the hood
