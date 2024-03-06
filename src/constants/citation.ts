@@ -1,5 +1,7 @@
-export const CITATION = (
-  'Rittger, K., Brodzik, M.J., & Raleigh, M. (2022).'
-  + ' Snow Today. Boulder, Colorado USA.'
-  + ' National Snow and Ice Data Center.'
-);
+const authors = "Rittger, K., Lenard, S.J.P., Palomaki, R.T.";
+const year = (new Date()).getFullYear();
+const projectText = "Snow Today"
+const locationText = "Boulder, Colorado USA";
+const orgText = "National Snow and Ice Data Center";
+
+export const CITATION = `${authors} (${year}). ${projectText}. ${locationText}. ${orgText}.`;

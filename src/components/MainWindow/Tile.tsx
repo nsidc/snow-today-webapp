@@ -78,11 +78,15 @@ const Tile: React.FC<ITileProps> = (props) => {
             <b>{selectedSatelliteVariable.historicWaterYearRange[1]}</b>
           </h3>
         </div>
+
         <Suspense fallback={<LoadingIcon size={200} />}>
           {content}
         </Suspense>
+
         <div className='tile-citation'>
           {CITATION}
+          <br/>
+          {`Data source: ${selectedSatelliteVariable.sensor}/${selectedSatelliteVariable.platform}/${selectedSatelliteVariable.algorithm}`}
         </div>
       </ErrorBoundary>
     </div>

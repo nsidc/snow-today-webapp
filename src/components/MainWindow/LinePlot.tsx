@@ -138,7 +138,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
 
   const chartOptions: Highcharts.Options = {
     chart: {
-      height: '90%',
+      height: '88%',
       type: 'line',
     },
     accessibility: {

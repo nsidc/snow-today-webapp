@@ -26,11 +26,12 @@
 }
 
 .tile-citation {
-  /* line-height */
   font-size: 14px;
-  background: white;
+  line-height: 1em;
+  text-align: center;
 }
 
+/* TODO: Remove? */
 .tile-message {
   margin: 20px;
 }
