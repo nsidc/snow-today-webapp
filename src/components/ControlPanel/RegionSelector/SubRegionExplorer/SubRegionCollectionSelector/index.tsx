@@ -69,7 +69,7 @@ const SubRegionCollectionSelector: React.FC<ISubRegionCollectionSelector> = (pro
 
   return (
     <>
-      <div className={'SubRegionCollectionSelector'}>
+      <div id={'SubRegionCollectionSelector'}>
         {subRegionCollectionOptions}
       </div>
       {

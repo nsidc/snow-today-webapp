@@ -1,3 +1,10 @@
+# v0.18.0 (2024-03-06)
+
+* Prevent sub-region collection selector options from line breaking.
+* Display uniform titles for maps and plots.
+* Update citation text for maps and plots.
+
+
 # v0.17.0 (2024-03-06)
 
 * Display sensor/platform/algorithm in variable selectors.

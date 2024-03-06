@@ -68,11 +68,25 @@ const Tile: React.FC<ITileProps> = (props) => {
         FallbackComponent={ErrorFallbackTileComponent}
         resetKeys={[selectedTileType, selectedRegion, selectedSatelliteVariableId]}
       >
+        <div className='tile-title'>
+          <h1><b>{selectedTileType === "map" ? selectedSatelliteVariable.longName : selectedSatelliteVariable.longNamePlot}</b></h1>
+          <h2><b>{selectedRegion.longName}</b> as of <b>{selectedSatelliteVariable.lastDateWithData}</b></h2>
+          <h3>
+            Climatology calculated over{' '}
+            <b>{selectedSatelliteVariable.historicWaterYearRange[0]}</b>
+            {' '}to{' '}
+            <b>{selectedSatelliteVariable.historicWaterYearRange[1]}</b>
+          </h3>
+        </div>
+
         <Suspense fallback={<LoadingIcon size={200} />}>
           {content}
         </Suspense>
+
         <div className='tile-citation'>
           {CITATION}
+          <br/>
+          {`Data source: ${selectedSatelliteVariable.sensor}/${selectedSatelliteVariable.platform}/${selectedSatelliteVariable.algorithm}`}
         </div>
       </ErrorBoundary>
     </div>

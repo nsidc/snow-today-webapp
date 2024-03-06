@@ -10,11 +10,28 @@
   flex-direction: column;
 }
 
-.tile-citation {
-  font-size: 14px;
-  background: white;
+.tile-title h1, .tile-title h2, .tile-title h3 {
+  text-align: center;
+  line-height: 1em;
+  margin: 0;
+}
+.tile-title h1 {
+  font-size: 1.5em;
+}
+.tile-title h2 {
+  font-size: 1.3em;
+}
+.tile-title h3 {
+  font-size: 1em;
 }
 
+.tile-citation {
+  font-size: 14px;
+  line-height: 1em;
+  text-align: center;
+}
+
+/* TODO: Remove? */
 .tile-message {
   margin: 20px;
 }
