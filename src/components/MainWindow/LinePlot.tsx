@@ -52,7 +52,6 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     );
   }
 
-  const chartTitle = `${regionLongname} - ${varLongname}`;
   const yAxisTitle = props.selectedSatelliteVariable.labelPlotYaxis;
 
   // WARNING: It is _critical_ that the data is copied before passing to
@@ -137,11 +136,9 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     },
   ];
 
-  const ytdSeriesLastNonNullPoint = ytdSeries.filter(p => p[1] !== null).slice(-1)[0];
-  const ytdSeriesLastDate = new Date(ytdSeriesLastNonNullPoint[0]);
   const chartOptions: Highcharts.Options = {
     chart: {
-      height: '95%',
+      height: '90%',
       type: 'line',
     },
     accessibility: {
@@ -149,12 +146,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       description: `${varLongname} plotted over the current water year.`,
     },
     title: {
-      text: chartTitle,
-      style: {fontSize: '20px'},
-    },
-    subtitle: {
-      text: `As of ${ytdSeriesLastDate.toISOString().split('T')[0]}`,
-      style: {fontSize: '16px'},
+      text: undefined,
     },
     tooltip: {
       shared: true,

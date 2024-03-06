@@ -10,7 +10,23 @@
   flex-direction: column;
 }
 
+.tile-title h1, .tile-title h2, .tile-title h3 {
+  text-align: center;
+  line-height: 1em;
+  margin: 0;
+}
+.tile-title h1 {
+  font-size: 1.5em;
+}
+.tile-title h2 {
+  font-size: 1.3em;
+}
+.tile-title h3 {
+  font-size: 1em;
+}
+
 .tile-citation {
+  /* line-height */
   font-size: 14px;
   background: white;
 }
