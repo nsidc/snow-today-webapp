@@ -1,5 +1,6 @@
 #SubRegionCollectionSelector {
   white-space: nowrap;
+  width: min-content;
 }
 .sub-region-collection-option {
   display: inline-block;
