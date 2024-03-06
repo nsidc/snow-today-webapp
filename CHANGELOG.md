@@ -1,3 +1,8 @@
+# v0.18.1 (2024-03-06)
+
+* Fix bug calculating SWE legend URL.
+
+
 # v0.18.0 (2024-03-06)
 
 * Prevent sub-region collection selector options from line breaking.

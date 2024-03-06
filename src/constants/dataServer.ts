@@ -23,5 +23,5 @@ export const sspVariablesIndexUrl = `${sspDataUrl}/variables.json`;
 export const sspLegendsUrl = `${sspDataUrl}/legends`;
 
 export const sweVariablesIndexUrl = `${sweDataUrl}/variables.json`;
-export const sweLegendsUrl = `${sweDataUrl}/legends`;
+export const sweLegendsUrl = `${sweDataUrl}/regions/legends`;
 export const swePointsUrl = `${sweDataUrl}/points/swe.json`;
