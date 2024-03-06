@@ -1,3 +1,19 @@
+# v1.0.0 (Unreleased)
+
+* Update expected JSON structures to match new snow-today-webapp-server specifications.
+    * Support arbitrary nesting of sub-regions specified in server-side data.
+* Update appearance
+    * New Super Region splash selector on first launch of application.
+    * Legends are now displayed at the bottom of the map instead of as a draggable and
+      resizable element within the map viewport.
+    * Display sensor/platform/algorithm in variable selectors.
+
+
+## Under the hood
+
+* Migrate from Recoil to Jotai
+
+
 # v0.16.0 (2024-02-08)
 
 * Support multiple super-regions
