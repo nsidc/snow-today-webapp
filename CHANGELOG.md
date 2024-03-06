@@ -1,6 +1,7 @@
 # v1.0.0 (Unreleased)
 
-* Update expected JSON structures to match new snow-today-webapp-server specifications.
+* Update expected JSON structures to match
+  [new snow-today-webapp-server specifications](https://snow-today-webapp-server.readthedocs.io/interfaces/).
     * Support arbitrary nesting of sub-regions specified in server-side data.
 * Update appearance
     * New Super Region splash selector on first launch of application.
