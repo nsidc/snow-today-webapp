@@ -55,8 +55,16 @@ export interface ISubRegionHierarchyRich {
  */
 export interface ISuperRegionVariable {
   default: boolean;
+  lastDateWithData: string;
+  waterYear: number;
   dataValueRange: [number, number];
+
+  waterYearStartDate: string;
+  historicWaterYearRange: [number, number];
+  historicSource: string;
+
   geotiffRelativePath: string;
+  legendRelativePath: string;
 }
 export interface ISuperRegionVariablesIndex {
   [variableId: string]: ISuperRegionVariable;
@@ -66,10 +74,6 @@ export interface ISuperRegion {
   longName: string;
   shortName: string;
   crs: string;
-  waterYear: number;
-  waterYearStartDate: string;
-  historicWaterYearRange: [number, number];
-  lastDateWithData: string;
 
   shapeRelativePath: string;
   subRegionsRelativePath: string;

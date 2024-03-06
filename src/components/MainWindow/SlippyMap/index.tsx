@@ -210,7 +210,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
       </div>
 
       <SlippyMapLegend
-        selectedSatelliteVariableId={props.selectedSatelliteVariableId}
+        selectedSatelliteVariable={props.selectedSatelliteVariable}
       />
     </>
   );

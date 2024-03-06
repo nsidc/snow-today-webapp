@@ -1,22 +1,26 @@
 import React from 'react';
 import {useAtomValue} from 'jotai';
 
-import {sspLegendsUrl, sweLegendsUrl} from '@src/constants/dataServer';
-import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
+import {sspDataUrl, sweLegendsUrl} from '@src/constants/dataServer';
 import {selectedSweVariableIdAtom} from '@src/state/client/selectedSweVariableId';
+import {IRichSuperRegionVariable} from '@src/types/query/variables';
 
 
 interface ISlippyMapLegendProps {
-  selectedSatelliteVariableId: string;
+  selectedSatelliteVariable: IRichSuperRegionVariable;
 }
 
 const SlippyMapLegend: React.FC<ISlippyMapLegendProps> = (props) => {
-  const selectedSuperRegionId = useAtomValue(selectedSuperRegionIdAtom);
   const selectedSweVariableId = useAtomValue(selectedSweVariableIdAtom);
 
-  // TODO: Pass in JSON, don't calculate!
-  const legendUrls = [`${sspLegendsUrl}/${selectedSuperRegionId}_${props.selectedSatelliteVariableId}.svg`];
+  const legendUrls = [`${sspDataUrl}/${props.selectedSatelliteVariable.legendRelativePath}`];
   // TODO: Separate SWE and SSP legends into own components?
+  // TODO: Get SWE from separate super-region files. We currently are asking
+  //       SWE to be sent with super-region IDs matching snow surface
+  //       properties data.
+  // TODO: Pass in JSON, don't calculate! We need a concept of a dedicated SWE
+  //       variables.json file. Currently, SWE legends only vary by variable,
+  //       not by region and variable like SSP legends.
   if (selectedSweVariableId !== undefined) {
     legendUrls.push(`${sweLegendsUrl}/${selectedSweVariableId}.svg`);
   }
