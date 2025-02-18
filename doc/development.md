@@ -9,7 +9,7 @@ ln -s compose.dev.yml compose.override.yml
 Run the docker file
 
 ```
-docker compose -f compose.dev.yml up
+docker compose up --detach
 ```
 
 If the docker container is successfully created and running, then your app should be available to view at __http://localhost:8080__.
