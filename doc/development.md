@@ -12,7 +12,7 @@ Run the docker file
 docker compose up --detach
 ```
 
-If the docker container is successfully created and running, then your app should be available to view at __http://localhost:8080__.
+If the docker container is successfully created and running, then your app should be available to view at <http://localhost:8080>.
 
 
 ## Snow Today Server
