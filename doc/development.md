@@ -19,7 +19,7 @@ If the docker container is successfully created and running, then your app shoul
 
 It takes a lot to create a local [Snow Today server](https://github.com/nsidc/snow-today-webapp-server) to use for development, so if you are not making changes to it, use the publically deployed Snow Today server instead.
 
-To use the publically available Snow Today server, edit the `/src/constants/dataServer.ts` file by commenting out lines 5-7. This will ensure the data server used is __https://nsidc.org/api/snow-today__ instead of __http://localhost:8080__.
+To use the publically available Snow Today server, edit the `/src/constants/dataServer.ts` file by commenting out lines 5-7. This will ensure the data server used is <https://nsidc.org/api/snow-today> instead of <http://localhost:8080>.
 
 
 ## State management
