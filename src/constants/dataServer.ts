@@ -7,7 +7,7 @@ const getDataServerUrl = (): string => {
   }
 
   // Integration Data Server URL: https://integration.nsidc.org/api/snow-today/
-  // Production Data Server URL (pasted below): https://integration.nsidc.org/api/snow-today/ 
+  // Production Data Server URL (pasted below): https://nsidc.org/api/snow-today/ 
 
   return 'https://nsidc.org/api/snow-today';
 }
