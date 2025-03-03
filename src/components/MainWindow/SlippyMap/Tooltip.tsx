@@ -8,14 +8,15 @@ import {SwePointForOverlay} from '@src/types/swe';
 
 interface ISlippyMapTooltipProps {
   features: Array<Feature>;
+  unit: string | null | undefined;
   onClose: () => void;
 }
 
 
 const SlippyMapTooltip: React.FC<ISlippyMapTooltipProps> = (props) => {
 
-  const featuresHTML = (features: Array<Feature>): JSX.Element | null => {
-    const f = features[0]
+  const featuresHTML = (props: ISlippyMapTooltipProps): JSX.Element | null => {
+    const f = props.features[0]
     if (f === undefined) {
       return null;
     }
@@ -43,7 +44,7 @@ const SlippyMapTooltip: React.FC<ISlippyMapTooltipProps> = (props) => {
           </div>
 
           <div className="feature-attribute">
-            Value: {featureData['measurement_inches']}
+            Value: {featureData['measurement_inches']} {props.unit && props.unit.includes("Percentage") ? "%" : "cm"}
           </div>
 
         </div>
@@ -51,7 +52,7 @@ const SlippyMapTooltip: React.FC<ISlippyMapTooltipProps> = (props) => {
     );
   };
 
-  return featuresHTML(props.features);
+  return featuresHTML(props);
 }
 
 export default SlippyMapTooltip;
