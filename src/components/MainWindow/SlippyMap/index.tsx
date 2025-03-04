@@ -201,7 +201,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
         <div ref={overlayElement}>
           <SlippyMapTooltip
             features={selectedFeatures}
-            unit={selectedSweVariable?.longName}
+            unit={selectedSweVariable?.unit}
             onClose={handleMapTipClose} />
         </div>
 
