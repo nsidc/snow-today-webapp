@@ -1,3 +1,7 @@
+# v0.18.2 (2024-03-17)
+
+* Add units to SWE tooltips.
+
 # v0.18.1 (2024-03-06)
 
 * Fix bug calculating SWE legend URL.
