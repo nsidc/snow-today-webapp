@@ -51,6 +51,7 @@ export interface ISweVariable {
   noDataValue: number;
   colormapId:  number;
   transparentZero: boolean;
+  unit: string;
 }
 
 export interface ISweVariableIndex {
