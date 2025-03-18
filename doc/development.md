@@ -6,6 +6,26 @@ To use the development configuration, create a compose override file:
 ln -s compose.dev.yml compose.override.yml
 ```
 
+Run the docker file
+
+```
+docker compose up --detach
+```
+
+View docker logs when using `--detach`
+
+```
+docker compose logs --follow
+```
+
+If the docker container is successfully created and running, then your app should be available to view at <http://localhost:8080>.
+
+
+## Snow Today Server
+
+The Snow Today webapp relies on a backend service provided by the [Snow Today server](https://github.com/nsidc/snow-today-webapp-server). See the Snow Today server documentation for more information about developing the server.
+
+In a development environment, the Snow Today webapp assumes that the Snow Today server is available on the localhost. To develop the Snow Today webapp while using the production Snow Today server (e.g., because you only need to make changes to the frontend and do not need to setup the server for development purposes), manually edit [getDataServerUrl](https://github.com/nsidc/snow-today-webapp/blob/cb34c97ad41bb81bb4571555a0ff5e226cdc982e/src/constants/dataServer.ts#L1-L10) to always return the production data server [URL](https://nsidc.org/api/snow-today) or the integration data server [URL](https://integration.nsidc.org/api/snow-today/). 
 
 ## State management
 
