@@ -1,4 +1,4 @@
-const authors = "Rittger, K., Lenard, S.J.P., Palomaki, R.T.";
+const authors = "Rittger, K., Lenard, S.J.P., Palomaki, R.T., Stephenson, L.";
 const year = (new Date()).getFullYear();
 const projectText = "Snow Today"
 const locationText = "Boulder, Colorado USA";
