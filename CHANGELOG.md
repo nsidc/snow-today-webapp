@@ -1,3 +1,7 @@
+# v0.18.3 (2025-10-24)
+
+* Add author to citation.
+
 # v0.18.2 (2024-03-17)
 
 * Add units to SWE tooltips.
