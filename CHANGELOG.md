@@ -1,3 +1,7 @@
+# v0.18.4 (2025-01-20)
+
+* Remove author from citation. 
+
 # v0.18.3 (2025-10-24)
 
 * Add author to citation.
