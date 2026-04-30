@@ -32,6 +32,7 @@ const VariableSelector: React.FC<ITileIdentifier> = (props) => {
   const variableOptions: Array<JSX.Element> = (
     Object.entries(availableVariables)
     .filter(([variableId, params]) => params.layerType === 'raster')
+    .filter(([variableId]) => !(variableId === '77' && selectedTileType === 'plot'))
     .map(([variableId, params]) => (
       <option key={variableId} value={variableId}>
         {`${params[longNameParam]} (${params.sensor}/${params.platform}/${params.algorithm})`}
