@@ -22,6 +22,7 @@ const config = {
     open: true,
     // Enable "external" access (i.e. from outside Docker container)
     host: '0.0.0.0',
+    port: 8080,
     // Resolve "Invalid Host header" error when running dev server in Docker
     allowedHosts: 'all',
     // Enable hot reloading over websocket port through Docker port map:

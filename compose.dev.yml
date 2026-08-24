@@ -13,7 +13,7 @@ services:
     # command: 'npm run serve:nolint'
     ports:
       # Webpack dev server and websocket for hot reload:
-      - "8080:8080"
+      - "0.0.0.0:8080:8080"
     volumes:
       - "./src:/app/src:ro"
       - "./index.html:/app/index.html:ro"
