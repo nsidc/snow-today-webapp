@@ -15,6 +15,11 @@ jobs:
     needs:
       - "test"
     runs-on: "ubuntu-latest"
+
+    permissions:
+      contents: read
+      id-token: write
+
     steps:
 
       - name: "Check out repository"
@@ -24,7 +29,6 @@ jobs:
         uses: "actions/setup-node@v4"
         with:
           node-version: "22.x"
-          registry-url: "https://registry.npmjs.org"
 
       - name: "Install dependencies"
         run: "npm install"
