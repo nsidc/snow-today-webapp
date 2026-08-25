@@ -1,7 +1,11 @@
 {
   "description": "Snow Today Webapp",
   "name": "@nsidc/snow-today-webapp",
-  "version": "0.18.5",
+  "version": "0.19.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nsidc/snow-today-webapp.git"
+  },
   "private": false,
   "files": [
     "dist"
@@ -26,7 +30,7 @@
     "@fontsource/roboto": "^4.5.7",
     "@tanstack/query-core": "^5.18.0",
     "@tanstack/react-query": "^4.2.1",
-    "bootstrap": "~4.5.3",
+    "bootstrap": "^5.3.8",
     "colormap": "^2.3.2",
     "date-fns": "^2.29.3",
     "fast-deep-equal": "^3.1.3",

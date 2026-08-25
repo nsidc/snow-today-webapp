@@ -1,3 +1,7 @@
+# v0.19.0 (2026-08-25)
+
+* Update node in ci building, and dependencies in package.json
+
 # v0.18.5 (2026-04-30)
 
 * Remove days_without_observation from plot dropdown menu.
