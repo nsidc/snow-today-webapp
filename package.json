@@ -1,7 +1,7 @@
 {
   "description": "Snow Today Webapp",
   "name": "@nsidc/snow-today-webapp",
-  "version": "0.19.1",
+  "version": "0.19.1-rc1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nsidc/snow-today-webapp.git"
