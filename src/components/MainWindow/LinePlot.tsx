@@ -92,7 +92,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
   const ytdSeries = getSeriesData('yearToDate');
   const chartData: Highcharts.SeriesOptionsType[] = [
     {
-      name: 'Year to date (km<sup>2</sup>)',
+      name: 'Year to date',
       type: 'line',
       data: ytdSeries,
       zIndex: 99,
@@ -100,7 +100,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       lineWidth: 3,
     },
     {
-      name: 'Median (km<sup>2</sup>)',
+      name: 'Median',
       type: 'line',
       data: getSeriesData('median'),
       zIndex: 10,
@@ -108,7 +108,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       dashStyle: 'Dash',
     },
     {
-      name: `Maximum (${plotMetadata.maxYear}, km<sup>2</sup>)`,
+      name: `Maximum (${plotMetadata.maxYear})`,
       type: 'line',
       data: getSeriesData('max'),
       zIndex: 9,
@@ -116,7 +116,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       dashStyle: 'ShortDashDot',
     },
     {
-      name: `Minimum (${plotMetadata.minYear}, km<sup>2</sup>)`,
+      name: `Minimum (${plotMetadata.minYear})`,
       type: 'line',
       data: getSeriesData('min'),
       zIndex: 8,
@@ -124,7 +124,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       dashStyle: 'ShortDot',
     },
     {
-      name: 'Interquartile Range (km<sup>2</sup>)',
+      name: 'Interquartile Range',
       type: 'arearange',
       data: getSeriesData('prc25').map(([x, low], index) => {
         const high = getSeriesData('prc75')[index][1];

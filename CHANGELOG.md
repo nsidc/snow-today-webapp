@@ -1,3 +1,7 @@
+# v0.19.1 (2026-08-25)
+
+* Set the "Not Processed" flag to be set by default.
+
 # v0.19.0 (2026-08-25)
 
 * Update node in ci building, and dependencies in package.json
