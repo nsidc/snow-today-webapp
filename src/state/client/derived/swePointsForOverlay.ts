@@ -30,12 +30,15 @@ export const swePointsForOverlayAtom = atom<SwePointsForOverlay>(
       }
     }
 
+    // const overlayDate = swePointsQuery.
+    const overlayDate = swePointsQuery.data.metadata.last_date_with_data;
     const overlayPoints = swePointsQuery.data.data.map(point => ({
       name: point.name,
       lon: point.lon,
       lat: point.lat,
       elevation_meters: point.elevation_meters,
       measurement_inches: measurementInches(point),
+      date: overlayDate
     }));
 
     return overlayPoints;
