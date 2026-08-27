@@ -151,6 +151,8 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     tooltip: {
       shared: true,
       valueDecimals: props.selectedSatelliteVariable.valuePrecision,
+      valueSuffix: ' km<sup>2</sup>',
+      useHTML: true,
     },
     yAxis: {
       title: {
