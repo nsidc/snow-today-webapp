@@ -37,7 +37,11 @@ import {
   notProcessedLayer,
   toggleNotProcessedLayer,
 } from '@src/util/layer/raster';
-import {showSwePointsOverlay, swePointsLayer} from '@src/util/layer/swe';
+import {
+  showSwePointsOverlay,
+  swePointsLayer,
+  toggleShowZeroOrMissing,
+} from '@src/util/layer/swe';
 import {regionShapeLayer, showRegionShape} from '@src/util/layer/regionShape';
 import {showBasemapLayer} from '@src/util/layer/switch';
 
@@ -172,6 +176,15 @@ export const useNotProcessedLayerToggle = (
 
     toggleNotProcessedLayer(slippyMapUid, notProcessedLayerEnabled, notProcessedVariableParams)
   }, [slippyMapUid, notProcessedLayerEnabled, selectedSatelliteVariableObject, availableVariables]);
+}
+
+export const useShowZeroOrMissingToggle = (
+  slippyMapUid: string,
+  showZeroOrMissingEnabled: boolean,
+): void => {
+  useEffect(() => {
+    toggleShowZeroOrMissing(slippyMapUid);
+  }, [slippyMapUid, showZeroOrMissingEnabled]);
 }
 
 // When the selected basemap is updated, update the map to reflect this.

@@ -9,7 +9,7 @@ const ShowZeroOrMissingToggle: React.FC = () => {
   return (
     <span className={'ShowZeroOrMissingToggle'}>
       <label htmlFor={'showzeromissing-toggle-checkbox'}>
-        {'Show Zero/Missing Values:'}
+        {'Show Zero/Missing SWE Values:'}
       </label>
       <input id={'showzeromissing-toggle-checkbox'}
         type={'checkbox'}

@@ -19,6 +19,7 @@ import '@src/style/card.css';
 import {CRS_LONLAT, CRS_MAP} from '@src/constants/crs';
 import LoadingIcon from '@src/components/common/LoadingIcon';
 import {notProcessedLayerEnabledAtom} from '@src/state/client/notProcessedLayerEnabled';
+import {showZeroOrMissingEnabledAtom} from '@src/state/client/showZeroOrMissingEnabled';
 import {rasterOpacityAtom} from '@src/state/client/rasterOpacity';
 import {availableVariablesAtom} from '@src/state/client/derived/availableVariables';
 import {selectedBasemapLayerAtomFamily} from '@src/state/client/derived/selectedBasemapLayer';
@@ -46,6 +47,7 @@ import {
   useSelectedRegionShape,
   useSelectedRasterVariable,
   useSelectedSweVariable,
+  useShowZeroOrMissingToggle,
 } from '@src/util/sideEffects/slippyMap';
 import SlippyMapLegend from './Legend';
 import SlippyMapTooltip from './Tooltip';
@@ -76,6 +78,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
 
   const availableVariables = useAtomValue(availableVariablesAtom);
   const notProcessedLayerEnabled = useAtomValue(notProcessedLayerEnabledAtom);
+  const showZeroOrMissingEnabled = useAtomValue(showZeroOrMissingEnabledAtom);
   const rasterOpacity = useAtomValue(rasterOpacityAtom);
   const selectedBasemap = useAtomValue(selectedBasemapLayerAtomFamily(slippyMapUid));
   const selectedSweVariable = useAtomValue(selectedSweVariableAtom);
@@ -178,6 +181,10 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
     selectInteraction,
     openLayersMap,
 	);
+  useShowZeroOrMissingToggle(
+    slippyMapUid,
+    showZeroOrMissingEnabled,
+  );
 
 
   slippyMapRef.current = openLayersMap || null;
