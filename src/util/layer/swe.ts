@@ -79,19 +79,34 @@ export const showSwePointsOverlay = (
         stroke: new Stroke({ color: 'black', width: 1 }),
       }),
     });
+    const zeroBaseStyle = new Style({
+      image: new Circle({
+        radius: 5,
+        fill: new Fill({ color: 'yellow' }),
+        stroke: new Stroke({ color: 'black', width: 1 }),
+      }),
+    });
+    const missingBaseStyle = new Style({
+      image: new Circle({
+        radius: 5,
+        fill: new Fill({ color: 'magenta' }),
+        stroke: new Stroke({ color: 'black', width: 1 }),
+      }),
+    });
 
     // Missing values have an X in them
     if (isZeroOrMissing && showZeroOrMissingEnabled) {
+      const zmStyle = value === 0 ? zeroBaseStyle : missingBaseStyle;
       const xStyle = new Style({
         image: new RegularShape({
           points: 4,
           radius: 4,
           radius2: 0,
           angle: Math.PI / 4,
-          stroke: new Stroke({ color: 'red', width: 1.5 }),
+          stroke: new Stroke({ color: 'red', width: 1 }),
         }),
       });
-      return [baseStyle, xStyle];
+      return [zmStyle, xStyle];
     }
 
     // If it gets here, we just use regular styling
