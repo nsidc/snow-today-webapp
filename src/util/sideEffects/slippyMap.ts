@@ -37,7 +37,11 @@ import {
   notProcessedLayer,
   toggleNotProcessedLayer,
 } from '@src/util/layer/raster';
-import {showSwePointsOverlay, swePointsLayer} from '@src/util/layer/swe';
+import {
+  showSwePointsOverlay,
+  swePointsLayer,
+  toggleShowZeroOrMissing,
+} from '@src/util/layer/swe';
 import {regionShapeLayer, showRegionShape} from '@src/util/layer/regionShape';
 import {showBasemapLayer} from '@src/util/layer/switch';
 
@@ -55,7 +59,7 @@ export const useSlippyMapInit = (
   slippyMapUid: string,
   slippyMapHtmlElement: RefObject<HTMLDivElement>,
   overlayElement: RefObject<HTMLDivElement>,
-  clickHandler: (event: MapBrowserEvent<any>) => void,
+  clickHandler: (event: MapBrowserEvent<MouseEvent>) => void,
   selectHandler: (event: SelectEvent) => void,
   setOpenLayersMap: StateSetter<OptionalOpenLayersMap>,
   setFeatureInfoOverlay: StateSetter<OptionalOverlay>,
@@ -86,6 +90,9 @@ export const useSlippyMapInit = (
     });
 
     initialOpenLayersMap.on('click', clickHandler);
+    sharedView.on('change:resolution', () => {
+      swePointsLayer(slippyMapUid).changed();
+    })
 
     // We have to add the interaction after instantiating `initialMap` because
     // we want to take advantage of the default interactions (click-and-drag to
@@ -172,6 +179,15 @@ export const useNotProcessedLayerToggle = (
 
     toggleNotProcessedLayer(slippyMapUid, notProcessedLayerEnabled, notProcessedVariableParams)
   }, [slippyMapUid, notProcessedLayerEnabled, selectedSatelliteVariableObject, availableVariables]);
+}
+
+export const useShowZeroOrMissingToggle = (
+  slippyMapUid: string,
+  showZeroOrMissingEnabled: boolean,
+): void => {
+  useEffect(() => {
+    toggleShowZeroOrMissing(slippyMapUid);
+  }, [slippyMapUid, showZeroOrMissingEnabled]);
 }
 
 // When the selected basemap is updated, update the map to reflect this.

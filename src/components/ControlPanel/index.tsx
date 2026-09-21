@@ -8,6 +8,7 @@ import RefreshPageButton from '@src/components/common/RefreshPageButton';
 import BasemapSelector from './BasemapSelector';
 import LayoutConfigurator from './LayoutConfigurator';
 import NotProcessedLayerToggle from './NotProcessedLayerToggle';
+import ShowZeroOrMissingToggle from './ShowZeroOrMissingToggle';
 import RegionSelector from './RegionSelector';
 import RasterOpacitySlider from './RasterOpacitySlider';
 import SweSelector from './SweSelector';
@@ -34,6 +35,7 @@ const ControlPanel: React.FC = () => {
       <SweSelector />
 
       <NotProcessedLayerToggle />
+      <ShowZeroOrMissingToggle />
       <RasterOpacitySlider />
 
       <RefreshPageButton />

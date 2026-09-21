@@ -5,6 +5,7 @@ export interface SwePointForOverlay {
   elevation_meters: number;
   // Should not be "inches" -- sometimes is percent.
   measurement_inches?: number;
+  date: string;
 }
 
 export type SwePointsForOverlay = SwePointForOverlay[];
