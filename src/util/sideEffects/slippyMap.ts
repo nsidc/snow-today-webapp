@@ -90,6 +90,9 @@ export const useSlippyMapInit = (
     });
 
     initialOpenLayersMap.on('click', clickHandler);
+    sharedView.on('change:resolution', () => {
+      swePointsLayer(slippyMapUid).changed();
+    })
 
     // We have to add the interaction after instantiating `initialMap` because
     // we want to take advantage of the default interactions (click-and-drag to

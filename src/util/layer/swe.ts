@@ -28,6 +28,8 @@ export const swePointsLayer = _memoize((mapId: string): VectorLayer<VectorSource
     source: new VectorSource({
       features: [],
     }),
+    updateWhileAnimating: true,
+    updateWhileInteracting: true,
     visible: true,
     zIndex: 100,
   })
@@ -57,7 +59,7 @@ export const showSwePointsOverlay = (
   const colorStops = colorStopsFromVariableObject(selectedSweVariable);
 
   layer.setSource(newSource);
-  layer.setStyle((feature) => {
+  layer.setStyle((feature, resolution) => {
     // Use the store to get the current value of the toggle at all times
     const showZeroOrMissingEnabled = store.get(showZeroOrMissingEnabledAtom);
     const featureData = feature.getProperties().data as SwePointForOverlay;
@@ -70,43 +72,70 @@ export const showSwePointsOverlay = (
       return undefined;
     }
 
+    const minRes = 1400;
+    const maxRes = 4323;
+    const minRad = 2;
+    const minXRad = 3;
+    const maxRad = 7;
+    const sizeScaleRate = 1.6;
+
+    const clampedRes = Math.max(minRes, Math.min(maxRes, resolution));
+
+    const logMin = Math.log(minRes);
+    const logMax = Math.log(maxRes);
+
+    const baseProgress = (logMax - Math.log(clampedRes)) / (logMax - logMin);
+    const curvedProgress = Math.pow(baseProgress, sizeScaleRate);
+
+    const dynamicRadius = minRad + curvedProgress * (maxRad - minRad);
+    const xRadius = Math.max(1, dynamicRadius * 0.8);
+
+    console.log('CHANGING RESOLUTION TO ' + resolution + ', RADIUS IS NOW ' + dynamicRadius); 
+
     // Basic style for all points, even those with missing values
     const color = findColorStopsNearestColor(colorStops, value!);
     const baseStyle = new Style({
       image: new Circle({
-        radius: 5,
+        radius: dynamicRadius,
         fill: new Fill({ color }),
         stroke: new Stroke({ color: 'black', width: 1 }),
       }),
+      zIndex: 100,
     });
     const zeroBaseStyle = new Style({
       image: new Circle({
-        radius: 5,
+        radius: dynamicRadius,
         fill: new Fill({ color: 'yellow' }),
         stroke: new Stroke({ color: 'black', width: 1 }),
       }),
+      zIndex: 0,
     });
     const missingBaseStyle = new Style({
       image: new Circle({
-        radius: 5,
+        radius: dynamicRadius,
         fill: new Fill({ color: 'magenta' }),
         stroke: new Stroke({ color: 'black', width: 1 }),
       }),
+      zIndex: 0,
     });
 
     // Missing values have an X in them
     if (isZeroOrMissing && showZeroOrMissingEnabled) {
+      const strokeColor = value == 0 ? 'red' : 'black';
       const zmStyle = value === 0 ? zeroBaseStyle : missingBaseStyle;
       const xStyle = new Style({
         image: new RegularShape({
           points: 4,
-          radius: 4,
+          radius: xRadius,
           radius2: 0,
           angle: Math.PI / 4,
-          stroke: new Stroke({ color: 'red', width: 1 }),
+          stroke: new Stroke({ color: strokeColor, width: 1.5 }),
         }),
       });
-      return [zmStyle, xStyle];
+      if (xRadius >= minXRad)
+        return [zmStyle, xStyle];
+      else
+        return zmStyle;
     }
 
     // If it gets here, we just use regular styling
