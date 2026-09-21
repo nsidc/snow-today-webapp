@@ -24,7 +24,7 @@ const SlippyMapTooltip: React.FC<ISlippyMapTooltipProps> = (props) => {
     // The real return type of .getProperties() is `{ [key: string]: any; }`
     const featureData = f.getProperties().data as SwePointForOverlay;
     // const lastDate = f.getProperties().metadata.last_date_with_data as String;
-    const lastDate = featureData['date'] as String;
+    const lastDate = featureData['date'];
 
     // NOTE: The key on the `img` tag prevents the browser from re-using the
     // last image while waiting for the next image to load. There must be a

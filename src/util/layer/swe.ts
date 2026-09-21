@@ -64,7 +64,7 @@ export const showSwePointsOverlay = (
     const showZeroOrMissingEnabled = store.get(showZeroOrMissingEnabledAtom);
     const featureData = feature.getProperties().data as SwePointForOverlay;
     const value = featureData.measurement_inches;
-    const isZeroOrMissing = value === 0 || value == null;
+    const isZeroOrMissing = value === 0 || value === null;
 
     // If there is no value for this feature, and the toggle is off, return
     // undefined so it won't show up
@@ -121,7 +121,7 @@ export const showSwePointsOverlay = (
 
     // Missing values have an X in them
     if (isZeroOrMissing && showZeroOrMissingEnabled) {
-      const strokeColor = value == 0 ? 'red' : 'black';
+      const strokeColor = value === 0 ? 'red' : 'black';
       const zmStyle = value === 0 ? zeroBaseStyle : missingBaseStyle;
       const xStyle = new Style({
         image: new RegularShape({
