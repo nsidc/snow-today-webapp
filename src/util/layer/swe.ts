@@ -4,9 +4,7 @@ import Point from 'ol/geom/Point';
 import {Vector as VectorLayer} from 'ol/layer';
 import {transform} from 'ol/proj'
 import {Vector as VectorSource} from 'ol/source';
-// import {Circle, Fill, Stroke, Style, Text} from 'ol/style';
 import {Circle, Fill, RegularShape, Stroke, Style} from 'ol/style';
-//import {Circle, Fill, Style} from 'ol/style';
 
 import _memoize from 'lodash/memoize';
 
@@ -89,8 +87,6 @@ export const showSwePointsOverlay = (
 
     const dynamicRadius = minRad + curvedProgress * (maxRad - minRad);
     const xRadius = Math.max(1, dynamicRadius * 0.8);
-
-    console.log('CHANGING RESOLUTION TO ' + resolution + ', RADIUS IS NOW ' + dynamicRadius); 
 
     // Basic style for all points, even those with missing values
     const color = findColorStopsNearestColor(colorStops, value!);

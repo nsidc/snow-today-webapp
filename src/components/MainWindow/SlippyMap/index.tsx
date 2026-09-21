@@ -112,7 +112,7 @@ const SlippyMap: React.FC<ISlippyMapProps> = (props) => {
   }
 
 
-  const handleSlippyMapClick = (event: MapBrowserEvent<any>) => {
+  const handleSlippyMapClick = (event: MapBrowserEvent<MouseEvent>) => {
     if ( !slippyMapRef || !slippyMapRef.current ) {
       return;
     }

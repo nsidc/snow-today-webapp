@@ -59,7 +59,7 @@ export const useSlippyMapInit = (
   slippyMapUid: string,
   slippyMapHtmlElement: RefObject<HTMLDivElement>,
   overlayElement: RefObject<HTMLDivElement>,
-  clickHandler: (event: MapBrowserEvent<any>) => void,
+  clickHandler: (event: MapBrowserEvent<MouseEvent>) => void,
   selectHandler: (event: SelectEvent) => void,
   setOpenLayersMap: StateSetter<OptionalOpenLayersMap>,
   setFeatureInfoOverlay: StateSetter<OptionalOverlay>,
