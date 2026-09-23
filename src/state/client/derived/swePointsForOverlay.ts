@@ -21,7 +21,7 @@ export const swePointsForOverlayAtom = atom<SwePointsForOverlay>(
       return [];
     }
 
-    const measurementInches = (point: ISwePoint) => {
+    const measurementValue = (point: ISwePoint) => {
       if (selectedSweVariableId === undefined) {
         return undefined;
       } else {
@@ -36,7 +36,7 @@ export const swePointsForOverlayAtom = atom<SwePointsForOverlay>(
       lon: point.lon,
       lat: point.lat,
       elevation_meters: point.elevation_meters,
-      measurement_inches: measurementInches(point),
+      measurement_value: measurementValue(point),
       date: overlayDate
     }));
 

@@ -25,6 +25,11 @@ const SlippyMapTooltip: React.FC<ISlippyMapTooltipProps> = (props) => {
     const featureData = f.getProperties().data as SwePointForOverlay;
     const lastDate = featureData['date'];
 
+    const value = featureData['measurement_value'];
+    var valueString = value != null
+      ? `${value} ${props.unit}`
+      : 'Not Available';
+
     // NOTE: The key on the `img` tag prevents the browser from re-using the
     // last image while waiting for the next image to load. There must be a
     // better way.
@@ -49,7 +54,7 @@ const SlippyMapTooltip: React.FC<ISlippyMapTooltipProps> = (props) => {
           </div>
 
           <div className="feature-attribute">
-            Value: {featureData['measurement_inches']} {props.unit}
+            Value: {valueString}
           </div>
 
         </div>
