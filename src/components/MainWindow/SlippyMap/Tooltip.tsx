@@ -26,7 +26,7 @@ const SlippyMapTooltip: React.FC<ISlippyMapTooltipProps> = (props) => {
     const lastDate = featureData['date'];
 
     const value = featureData['measurement_value'];
-    var valueString = value != null
+    const valueString = value !== null
       ? `${value} ${props.unit}`
       : 'Not Available';
 
