@@ -61,7 +61,7 @@ export const showSwePointsOverlay = (
     // Use the store to get the current value of the toggle at all times
     const showZeroOrMissingEnabled = store.get(showZeroOrMissingEnabledAtom);
     const featureData = feature.getProperties().data as SwePointForOverlay;
-    const value = featureData.measurement_inches;
+    const value = featureData.measurement_value;
     const isZeroOrMissing = value === 0 || value === null;
 
     // If there is no value for this feature, and the toggle is off, return
