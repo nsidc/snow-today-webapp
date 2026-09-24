@@ -1,3 +1,14 @@
+# v0.20.0
+
+* Added the ability to see ALL SWE stations, even those that do
+  not have values; this can be toggled on and off.
+* Added a field to show the date for which the data represents
+  in the popup for SWE stations
+* Changed the sizing of the SWE stations so that they are small
+  by default, but grow larger as you zoom in
+* Changed the SWE station pop up to say "Not Available" for
+  stations with missing values
+
 # v0.19.1 (2026-08-25)
 
 * Set the "Not Processed" flag to be set by default.

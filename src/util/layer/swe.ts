@@ -20,6 +20,17 @@ import {showZeroOrMissingEnabledAtom} from '@src/state/client/showZeroOrMissingE
 
 const store = getDefaultStore();
 
+// Constants for zooming the station points, here to reduce log calculations for min and max
+const minRes = 1400;
+const maxRes = 4323;
+const minRad = 2;
+const minXRad = 3;
+const maxRad = 7;
+const sizeScaleRate = 1.6;
+
+const logMin = Math.log(minRes);
+const logMax = Math.log(maxRes);
+
 
 export const swePointsLayer = _memoize((mapId: string): VectorLayer<VectorSource> => (
   new VectorLayer({
@@ -70,17 +81,7 @@ export const showSwePointsOverlay = (
       return undefined;
     }
 
-    const minRes = 1400;
-    const maxRes = 4323;
-    const minRad = 2;
-    const minXRad = 3;
-    const maxRad = 7;
-    const sizeScaleRate = 1.6;
-
     const clampedRes = Math.max(minRes, Math.min(maxRes, resolution));
-
-    const logMin = Math.log(minRes);
-    const logMax = Math.log(maxRes);
 
     const baseProgress = (logMax - Math.log(clampedRes)) / (logMax - logMin);
     const curvedProgress = Math.pow(baseProgress, sizeScaleRate);
@@ -101,15 +102,15 @@ export const showSwePointsOverlay = (
     const zeroBaseStyle = new Style({
       image: new Circle({
         radius: dynamicRadius,
-        fill: new Fill({ color: 'yellow' }),
-        stroke: new Stroke({ color: 'black', width: 1 }),
+        fill: new Fill({ color: '#252424' }),
+        stroke: new Stroke({ color: 'white', width: 1 }),
       }),
       zIndex: 0,
     });
     const missingBaseStyle = new Style({
       image: new Circle({
         radius: dynamicRadius,
-        fill: new Fill({ color: 'magenta' }),
+        fill: new Fill({ color: 'yellow' }),
         stroke: new Stroke({ color: 'black', width: 1 }),
       }),
       zIndex: 0,
@@ -117,11 +118,12 @@ export const showSwePointsOverlay = (
 
     // Missing values have an X in them
     if (isZeroOrMissing && showZeroOrMissingEnabled) {
-      const strokeColor = value === 0 ? 'red' : 'black';
+      const strokeColor = value === 0 ? 'white' : 'red';
       const zmStyle = value === 0 ? zeroBaseStyle : missingBaseStyle;
+      const numPoints = value === 0 ? 2 : 4;
       const xStyle = new Style({
         image: new RegularShape({
-          points: 4,
+          points: numPoints,
           radius: xRadius,
           radius2: 0,
           angle: Math.PI / 4,
