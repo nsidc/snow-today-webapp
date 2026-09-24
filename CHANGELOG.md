@@ -1,4 +1,4 @@
-# v0.20.0
+# v0.20.0 (2026-09-24)
 
 * Added the ability to see ALL SWE stations, even those that do
   not have values; this can be toggled on and off.
