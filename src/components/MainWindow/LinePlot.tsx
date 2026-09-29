@@ -52,8 +52,17 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     );
   }
 
-  const yAxisTitle = props.selectedSatelliteVariable.labelPlotYaxis;
+  // Get the axis title, replacing sq km and carets with superscripts
+  const yAxisTitle = props.selectedSatelliteVariable.labelPlotYaxis
+                          .replace(/\^(-?\d+)/g, "<sup>$1</sup>")
+                          .replace(/sq km/, 'km<sup>2</sup>');
 
+  // Extract the unit from the title, adding a space for all but % units
+  const rawUnit = yAxisTitle.match(/\(([^)]+)\)/)?.[1];
+  const yAxisUnits = rawUnit
+                   ? rawUnit === '%' ? '%' : ` ${rawUnit}`
+                   : '';
+  
   // WARNING: It is _critical_ that the data is copied before passing to
   // Highcharts. Highcharts will mutate the arrays, and we don't want state to
   // be mutated!!!
@@ -151,13 +160,14 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     tooltip: {
       shared: true,
       valueDecimals: props.selectedSatelliteVariable.valuePrecision,
-      valueSuffix: ' km<sup>2</sup>',
+      valueSuffix: yAxisUnits,
       useHTML: true,
     },
     yAxis: {
       title: {
         text: yAxisTitle,
         style: {fontSize: '14px'},
+        useHTML: true
       },
       labels: {style: {fontSize: '12px'}},
     },
