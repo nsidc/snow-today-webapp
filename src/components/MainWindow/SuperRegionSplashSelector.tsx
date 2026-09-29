@@ -20,7 +20,8 @@ const SuperRegionSplashSelector: React.FC = () => {
   }
 
   if (superRegionsIndexQuery.isError) {
-    throw 'how to handle this better? Shouldn\'t the error boundary handle this??';
+    throw new Error( `how to handle this better? Shouldn\'t the error
+                      boundary handle this?? ${superRegionsIndexQuery.error?.message}`);
   }
 
   const handleSelection = (superRegionId: string) => {
