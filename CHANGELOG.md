@@ -1,3 +1,10 @@
+# v0.20.1 (2026-09-29)
+
+* Fixed a bug with the plot labels, where it was showing km^2
+  for all plots (even when the unit was different).  The correct
+  unit will now show.
+* Y-axis label on plots will show superscripts instead of carats
+
 # v0.20.0 (2026-09-24)
 
 * Added the ability to see ALL SWE stations, even those that do
