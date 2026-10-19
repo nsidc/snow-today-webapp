@@ -1,9 +1,8 @@
-import React from 'react';
-import {useAtomValue} from 'jotai';
+import React, {Suspense} from 'react';
 
 import '@src/style/ControlPanel.css';
-import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
-import LoadingMessage from '@src/components/common/LoadingMessage';
+// import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
+// import LoadingMessage from '@src/components/common/LoadingMessage';
 import RefreshPageButton from '@src/components/common/RefreshPageButton';
 import BasemapSelector from './BasemapSelector';
 import LayoutConfigurator from './LayoutConfigurator';
@@ -12,31 +11,42 @@ import ShowZeroOrMissingToggle from './ShowZeroOrMissingToggle';
 import RegionSelector from './RegionSelector';
 import RasterOpacitySlider from './RasterOpacitySlider';
 import SweSelector from './SweSelector';
+import InteractivePlotSatelliteVariableSelector from './InteractivePlotSatelliteVariableSelector';
 
+export enum PanelType {
+  TILED = 'tiled',
+  MAP = 'map',
+  PLOT = 'plot'
+}
+interface IControlPanelProps {
+  layoutType: PanelType
+}
 
-const ControlPanel: React.FC = () => {
-  const selectedSuperRegionId = useAtomValue(selectedSuperRegionIdAtom);
-
-  if (!selectedSuperRegionId) {
-    return (
-      <div className={'centered-card-text'}>
-        <LoadingMessage message="Select a region to begin..." />
-      </div>
-    );
-  }
+const ControlPanel: React.FC<IControlPanelProps> = (props) => {
+  const isMap = props.layoutType !== PanelType.PLOT;
 
   return (
     <div className="ControlPanel">
 
       <RegionSelector />
-      <LayoutConfigurator />
+      {props.layoutType === PanelType.TILED && <LayoutConfigurator />}
 
-      <BasemapSelector />
-      <SweSelector />
+      {isMap && (
+        <>
+          <BasemapSelector />
+          <SweSelector />
 
-      <NotProcessedLayerToggle />
-      <ShowZeroOrMissingToggle />
-      <RasterOpacitySlider />
+          <NotProcessedLayerToggle />
+          <ShowZeroOrMissingToggle />
+          <RasterOpacitySlider />
+        </>
+      )}
+
+      {props.layoutType === PanelType.PLOT && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <InteractivePlotSatelliteVariableSelector />
+        </Suspense>
+      )}
 
       <RefreshPageButton />
 

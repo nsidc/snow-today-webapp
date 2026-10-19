@@ -5,6 +5,7 @@ const MAX_ROWS = 4;
 
 export const DEFAULT_ROWS = 1;
 export const DEFAULT_COLS = 2;
+export const INTERACTIVE_PLOT_ID = {row: 99, col: 99};
 
 
 // Make 1-indexed arrays: [1, 2, ..., MAX]

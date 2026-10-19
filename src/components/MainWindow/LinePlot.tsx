@@ -12,6 +12,7 @@ import {plotDataQueryAtomFamily} from '@src/state/server/plotData';
 import {IPlotData} from '@src/types/query/plotData';
 import {IRichSuperRegionVariable} from '@src/types/query/variables';
 import {IGenericRegion} from '@src/types/query/regions';
+import { TileSubType } from '@src/types/layout';
 
 HighchartsAccessibility(Highcharts);
 HighchartsMore(Highcharts);
@@ -21,6 +22,7 @@ interface ILinePlotProps {
   selectedSatelliteVariableId: string;
   selectedSatelliteVariable: IRichSuperRegionVariable;
   selectedRegion: IGenericRegion;
+  plotSubType: TileSubType;
 }
 
 
@@ -86,6 +88,23 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     yearToDate: [...plotData.yearToDate],
   };
 
+  const legend: Highcharts.LegendOptions = props.plotSubType === 'interactive'
+    ? {
+      itemStyle: {fontSize: '14px'},
+      layout: 'vertical',
+      align: 'right',
+      verticalAlign: 'middle',
+
+      borderWidth: 1,
+      borderColor: '#cccccc',
+      borderRadius: 5,
+      backgroundColor: '#ffffff',
+      padding: 12,
+
+      maxHeight: 500,
+    }
+    : {itemStyle: {fontSize: '14px'}}
+
   // Re-join a given column with the X value (unixDate)
   const getSeriesData = (
     column: keyof Omit<IPlotDataForHighcharts, 'unixDate' | 'date'>,
@@ -147,8 +166,9 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
 
   const chartOptions: Highcharts.Options = {
     chart: {
-      height: '88%',
+      // height: '88%',
       type: 'line',
+      reflow: true,
     },
     accessibility: {
       // TODO: Add units text
@@ -182,7 +202,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       // Show monthly ticks by setting interval to 1 month in milliseconds:
       tickInterval: 30 * 24 * 60 * 60 * 1000
     },
-    legend: {itemStyle: {fontSize: '14px'}},
+    legend: legend,
     series: chartData,
   };
 

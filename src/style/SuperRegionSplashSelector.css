@@ -3,3 +3,7 @@
   width: 100%;
   max-width: 300px;
 }
+
+div.message-header {
+  height: 24px;
+}

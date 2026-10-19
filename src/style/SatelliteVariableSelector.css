@@ -1,6 +1,13 @@
 .SatelliteVariableSelector {
   white-space: nowrap;
 }
+.SatelliteVariableSelectorHorizontal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  vertical-align: middle;
+}
 .SatelliteVariableSelector label {
   display: inline-block;
 }

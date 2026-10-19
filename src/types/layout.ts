@@ -8,3 +8,6 @@ export type ITileIdentifier = {
 
 export const tileTypes = ['map', 'plot'] as const;
 export type TileType = typeof tileTypes[number];
+
+export const tileSubTypes = ['tile', 'interactive'] as const;
+export type TileSubType = typeof tileSubTypes[number];

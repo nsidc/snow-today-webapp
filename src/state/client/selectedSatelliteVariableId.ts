@@ -1,7 +1,7 @@
 /* This state has 1 instance for each "tile" in the app.
  */
 import {atom} from 'jotai';
-import {atomFamily} from 'jotai/utils';
+import {atomFamily} from 'jotai-family';
 import deepEqual from 'fast-deep-equal';
 
 import {ITileIdentifier} from '@src/types/layout';

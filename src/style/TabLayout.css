@@ -1,0 +1,27 @@
+.nav-tabs {
+  color: #0a1e2e;
+  background-color: #d7d7e0;
+  border-bottom: 4px solid #0b3767 !important;
+  /* padding: 0.5rem 0.5rem 0 0.5rem; */
+}
+
+.nav-tabs .nav-link {
+  color: #0a1e2e;
+  background-color: #d7d7e0;
+  border-color: transparent;
+  border-right: 1px solid #6f6f6f !important;
+  border-top: 1px solid #6f6f6f !important;
+  border-left: 1px solid #6f6f6f !important;
+  border-radius: 0 !important;
+  /* margin-right: 0.25rem; */
+}
+
+.nav-tabs .nav-link:hover {
+  
+}
+
+.nav-tabs .nav-link.active {
+  color: #ffffff !important;
+  background-color: #0b3767 !important;
+  border-color: #0b3767;
+}

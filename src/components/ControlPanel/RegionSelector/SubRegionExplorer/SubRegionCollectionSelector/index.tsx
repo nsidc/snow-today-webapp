@@ -40,7 +40,6 @@ const SubRegionCollectionSelector: React.FC<ISubRegionCollectionSelector> = (pro
   const subRegionCollectionOptions = [
     (
       <div className={'sub-region-collection-option'} key={noSelectedCollectionValue}>
-        <label htmlFor={`region-collection-${noSelectedCollectionValue}`}>None</label>
         <input
           type={'radio'}
           id={`region-collection-${noSelectedCollectionValue}`}
@@ -48,14 +47,12 @@ const SubRegionCollectionSelector: React.FC<ISubRegionCollectionSelector> = (pro
           name={'region-collection'}
           onChange={handleSelectedCollectionId}
           checked={selectedCollectionId === noSelectedCollectionValue} />
+        <label htmlFor={`region-collection-${noSelectedCollectionValue}`}>None</label>  
       </div>
     ),
     ...Object.entries(props.collectionChoices)
     .map(([collectionId, collectionParams]) => (
       <div className={'sub-region-collection-option'} key={collectionId}>
-        <label htmlFor={`region-collection-${collectionId}`}>
-          {collectionParams.metadata.shortName}
-        </label>
         <input
           type={'radio'}
           id={`region-collection-${collectionId}`}
@@ -63,6 +60,9 @@ const SubRegionCollectionSelector: React.FC<ISubRegionCollectionSelector> = (pro
           name={`region-collection-${collectionId}`}
           onChange={handleSelectedCollectionId}
           checked={selectedCollectionId === collectionId} />
+        <label htmlFor={`region-collection-${collectionId}`}>
+          {collectionParams.metadata.shortName}
+        </label>
       </div>
     ))
   ];

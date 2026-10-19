@@ -37,6 +37,7 @@
     "highcharts": "^10.2.0",
     "highcharts-react-official": "^3.1.0",
     "jotai": "^2.6.3",
+    "jotai-family": "1.1.0",
     "jotai-tanstack-query": "^0.8.1 <0.8.2",
     "lodash": "^4.17.21",
     "ol": "^6.15.1",
@@ -96,8 +97,8 @@
   },
   "overrides": {
     "jsondiffpatch": "^0.7.6",
-    "uuid": "^11.1.1",
-    "minimatch": "^9.0.7"
+    "minimatch": "^9.0.7",
+    "uuid": "^11.1.1"
   },
   "jest": {
     "verbose": true,

@@ -6,7 +6,7 @@
  * */
 
 import {atom} from 'jotai';
-import {atomFamily} from 'jotai/utils';
+import {atomFamily} from 'jotai-family';
 import BaseLayer from 'ol/layer/Base';
 
 import {selectedBasemapNameAtom} from '../selectedBasemapName';
