@@ -3,6 +3,10 @@
   width: min-content;
 }
 .sub-region-collection-option {
-  display: inline-block;
+  /* display: inline-block; */
   padding: 5px;
+  padding-bottom: 0px;
+}
+.sub-region-collection-option label {
+  padding-left: 8px;
 }

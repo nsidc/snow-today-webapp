@@ -47,7 +47,7 @@ const SubRegionCollectionSelector: React.FC<ISubRegionCollectionSelector> = (pro
           name={'region-collection'}
           onChange={handleSelectedCollectionId}
           checked={selectedCollectionId === noSelectedCollectionValue} />
-        <label htmlFor={`region-collection-${noSelectedCollectionValue}`}>None</label>  
+        <label htmlFor={`region-collection-${noSelectedCollectionValue}`}>None</label>
       </div>
     ),
     ...Object.entries(props.collectionChoices)
