@@ -9,7 +9,6 @@ import {ErrorFallbackTileComponent} from '@src/components/common/ErrorFallback';
 import {ITileIdentifier} from '@src/types/layout';
 import {selectedSatelliteVariableIdAtomFamily} from '@src/state/client/selectedSatelliteVariableId';
 import {selectedTileSubTypeAtomFamily, selectedTileTypeAtomFamily} from '@src/state/client/selectedTileType';
-// import {selectedTileTypeAtomFamily} from '@src/state/client/selectedTileType';
 import {selectedSatelliteVariableAtomFamily} from '@src/state/client/derived/selectedSatelliteVariable';
 import {selectedRegionAtom} from '@src/state/client/derived/selectedRegion';
 import LoadingIcon from '@src/components/common/LoadingIcon';

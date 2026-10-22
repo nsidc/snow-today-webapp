@@ -9,11 +9,6 @@ import { selectedSatelliteVariableIdAtomFamily } from '@src/state/client/selecte
 import { defaultVariableIdAtom } from '@src/state/client/derived/defaultVariableId';
 
 const InteractivePlotLayout: React.FC = () => {
-    // const defaultVariableId = useAtomValue(defaultVariableIdAtom);
-    // useSetAtom(selectedTileTypeAtomFamily(INTERACTIVE_PLOT_ID))('plot');
-    // useSetAtom(selectedTileSubTypeAtomFamily(INTERACTIVE_PLOT_ID))('interactive');
-    // useSetAtom(selectedSatelliteVariableIdAtomFamily(INTERACTIVE_PLOT_ID))(defaultVariableId);
-
     const defaultVariableId = useAtomValue(defaultVariableIdAtom);
   
     const setSelectedTileType = useSetAtom(selectedTileTypeAtomFamily(INTERACTIVE_PLOT_ID));

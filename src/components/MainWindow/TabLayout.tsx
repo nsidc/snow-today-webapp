@@ -39,9 +39,9 @@ const TabLayout: React.FC = () => {
                     <TileLayout />
                 </div>
 
-                <div role="tabpanel" id="main-tab-panel-1" aria-labelledby="main-tab-1" hidden={activeTab !== 1}>
+                {/* <div role="tabpanel" id="main-tab-panel-1" aria-labelledby="main-tab-1" hidden={activeTab !== 1}>
                     PLACEHOLDER FOR INTERACTIVE MAPS
-                </div>
+                </div> */}
 
                 <div role="tabpanel" id="main-tab-panel-2" aria-labelledby="main-tab-2" hidden={activeTab !== 2}>
                     <ControlPanel layoutType={PanelType.PLOT} />

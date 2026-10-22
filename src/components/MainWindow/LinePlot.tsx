@@ -90,11 +90,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
   };
 
   const yearKeys = Object.keys(plotData).filter((key) => /^\d{4}$/.test(key)).sort().reverse();
-  // const getYearColor = (index: number, total: number): string => {
-  //   const hue = Math.round((360 / total) * index);
-  //   return `hsl(${hue}, 65%, 45%)`;
-  // }
-
+  
   // Re-join a given column with the X value (unixDate)
   const getSeriesData = (
     column: keyof Omit<IPlotDataForHighcharts, 'unixDate' | 'date'> | string,
@@ -126,7 +122,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       data: getSeriesData(year),
       zIndex: 1,
       lineWidth: 1.5,
-      color: colors[index], //getYearColor(index, yearKeys.length),
+      color: colors[index],
       opacity: 0.8,
       events: {
         legendItemClick: function () {
@@ -251,7 +247,6 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
 
   const chartOptions: Highcharts.Options = {
     chart: {
-      // height: '88%',
       type: 'line',
       reflow: true,
     },

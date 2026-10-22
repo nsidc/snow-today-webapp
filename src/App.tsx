@@ -6,7 +6,6 @@ import { DevTools } from 'jotai-devtools';
 import pkg from '../package.json';
 import '@src/style/App.css';
 import '@src/style/icons.css';
-// import ControlPanel from '@src/components/ControlPanel';
 import MainWindow from '@src/components/MainWindow';
 import ErrorFallbackComponent from '@src/components/common/ErrorFallback';
 

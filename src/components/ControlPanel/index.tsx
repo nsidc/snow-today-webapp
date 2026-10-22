@@ -1,8 +1,6 @@
 import React, {Suspense} from 'react';
 
 import '@src/style/ControlPanel.css';
-// import {selectedSuperRegionIdAtom} from '@src/state/client/selectedSuperRegionId';
-// import LoadingMessage from '@src/components/common/LoadingMessage';
 import RefreshPageButton from '@src/components/common/RefreshPageButton';
 import BasemapSelector from './BasemapSelector';
 import LayoutConfigurator from './LayoutConfigurator';
