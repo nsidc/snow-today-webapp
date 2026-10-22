@@ -13,7 +13,8 @@ import {plotDataQueryAtomFamily} from '@src/state/server/plotData';
 import {IPlotData} from '@src/types/query/plotData';
 import {IRichSuperRegionVariable} from '@src/types/query/variables';
 import {IGenericRegion} from '@src/types/query/regions';
-import { TileSubType } from '@src/types/layout';
+import {TileSubType} from '@src/types/layout';
+import {YearString} from '@src/types/misc';
 
 HighchartsAccessibility(Highcharts);
 HighchartsMore(Highcharts);
@@ -93,19 +94,23 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
   
   // Re-join a given column with the X value (unixDate)
   const getSeriesData = (
-    column: keyof Omit<IPlotDataForHighcharts, 'unixDate' | 'date'> | string,
+    column: keyof Omit<IPlotDataForHighcharts, 'unixDate' | 'date'> | YearString,
   ): SeriesData[] => {
     // NOTE: We don't use the lodash zip function because it supports
     // different-length lists, using "undefined" to fill in shorter lists.
-    const zipped = data.unixDate.map(
-      (date, index): SeriesData => [date, data[column][index]]
-    );
+    const columnValues = data[column] as (number)[] | undefined;
+    const zipped: SeriesData[] = data.unixDate.map(
+      (date, index): SeriesData => {
+        const val = columnValues?.[index] ?? NaN;
+        return [date, val];
+      }
+    )
     return zipped;
   }
 
   let historicalYearSeries: Highcharts.SeriesOptionsType[] = [];
   if (props.plotSubType === 'interactive') {
-    let colors = colormap({
+    const colors = colormap({
       colormap: 'copper',
       nshades: yearKeys.length,
       format: 'hex',
@@ -113,13 +118,14 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     });
 
     yearKeys.forEach((yyyy) => {
-      data[yyyy] = [...plotData[yyyy]];
+      const yearData = plotData[yyyy] as number[] | undefined;
+      data[yyyy] = yearData ? [...yearData] : [];
     });
 
     historicalYearSeries = yearKeys.map((year, index) => ({
       name: year,
       type: 'line',
-      data: getSeriesData(year),
+      data: getSeriesData(year as YearString),
       zIndex: 1,
       lineWidth: 1.5,
       color: colors[index],
@@ -155,8 +161,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       marker: { enabled: false },
       showInLegend: true,
       events: {
-        legendItemClick: function (e) {
-          e.preventDefault();
+        legendItemClick: function () {
           const chart = this.chart;
           const yearSeries = chart.series.filter((ser) => /^\d{4}$/.test(ser.name));
           const shouldShow = !yearSeries.every((ser) => ser.visible);
@@ -169,6 +174,8 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
           })
 
           chart.redraw();
+
+          return false; // prevent default event handling
         }
       }
     }
