@@ -1,6 +1,7 @@
 import React, {useRef} from 'react';
 import {useAtomValue} from 'jotai';
 
+import colormap from 'colormap';
 import Highcharts from 'highcharts';
 import HighchartsAccessibility from 'highcharts/modules/accessibility';
 import HighchartsMore from 'highcharts/highcharts-more';
@@ -12,6 +13,8 @@ import {plotDataQueryAtomFamily} from '@src/state/server/plotData';
 import {IPlotData} from '@src/types/query/plotData';
 import {IRichSuperRegionVariable} from '@src/types/query/variables';
 import {IGenericRegion} from '@src/types/query/regions';
+import {TileSubType} from '@src/types/layout';
+import {YearString} from '@src/types/misc';
 
 HighchartsAccessibility(Highcharts);
 HighchartsMore(Highcharts);
@@ -21,6 +24,7 @@ interface ILinePlotProps {
   selectedSatelliteVariableId: string;
   selectedSatelliteVariable: IRichSuperRegionVariable;
   selectedRegion: IGenericRegion;
+  plotSubType: TileSubType;
 }
 
 
@@ -86,17 +90,119 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
     yearToDate: [...plotData.yearToDate],
   };
 
+  const yearKeys = Object.keys(plotData).filter((key) => /^\d{4}$/.test(key)).sort().reverse();
+  
   // Re-join a given column with the X value (unixDate)
   const getSeriesData = (
-    column: keyof Omit<IPlotDataForHighcharts, 'unixDate' | 'date'>,
+    column: keyof Omit<IPlotDataForHighcharts, 'unixDate' | 'date'> | YearString,
   ): SeriesData[] => {
     // NOTE: We don't use the lodash zip function because it supports
     // different-length lists, using "undefined" to fill in shorter lists.
-    const zipped = data.unixDate.map(
-      (date, index): SeriesData => [date, data[column][index]]
-    );
+    const columnValues = data[column] as (number)[] | undefined;
+    const zipped: SeriesData[] = data.unixDate.map(
+      (date, index): SeriesData => {
+        const val = columnValues?.[index] ?? NaN;
+        return [date, val];
+      }
+    )
     return zipped;
   }
+
+  let historicalYearSeries: Highcharts.SeriesOptionsType[] = [];
+  if (props.plotSubType === 'interactive') {
+    const colors = colormap({
+      colormap: 'viridis',
+      nshades: yearKeys.length,
+      format: 'hex',
+      alpha: 1
+    });
+
+    yearKeys.forEach((yyyy) => {
+      const yearData = plotData[yyyy] as number[] | undefined;
+      data[yyyy] = yearData ? [...yearData] : [];
+    });
+
+    historicalYearSeries = yearKeys.map((year, index) => ({
+      name: year,
+      type: 'line',
+      data: getSeriesData(year as YearString),
+      zIndex: 1,
+      lineWidth: 3,
+      color: colors[index],
+      opacity: 0.8,
+      events: {
+        legendItemClick: function () {
+          const chart = this.chart;
+
+          setTimeout(() => {
+            const togglePast = chart.series.find((ser) =>
+              ser.name === 'Show All Past Years' || ser.name === 'Hide All Past Years'
+            );
+            const yearSeries = chart.series.filter((ser) => /^\d{4}$/.test(ser.name));
+
+            if (togglePast && yearSeries.length > 0) {
+              const allVisible = yearSeries.every((ser) => ser.visible);
+              const expectedLabel = allVisible ? 'Hide All Past Years' : 'Show All Past Years';
+
+              if (togglePast.name !== expectedLabel) {
+                togglePast.update({ name: expectedLabel } as Highcharts.SeriesOptionsType, true);
+              }
+            }
+          }, 0);
+        },
+      },
+    }));
+
+    const togglePastYearsSeries: Highcharts.SeriesOptionsType = {
+      name: 'Hide All Past Years',
+      type: 'line',
+      data: [],
+      color: '#333333',
+      marker: { enabled: false },
+      showInLegend: true,
+      events: {
+        legendItemClick: function () {
+          const chart = this.chart;
+          const yearSeries = chart.series.filter((ser) => /^\d{4}$/.test(ser.name));
+          const shouldShow = !yearSeries.every((ser) => ser.visible);
+
+          const newLabel = shouldShow ? 'Hide All Past Years' : 'Show All Past Years';
+          this.update({ name: newLabel } as Highcharts.SeriesOptionsType, false);
+
+          yearSeries.forEach((series) => {
+            series.setVisible(shouldShow, false);
+          })
+
+          chart.redraw();
+
+          return false; // prevent default event handling
+        }
+      }
+    }
+
+    historicalYearSeries = yearKeys.length > 0 ? [togglePastYearsSeries, ...historicalYearSeries] : [];
+  }  
+
+  const legend: Highcharts.LegendOptions = props.plotSubType === 'interactive'
+    ? {
+      itemStyle: {fontSize: '14px'},
+      layout: 'vertical',
+      align: 'right',
+      verticalAlign: 'middle',
+
+      borderWidth: 1,
+      borderColor: '#cccccc',
+      borderRadius: 5,
+      backgroundColor: '#ffffff',
+      padding: 12,
+
+      maxHeight: 500,
+
+      navigation: {
+        enabled: false,
+      }
+    }
+    : {itemStyle: {fontSize: '14px'}}
 
   const ytdSeries = getSeriesData('yearToDate');
   const chartData: Highcharts.SeriesOptionsType[] = [
@@ -132,6 +238,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       color: '#666666',
       dashStyle: 'ShortDot',
     },
+    ...historicalYearSeries,
     {
       name: 'Interquartile Range',
       type: 'arearange',
@@ -147,8 +254,8 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
 
   const chartOptions: Highcharts.Options = {
     chart: {
-      height: '88%',
       type: 'line',
+      reflow: true,
     },
     accessibility: {
       // TODO: Add units text
@@ -182,7 +289,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       // Show monthly ticks by setting interval to 1 month in milliseconds:
       tickInterval: 30 * 24 * 60 * 60 * 1000
     },
-    legend: {itemStyle: {fontSize: '14px'}},
+    legend: legend,
     series: chartData,
   };
 

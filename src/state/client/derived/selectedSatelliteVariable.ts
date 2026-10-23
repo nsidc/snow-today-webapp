@@ -4,7 +4,7 @@
  * */
 
 import {atom} from 'jotai';
-import {atomFamily} from 'jotai/utils';
+import {atomFamily} from 'jotai-family';
 import deepEqual from 'fast-deep-equal';
 
 import {selectedSatelliteVariableIdAtomFamily} from '@src/state/client/selectedSatelliteVariableId';

@@ -1,5 +1,5 @@
 import type {Getter} from 'jotai';
-import {atomFamily} from 'jotai/utils';
+import {atomFamily} from 'jotai-family';
 import {atomWithSuspenseQuery} from 'jotai-tanstack-query';
 import deepEqual from 'fast-deep-equal';
 

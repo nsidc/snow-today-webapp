@@ -1,4 +1,5 @@
 .SubRegionSelector {
+  padding-top: 5px;
   white-space: nowrap;
 }
 .SubRegionSelector label {

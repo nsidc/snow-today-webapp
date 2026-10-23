@@ -8,7 +8,7 @@ import {CITATION} from '@src/constants/citation';
 import {ErrorFallbackTileComponent} from '@src/components/common/ErrorFallback';
 import {ITileIdentifier} from '@src/types/layout';
 import {selectedSatelliteVariableIdAtomFamily} from '@src/state/client/selectedSatelliteVariableId';
-import {selectedTileTypeAtomFamily} from '@src/state/client/selectedTileType';
+import {selectedTileSubTypeAtomFamily, selectedTileTypeAtomFamily} from '@src/state/client/selectedTileType';
 import {selectedSatelliteVariableAtomFamily} from '@src/state/client/derived/selectedSatelliteVariable';
 import {selectedRegionAtom} from '@src/state/client/derived/selectedRegion';
 import LoadingIcon from '@src/components/common/LoadingIcon';
@@ -29,8 +29,11 @@ const Tile: React.FC<ITileProps> = (props) => {
   const selectedTileType = useAtomValue(
     selectedTileTypeAtomFamily(tileIdentifier)
   );
+  const selectedTileSubType = useAtomValue(
+    selectedTileSubTypeAtomFamily(tileIdentifier)
+  );
   const selectedRegion = useAtomValue(selectedRegionAtom);
-
+  
   // NOTE: Hoisted these checks out of the visualization components so they
   // don't have to worry about undefined. 
   if (
@@ -49,6 +52,7 @@ const Tile: React.FC<ITileProps> = (props) => {
         selectedSatelliteVariableId={selectedSatelliteVariableId}
         selectedSatelliteVariable={selectedSatelliteVariable}
         selectedRegion={selectedRegion}
+        plotSubType={selectedTileSubType}
       />
     );
   } else if (selectedTileType === 'map') {
