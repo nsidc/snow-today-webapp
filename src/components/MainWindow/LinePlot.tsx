@@ -111,7 +111,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
   let historicalYearSeries: Highcharts.SeriesOptionsType[] = [];
   if (props.plotSubType === 'interactive') {
     const colors = colormap({
-      colormap: 'copper',
+      colormap: 'viridis',
       nshades: yearKeys.length,
       format: 'hex',
       alpha: 1
