@@ -33,7 +33,7 @@ const Tile: React.FC<ITileProps> = (props) => {
     selectedTileSubTypeAtomFamily(tileIdentifier)
   );
   const selectedRegion = useAtomValue(selectedRegionAtom);
-
+  
   // NOTE: Hoisted these checks out of the visualization components so they
   // don't have to worry about undefined. 
   if (

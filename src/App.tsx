@@ -19,7 +19,6 @@ const App: React.FC = () => {
           <div id={"version"}>v{pkg.version}</div>
 
           <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
-            {/* <ControlPanel /> */}
             <MainWindow />
           </ErrorBoundary>
 

@@ -29,7 +29,7 @@ const InteractivePlotLayout: React.FC = () => {
     return(
       <div className={'TileLayout'}>
         <Tile
-          key={`row99-col99`}
+          key={`row${INTERACTIVE_PLOT_ID.row}-col${INTERACTIVE_PLOT_ID.col}`}
           style={{maxWidth: `1600px`, width: `100%`}}
           row={99}
           col={99} />

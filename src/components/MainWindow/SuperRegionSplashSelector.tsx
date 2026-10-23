@@ -46,12 +46,12 @@ const SuperRegionSplashSelector: React.FC = () => {
 
   return (
     <div>
-    <div className={'centered-card-text message-header'}>
-      <LoadingMessage message="Select a region to begin..." />
-    </div>
-    <div id={'SuperRegionSplashSelector'}>
-      {superRegionButtons}
-    </div>
+      <div className={'centered-card-text message-header'}>
+        <LoadingMessage message="Select a region to begin..." />
+      </div>
+      <div id={'SuperRegionSplashSelector'}>
+        {superRegionButtons}
+      </div>
     </div>
   );
 }

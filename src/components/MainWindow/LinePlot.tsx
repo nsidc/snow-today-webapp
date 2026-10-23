@@ -127,7 +127,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       type: 'line',
       data: getSeriesData(year as YearString),
       zIndex: 1,
-      lineWidth: 1.5,
+      lineWidth: 3,
       color: colors[index],
       opacity: 0.8,
       events: {

@@ -5,7 +5,7 @@ import ControlPanel, { PanelType } from '@src/components/ControlPanel';
 import '@src/style/TabLayout.css';
 import InteractivePlotLayout from './InteractivePlotLayout';
 
-const TAB_LABELS = ['Snow Report', 'Interactive Maps', 'Interactive Plots'] as const;
+const TAB_LABELS = ['Snow Report', 'Interactive Plots'] as const;
 
 const TabLayout: React.FC = () => {
     const [activeTab, setActiveTab] = useState<number>(0);
@@ -39,11 +39,7 @@ const TabLayout: React.FC = () => {
                     <TileLayout />
                 </div>
 
-                {/* <div role="tabpanel" id="main-tab-panel-1" aria-labelledby="main-tab-1" hidden={activeTab !== 1}>
-                    PLACEHOLDER FOR INTERACTIVE MAPS
-                </div> */}
-
-                <div role="tabpanel" id="main-tab-panel-2" aria-labelledby="main-tab-2" hidden={activeTab !== 2}>
+                <div role="tabpanel" id="main-tab-panel-1" aria-labelledby="main-tab-1" hidden={activeTab !== 1}>
                     <ControlPanel layoutType={PanelType.PLOT} />
                     <InteractivePlotLayout />
                 </div>
