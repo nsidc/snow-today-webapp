@@ -9,6 +9,7 @@ import ShowZeroOrMissingToggle from './ShowZeroOrMissingToggle';
 import RegionSelector from './RegionSelector';
 import RasterOpacitySlider from './RasterOpacitySlider';
 import SweSelector from './SweSelector';
+import InteractiveMapSatelliteVariableSelector from './InteractiveMapSatelliteVariableSelector';
 import InteractivePlotSatelliteVariableSelector from './InteractivePlotSatelliteVariableSelector';
 
 export enum PanelType {
@@ -38,6 +39,12 @@ const ControlPanel: React.FC<IControlPanelProps> = (props) => {
           <ShowZeroOrMissingToggle />
           <RasterOpacitySlider />
         </>
+      )}
+
+      {props.layoutType === PanelType.MAP && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <InteractiveMapSatelliteVariableSelector />
+        </Suspense>
       )}
 
       {props.layoutType === PanelType.PLOT && (

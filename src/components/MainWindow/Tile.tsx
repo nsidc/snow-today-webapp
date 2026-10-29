@@ -59,7 +59,8 @@ const Tile: React.FC<ITileProps> = (props) => {
     content = (
       <SlippyMap
         selectedSatelliteVariableId={selectedSatelliteVariableId}
-        selectedSatelliteVariable={selectedSatelliteVariable} />
+        selectedSatelliteVariable={selectedSatelliteVariable}
+      />
     );
   } else {
     throw new Error('This can not happen!');

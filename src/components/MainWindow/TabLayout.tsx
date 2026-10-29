@@ -4,8 +4,9 @@ import ControlPanel, { PanelType } from '@src/components/ControlPanel';
 
 import '@src/style/TabLayout.css';
 import InteractivePlotLayout from './InteractivePlotLayout';
+import InteractiveMapLayout from './InteractiveMapLayout';
 
-const TAB_LABELS = ['Snow Report', 'Interactive Plots'] as const;
+const TAB_LABELS = ['Snow Report', 'Interactive Plots', 'Interactive Map'] as const;
 
 const TabLayout: React.FC = () => {
     const [activeTab, setActiveTab] = useState<number>(0);
@@ -43,6 +44,13 @@ const TabLayout: React.FC = () => {
                     <ControlPanel layoutType={PanelType.PLOT} />
                     <InteractivePlotLayout />
                 </div>
+
+                <div role="tabpanel" id="main-tab-panel-2" aria-labelledby="main-tab-2" hidden={activeTab !== 2}>
+                    <ControlPanel layoutType={PanelType.MAP} />
+                    <InteractiveMapLayout />
+                </div>
+
+                
             </div>
         </div>
     )
