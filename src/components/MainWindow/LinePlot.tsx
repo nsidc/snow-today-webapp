@@ -212,7 +212,7 @@ const LinePlot: React.FC<ILinePlotProps> = (props) => {
       data: ytdSeries,
       zIndex: 99,
       color: '#0098F4',
-      lineWidth: 3,
+      lineWidth: 10,
     },
     {
       name: 'Median',
